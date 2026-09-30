@@ -10,7 +10,8 @@ Served at https://imbernoulli.github.io/ml-relay-site/.
 its site generator in public mode on every update of its main branch, checks
 the output for environment-building material (Dockerfiles, compose files,
 `task.toml`, install and data-preparation scripts, dependency pins, test
-harness), and pushes the JSON here. Pushing to `main` rebuilds the site with
+harness), and pushes the JSON (`src/data/`) and the task images
+(`public/task-images/`, WebP) here. Pushing to `main` rebuilds the site with
 GitHub Pages.
 
 Local preview:

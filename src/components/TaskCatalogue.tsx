@@ -5,6 +5,8 @@ import { useMemo, useState } from "react";
 import type { IndexEntry } from "@/lib/types";
 import { fmtScore } from "@/lib/format";
 import { Badge } from "./ui";
+import { gpuLabel } from "@/lib/site";
+import TaskImage from "./TaskImage";
 
 // Filter chips group by the top-level area (the part before " / ").
 const topArea = (a?: string | null) => (a ? a.split(" / ")[0].trim() : "—");
@@ -66,6 +68,11 @@ export default function TaskCatalogue({ tasks }: { tasks: IndexEntry[] }) {
       <div className="mt-6 grid gap-3">
         {shown.map((t) => (
           <Link key={t.id} href={`/tasks/${t.id}/`} className="group block rounded-xl border border-border bg-card p-4 transition hover:border-foreground/30 sm:p-5">
+            <div className="grid gap-4 sm:grid-cols-[11rem_1fr]">
+            <div>
+              <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} variant="thumb" />
+            </div>
+            <div className="min-w-0">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div className="min-w-0">
                 <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -77,7 +84,7 @@ export default function TaskCatalogue({ tasks }: { tasks: IndexEntry[] }) {
                 <h3 className="mt-1 text-base font-semibold leading-snug group-hover:underline">{t.title ?? t.id}</h3>
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {t.gpus !== null && <Badge>{t.gpus === 0 ? "CPU" : `${t.gpus} GPU${t.gpus === 1 ? "" : "s"}`}</Badge>}
+                {gpuLabel(t.gpus) && <Badge>{gpuLabel(t.gpus)}</Badge>}
               </div>
             </div>
             <p className="mt-2 text-sm text-muted-foreground">{t.question ?? "—"}</p>
@@ -117,6 +124,8 @@ export default function TaskCatalogue({ tasks }: { tasks: IndexEntry[] }) {
                   <span className="font-mono">{fmtScore(t.best_score)}</span>
                 </>
               )}
+            </div>
+            </div>
             </div>
           </Link>
         ))}

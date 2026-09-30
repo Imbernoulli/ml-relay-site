@@ -7,6 +7,9 @@ import DiffBlock from "./DiffBlock";
 import EnvViewer from "./EnvViewer";
 import ResultsSection from "./ResultsSection";
 import { Badge, Card, Fold, Section } from "./ui";
+import TaskImage from "./TaskImage";
+import IssueButtons from "./IssueButtons";
+import { gpuLabel } from "@/lib/site";
 
 const TOC = [
   ["question", "1 Question"],
@@ -48,7 +51,6 @@ function BaselineCard({ b }: { b: PublicBaseline }) {
       summary={
         <span className="flex flex-wrap items-center gap-2">
           <span className="font-normal">{b.name ?? <span className="font-mono text-xs">{b.slug}</span>}</span>
-          {b.is_null && <Badge tone="null">null</Badge>}
           <span className="ml-auto font-mono text-xs text-muted-foreground">score {fmtScore(b.score)}</span>
         </span>
       }
@@ -129,9 +131,18 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
             built on {t.repo}
           </a>
         )}
+        {gpuLabel(t.gpus) && <Badge>Trial: {gpuLabel(t.gpus)}</Badge>}
       </div>
-      <h1 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
-      <p className="mt-2 max-w-4xl text-base text-muted-foreground">{t.question ?? "—"}</p>
+      <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
+          <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
+          <div className="mt-4">
+            <IssueButtons task={t.id} />
+          </div>
+        </div>
+        <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} />
+      </div>
 
       <div className="sticky top-14 z-40 -mx-4 mt-6 overflow-x-auto border-y border-border bg-background/90 px-4 py-2 backdrop-blur sm:mx-0 sm:rounded-lg sm:border">
         <div className="flex gap-1 whitespace-nowrap text-xs">
@@ -192,7 +203,6 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
                   <tr key={b.slug} className="border-t border-border">
                     <td className="px-3 py-2 text-xs">
                       {b.name ?? <span className="font-mono">{b.slug}</span>}
-                      {b.is_null && <span className="ml-2 text-muted-foreground">(null)</span>}
                     </td>
                     <td className="px-3 py-2 text-right font-mono text-xs tabular-nums">{fmtScore(b.score)}</td>
                   </tr>
@@ -215,6 +225,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
             <Card key={s.name}>
               <h4 className="font-mono text-sm font-semibold">{s.name}</h4>
               <p className="mt-1 text-sm">{s.display ?? "—"}</p>
+              {gpuLabel(s.gpus) && <div className="mt-1 text-xs text-muted-foreground">Compute: {gpuLabel(s.gpus)}</div>}
               <div className="mt-2 text-xs text-muted-foreground">
                 Scored metrics: {s.metrics.length ? s.metrics.map((m) => <code key={m} className="mr-1">{m}</code>) : "—"}
               </div>

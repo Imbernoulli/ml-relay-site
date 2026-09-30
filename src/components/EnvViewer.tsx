@@ -132,7 +132,7 @@ export default function EnvViewer({ files, note }: { files: ViewerFile[]; note?:
               filename={f.filename}
               language={f.language}
               editRanges={f.editable ? f.edit_ranges : undefined}
-              defaultMode="window"
+              defaultMode="full"
             />
           )}
           {f.truncated && <p className="mt-1 text-[11px] text-muted-foreground">Large file: shown truncated.</p>}

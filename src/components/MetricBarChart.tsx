@@ -19,7 +19,7 @@ export default function MetricBarChart({ t, setting }: { t: TaskData; setting: S
           .filter((s) => s.kind !== "agent" && s.mean[m] !== undefined)
           .map((s) => {
             const b = t.baselines.find((x) => x.slug === s.arm);
-            const kind = s.kind === "control" ? "control" : b?.is_oracle ? "oracle" : b?.is_null ? "null" : "anchor";
+            const kind = b?.is_oracle ? "oracle" : "baseline";
             return { arm: s.arm, mean: s.mean[m], err: s.std[m] ?? 0, kind, n: s.n_seeds };
           })
           .sort((a, b) => (dirs[m] === "lower" ? a.mean - b.mean : b.mean - a.mean));
@@ -58,8 +58,8 @@ export default function MetricBarChart({ t, setting }: { t: TaskData; setting: S
                       {data.map((d) => (
                         <Cell
                           key={d.arm}
-                          fill={d.kind === "oracle" ? "var(--accent)" : d.kind === "control" ? "#f59e0b" : d.kind === "null" ? "#94a3b8" : "#8a8f98"}
-                          fillOpacity={d.kind === "control" || d.kind === "null" ? 0.6 : 0.9}
+                          fill={d.kind === "oracle" ? "var(--accent)" : "#8a8f98"}
+                          fillOpacity={0.9}
                         />
                       ))}
                       <ErrorBar dataKey="err" width={4} strokeWidth={1.2} stroke="var(--foreground)" direction="x" />

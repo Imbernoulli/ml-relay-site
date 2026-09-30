@@ -35,7 +35,7 @@ export interface Control { slug: string; name: string | null; score: number | nu
 export interface TestCmd { label: string; cmd: string; group: number | null; compute: number | null; time: string | null; mem: string | null; package: string | null; script: string | null }
 
 export interface Setting {
-  name: string; display: string | null;
+  name: string; display: string | null; gpus?: number | null;
   labels: string[]; metrics: string[]; terms: [string, number][]; constraints: string[];
   cmds: TestCmd[]; auxiliary?: boolean;
 }
@@ -81,6 +81,7 @@ export interface TaskData {
     data_deps: { name: string; description: string }[];
   };
   scoring: Scoring | null; score_spec_source: string; leaderboard: Leaderboard;
+  image?: TaskImageInfo | null;
   mode?: "internal";
 }
 
@@ -88,9 +89,12 @@ export interface IndexEntry {
   id: string; n: number; title: string | null; area: string | null; question: string | null; repo: string | null;
   settings: { name: string; display: string | null }[];
   baselines: { slug: string; name: string | null; role: string }[];
+  image?: TaskImageInfo | null;
   oracle?: string | null; oracle_name?: string | null; oracle_score?: number | null; best_score?: number | null;
   gpus?: number | null;
 }
+
+export interface TaskImageInfo { src: string; caption: string | null; width: number | null; height: number | null; bytes?: number }
 
 export interface IndexData { generated: string; source: string; mode?: "public" | "internal"; relay_ref_score: number; intro_md: string; tasks: IndexEntry[] }
 
@@ -106,6 +110,7 @@ export interface PublicTaskData {
   repo: string | null; repo_url: string | null; elab: string | null;
   readme_settings_line: string | null; readme_methods_line: string | null;
   description_md: string; desc_sections: DescSection[]; instruction_harness: Record<string, string>;
+  gpus?: number | null; image?: TaskImageInfo | null;
   files: PublicFile[]; baselines: PublicBaseline[]; controls: Control[];
   settings: Setting[]; scoring: Scoring | null; leaderboard: Leaderboard;
 }

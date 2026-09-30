@@ -8,6 +8,9 @@ import CodeBlock from "@/components/CodeBlock";
 import DiffBlock from "@/components/DiffBlock";
 import EnvViewer from "@/components/EnvViewer";
 import PublicTask from "@/components/PublicTask";
+import TaskImage from "@/components/TaskImage";
+import IssueButtons from "@/components/IssueButtons";
+import { gpuLabel } from "@/lib/site";
 import type { PublicTaskData } from "@/lib/types";
 import ResultsSection from "@/components/ResultsSection";
 import { Badge, Card, Fold, KV, Missing, Section } from "@/components/ui";
@@ -79,7 +82,6 @@ function BaselineCard({ t, b }: { t: TaskData; b: Baseline }) {
           <span className="font-mono text-xs">{b.slug}</span>
           <span className="font-normal">{b.name ?? <Missing what="method name" />}</span>
           {b.is_oracle && <Badge tone="oracle">oracle</Badge>}
-          {b.is_null && <Badge tone="null">declared null</Badge>}
           <span className="ml-auto font-mono text-xs text-muted-foreground">score {fmtScore(b.score)}</span>
         </span>
       }
@@ -193,10 +195,18 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
             built on {t.repo}
           </a>
         )}
-        {t.exec.gpus !== null && <Badge>{t.exec.gpus} GPU{t.exec.gpus === 1 ? "" : "s"}</Badge>}
+        {gpuLabel(t.exec?.gpus) && <Badge>Trial: {gpuLabel(t.exec?.gpus)}</Badge>}
       </div>
-      <h1 className="mt-2 text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
-      <p className="mt-2 max-w-4xl text-base text-muted-foreground">{t.question ?? "—"}</p>
+      <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
+          <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
+          <div className="mt-4">
+            <IssueButtons task={t.id} />
+          </div>
+        </div>
+        <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} />
+      </div>
 
       <div className="sticky top-14 z-40 -mx-4 mt-6 overflow-x-auto border-y border-border bg-background/90 px-4 py-2 backdrop-blur sm:mx-0 sm:rounded-lg sm:border">
         <div className="flex gap-1 whitespace-nowrap text-xs">
@@ -307,7 +317,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
               <tr className="bg-muted/60 text-left text-xs">
                 <th className="px-3 py-2">Arm</th>
                 <th className="px-3 py-2">Method (citation)</th>
-                <th className="px-3 py-2">Role</th>
+                <th className="px-3 py-2" />
                 <th className="px-3 py-2 text-right">Task score</th>
               </tr>
             </thead>
@@ -318,29 +328,15 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                   <tr key={b.slug} className="border-t border-border">
                     <td className="px-3 py-2 font-mono text-xs">{b.slug}</td>
                     <td className="px-3 py-2 text-xs">{b.name ?? <Missing what="method name" />}</td>
-                    <td className="px-3 py-2">
-                      <Badge tone={b.is_oracle ? "oracle" : b.is_null ? "null" : "muted"}>{b.role}</Badge>
-                    </td>
+                    <td className="px-3 py-2">{b.is_oracle && <Badge tone="oracle">oracle</Badge>}</td>
                     <td className="px-3 py-2 text-right font-mono text-xs tabular-nums">{fmtScore(b.score)}</td>
                   </tr>
                 ))}
-              {t.controls.map((x) => (
-                <tr key={x.slug} className="border-t border-border bg-orange-500/5">
-                  <td className="px-3 py-2 font-mono text-xs">{x.slug}</td>
-                  <td className="px-3 py-2 text-xs">{x.name ?? "—"}</td>
-                  <td className="px-3 py-2">
-                    <Badge tone="control">reported control</Badge>
-                  </td>
-                  <td className="px-3 py-2 text-right text-xs text-muted-foreground">not scored</td>
-                </tr>
-              ))}
             </tbody>
           </table>
         </div>
         <p className="text-xs text-muted-foreground">
-          Every arm in <code>tests/meta/config.json</code> is an anchor: the weakest defines 0 and the strongest 0.1 on each term. A <em>declared null</em> is an
-          anchor flagged <code>null: true</code>. A <em>reported control</em> has leaderboard rows but is not in the current config, so the scorer
-          ignores it.
+          Every baseline that was run is listed. The oracle is the baseline the shipped solution replays (internal only).
         </p>
         <div className="space-y-2">
           {[...t.baselines]
@@ -349,18 +345,6 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
               <BaselineCard key={b.slug} t={t} b={b} />
             ))}
         </div>
-        {t.controls.length > 0 && (
-          <Card>
-            <h4 className="text-sm font-semibold">Reported controls (not anchors)</h4>
-            <ul className="mt-2 space-y-1 text-sm">
-              {t.controls.map((x) => (
-                <li key={x.slug}>
-                  <span className="font-mono text-xs">{x.slug}</span> — {x.name ?? "—"}
-                </li>
-              ))}
-            </ul>
-          </Card>
-        )}
         <Fold summary="The reference baselines as instruction.md presents them">
           <DescBlocks secs={t.desc_sections} kinds={["baselines"]} empty="—" />
         </Fold>
@@ -394,6 +378,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                 <h4 className="font-mono text-sm font-semibold">{s.name}</h4>
               </div>
               <p className="mt-1 text-sm">{s.display ?? <Missing what="setting description" />}</p>
+              {gpuLabel(s.gpus) && <div className="mt-1 text-xs text-muted-foreground">Compute: {gpuLabel(s.gpus)}</div>}
               <div className="mt-2 text-xs text-muted-foreground">
                 Scored metrics: {s.metrics.length ? s.metrics.map((m) => <code key={m} className="mr-1">{m}</code>) : "—"}
               </div>

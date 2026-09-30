@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Highlighter, codeTheme, KNOWN_LANGS } from "./highlighter";
 import type { Range } from "@/lib/types";
 
@@ -47,6 +47,20 @@ export default function AnnotatedCodeBlock({ code, filename, language = "python"
   }, [mode, total, hasChanged, hasEdit, changed, editRanges]);
 
   const shown = lines.slice(from - 1, to).join("\n");
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const regionStart = hasChanged ? Math.min(...changed!.map((r) => r.start)) : hasEdit ? Math.min(...editRanges!.map((r) => r.start)) : null;
+  const jump = () => {
+    const box = scrollRef.current;
+    if (!box || regionStart === null) return;
+    const el = box.querySelector(`[data-ln="${regionStart}"]`) as HTMLElement | null;
+    if (el) box.scrollTop = Math.max(0, el.offsetTop - 48);
+  };
+  // In full-file mode, open with the editable / changed region in view
+  // (scrolls only the code box, never the page).
+  useEffect(() => {
+    if (mode === "full" && regionStart !== null && regionStart > 12) jump();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode, code]);
   const windowed = from > 1 || to < total;
 
   return (
@@ -67,6 +81,11 @@ export default function AnnotatedCodeBlock({ code, filename, language = "python"
           <span>
             lines {from}–{to} of {total}
           </span>
+          {mode === "full" && regionStart !== null && (hasEdit || hasChanged) && (
+            <button onClick={jump} className="rounded border border-emerald-600/70 px-2 py-0.5 text-emerald-300 hover:text-white">
+              {hasChanged ? "Jump to change" : "Jump to editable region"}
+            </button>
+          )}
           {(windowed || mode === "full") && total > PREVIEW && (
             <button onClick={() => setMode(mode === "full" ? "window" : "full")} className="rounded border border-gray-600 px-2 py-0.5 text-gray-300 hover:text-white">
               {mode === "full" ? (hasEdit || hasChanged ? "Show region only" : "Collapse") : "Show full file"}
@@ -74,7 +93,7 @@ export default function AnnotatedCodeBlock({ code, filename, language = "python"
           )}
         </div>
       </div>
-      <div className="max-h-[640px] overflow-auto bg-code-bg text-xs">
+      <div ref={scrollRef} className="relative max-h-[640px] overflow-auto bg-code-bg text-xs">
         <Highlighter
           language={lang}
           style={codeTheme}
@@ -97,7 +116,7 @@ export default function AnnotatedCodeBlock({ code, filename, language = "python"
             } else if (hasEdit && !hasChanged) {
               style.opacity = 0.72;
             }
-            return { style };
+            return { style, "data-ln": n } as React.HTMLProps<HTMLElement>;
           }}
           codeTagProps={{ style: { fontFamily: "inherit" } }}
         >

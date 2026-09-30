@@ -6,13 +6,11 @@ import { fmt, fmtScore } from "@/lib/format";
 import MetricBarChart from "./MetricBarChart";
 import { Badge } from "./ui";
 
-function roleOf(t: TaskData, s: LbSummary): { label: string; tone: "oracle" | "null" | "muted" | "control" | "agent" } {
+function roleOf(t: TaskData, s: LbSummary): { label: string; tone: "oracle" | "muted" | "agent" } {
   if (s.kind === "agent") return { label: "agent", tone: "agent" };
-  if (s.kind === "control") return { label: "reported, not an anchor", tone: "control" };
   const b = t.baselines.find((x) => x.slug === s.arm);
   if (b?.is_oracle) return { label: "oracle", tone: "oracle" };
-  if (b?.is_null) return { label: "declared null", tone: "null" };
-  return { label: "anchor", tone: "muted" };
+  return { label: "", tone: "muted" };
 }
 
 function colsForSetting(t: TaskData, st: Setting): { scored: string[]; reported: string[] } {
@@ -52,7 +50,7 @@ function SeedRows({ rows, cols }: { rows: LbRow[]; cols: string[] }) {
   );
 }
 
-function SettingTable({ t, st, kinds }: { t: TaskData; st: Setting; kinds: ("baseline" | "control")[] }) {
+function SettingTable({ t, st, kinds }: { t: TaskData; st: Setting; kinds: "baseline"[] }) {
   const [perSeed, setPerSeed] = useState(false);
   const { scored, reported } = colsForSetting(t, st);
   const [showReported, setShowReported] = useState(false);
@@ -81,7 +79,7 @@ function SettingTable({ t, st, kinds }: { t: TaskData; st: Setting; kinds: ("bas
           <thead>
             <tr className="bg-muted/60 text-left text-xs">
               <th className="px-3 py-2 font-medium">Arm</th>
-              <th className="px-3 py-2 font-medium">Role</th>
+              <th className="px-3 py-2 font-medium" />
               <th className="px-3 py-2 text-right font-medium" title="setting score at the ML-Relay 0.1 anchor">Setting score</th>
               {cols.map((c) => (
                 <th key={c} className={`px-3 py-2 text-right font-medium ${scored.includes(c) ? "" : "text-muted-foreground"}`}>
@@ -99,13 +97,13 @@ function SettingTable({ t, st, kinds }: { t: TaskData; st: Setting; kinds: ("bas
                 <Fragment key={s.arm}>
                   <tr className="border-t border-border">
                     <td className="px-3 py-2 font-mono text-xs">
-                      {s.arm}
+                      <span className="font-sans">{t.baselines.find((x) => x.slug === s.arm)?.name ?? s.arm}</span>
                       <span className="ml-1 text-[10px] text-muted-foreground">n={s.n_seeds}</span>
                     </td>
                     <td className="px-3 py-2">
-                      <Badge tone={r.tone}>{r.label}</Badge>
+                      {r.label && <Badge tone={r.tone}>{r.label}</Badge>}
                     </td>
-                    <td className="px-3 py-2 text-right tabular-nums">{s.kind === "baseline" ? fmtScore(armScore(s.arm)) : "—"}</td>
+                    <td className="px-3 py-2 text-right tabular-nums">{fmtScore(armScore(s.arm))}</td>
                     {cols.map((c) => (
                       <MeanCell key={c} s={s} c={c} dir={dirs[c]} />
                     ))}
@@ -124,14 +122,12 @@ function SettingTable({ t, st, kinds }: { t: TaskData; st: Setting; kinds: ("bas
 export default function ResultsSection({ t, publicMode = false }: { t: TaskData; publicMode?: boolean }) {
   const settings = t.settings.filter((s) => !s.auxiliary && s.metrics.length);
   const agentSums = t.leaderboard.summaries.filter((s) => s.kind === "agent");
-  const controls = t.leaderboard.summaries.filter((s) => s.kind === "control");
   const agentCols = useMemo(() => t.leaderboard.scored_columns.filter((c) => agentSums.some((s) => s.mean[c] !== undefined)), [t, agentSums]);
   return (
     <div className="space-y-8">
       <p className="text-sm text-muted-foreground">
         Mean ± sample standard deviation over seeds. The mean is the leaderboard&apos;s own <code>seed=mean</code> row where one exists; otherwise
-        it is computed here from the per-seed rows (hover a cell for which). Arms are sorted by their setting score. &ldquo;Reported, not an
-        anchor&rdquo; rows are leaderboard arms that are not in the current <code>config.json</code> baselines: the scorer ignores them.
+        it is computed here from the per-seed rows (hover a cell for which). Baselines are sorted by their setting score.
       </p>
       {settings.map((st) => (
         <div key={st.name}>
@@ -139,7 +135,7 @@ export default function ResultsSection({ t, publicMode = false }: { t: TaskData;
             <span className="font-mono">{st.name}</span>
           </h4>
           {st.display && <p className="mb-2 text-sm text-muted-foreground">{st.display}</p>}
-          <SettingTable t={t} st={st} kinds={controls.length ? ["baseline", "control"] : ["baseline"]} />
+          <SettingTable t={t} st={st} kinds={["baseline"]} />
           <div className="mt-3">
             <MetricBarChart t={t} setting={st} />
           </div>
