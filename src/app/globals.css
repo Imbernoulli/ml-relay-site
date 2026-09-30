@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Class-based dark mode: html[data-theme="dark"], set before paint from
+   localStorage or prefers-color-scheme (see layout.tsx). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --muted: #f7f7f8;
+  --muted-foreground: #6e6e80;
+  --border: #e5e5e5;
+  --primary: #0d0d0d;
+  --primary-foreground: #ffffff;
+  --accent: #10a37f;
+  --accent-foreground: #ffffff;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --warn-bg: #fff7e6;
+  --warn-border: #f5c26b;
+  --warn-text: #8a5200;
+  --code-bg: #1e1e1e;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --background: #0f1115;
+  --foreground: #e6e6e6;
+  --muted: #1a1d23;
+  --muted-foreground: #9aa0aa;
+  --border: #2b2f37;
+  --primary: #f2f2f2;
+  --primary-foreground: #0f1115;
+  --accent: #34c79b;
+  --accent-foreground: #0f1115;
+  --card: #14171c;
+  --card-foreground: #e6e6e6;
+  --warn-bg: #2a2111;
+  --warn-border: #6b4f1d;
+  --warn-text: #f0c36d;
+  --code-bg: #16181d;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-warn-bg: var(--warn-bg);
+  --color-warn-border: var(--warn-border);
+  --color-warn-text: var(--warn-text);
+  --color-code-bg: var(--code-bg);
+}
+
+html, body {
+  background: var(--background);
+  color: var(--foreground);
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+code, pre, .font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+.prose { line-height: 1.7; color: var(--foreground); }
+.prose h1, .prose h2, .prose h3, .prose h4, .prose strong, .prose a { color: var(--foreground); }
+.prose h1, .prose h2, .prose h3 { font-weight: 600; letter-spacing: -0.01em; }
+.prose :where(code):not(:where(pre *)) {
+  font-size: 0.85em;
+  background: var(--muted);
+  color: var(--foreground);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+.prose :where(code):not(:where(pre *))::before,
+.prose :where(code):not(:where(pre *))::after { content: none; }
+.prose blockquote { color: var(--muted-foreground); border-left-color: var(--border); }
+.prose hr { border-color: var(--border); }
+.prose th, .prose td { color: var(--foreground); }
+
+/* Long tokens (paths, hashes) must never force horizontal page scroll. */
+.break-anywhere { overflow-wrap: anywhere; word-break: break-word; }
+
+details > summary { cursor: pointer; list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary .chev { transition: transform 0.15s; display: inline-block; }
+details[open] > summary .chev { transform: rotate(90deg); }
+
+html { scroll-padding-top: 6.5rem; }

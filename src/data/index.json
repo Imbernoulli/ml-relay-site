@@ -1,0 +1,2596 @@
+{
+ "generated": "2026-09-30T15:34:56",
+ "source": "mlr (bundles + README.md)",
+ "relay_ref_score": 0.1,
+ "intro_md": "Fifty-two machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 52 tasks are newly constructed for ML-Relay. The other 15 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-two self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
+ "mode": "public",
+ "tasks": [
+  {
+   "id": "llm-kv-precision-vs-count",
+   "n": 1,
+   "title": "Bytes, Not Entries: Precision Against Count in the KV Cache",
+   "area": "LLM / Inference Efficiency",
+   "question": "At an equal byte budget, should a KV cache keep fewer entries at full precision or more at lower precision — design the rule that spends the bytes.",
+   "repo": "huggingface/transformers",
+   "settings": [
+    {
+     "name": "longbench",
+     "display": "Mistral-7B-Instruct-v0.2, LongBench Qasper/QMSum/MultiNews/TREC/TriviaQA/SAMSum, 64 fp16-entry KV budget per head (PyramidKV KV=64)"
+    },
+    {
+     "name": "lines",
+     "display": "Mistral-7B-Instruct-v0.2, LongEval line retrieval (800-1200 lines), 64 fp16-entry KV budget per head"
+    },
+    {
+     "name": "lbcode",
+     "display": "Mistral-7B-Instruct-v0.2, LongBench LCC/RepoBench-P, 64 fp16-entry KV budget per head (PyramidKV KV=64)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "evict_fp16",
+     "name": "SnapKV (Li et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "evict_int8",
+     "name": "Quantized pruning, 8-bit (Zhang et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "evict_int4",
+     "name": "Quantized pruning, 4-bit (Zhang et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "evict_int2",
+     "name": "Quantized pruning extended to 2-bit (after Zhang et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "kivi2",
+     "name": "KIVI (Liu et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "zipcache",
+     "name": "ZipCache (He et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.0796901817057929
+  },
+  {
+   "id": "llm-prune-oneshot-criterion",
+   "n": 2,
+   "title": "Which Half of the Weights to Drop, in One Pass",
+   "area": "LLM / Pruning",
+   "question": "With no retraining and no gradient step, decide which half of a pretrained LM's weights to remove and what values the survivors take.",
+   "repo": "locuslab/wanda",
+   "settings": [
+    {
+     "name": "unstructured-s1",
+     "display": "OPT-125M, 50% unstructured"
+    },
+    {
+     "name": "unstructured-s2",
+     "display": "OPT-1.3B, 70% unstructured"
+    },
+    {
+     "name": "semi2of4-s2",
+     "display": "OPT-1.3B, 2:4 semi-structured"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "wanda",
+     "name": "Wanda (Sun et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ria",
+     "name": "RIA (Zhang et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "sparsegpt",
+     "name": "SparseGPT (Frantar & Alistarh, 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "llm-gqa-to-mla-conversion",
+   "n": 3,
+   "title": "Retrofitting Latent Attention into a Pretrained Model",
+   "area": "LLM / Architecture Conversion",
+   "question": "Convert a pretrained MHA/GQA decoder to multi-head latent attention under a fixed KV-cache budget — choose which positional channels keep RoPE, how the latent is initialised from the pretrained K/V weights, and how the budget is spent across layers — so it loses the least after a short recovery fine-tune.",
+   "repo": "JT-Ushio/MHA2MLA",
+   "settings": [
+    {
+     "name": "smollm2-360m-kv12",
+     "display": "SmolLM2-360M (GQA), KV cache cut to 12.5%"
+    },
+    {
+     "name": "smollm2-360m-kv31",
+     "display": "SmolLM2-360M (GQA), KV cache cut to 31.25%"
+    },
+    {
+     "name": "smollm2-1.7b-kv12",
+     "display": "SmolLM2-1.7B (MHA), KV cache cut to 12.5%"
+    },
+    {
+     "name": "zeroshot",
+     "display": "zero-shot ARC-Easy/Challenge, HellaSwag, PIQA, WinoGrande, OpenBookQA and MMLU (cloze) of the recovered models"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "naive_svd",
+     "name": "S_high + SVD_split, MHA2MLA's ablation (Ji et al., 2025; unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mha2mla",
+     "name": "MHA2MLA (Ji et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "transmla",
+     "name": "TransMLA (Meng et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "care",
+     "name": "CARE-E (Zhou et al., 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09904846900281776
+  },
+  {
+   "id": "llm-early-exit-criterion",
+   "n": 4,
+   "title": "Deciding Which Tokens Are Done Early",
+   "area": "LLM / Early Exit",
+   "question": "Under a hard budget on the mean fraction of decoder depth per token, pick the per-token signal and threshold that says a token can exit now.",
+   "repo": "facebookresearch/LayerSkip",
+   "settings": [
+    {
+     "name": "set_a",
+     "display": "LayerSkip Llama-3.2-1B, CNN/DailyMail 1-shot generation, depth budget 0.50"
+    },
+    {
+     "name": "set_b",
+     "display": "LayerSkip Llama-3.2-1B, XSUM 0-shot generation, depth budget 0.40"
+    },
+    {
+     "name": "set_c",
+     "display": "LayerSkip Llama-3-8B, CNN/DailyMail 1-shot generation, depth budget 0.30"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "CALM max-softmax confidence, t5x softmax_max (unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "calm_softmax",
+     "name": "CALM softmax response, position-adjusted threshold (Schuster et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "calm_saturation",
+     "name": "CALM hidden-state saturation, pre-norm states (Schuster et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "layerskip_fixed",
+     "name": "LayerSkip fixed-layer early exit, budget-matched (Elhoushi et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "random_depth",
+     "name": "random per-token exits (null)",
+     "role": "declared null"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "llm-linattn-state-size-structure",
+   "n": 5,
+   "title": "Organising a Fixed-Size Recurrent State",
+   "area": "LLM / Linear Attention",
+   "question": "Given a fixed number of state scalars per layer, decide how a linear-attention state is organised, written and read.",
+   "repo": "karpathy/nanoGPT",
+   "settings": [
+    {
+     "name": "gpt-124m",
+     "display": "124M pretraining on ClimbMix (2.5B tokens), 1k context"
+    },
+    {
+     "name": "longctx-4k",
+     "display": "same checkpoint, 4k-token windows (val / tail / WikiText-2 log-ppl)"
+    },
+    {
+     "name": "recall-124m",
+     "display": "recall: SQuAD-completion on answerable items + RULER S-NIAH-2/3 teacher-forced answer NLL (SWDE / FDA / S-NIAH-1 reported)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "hebbian",
+     "name": "linear attention, additive Hebbian write (Katharopoulos et al., 2020) (null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "delta_net",
+     "name": "DeltaNet (Yang et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "abc",
+     "name": "ABC bounded-memory slots (Peng et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "gsa",
+     "name": "Gated Slot Attention (Zhang et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mom",
+     "name": "Mixture-of-Memories with its load-balancing loss (Du et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09496344100190655
+  },
+  {
+   "id": "llm-hybrid-layer-composition",
+   "n": 6,
+   "title": "Which Layers Get Which Mixer",
+   "area": "LLM / Hybrid Architectures",
+   "question": "With 12 layers, a fixed parameter budget and three token mixers, assign softmax attention, sliding-window attention and linear recurrence to layers.",
+   "repo": "karpathy/nanoGPT",
+   "settings": [
+    {
+     "name": "gpt-124m",
+     "display": "124M pretraining on ClimbMix (2.5B tokens), 1k context; scored on LAMBADA ppl"
+    },
+    {
+     "name": "longctx-4k",
+     "display": "same checkpoint, 4k-token windows (val / tail / WikiText-2 log-ppl)"
+    },
+    {
+     "name": "recall-124m",
+     "display": "recall: SWDE / SQuAD-completion on answerable items + RULER S-NIAH-1/2/3 teacher-forced answer NLL"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "all_attn",
+     "name": "all softmax attention, Transformer++ (null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "samba",
+     "name": "Samba interleave (Ren et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "jamba",
+     "name": "Jamba 1:7 attention block (Lieber et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "all_gdn",
+     "name": "all Gated DeltaNet layers (Yang et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.0663900743312968
+  },
+  {
+   "id": "llm-looped-token-depth",
+   "n": 7,
+   "title": "Which Tokens Deserve More Loops",
+   "area": "LLM / Looped Transformer",
+   "question": "On a released, frozen looped LM, decide which tokens run which of its four loop steps under a mean loop budget, so that what it generates stays accurate at the budget the rule was trained for, at a tighter one, and on a larger model.",
+   "repo": "ByteDance/Ouro-1.4B",
+   "settings": [
+    {
+     "name": "gsm8k-b2.5",
+     "display": "frozen Ouro-1.4B, GSM8K 8-shot chain of thought at a mean of 2.5 loops per generated token (the prompt is read at full depth)"
+    },
+    {
+     "name": "gsm8k-b2.25",
+     "display": "the same rule re-calibrated, not retrained, to 2.25 loops per generated token"
+    },
+    {
+     "name": "bbh-b2.5",
+     "display": "BIG-Bench Hard 3-shot chain of thought (27 subtasks) at 2.5 loops per generated token"
+    },
+    {
+     "name": "ouro2.6b-gsm8k",
+     "display": "the rule trained on the frozen Ouro-2.6B, GSM8K at 2.5 loops per generated token"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "uniform",
+     "name": "Static depth, every token the same steps (Zhu et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ouro_gate_stock",
+     "name": "Released exit gate with Q-exit (Zhu et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ouro_gate_trained",
+     "name": "Adaptive-exit gate training on the frozen LM (Zhu et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "hidden_state_diff",
+     "name": "Hidden-state difference exit, relative form (Zhu et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mor_expert_choice",
+     "name": "MoR-style selection-only expert-choice router on the frozen backbone (after Bae et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mor_token_choice",
+     "name": "MoR-style selection-only token-choice router on the frozen backbone (after Bae et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "recurtrace_head",
+     "name": "Oracle-distilled halting head (RecurTrace, 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09498119880784961
+  },
+  {
+   "id": "dl-optim-mup-parametrization",
+   "n": 8,
+   "title": "One Learning Rate Across Every Width",
+   "area": "Optimization / Parametrization",
+   "question": "Design the abc-parametrization — init scale, forward multipliers, per-layer learning rates — so the rate tuned on a narrow MLP is right for wider ones, with wider always better.",
+   "repo": "microsoft/mup",
+   "settings": [
+    {
+     "name": "width-256",
+     "display": "CIFAR-10 MLP, width 256"
+    },
+    {
+     "name": "width-1024",
+     "display": "CIFAR-10 MLP, width 1024"
+    },
+    {
+     "name": "width-4096",
+     "display": "CIFAR-10 MLP, width 4096"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "sp",
+     "name": "standard parametrization (Yang & Hu, 2022) (null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mup",
+     "name": "muP (Yang & Hu, 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ntk",
+     "name": "neural tangent parametrization (Jacot et al., 2018)",
+     "role": "anchor"
+    },
+    {
+     "slug": "sp_lr_over_width",
+     "name": "SP with LR scaled 1/width (folk control)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "dl-dynamics-grokking-transition",
+   "n": 9,
+   "title": "Removing the Delay Before Grokking",
+   "area": "Optimization / Training Dynamics",
+   "question": "Given only the gradients of a fixed loss from an over-scaled initialisation, design the optimisation or regularisation rule that brings generalisation forward.",
+   "repo": "KindXiaoming/Omnigrok",
+   "settings": [
+    {
+     "name": "mnist-a8-n1000",
+     "display": "MNIST, init scale 8, 1000 train points"
+    },
+    {
+     "name": "mnist-a8-n200",
+     "display": "MNIST, init scale 8, 200 train points"
+    },
+    {
+     "name": "mnist-a12-n1000",
+     "display": "MNIST, init scale 12, 1000 train points"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "adam_nowd",
+     "name": "Adam, no weight decay (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "adamw",
+     "name": "AdamW, wd 0.01 (Loshchilov & Hutter, 2019)",
+     "role": "anchor"
+    },
+    {
+     "slug": "sphere_fixed",
+     "name": "Omnigrok fixed-norm sphere (Liu et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "grokfast_ma",
+     "name": "Grokfast MA filter (Lee et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "grokfast_ema",
+     "name": "Grokfast EMA filter (Lee et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "goldilocks_project",
+     "name": "Omnigrok Goldilocks-norm projection (Liu et al., 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "theory-semiautomata",
+   "n": 10,
+   "title": "Parallel-Time Architectures That Learn Hard Automata",
+   "area": "Learning Theory / Architectures",
+   "question": "Within a fixed online-training budget, which parallel-time architecture and AdamW recipe learns to simulate the symmetric-group word problems (solvable S4, non-solvable S5) from state supervision?",
+   "repo": "pytorch/examples",
+   "settings": [
+    {
+     "name": "s4-word",
+     "display": "S4 word problem (24 states, solvable)"
+    },
+    {
+     "name": "s5-word",
+     "display": "S5 word problem (120 states, non-solvable)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "transformer",
+     "name": "depth-1 Transformer (Liu et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "transformer_deep",
+     "name": "depth-8 Transformer (Liu et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "looped_transformer",
+     "name": "Looped Transformer, 8 iterations (Giannou et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "diag_ssm",
+     "name": "gated diagonal linear recurrence (Gu & Dao, 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "token_mlp",
+     "name": "position-wise token MLP (null)",
+     "role": "declared null"
+    }
+   ],
+   "best_score": 0.09643232216362847
+  },
+  {
+   "id": "theory-lora-gradient-init",
+   "n": 11,
+   "title": "Starting LoRA Somewhere Better Than Zero",
+   "area": "Learning Theory / PEFT",
+   "question": "The zero-product initialisation of LoRA is a convention with a predictable cost — design the initialisation of A and B that the theory says pays off.",
+   "repo": "YuanheZ/LoRA-One",
+   "settings": [
+    {
+     "name": "cola",
+     "display": "GLUE CoLA, T5-base (mean of 3 runs)"
+    },
+    {
+     "name": "mrpc",
+     "display": "GLUE MRPC, T5-base (mean of 3 runs)"
+    },
+    {
+     "name": "gsm8k",
+     "display": "Llama-2-7B on MetaMathQA-100K, GSM8K greedy exact match"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "lora_default",
+     "name": "LoRA default init (Hu et al., 2022) (unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "pissa",
+     "name": "PiSSA (Meng et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "lora_ga",
+     "name": "LoRA-GA (Wang et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "lora_one",
+     "name": "LoRA-One (Zhang et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.08031181094749457
+  },
+  {
+   "id": "cv-flowmaps-training",
+   "n": 12,
+   "title": "A Better Self-Distillation Objective for Flow Maps",
+   "area": "Generative Models / Few-Step Training",
+   "question": "Under a fixed CIFAR-10 training budget, redesign the flow-map self-distillation objective so FID drops below the published variants.",
+   "repo": "nmboffi/flow-maps",
+   "settings": [
+    {
+     "name": "train_small",
+     "display": "CIFAR-10, UNet 96 channels"
+    },
+    {
+     "name": "train_medium",
+     "display": "CIFAR-10, UNet 128 channels"
+    },
+    {
+     "name": "train_large",
+     "display": "CIFAR-10, UNet 192 channels"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "lsd",
+     "name": "Lagrangian self-distillation (Boffi et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "psd_uniform",
+     "name": "Progressive self-distillation, uniform (Boffi et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "psd_midpoint",
+     "name": "Progressive self-distillation, midpoint (Boffi et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "cv-diffsolver-multistep-update",
+   "n": 13,
+   "title": "Stages or History at Five Network Evaluations",
+   "area": "Generative Models / Diffusion Solvers",
+   "question": "At a handful of network evaluations, design the ODE update rule that buys accuracy from Runge–Kutta stages, multistep history, or both.",
+   "repo": "zju-pi/diff-sampler",
+   "settings": [
+    {
+     "name": "cifar10-nfe4",
+     "display": "CIFAR-10, 4 NFE"
+    },
+    {
+     "name": "cifar10-nfe5",
+     "display": "CIFAR-10, 5 NFE"
+    },
+    {
+     "name": "ffhq64-nfe6",
+     "display": "FFHQ 64x64, 6 NFE"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "ddim",
+     "name": "DDIM / Euler (Song et al., 2021) (unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ipndm",
+     "name": "iPNDM (Liu et al., 2022; Zhang & Chen, 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "deis_tab3",
+     "name": "DEIS tAB3 (Zhang & Chen, 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "fm-probability-path",
+   "n": 14,
+   "title": "Which Probability Path Survives Few Steps",
+   "area": "Generative Models / Flow Matching",
+   "question": "At a fixed training budget, design the probability path whose flow-matching model samples best at low NFE.",
+   "repo": "facebookresearch/flow_matching",
+   "settings": [
+    {
+     "name": "set_a",
+     "display": "CIFAR-10, 150k-step training; FID@50k at Euler 8/16/50 NFE + dopri5"
+    },
+    {
+     "name": "set_b",
+     "display": "ImageNet 32x32, 150k-step training; FID@50k at Euler 8/16/50 NFE + dopri5"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "linear",
+     "name": "Independent coupling + conditional-OT linear path (Lipman et al., 2023) (unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "vp-trigonometric",
+     "name": "VP trigonometric path (Albergo & Vanden-Eijnden, 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "stochastic-interpolant",
+     "name": "Stochastic interpolant, latent bridge gamma=t(1-t) (Albergo et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ot-cfm",
+     "name": "OT-CFM, minibatch OT coupling + linear path (Tong et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.07352621907921465
+  },
+  {
+   "id": "th-mia-label-only",
+   "n": 15,
+   "title": "Membership Inference From Labels Alone",
+   "area": "Security / Privacy",
+   "question": "Seeing only the arg-max labels a classifier returns on perturbed copies of a point, design the score that tells training members from non-members.",
+   "repo": "cchoquette/membership-inference",
+   "settings": [
+    {
+     "name": "set_a",
+     "display": "CIFAR-10, 4-conv CNN (1.2M) on 2,500 points, no augmentation (Choquette-Choo et al. protocol)"
+    },
+    {
+     "name": "set_b",
+     "display": "CIFAR-10, WRN-28-2 on 2,500 points trained with flips/shifts/cutout"
+    },
+    {
+     "name": "set_c",
+     "display": "CIFAR-10, WRN-28-2 on random 25k halves, 16 shadows (LiRA protocol)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "gap_attack",
+     "name": "Gap attack (Yeom et al., 2018)",
+     "role": "anchor"
+    },
+    {
+     "slug": "translation_attack",
+     "name": "Data-augmentation attack (Choquette-Choo et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "noise_robustness",
+     "name": "Noise-robustness attack (Choquette-Choo et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "hsj_boundary",
+     "name": "HopSkipJump boundary-distance attack (Choquette-Choo et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "oslo",
+     "name": "OSLO (Peng et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "lira_offline",
+     "name": "LiRA offline, label-only (Carlini et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "lira_online",
+     "name": "LiRA online, label-only (Carlini et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "random_score",
+     "name": "Random scores (null)",
+     "role": "declared null"
+    }
+   ],
+   "best_score": 0.09580817435728844
+  },
+  {
+   "id": "security-availability-poisoning",
+   "n": 16,
+   "title": "Making a Training Set Unlearnable",
+   "area": "Security / Data Poisoning",
+   "question": "Given the whole labelled training set and an L-infinity budget, design the per-image perturbation that leaves a model trained from scratch on it useless.",
+   "repo": "HanxunH/Unlearnable-Examples",
+   "settings": [
+    {
+     "name": "cifar10-advtrain3",
+     "display": "full CIFAR-10, ResNet-18 victim with PGD adversarial training rho_a = 3/255 (Fu et al. App. A.4, 40k iterations)"
+    },
+    {
+     "name": "cifar100-advtrain2",
+     "display": "full CIFAR-100, ResNet-18 victim with PGD adversarial training rho_a = 2/255 (Fu et al. App. A.4, 40k iterations)"
+    },
+    {
+     "name": "cifar10-advtrain4",
+     "display": "full CIFAR-10, ResNet-18 victim with PGD adversarial training rho_a = 4/255 (Fu et al. App. A.4, 40k iterations)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "error_minimizing",
+     "name": "Sample-wise error-minimizing noise (Huang et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "class_error_minimizing",
+     "name": "Class-wise error-minimizing noise (Huang et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "linear_separable",
+     "name": "Synthetic linearly separable noise (Yu et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "autoregressive",
+     "name": "Autoregressive perturbations (Sandoval-Segura et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "robust_error_minimizing",
+     "name": "Robust error-minimizing noise (Fu et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "classwise_random_noise",
+     "name": "Class-wise random noise (Huang et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "zero_perturbation",
+     "name": "No perturbation (null)",
+     "role": "declared null"
+    }
+   ],
+   "best_score": 0.08069897934042679
+  },
+  {
+   "id": "ml-pu-learning-risk",
+   "n": 17,
+   "title": "Learning a Classifier With No Negatives",
+   "area": "Learning Theory / PU Learning",
+   "question": "From labelled positive images, the unlabelled training set and the class prior, design the training objective (and decision threshold) of a fixed network whose held-out zero-one error is low.",
+   "repo": "kiryor/nnPUlearning; Ray-rui/Dist-PU",
+   "settings": [
+    {
+     "name": "mnist-evenodd",
+     "display": "MNIST, even digits positive, 6-layer MLP (Kiryo et al., 2017)"
+    },
+    {
+     "name": "fmnist-top",
+     "display": "Fashion-MNIST, top-wear classes positive, few labelled positives, 6-layer MLP (Zhao et al., 2022; Kiryo et al., 2017)"
+    },
+    {
+     "name": "cifar10-vehicle",
+     "display": "CIFAR-10, vehicle classes positive, 13-layer all-conv CNN (Kiryo et al., 2017; Zhao et al., 2022)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "upu",
+     "name": "Unbiased PU risk (du Plessis et al., 2015)",
+     "role": "anchor"
+    },
+    {
+     "slug": "nnpu",
+     "name": "Non-negative PU risk (Kiryo et al., 2017)",
+     "role": "anchor"
+    },
+    {
+     "slug": "dist_pu",
+     "name": "Dist-PU (Zhao et al., 2022)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.061489488902740384
+  },
+  {
+   "id": "llm-opd-token-signal",
+   "n": 18,
+   "title": "The Right Per-Token Signal for On-Policy Distillation",
+   "area": "LLM / Distillation",
+   "question": "Supervising a student's own rollouts token by token, choose what to transfer from the teacher — its distribution, or the change reasoning tuning made to it.",
+   "repo": "naver-ai/opd2",
+   "settings": [
+    {
+     "name": "weakteacher_math500",
+     "display": "MATH-500 of one run: Qwen3-1.7B student, weaker Qwen3-0.6B teacher (ref its base)"
+    },
+    {
+     "name": "weakteacher_amc23",
+     "display": "AMC23 avg@8, same checkpoint"
+    },
+    {
+     "name": "weakteacher_olympiadbench",
+     "display": "OlympiadBench, same checkpoint"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "opd2",
+     "name": "OPD2 delta signal (Heo et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "exopd",
+     "name": "ExOPD, G-OPD reward extrapolation (Yang et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "delta_raw",
+     "name": "raw teacher-minus-reference delta (unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "opd",
+     "name": "OPD, plain on-policy distillation (Heo et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "null",
+     "name": "constant signal, self-SFT (null)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "ai4bio-msa-conformational-ensemble",
+   "n": 19,
+   "title": "Getting Both Conformations Out of AlphaFold2",
+   "area": "AI for Biology / Structure Prediction",
+   "question": "Design how the MSA is presented to AlphaFold2 so proteins with two states — fold switchers, transporters, binding proteins — return both, not just the coevolution-favoured one.",
+   "repo": "sokrypton/ColabFold",
+   "settings": [
+    {
+     "name": "foldswitch",
+     "display": "12 fold-switch pairs"
+    },
+    {
+     "name": "oc23",
+     "display": "10 open/closed pairs"
+    },
+    {
+     "name": "transporters",
+     "display": "14 transporter IF/OF pairs (AFsample2 TP16 / IOMemP)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "full_msa",
+     "name": "full MSA, untouched AF2 (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "msa_subsample",
+     "name": "MSA subsampling (del Alamo et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "afcluster",
+     "name": "AF-Cluster (Wayment-Steele et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "speach_af",
+     "name": "SPEACH_AF (Stein & Mchaourab, 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "afsample2",
+     "name": "AFsample2 (Kalakoti & Wallner, 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "cf_random",
+     "name": "CF-random (Lee et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.07700586849599349
+  },
+  {
+   "id": "llm-distill-sgo-objective",
+   "n": 20,
+   "title": "Which Distillation Recipe Transfers Reasoning",
+   "area": "LLM / Distillation",
+   "question": "Given a stronger white-box teacher, jointly choose the per-token divergence and the policy deciding whether each step trains on reference, teacher-generated or student-generated text.",
+   "repo": "microsoft/LMOps",
+   "settings": [
+    {
+     "name": "math",
+     "display": "math, Qwen3-1.7B student, MATH-500+OlympiadBench"
+    },
+    {
+     "name": "code",
+     "display": "code, Qwen3-1.7B student, LiveCodeBench v5+v6 + HumanEval+"
+    },
+    {
+     "name": "mathgap",
+     "display": "math, Qwen3-0.6B student"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "sft",
+     "name": "SFT on gold responses (method null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "untouched",
+     "name": "untouched student, zero gradient (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "kd",
+     "name": "word-level KD (Hinton et al., 2015)",
+     "role": "anchor"
+    },
+    {
+     "slug": "seqkd",
+     "name": "SeqKD (Kim & Rush, 2016)",
+     "role": "anchor"
+    },
+    {
+     "slug": "imitkd",
+     "name": "ImitKD (Lin et al., 2020)",
+     "role": "anchor"
+    },
+    {
+     "slug": "gkd",
+     "name": "GKD (Agarwal et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "opd",
+     "name": "OPD full-vocabulary reverse KL, MiniLLM (Gu et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "opd_sampled",
+     "name": "OPD sampled-token policy gradient (MOPD, 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "opd_topk",
+     "name": "OPD top-k, k=64 (MOPD, 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "distillm",
+     "name": "DistiLLM (Ko et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09840873042572519
+  },
+  {
+   "id": "ai4bio-cell-representation-objective",
+   "n": 21,
+   "title": "Adapting a Single-Cell Transformer to Separate Biology From Batch",
+   "area": "AI for Biology / Single-Cell",
+   "question": "Given a pretrained single-cell transformer, raw counts and batch labels, choose the adaptation objective and readout so embeddings separate cell states while mixing batches.",
+   "repo": "huggingface.co/ctheodoris/Geneformer",
+   "settings": [
+    {
+     "name": "pancreas",
+     "display": "human pancreas, technology batches"
+    },
+    {
+     "name": "immune",
+     "display": "human immune, donor batches"
+    },
+    {
+     "name": "lung_transfer",
+     "display": "human lung atlas, inductive held-out donors"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "frozen",
+     "name": "Geneformer zero-shot embedding (Theodoris et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "collapse",
+     "name": "constant embedding (degenerate control)",
+     "role": "anchor"
+    },
+    {
+     "slug": "null_mlm",
+     "name": "MLM with random targets (null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "hvg_pca",
+     "name": "HVG + PCA, scIB unintegrated (Luecken et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "harmony",
+     "name": "Harmony (Korsunsky et al., 2019)",
+     "role": "anchor"
+    },
+    {
+     "slug": "scanorama",
+     "name": "Scanorama (Hie et al., 2019)",
+     "role": "anchor"
+    },
+    {
+     "slug": "scvi",
+     "name": "scVI (Lopez et al., 2018)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mlm_continue",
+     "name": "continued Geneformer MLM pretraining (Theodoris et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "scgpt_ecs_dab",
+     "name": "scGPT ECS + DAB integration objective (Cui et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "contrastive",
+     "name": "CLEAR MoCo contrastive (Han et al., 2022)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.08975731789652736
+  },
+  {
+   "id": "ai4bio-cofolding-affinity-scoring",
+   "n": 22,
+   "title": "Scoring the Complex: Affinity From a Co-Folded Pose",
+   "area": "AI for Biology / Co-Folding",
+   "question": "Given a fixed co-folded protein-ligand complex and its docking, structural and head-derived signals, design the function that predicts binding affinity — ranking analogues in a congeneric series and separating actives from AVE-unbiased decoys.",
+   "repo": "jwohlwend/boltz",
+   "settings": [
+    {
+     "name": "leadopt",
+     "display": "14 FEP+/OpenFE congeneric series, 349 ligands; per-series signed Pearson (+ Spearman, MUE in kcal/mol), averaged unweighted over series"
+    },
+    {
+     "name": "hitdisc",
+     "display": "LIT-PCBA AVE-unbiased, 6 targets x (40 actives + 160 inactives) = 20% prevalence, 1199 ligands; AUROC (+ AP, EF5%)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "null_logp",
+     "name": "Ligand cLogP, fixed sign (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "null_ha",
+     "name": "Ligand heavy-atom count (null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "vina",
+     "name": "AutoDock Vina score (Trott & Olson, 2010)",
+     "role": "anchor"
+    },
+    {
+     "slug": "gnina_cnn",
+     "name": "GNINA CNNaffinity / CNNscore (McNutt et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "boltz2_head",
+     "name": "Boltz-2 affinity head as released (Passaro et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "phys-contact-sysid-loss",
+   "n": 23,
+   "title": "A Loss That Identifies Contact From Real Trajectories",
+   "area": "Physics / System Identification",
+   "question": "From observed contact-rich transitions, design the per-transition loss that recovers geometry, friction and inertia of a structured rigid-body model most accurately and data-efficiently.",
+   "repo": "ebianchi/dair_pll",
+   "settings": [
+    {
+     "name": "cube_real",
+     "display": "real cube tosses, 64 train"
+    },
+    {
+     "name": "elbow_real",
+     "display": "real articulated elbow tosses, 64 train"
+    },
+    {
+     "name": "elbow_lowdata",
+     "display": "real articulated elbow tosses, 32 train"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "ccn",
+     "name": "ContactNets loss (Pfrommer et al., 2020)",
+     "role": "anchor"
+    },
+    {
+     "slug": "diffsim",
+     "name": "DiffSim prediction loss (Bianchini et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "nominal",
+     "name": "poor initial CAD guess, no learning",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.0752118872272172
+  },
+  {
+   "id": "phys-contact-solver",
+   "n": 24,
+   "title": "Solving Frictional Contact Through Products Only",
+   "area": "Physics / Simulation",
+   "question": "Given the Delassus operator only through matrix–vector products, design the solver that returns physically valid contact impulses on slipping, ill-conditioned and resting problems.",
+   "repo": "Simple-Robotics/ContactBench",
+   "settings": [
+    {
+     "name": "slip",
+     "display": "sliding frictional contacts"
+    },
+    {
+     "name": "illcond",
+     "display": "ill-conditioned mass-ratio stacks"
+    },
+    {
+     "name": "resting",
+     "display": "resting-contact stacks"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "null",
+     "name": "zero impulse (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "ncp_pgs",
+     "name": "NCP projected Gauss-Seidel (Le Lidec et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ccp_pgs",
+     "name": "CCP projected Gauss-Seidel (Le Lidec et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "raisim",
+     "name": "RaiSim per-contact bisection solver",
+     "role": "anchor"
+    },
+    {
+     "slug": "ccp_admm",
+     "name": "CCP ADMM (Le Lidec et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.08322107598702899
+  },
+  {
+   "id": "llm-conditional-memory-design",
+   "n": 25,
+   "title": "Where Surface Statistics Should Live",
+   "area": "LLM / Conditional Memory",
+   "question": "Under a fixed backbone and a fixed memory-table parameter budget, design the n-gram-keyed conditional memory that keeps co-occurrence statistics out of the dense weights.",
+   "repo": "karpathy/nanoGPT",
+   "settings": [
+    {
+     "name": "in_domain",
+     "display": "held-out ClimbMix validation loss (6L+12L mean)"
+    },
+    {
+     "name": "wikitext2",
+     "display": "WikiText-2 perplexity (6L+12L mean)"
+    },
+    {
+     "name": "lambada",
+     "display": "LAMBADA perplexity (6L+12L mean)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "no conditional memory, dense null (unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "overencoding",
+     "name": "Over-Tokenized Transformer / OverEncoding (Huang et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "bigram_hash",
+     "name": "bigram-hash memory (modded-nanogpt record #62)",
+     "role": "anchor"
+    },
+    {
+     "slug": "engram",
+     "name": "Engram conditional memory (Cheng et al., 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "cv-model-merge-rule",
+   "n": 26,
+   "title": "Merging Fine-Tuned Encoders Without Labels or Training",
+   "area": "Vision / Model Merging",
+   "question": "Given one pretrained CLIP encoder and N independently fine-tuned copies, design the training-free, label-free weight-space rule that yields one encoder strong on all N tasks.",
+   "repo": "tanganke/fusion_bench",
+   "settings": [
+    {
+     "name": "vit-b32-8task",
+     "display": "CLIP ViT-B/32, 8-task merge accuracy"
+    },
+    {
+     "name": "vit-b32-14task",
+     "display": "CLIP ViT-B/32, 14-task merge accuracy"
+    },
+    {
+     "name": "vit-l14-8task",
+     "display": "CLIP ViT-L/14, 8-task merge accuracy"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "pretrained",
+     "name": "zero-shot CLIP, no merge (Radford et al., 2021; null reference)",
+     "role": "anchor"
+    },
+    {
+     "slug": "average",
+     "name": "Model Soups uniform averaging (Wortsman et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "task_arithmetic",
+     "name": "Task Arithmetic (Ilharco et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ties",
+     "name": "TIES-Merging (Yadav et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "fisher",
+     "name": "Fisher Merging (Matena & Raffel, 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "regmean",
+     "name": "RegMean (Jin et al., 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "agent-alfworld-planning-policy",
+   "n": 27,
+   "title": "Planning Long Household Tasks With a Frozen LM",
+   "area": "Agents / Embodied Planning",
+   "question": "With a frozen open-weight LM and fixed tools, design the planning, tool-selection and replanning policy that solves the most long-horizon tasks under a per-game budget.",
+   "repo": "alfworld/alfworld",
+   "settings": [
+    {
+     "name": "seen-a",
+     "display": "ALFWorld seen games (140), Llama-3.2-3B-Instruct"
+    },
+    {
+     "name": "unseen-a",
+     "display": "ALFWorld unseen games (134), Llama-3.2-3B-Instruct"
+    },
+    {
+     "name": "seen-b",
+     "display": "ALFWorld seen games (140), Qwen2.5-3B-Instruct"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "zeroshot_react",
+     "name": "zero-shot Thought/Action prompting (Fei et al., 2025), unmodified starter",
+     "role": "anchor"
+    },
+    {
+     "slug": "act_only",
+     "name": "Act-only prompting, ReAct ablation (Yao et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "react",
+     "name": "ReAct (Yao et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "reflexion",
+     "name": "Reflexion (Shinn et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "adaplanner",
+     "name": "AdaPlanner (Sun et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "automanual",
+     "name": "AutoManual test-stage Planner (Chen et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.07367353624350934
+  },
+  {
+   "id": "llm-activation-readout-lens",
+   "n": 28,
+   "title": "Reading What a Residual Stream Is Disposed to Say",
+   "area": "LLM / Interpretability",
+   "question": "Design the map that transports a mid-layer residual into the final-layer basis so the model's own unembedding reads out its disposition faithfully.",
+   "repo": "anthropics/jacobian-lens",
+   "settings": [
+    {
+     "name": "model_a",
+     "display": "Qwen3.5-4B: multi-hop, multilingual and order-of-operations lens-eval sets (pass@k AUC)"
+    },
+    {
+     "name": "model_b",
+     "display": "Gemma-3-4B (base): typo, multi-hop, multilingual and order-of-operations sets (pass@k AUC)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "Logit Lens (nostalgebraist, 2020), unmodified starter",
+     "role": "anchor"
+    },
+    {
+     "slug": "null",
+     "name": "final-layer-only readout (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "tuned_lens",
+     "name": "Tuned Lens (Belrose et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "jacobian_lens",
+     "name": "Jacobian Lens, 1000 x 128-token WikiText sequences (Anthropic, 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.08135383262886996
+  },
+  {
+   "id": "ai4bio-genome-coverage-objective",
+   "n": 29,
+   "title": "Shape Versus Magnitude in Coverage Prediction",
+   "area": "AI for Biology / Genomics",
+   "question": "Design the training objective of a sequence-to-coverage head — how shape and magnitude are decomposed — so it predicts held-out experimental coverage best.",
+   "repo": "google-deepmind/alphagenome_research",
+   "settings": [
+    {
+     "name": "rnaseq",
+     "display": "stranded total RNA-seq, 3 samples x 2 strands, whole held-out fold (6,910 intervals)"
+    },
+    {
+     "name": "dnase",
+     "display": "DNase-seq in 6 cell types, whole held-out fold"
+    },
+    {
+     "name": "histone",
+     "display": "K562 histone ChIP, 4 marks (H3K27ac/H3K4me3/H3K36me3/H3K27me3), whole held-out fold"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "AlphaGenome multi-resolution multinomial+Poisson loss (Google DeepMind, 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "poisson_binned",
+     "name": "Enformer/Basenji2 Poisson NLL (Avsec et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "profile_count",
+     "name": "BPNet/ChromBPNet profile+count loss (Avsec et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "poisson_multinomial",
+     "name": "Borzoi Poisson-multinomial loss (Linder et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mse_null",
+     "name": "plain masked MSE (null)",
+     "role": "declared null"
+    }
+   ],
+   "best_score": 0.09431321859239354
+  },
+  {
+   "id": "moe-repetition-regularizer",
+   "n": 30,
+   "title": "Keeping a Sparse Mixture Honest on Repeated Data",
+   "area": "LLM / Mixture of Experts",
+   "question": "When the same tokens are seen 4 to 64 times, design the regulariser that stops experts over-specialising and held-out loss from climbing.",
+   "repo": "karpathy/nanoGPT",
+   "settings": [
+    {
+     "name": "R4",
+     "display": "4x data repetition (210M unique tokens)"
+    },
+    {
+     "name": "R16",
+     "display": "16x data repetition (52M unique tokens)"
+    },
+    {
+     "name": "R64",
+     "display": "64x data repetition (13M unique tokens)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "null",
+     "name": "unregularised top-k MoE (Shazeer et al., 2017), unmodified starter",
+     "role": "declared null"
+    },
+    {
+     "slug": "dropout",
+     "name": "Dropout p=0.1 on expert outputs (Srivastava et al., 2014)",
+     "role": "anchor"
+    },
+    {
+     "slug": "load_balance",
+     "name": "Switch Transformer load-balancing loss (Fedus et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "masking",
+     "name": "router jitter + expert-output masking (Jha et al., 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "chip-macro-placement-search",
+   "n": 31,
+   "title": "Searching Layouts Through a Greedy Decoder",
+   "area": "Chip Design / Placement",
+   "question": "With a fixed wire-mask decoder and a fixed budget of its evaluations, design the black-box search policy that reaches the lowest wirelength — on chips it was not tuned for.",
+   "repo": "lamda-bbo/WireMask-BBO",
+   "settings": [
+    {
+     "name": "set_a",
+     "display": "ISPD-2005 adaptec1 macro placement HPWL, 2,000 decoder evaluations"
+    },
+    {
+     "name": "set_b",
+     "display": "ISPD-2005 bigblue1 macro placement HPWL, 2,000 decoder evaluations"
+    },
+    {
+     "name": "set_c",
+     "display": "ISPD-2005 adaptec3 macro placement HPWL, 2,000 decoder evaluations"
+    },
+    {
+     "name": "set_d",
+     "display": "ISPD-2005 adaptec2 macro placement HPWL, 2,000 decoder evaluations"
+    },
+    {
+     "name": "set_e",
+     "display": "ISPD-2005 adaptec4 macro placement HPWL, 2,000 decoder evaluations"
+    },
+    {
+     "name": "set_f",
+     "display": "ISPD-2005 bigblue3 macro placement HPWL, 2,000 decoder evaluations"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "WireMask-RS random search (Shi et al., 2023), unmodified starter",
+     "role": "anchor"
+    },
+    {
+     "slug": "null",
+     "name": "one random layout, no search (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "bo",
+     "name": "WireMask-BO with TuRBO (Shi et al., 2023; Eriksson et al., 2019)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ea",
+     "name": "WireMask-EA (Shi et al., 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09551339091860678
+  },
+  {
+   "id": "chip-diffusion-placement",
+   "n": 32,
+   "title": "Composing Guidance Forces for Diffusion Placement",
+   "area": "Chip Design / Placement",
+   "question": "Given a fixed pretrained diffusion placement model, design how per-step guidance is computed, composed from placement objectives and scheduled so it transfers across circuits.",
+   "repo": "vint-1/chipdiffusion",
+   "settings": [
+    {
+     "name": "adaptec1",
+     "display": "ISPD-2005 adaptec1, all macros, macro-only HPWL after the ChipDiffusion legalizer"
+    },
+    {
+     "name": "adaptec2",
+     "display": "ISPD-2005 adaptec2, all macros, macro-only HPWL after the ChipDiffusion legalizer"
+    },
+    {
+     "name": "adaptec3",
+     "display": "ISPD-2005 adaptec3, all macros, macro-only HPWL after the ChipDiffusion legalizer"
+    },
+    {
+     "name": "adaptec4",
+     "display": "ISPD-2005 adaptec4, all macros, macro-only HPWL after the ChipDiffusion legalizer"
+    },
+    {
+     "name": "bigblue1",
+     "display": "ISPD-2005 bigblue1, all macros, macro-only HPWL after the ChipDiffusion legalizer"
+    },
+    {
+     "name": "bigblue3",
+     "display": "ISPD-2005 bigblue3, all macros, macro-only HPWL after the ChipDiffusion legalizer"
+    },
+    {
+     "name": "bigblue4",
+     "display": "ISPD-2005 bigblue4, all macros, macro-only HPWL after the ChipDiffusion legalizer"
+    },
+    {
+     "name": "ibm",
+     "display": "ICCAD-04 IBM (ibm01/03/07/10/13/17), macro-only HPWL, geometric mean"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "null",
+     "name": "no guidance, released ChipDiffusion prior only (null)",
+     "role": "declared null"
+    },
+    {
+     "slug": "chipdiffusion",
+     "name": "ChipDiffusion Lagrangian universal guidance (Lee et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "chipdiffusion_sgd",
+     "name": "ChipDiffusion fixed-weight guidance (Lee et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "hpwl_only",
+     "name": "ChipDiffusion guidance without the legality term (Lee et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "legality_only",
+     "name": "ChipDiffusion guidance without the wirelength term (Lee et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000006
+  },
+  {
+   "id": "spec-drafter-block-head",
+   "n": 33,
+   "title": "Reading a Whole Block Off One Drafter Forward",
+   "area": "LLM / Speculative Decoding",
+   "question": "Design the head that reads L future positions from a single drafter forward so accepted tokens per target forward go up.",
+   "repo": "jaymody/speculative-sampling",
+   "settings": [
+    {
+     "name": "s1",
+     "display": "Qwen2.5-7B-Instruct target, frozen Qwen2.5-1.5B-Instruct drafter, block L=8; tau on MT-Bench / GSM8K / HumanEval"
+    },
+    {
+     "name": "s2",
+     "display": "Qwen2.5-7B-Instruct target, frozen Qwen2.5-0.5B-Instruct drafter, block L=16 (DFlash's block size); tau"
+    },
+    {
+     "name": "s3",
+     "display": "Qwen2.5-7B-Instruct / 0.5B drafter, L=8, verification priced (eff_tau)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "no block head, position-1 reuse (null / unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "medusa",
+     "name": "Medusa-1 (Cai et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "dflash",
+     "name": "DFlash (Chen et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "dflash2",
+     "name": "DFlash 2 (Inco AI, 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "dspark",
+     "name": "DSpark (Cheng et al., 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09170986928254936
+  },
+  {
+   "id": "robot-codegen-replan-policy",
+   "n": 34,
+   "title": "When to Ask, Regenerate, or Trust the Program",
+   "area": "Robotics / Code as Policies",
+   "question": "With a frozen coder, a fixed robot API and a per-trial model-call budget, design the per-turn policy — what to prompt, whether to inspect the scene, when to regenerate.",
+   "repo": "capgym/cap-x",
+   "settings": [
+    {
+     "name": "spill_wipe",
+     "display": "RoboSuite CaP-Bench spill_wipe success"
+    },
+    {
+     "name": "cube_restack",
+     "display": "RoboSuite CaP-Bench cube_restack success"
+    },
+    {
+     "name": "spill_wipe_large",
+     "display": "spill_wipe with 1.5x longer spill"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "single_shot",
+     "name": "single-turn Code-as-Policies, CaP-X S1 (Fu et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "multi_turn_text",
+     "name": "CaP-Agent0 multi-turn console feedback, M1 (Fu et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "multi_turn_vdm",
+     "name": "CaP-Agent0 multi-turn + visual differencing, M3 (Fu et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ensemble_synthesis",
+     "name": "CaP-Agent0 M3 + parallel-candidate synthesis (Fu et al., 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09155513251609379
+  },
+  {
+   "id": "ai4sci-inverse-diffusion-algo",
+   "n": 35,
+   "title": "Posterior Sampling With a Frozen Diffusion Prior",
+   "area": "AI for Science / Inverse Problems",
+   "question": "With a frozen diffusion prior and a known forward operator, design the per-step measurement guidance that solves scattering, black-hole imaging and inpainting inverse problems.",
+   "repo": "devzhk/InverseBench",
+   "settings": [
+    {
+     "name": "inv-scatter",
+     "display": "InverseBench inverse scattering (360 receivers), PSNR"
+    },
+    {
+     "name": "blackhole",
+     "display": "InverseBench EHT black-hole imaging, 100% observation time; PSNR + closure chi-square (geometric mean over images)"
+    },
+    {
+     "name": "blackhole-10pct",
+     "display": "InverseBench EHT black-hole imaging, 10% observation time; PSNR + closure chi-square (geometric mean over images)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "dps",
+     "name": "DPS, Diffusion Posterior Sampling (Chung et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "reddiff",
+     "name": "RED-diff (Mardani et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "lgd",
+     "name": "LGD, Loss-Guided Diffusion (Song et al., 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.08753952742958591
+  },
+  {
+   "id": "robo-humanoid-sim2real-algo",
+   "n": 36,
+   "title": "Training a Humanoid Gait That Survives the Simulator Gap",
+   "area": "Robotics / Locomotion Sim-to-Real",
+   "question": "With Humanoid-Gym's environment, rewards, command distribution and Isaac Gym → MuJoCo evaluation fixed, design how the policy uses privileged simulator state and proprioceptive history during training so that the gait transfers and survives pushes, an added payload and high-speed commands.",
+   "repo": "roboterax/humanoid-gym",
+   "settings": [
+    {
+     "name": "push-recovery",
+     "display": "MuJoCo, mixed commands under random pushes beyond the training range (survival)"
+    },
+    {
+     "name": "payload-shift",
+     "display": "MuJoCo, forward commands with a base payload beyond the training mass range"
+    },
+    {
+     "name": "high-speed",
+     "display": "MuJoCo, high forward-speed commands"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "Humanoid-Gym stock PPO, asymmetric actor-critic with privileged critic (Gu et al., 2024; Pinto et al., 2017)",
+     "role": "anchor"
+    },
+    {
+     "slug": "symmetric_critic",
+     "name": "symmetric actor-critic, critic sees only the policy's observation (Pinto et al., 2017, ablation)",
+     "role": "anchor"
+    },
+    {
+     "slug": "rma",
+     "name": "Rapid Motor Adaptation, privileged extrinsics + adaptation module from history (Kumar et al., 2021)",
+     "role": "anchor"
+    },
+    {
+     "slug": "dreamwaq",
+     "name": "DreamWaQ, context-aided velocity/latent estimator (Nahrendra et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "him",
+     "name": "Hybrid Internal Model estimator over proprioceptive history (Long et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.046415888336127795
+  },
+  {
+   "id": "ai4bio-protein-inverse-folding",
+   "n": 37,
+   "title": "Encoding a Backbone Graph for Inverse Folding",
+   "area": "AI for Biology / Protein Design",
+   "question": "Design the structure encoder that turns a 3D backbone graph into per-residue embeddings rich enough to recover the sequence.",
+   "repo": "A4Bio/ProteinInvBench",
+   "settings": [
+    {
+     "name": "CATH4.2",
+     "display": "CATH 4.2 recovery / perplexity"
+    },
+    {
+     "name": "CATH4.3",
+     "display": "CATH 4.3 recovery / perplexity"
+    },
+    {
+     "name": "TS50",
+     "display": "TS50 de novo test set (CATH 4.2 train)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "proteinmpnn",
+     "name": "ProteinMPNN (Dauparas et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "pifold",
+     "name": "PiFold (Gao et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "gvp",
+     "name": "GVP (Jing et al., 2021)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "marl-centralized-critic",
+   "n": 38,
+   "title": "What the Centralised Critic Should See",
+   "area": "Reinforcement Learning / Multi-Agent",
+   "question": "With the actor, learner and environment fixed on SMAC maps, design the centralised critic — its architecture and inputs — that trains cooperative policies best.",
+   "repo": "uoe-agents/epymarl",
+   "settings": [
+    {
+     "name": "3s5z_vs_3s6z",
+     "display": "SMAC 3s5z_vs_3s6z (super-hard), SMAClite, 10M steps"
+    },
+    {
+     "name": "corridor",
+     "display": "SMAC corridor (super-hard), SMAClite, 10M steps"
+    },
+    {
+     "name": "3s_vs_5z",
+     "display": "SMAC 3s_vs_5z (hard), SMAClite, 10M steps"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "centralised V critic on the global state plus agent id: EPyMARL's CentralV without the joint last action (unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ippo_critic",
+     "name": "IPPO decentralized critic (Yu et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mappo_critic",
+     "name": "MAPPO centralized-V critic (Yu et al., 2022)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.046415888336127795
+  },
+  {
+   "id": "rl-offline-adroit",
+   "n": 39,
+   "title": "Offline RL on Narrow Dexterous-Manipulation Data",
+   "area": "Reinforcement Learning / Offline RL",
+   "question": "On Adroit datasets with narrow support, design the offline algorithm that extracts a strong policy without querying out-of-distribution actions.",
+   "repo": "corl-team/CORL",
+   "settings": [
+    {
+     "name": "pen-human-v1",
+     "display": "D4RL Adroit pen-human-v1 (25 human demos)"
+    },
+    {
+     "name": "pen-cloned-v1",
+     "display": "D4RL Adroit pen-cloned-v1 (demos + BC-policy rollouts)"
+    },
+    {
+     "name": "pen-expert-v1",
+     "display": "D4RL Adroit pen-expert-v1 (expert-policy rollouts)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "iql",
+     "name": "IQL (Kostrikov et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "awac",
+     "name": "AWAC (Nair et al., 2020)",
+     "role": "anchor"
+    },
+    {
+     "slug": "rebrac",
+     "name": "ReBRAC (Tarasov et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "bc",
+     "name": "BC (reference; CORL any_percent_bc, Tarasov et al., 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.0901987170079525
+  },
+  {
+   "id": "cv-3dgs-densification",
+   "n": 40,
+   "title": "When and Where to Add Gaussians",
+   "area": "Vision / 3D Gaussian Splatting",
+   "question": "Under a fixed training and rendering pipeline, design the densification strategy that improves novel-view quality on real scenes.",
+   "repo": "nerfstudio-project/gsplat",
+   "settings": [
+    {
+     "name": "garden",
+     "display": "Mip-NeRF 360 garden (images_4), test PSNR after 30k steps"
+    },
+    {
+     "name": "bicycle",
+     "display": "Mip-NeRF 360 bicycle (images_4), test PSNR after 30k steps"
+    },
+    {
+     "name": "stump",
+     "display": "Mip-NeRF 360 stump (images_4), test PSNR after 30k steps"
+    },
+    {
+     "name": "bonsai",
+     "display": "Mip-NeRF 360 bonsai (images_2), test PSNR after 30k steps"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "3DGS adaptive density control (Kerbl et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "absgrad",
+     "name": "AbsGS (Ye et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mcmc",
+     "name": "3DGS-MCMC (Kheradmand et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000006
+  },
+  {
+   "id": "llm-scaling-law-discovery",
+   "n": 41,
+   "title": "Discovering the Scaling Law From the Table",
+   "area": "Scaling Laws",
+   "question": "From a measured table of runs, discover the functional form — vocabulary, learning-rate/batch, data-constrained — that extrapolates to held-out configurations.",
+   "repo": "—",
+   "settings": [
+    {
+     "name": "sld-vocab",
+     "display": "SLDBench vocabulary scaling law"
+    },
+    {
+     "name": "sld-lrbsz",
+     "display": "SLDBench learning-rate/batch-size scaling law"
+    },
+    {
+     "name": "sld-dataconstrained",
+     "display": "SLDBench data-constrained scaling law"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "human_exact",
+     "name": "the published human laws, exact forms refit: Tao et al. 2024 (vocab) / SLDBench Expert B (lr&bsz) / Muennighoff et al. 2023 (data-constrained)",
+     "role": "anchor"
+    },
+    {
+     "slug": "chinchilla",
+     "name": "Chinchilla law L = E + A/N^a + B/D^b (Hoffmann et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "loglinear_ridge",
+     "name": "SLDAgent's discovered lr&bsz law, log-linear ridge with quadratic + interaction terms (Lin et al., 2025, App. B.3.1); the same recipe on the other families",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.04395204143308337
+  },
+  {
+   "id": "pde-design-solver",
+   "n": 42,
+   "title": "One Operator for Car and Airfoil Fields",
+   "area": "AI for Science / Neural Operators",
+   "question": "Design the architecture that maps an irregular mesh or point cloud to steady-state flow fields on car bodies and airfoils, including angles of attack outside the training range.",
+   "repo": "thuml/Neural-Solver-Library",
+   "settings": [
+    {
+     "name": "Car",
+     "display": "ShapeNet-Car pressure + velocity and drag (Transolver protocol)"
+    },
+    {
+     "name": "AirfRANS",
+     "display": "AirfRANS full split, fields + lift (Transolver / AirfRANS protocol)"
+    },
+    {
+     "name": "AirfRANS-AoA",
+     "display": "AirfRANS angle-of-attack extrapolation split (Bonnet et al., 2022)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "pointnet",
+     "name": "PointNet (Qi et al., 2017)",
+     "role": "anchor"
+    },
+    {
+     "slug": "graphsage",
+     "name": "GraphSAGE (Hamilton et al., 2017)",
+     "role": "anchor"
+    },
+    {
+     "slug": "transolver",
+     "name": "Transolver (Wu et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.07521387795840076
+  },
+  {
+   "id": "jepa-planning",
+   "n": 43,
+   "title": "Planning in a Frozen JEPA World Model",
+   "area": "World Models / Planning",
+   "question": "With the JEPA world models fixed, design the planner that chooses action sequences in latent space, under the same model-call budget as the published planners, across navigation and manipulation.",
+   "repo": "facebookresearch/jepa-wms + facebookresearch/eb_jepa",
+   "settings": [
+    {
+     "name": "two-rooms",
+     "display": "EB-JEPA Two Rooms navigation, start and goal in opposite rooms, 100-step allowance"
+    },
+    {
+     "name": "pusht",
+     "display": "DINO-WM Push-T (JEPA-WMs release), expert goals 30 steps ahead"
+    },
+    {
+     "name": "wall",
+     "display": "DINO-WM Wall (JEPA-WMs release), random start and goal states"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "random_shooting",
+     "name": "random-shooting MPC (Nagabandi et al., 2018)",
+     "role": "anchor"
+    },
+    {
+     "slug": "cem",
+     "name": "Cross-Entropy Method (EB-JEPA / JEPA-WMs CEM planners)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mppi",
+     "name": "MPPI with elites (EB-JEPA MPPI planner and config)",
+     "role": "anchor"
+    },
+    {
+     "slug": "icem",
+     "name": "iCEM (Pinneri et al., 2020)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.08634383879311798
+  },
+  {
+   "id": "llm-dllm-demask-strategy",
+   "n": 44,
+   "title": "Which Tokens to Unmask Next",
+   "area": "LLM / Diffusion Language Models",
+   "question": "Design the demasking order and schedule for diffusion LMs — block-wise for accuracy on LLaDA, fully parallel for open-ended text on Dream.",
+   "repo": "ML-GSAI/LLaDA",
+   "settings": [
+    {
+     "name": "llada-math",
+     "display": "LLaDA-8B-Instruct, MATH-500, accuracy and model calls (KLASS protocol)"
+    },
+    {
+     "name": "llada-humaneval",
+     "display": "LLaDA-8B-Instruct, HumanEval, pass@1 and model calls (KLASS protocol)"
+    },
+    {
+     "name": "mdlm-owt",
+     "display": "MDLM-OWT, 1,000 unconditional 1,024-token samples at 512 steps, MAUVE with an entropy guard (KLASS Sec. 6.2)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "random_remask",
+     "name": "random-order decoding: LLaDA random remasking / MDLM ancestral sampler (Nie et al., 2025; Sahoo et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "topk_margin",
+     "name": "Dream top-k margin decoding (Ye et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "confidence_greedy",
+     "name": "LLaDA low-confidence remasking (Nie et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "klass",
+     "name": "KLASS (Kim et al., 2025; unmodified starter)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09273246723458893
+  },
+  {
+   "id": "llm-pretrain-linear-attention",
+   "n": 45,
+   "title": "A Linear-Attention Layer That Pretrains Well",
+   "area": "LLM / Linear Attention",
+   "question": "Design the linear-attention token mixer — retention, gating, delta rule or new — that pretrains a 345M model to the best language quality.",
+   "repo": "karpathy/nanoGPT",
+   "settings": [
+    {
+     "name": "gpt-345m",
+     "display": "345M GPT pretraining loss and perplexity"
+    },
+    {
+     "name": "lm-eval-345m",
+     "display": "345M zero-shot lm-eval, the linear-attention papers' table (LAMBADA acc, PIQA, HellaSwag, ARC-e; WinoGrande and ARC-c reported)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "retnet",
+     "name": "RetNet multi-scale retention (Sun et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "deltanet",
+     "name": "DeltaNet (Yang et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "gla",
+     "name": "Gated Linear Attention (Yang et al., 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09221021117052347
+  },
+  {
+   "id": "ai4sci-climate-emulation",
+   "n": 46,
+   "title": "An Emulator That Transfers Across Climate Regimes",
+   "area": "AI for Science / Climate",
+   "question": "On ClimSim's own training split at a fixed 5-epoch budget, design the architecture that maps a column state to sub-grid physics tendencies and still predicts well on warm, land and polar regimes it was not trained on.",
+   "repo": "leap-stc/ClimSim",
+   "settings": [
+    {
+     "name": "holdout-warm",
+     "display": "held-out warm columns (ClimSim 7-year stride-7 train split, test years 0009-03..0011-02, 5 epochs)"
+    },
+    {
+     "name": "holdout-land",
+     "display": "held-out land columns (same split and budget)"
+    },
+    {
+     "name": "holdout-polar",
+     "display": "held-out polar columns (same split and budget)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "cnn",
+     "name": "ClimSim reference 1-D ResNet CNN (Yu et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ed",
+     "name": "ClimSim reference encoder–decoder (Yu et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "unet",
+     "name": "ClimSim-Unet (Hu et al., 2024)",
+     "role": "anchor"
+    },
+    {
+     "slug": "hsr",
+     "name": "ClimSim heteroskedastic regression (Yu et al., 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "ai4sci-vs-contrastive-scoring",
+   "n": 47,
+   "title": "Embedding Geometry for Virtual Screening",
+   "area": "AI for Science / Drug Discovery",
+   "question": "Design the projection heads, embedding geometry and contrastive loss that align molecule and protein encoders for virtual-screening ranking.",
+   "repo": "jianhuiwemi/HypSeek",
+   "settings": [
+    {
+     "name": "dude",
+     "display": "DUD-E virtual screening, 102 targets"
+    },
+    {
+     "name": "dekois",
+     "display": "DEKOIS 2.0 virtual screening"
+    },
+    {
+     "name": "lit-pcba",
+     "display": "LIT-PCBA virtual screening, 15 targets"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "vanilla_clip",
+     "name": "DrugCLIP-style CLIP contrastive loss (Gao et al., 2023), unmodified starter",
+     "role": "anchor"
+    },
+    {
+     "slug": "hcc",
+     "name": "HypSeek HCC loss, Euclidean (Wang et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "hcc_hyp_cone",
+     "name": "full HypSeek: hyperbolic HCC + cone hierarchy (Wang et al., 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.07767739990786107
+  },
+  {
+   "id": "security-machine-unlearning",
+   "n": 48,
+   "title": "Unlearning a Random Tenth of the Data",
+   "area": "Security / Machine Unlearning",
+   "question": "Given the trained model, its retain and forget sets and SalUn's training budget (an update of the trained model, at most ten passes over the retained data), design the unlearning update whose result is closest to retraining from scratch without the forget set.",
+   "repo": "OPTML-Group/Unlearn-Saliency",
+   "settings": [
+    {
+     "name": "resnet18-cifar10-random10",
+     "display": "ResNet-18 CIFAR-10, forget a random 10% of the training set"
+    },
+    {
+     "name": "resnet18-cifar100-random10",
+     "display": "ResNet-18 CIFAR-100, forget a random 10%"
+    },
+    {
+     "name": "resnet18-cifar10-random50",
+     "display": "ResNet-18 CIFAR-10, forget a random 50%"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "original",
+     "name": "no unlearning, the Original model (null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ft",
+     "name": "FT, fine-tune on the retain set (Warnecke et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ga",
+     "name": "GA, gradient ascent on the forget set (Thudi et al., 2022)",
+     "role": "anchor"
+    },
+    {
+     "slug": "rl",
+     "name": "RL, random labelling (Golatkar et al., 2020)",
+     "role": "anchor"
+    },
+    {
+     "slug": "l1_sparse",
+     "name": "l1-sparse fine-tuning (Jia et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "salun",
+     "name": "SalUn, saliency-masked random labelling (Fan et al., 2024)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09886050386201858
+  },
+  {
+   "id": "optimization-parity",
+   "n": 49,
+   "title": "Which Training Distribution Lets SGD Find a Sparse Parity",
+   "area": "Optimization / Feature Learning",
+   "question": "With the two-layer MLP, its initialisation, AdamW and the step budget all fixed, design the rule that decides which inputs a network trains on, in what order and with what repetition, so the parity's long plateau ends soonest.",
+   "repo": "pytorch/examples",
+   "settings": [
+    {
+     "name": "n32-k8",
+     "display": "32-bit inputs, 8-sparse parity"
+    },
+    {
+     "name": "n50-k8",
+     "display": "50-bit inputs, 8-sparse parity"
+    },
+    {
+     "name": "n64-k8",
+     "display": "64-bit inputs, 8-sparse parity"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "uniform_onepass",
+     "name": "online SGD on fresh uniform samples, one pass (Barak et al., 2022; null)",
+     "role": "anchor"
+    },
+    {
+     "slug": "uniform_repeat",
+     "name": "finite uniform sample, multi-pass repetition (Edelman et al., 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "batch_reuse",
+     "name": "two gradient steps per fresh minibatch (repetition line, 2024–2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mixed_inputs",
+     "name": "mixed sparse+uniform inputs, no ordering (Abbe, Cornacchia & Lotfi, 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "sparse_first_curriculum",
+     "name": "sparse-inputs-first curriculum (Abbe, Cornacchia & Lotfi, 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "two_step_curriculum",
+     "name": "2-steps curriculum, 2-CL (Cornacchia & Mossel, 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "continuous_curriculum",
+     "name": "continuous curriculum, C-CL (Cornacchia & Mossel, 2023)",
+     "role": "anchor"
+    },
+    {
+     "slug": "degree_curriculum",
+     "name": "Hamming balls of increasing radius, Degree-Curriculum (Cornacchia & Mossel, 2023)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000006
+  },
+  {
+   "id": "vla-smolvla-realtime-chunking",
+   "n": 50,
+   "title": "Handing Over an Action Chunk While the World Moves",
+   "area": "Embodied AI / VLA Inference",
+   "question": "A flow-based VLA plans an action chunk from an observation that is already d steps stale when the chunk arrives; with the policy and the delay fixed, design the rule at the chunk boundary — what to freeze, what to inpaint, how to blend — so execution stays smooth and success survives the delay.",
+   "repo": "huggingface/lerobot",
+   "settings": [
+    {
+     "name": "delay_a",
+     "display": "LIBERO-Spatial, inference delay 2 steps"
+    },
+    {
+     "name": "delay_b",
+     "display": "LIBERO-Spatial, delay 8 steps"
+    },
+    {
+     "name": "delay_c",
+     "display": "LIBERO-Spatial, delay 15 steps"
+    },
+    {
+     "name": "delay_x",
+     "display": "LIBERO-Object, delay 8 steps"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "naive_async",
+     "name": "naive asynchronous chunk switch, SmolVLA default (Shukor et al., 2025; unmodified starter)",
+     "role": "anchor"
+    },
+    {
+     "slug": "temporal_ensemble",
+     "name": "temporal ensembling, ACT (Zhao et al., 2023; lerobot ACTTemporalEnsembler)",
+     "role": "anchor"
+    },
+    {
+     "slug": "rtc_soft",
+     "name": "IT-RTC soft-mask inpainting as lerobot's RTCProcessor runs it (Black et al., 2025; arXiv:2605.08168 protocol)",
+     "role": "anchor"
+    },
+    {
+     "slug": "rtc_hard",
+     "name": "hard-mask inpainting, RTC's own ablation (Black et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "rtc_soft_vjp",
+     "name": "real-time chunking, the paper's Kinetix reference with full VJP guidance (Black et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "delay_unaware",
+     "name": "fresh chunk executed from step 0, replaying the elapsed actions (null)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.05210526567404808
+  },
+  {
+   "id": "vla-smolvla-rl-chunk-objective",
+   "n": 51,
+   "title": "Teaching a Chunked Flow Policy From Success Alone",
+   "area": "Embodied AI / VLA Reinforcement Learning",
+   "question": "With the imitation-trained SmolVLA, the online rollout budget in the simulator and a binary success reward fixed, design the policy-gradient objective over action chunks — how the advantage is estimated and assigned at chunk or trajectory level, and what likelihood surrogate the flow-matching expert gets — so that task success rises most reliably above the imitation policy.",
+   "repo": "huggingface/lerobot",
+   "settings": [
+    {
+     "name": "setting_a",
+     "display": "LIBERO-Spatial, 960 rollout episodes (10 iterations)"
+    },
+    {
+     "name": "setting_b",
+     "display": "LIBERO-Goal, 960 rollout episodes (10 iterations)"
+    },
+    {
+     "name": "setting_c",
+     "display": "LIBERO-Spatial, 480 rollout episodes (half budget)"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "sft_only",
+     "name": "the imitation policy unchanged, no RL (null; the SFT row of the papers)",
+     "role": "anchor"
+    },
+    {
+     "slug": "rloo_ript",
+     "name": "RIPT-VLA: leave-one-out advantages over K rollouts of one initial state, PPO clipping, rejection of uninformative groups (Tan et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "grpo_simplevla",
+     "name": "SimpleVLA-RL: group-relative advantages with clip-higher and no KL (Li et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ppo_flow_sde",
+     "name": "πRL Flow-SDE: ODE-to-SDE likelihood for the flow expert, PPO with a learned value (Chen et al., 2025; Flow-GRPO, Liu et al., 2025)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.10000000000000002
+  },
+  {
+   "id": "llm-rl-mismatch-correction",
+   "n": 52,
+   "title": "Keeping LLM RL Stable When the Sampler Is Not the Trainer",
+   "area": "LLM Reinforcement Learning / Off-policy Correction",
+   "question": "With the model, data, reward, RL loop and an imposed sampler–trainer mismatch fixed, design the per-token correction to the policy-gradient objective — from the trainer's and the sampler's log-probs, the sampler's top-K log-probs and the advantage — so that training stays stable and reward keeps rising as the mismatch grows.",
+   "repo": "martin-marek/score-centering",
+   "settings": [
+    {
+     "name": "mismatch_a",
+     "display": "Qwen3-0.6B on Countdown, sampler weight noise 0.02, 300 steps"
+    },
+    {
+     "name": "mismatch_b",
+     "display": "sampler weight noise 0.05, 300 steps"
+    },
+    {
+     "name": "mismatch_c",
+     "display": "stale bf16 sampler, re-synchronised from the trainer only every 65 steps, 600 steps"
+    },
+    {
+     "name": "mismatch_x",
+     "display": "int8 weights, activations and KV cache in the sampler against a bf16 trainer, 400 steps"
+    }
+   ],
+   "baselines": [
+    {
+     "slug": "pg",
+     "name": "uncorrected REINFORCE with group-centred rewards (null; Williams, 1992)",
+     "role": "anchor"
+    },
+    {
+     "slug": "naive_is",
+     "name": "naive per-token importance sampling, unclipped",
+     "role": "anchor"
+    },
+    {
+     "slug": "tis",
+     "name": "truncated importance sampling, clip 2 (Yao et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "mis",
+     "name": "masked importance sampling, IcePop band [0.5, 5] (Ling Team, 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "ppo",
+     "name": "PPO clipped surrogate [0.8, 1.2] with dual clip (Schulman et al., 2017)",
+     "role": "anchor"
+    },
+    {
+     "slug": "gspo",
+     "name": "GSPO sequence-level ratio band with dual clip (Zheng et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "topr",
+     "name": "TOPR sequence-level clipping on negatives (Le Roux et al., 2025)",
+     "role": "anchor"
+    },
+    {
+     "slug": "dppo",
+     "name": "DPPO binary total-variation band, pessimistic (Qi et al., 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "sc",
+     "name": "score centering with a top-128 tail model (Marek & Ryabinin, 2026)",
+     "role": "anchor"
+    },
+    {
+     "slug": "tis_sc",
+     "name": "score centering composed with truncated importance sampling (Marek & Ryabinin, 2026)",
+     "role": "anchor"
+    }
+   ],
+   "best_score": 0.09977817734738385
+  }
+ ]
+}
