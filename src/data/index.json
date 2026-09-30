@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-30T23:57:55",
+ "generated": "2026-09-30T23:58:43",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-two machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 36 of the 50 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-two self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -26,36 +26,44 @@
      "display": "Mistral-7B-Instruct-v0.2, LongBench LCC/RepoBench-P, 64 fp16-entry KV budget per head (PyramidKV KV=64)"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/llm-kv-precision-vs-count.webp",
+    "caption": "Precision–Context Trade-offs in KV Caching",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 137898
+   },
    "baselines": [
     {
      "slug": "evict_fp16",
      "name": "SnapKV (Li et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "evict_int8",
      "name": "Quantized pruning, 8-bit (Zhang et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "evict_int4",
      "name": "Quantized pruning, 4-bit (Zhang et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "evict_int2",
      "name": "Quantized pruning extended to 2-bit (after Zhang et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "kivi2",
      "name": "KIVI (Liu et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "zipcache",
      "name": "ZipCache (He et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.0796901817057929
@@ -81,21 +89,44 @@
      "display": "OPT-1.3B, 2:4 semi-structured"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/llm-prune-oneshot-criterion.webp",
+    "caption": "Preserving Language Models under One-Shot Pruning",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 26078
+   },
    "baselines": [
     {
      "slug": "wanda",
      "name": "Wanda (Sun et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ria",
      "name": "RIA (Zhang et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "sparsegpt",
      "name": "SparseGPT (Frantar & Alistarh, 2023)",
-     "role": "anchor"
+     "role": "baseline"
+    },
+    {
+     "slug": "default",
+     "name": "magnitude pruning (unmodified starter)",
+     "role": "baseline"
+    },
+    {
+     "slug": "random_null",
+     "name": "random mask",
+     "role": "baseline"
+    },
+    {
+     "slug": "ri_only",
+     "name": "Relative Importance only, RIA ablation (Zhang et al., 2024)",
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -125,26 +156,34 @@
      "display": "zero-shot ARC-Easy/Challenge, HellaSwag, PIQA, WinoGrande, OpenBookQA and MMLU (cloze) of the recovered models"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/llm-gqa-to-mla-conversion.webp",
+    "caption": "Retrofitting Latent Attention into Pretrained Language Models",
+    "width": 1600,
+    "height": 711,
+    "bytes": 64472
+   },
    "baselines": [
     {
      "slug": "naive_svd",
      "name": "S_high + SVD_split, MHA2MLA's ablation (Ji et al., 2025; unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mha2mla",
      "name": "MHA2MLA (Ji et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "transmla",
      "name": "TransMLA (Meng et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "care",
      "name": "CARE-E (Zhou et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09904846900281776
@@ -170,31 +209,39 @@
      "display": "LayerSkip Llama-3-8B, CNN/DailyMail 1-shot generation, depth budget 0.30"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/llm-early-exit-criterion.webp",
+    "caption": "Allocating Decoder Depth across Tokens",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 30714
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "CALM max-softmax confidence, t5x softmax_max (unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "calm_softmax",
      "name": "CALM softmax response, position-adjusted threshold (Schuster et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "calm_saturation",
      "name": "CALM hidden-state saturation, pre-norm states (Schuster et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "layerskip_fixed",
      "name": "LayerSkip fixed-layer early exit, budget-matched (Elhoushi et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "random_depth",
      "name": "random per-token exits (null)",
-     "role": "declared null"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -220,31 +267,39 @@
      "display": "recall: SQuAD-completion on answerable items + RULER S-NIAH-2/3 teacher-forced answer NLL (SWDE / FDA / S-NIAH-1 reported)"
     }
    ],
+   "gpus": 4,
+   "image": {
+    "src": "task-images/llm-linattn-state-size-structure.webp",
+    "caption": "Long-Context Recall with Fixed Recurrent Memory",
+    "width": 1600,
+    "height": 667,
+    "bytes": 21414
+   },
    "baselines": [
     {
      "slug": "hebbian",
      "name": "linear attention, additive Hebbian write (Katharopoulos et al., 2020) (null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "delta_net",
      "name": "DeltaNet (Yang et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "abc",
      "name": "ABC bounded-memory slots (Peng et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "gsa",
      "name": "Gated Slot Attention (Zhang et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mom",
      "name": "Mixture-of-Memories with its load-balancing loss (Du et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09496344100190655
@@ -270,26 +325,34 @@
      "display": "recall: SWDE / SQuAD-completion on answerable items + RULER S-NIAH-1/2/3 teacher-forced answer NLL"
     }
    ],
+   "gpus": 4,
+   "image": {
+    "src": "task-images/llm-hybrid-layer-composition.webp",
+    "caption": "Combining Exact and Compressed Language-Model Memory",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 50590
+   },
    "baselines": [
     {
      "slug": "all_attn",
      "name": "all softmax attention, Transformer++ (null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "samba",
      "name": "Samba interleave (Ren et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "jamba",
      "name": "Jamba 1:7 attention block (Lieber et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "all_gdn",
      "name": "all Gated DeltaNet layers (Yang et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.0663900743312968
@@ -319,41 +382,49 @@
      "display": "the rule trained on the frozen Ouro-2.6B, GSM8K at 2.5 loops per generated token"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/llm-looped-token-depth.webp",
+    "caption": "Adaptive Token-wise Computation in Looped Language Models",
+    "width": 1600,
+    "height": 800,
+    "bytes": 92318
+   },
    "baselines": [
     {
      "slug": "uniform",
      "name": "Static depth, every token the same steps (Zhu et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ouro_gate_stock",
      "name": "Released exit gate with Q-exit (Zhu et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ouro_gate_trained",
      "name": "Adaptive-exit gate training on the frozen LM (Zhu et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "hidden_state_diff",
      "name": "Hidden-state difference exit, relative form (Zhu et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mor_expert_choice",
      "name": "MoR-style selection-only expert-choice router on the frozen backbone (after Bae et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mor_token_choice",
      "name": "MoR-style selection-only token-choice router on the frozen backbone (after Bae et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "recurtrace_head",
      "name": "Oracle-distilled halting head (RecurTrace, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09498119880784961
@@ -379,26 +450,34 @@
      "display": "CIFAR-10 MLP, width 4096"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/dl-optim-mup-parametrization.webp",
+    "caption": "Zero-Shot Hyperparameter Transfer for Neural Scaling",
+    "width": 1600,
+    "height": 800,
+    "bytes": 123842
+   },
    "baselines": [
     {
      "slug": "sp",
      "name": "standard parametrization (Yang & Hu, 2022) (null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mup",
      "name": "muP (Yang & Hu, 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ntk",
      "name": "neural tangent parametrization (Jacot et al., 2018)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "sp_lr_over_width",
      "name": "SP with LR scaled 1/width (folk heuristic)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -424,36 +503,44 @@
      "display": "MNIST, init scale 12, 1000 train points"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/dl-dynamics-grokking-transition.webp",
+    "caption": "Accelerating the Grokking Transition",
+    "width": 1600,
+    "height": 900,
+    "bytes": 124252
+   },
    "baselines": [
     {
      "slug": "adam_nowd",
      "name": "Adam, no weight decay (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "adamw",
      "name": "AdamW, wd 0.01 (Loshchilov & Hutter, 2019)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "sphere_fixed",
      "name": "Omnigrok fixed-norm sphere (Liu et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "grokfast_ma",
      "name": "Grokfast MA filter (Lee et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "grokfast_ema",
      "name": "Grokfast EMA filter (Lee et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "goldilocks_project",
      "name": "Omnigrok Goldilocks-norm projection (Liu et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -475,31 +562,39 @@
      "display": "S5 word problem (120 states, non-solvable)"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/theory-semiautomata.webp",
+    "caption": "Learning Sequential Computations with Parallel Networks",
+    "width": 1600,
+    "height": 800,
+    "bytes": 38658
+   },
    "baselines": [
     {
      "slug": "transformer",
      "name": "depth-1 Transformer (Liu et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "transformer_deep",
      "name": "depth-8 Transformer (Liu et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "looped_transformer",
      "name": "Looped Transformer, 8 iterations (Giannou et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "diag_ssm",
      "name": "gated diagonal linear recurrence (Gu & Dao, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "token_mlp",
      "name": "position-wise token MLP (null)",
-     "role": "declared null"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09643232216362847
@@ -525,26 +620,34 @@
      "display": "Llama-2-7B on MetaMathQA-100K, GSM8K greedy exact match"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/theory-lora-gradient-init.webp",
+    "caption": "Initializing LoRA in Useful Update Subspaces",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 53532
+   },
    "baselines": [
     {
      "slug": "lora_default",
      "name": "LoRA default init (Hu et al., 2022) (unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "pissa",
      "name": "PiSSA (Meng et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "lora_ga",
      "name": "LoRA-GA (Wang et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "lora_one",
      "name": "LoRA-One (Zhang et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.08031181094749457
@@ -570,21 +673,29 @@
      "display": "CIFAR-10, UNet 192 channels"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/cv-flowmaps-training.webp",
+    "caption": "Learning Few-Step Generators without Pretrained Teachers",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 40850
+   },
    "baselines": [
     {
      "slug": "lsd",
      "name": "Lagrangian self-distillation (Boffi et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "psd_uniform",
      "name": "Progressive self-distillation, uniform (Boffi et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "psd_midpoint",
      "name": "Progressive self-distillation, midpoint (Boffi et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -610,21 +721,29 @@
      "display": "FFHQ 64x64, 6 NFE"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/cv-diffsolver-multistep-update.webp",
+    "caption": "Diffusion Sampling with Few Model Evaluations",
+    "width": 1600,
+    "height": 900,
+    "bytes": 90566
+   },
    "baselines": [
     {
      "slug": "ddim",
      "name": "DDIM / Euler (Song et al., 2021) (unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ipndm",
      "name": "iPNDM (Liu et al., 2022; Zhang & Chen, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "deis_tab3",
      "name": "DEIS tAB3 (Zhang & Chen, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -646,26 +765,39 @@
      "display": "ImageNet 32x32, 150k-step training; FID@50k at Euler 8/16/50 NFE + dopri5"
     }
    ],
+   "gpus": 2,
+   "image": {
+    "src": "task-images/fm-probability-path.webp",
+    "caption": "Probability Paths for Few-Step Generation",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 126178
+   },
    "baselines": [
     {
      "slug": "linear",
      "name": "Independent coupling + conditional-OT linear path (Lipman et al., 2023) (unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "vp-trigonometric",
      "name": "VP trigonometric path (Albergo & Vanden-Eijnden, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "stochastic-interpolant",
      "name": "Stochastic interpolant, latent bridge gamma=t(1-t) (Albergo et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ot-cfm",
      "name": "OT-CFM, minibatch OT coupling + linear path (Tong et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
+    },
+    {
+     "slug": "vp-sde",
+     "name": "Reversed VP diffusion path, beta 0.1 to 20 (Lipman et al., 2023, eq. 19)",
+     "role": "baseline"
     }
    ],
    "best_score": 0.07352621907921465
@@ -691,41 +823,49 @@
      "display": "full CIFAR-10, ResNet-18 victim with PGD adversarial training rho_a = 4/255 (Fu et al. App. A.4, 40k iterations)"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/security-availability-poisoning.webp",
+    "caption": "Disrupting Learning through Training-Data Perturbations",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 123998
+   },
    "baselines": [
     {
      "slug": "error_minimizing",
      "name": "Sample-wise error-minimizing noise (Huang et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "class_error_minimizing",
      "name": "Class-wise error-minimizing noise (Huang et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "linear_separable",
      "name": "Synthetic linearly separable noise (Yu et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "autoregressive",
      "name": "Autoregressive perturbations (Sandoval-Segura et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "robust_error_minimizing",
      "name": "Robust error-minimizing noise (Fu et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "classwise_random_noise",
      "name": "Class-wise random noise (Huang et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "zero_perturbation",
      "name": "No perturbation (null)",
-     "role": "declared null"
+     "role": "baseline"
     }
    ],
    "best_score": 0.08069897934042679
@@ -751,21 +891,29 @@
      "display": "CIFAR-10, vehicle classes positive, 13-layer all-conv CNN (Kiryo et al., 2017; Zhao et al., 2022)"
     }
    ],
+   "gpus": 2,
+   "image": {
+    "src": "task-images/ml-pu-learning-risk.webp",
+    "caption": "Learning Classifiers without Labeled Negatives",
+    "width": 1600,
+    "height": 800,
+    "bytes": 84726
+   },
    "baselines": [
     {
      "slug": "upu",
      "name": "Unbiased PU risk (du Plessis et al., 2015)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "nnpu",
      "name": "Non-negative PU risk (Kiryo et al., 2017)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "dist_pu",
      "name": "Dist-PU (Zhao et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.061489488902740384
@@ -791,31 +939,39 @@
      "display": "OlympiadBench, same checkpoint"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/llm-opd-token-signal.webp",
+    "caption": "Transferring RL Gains across Teacher–Student Gaps",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 89736
+   },
    "baselines": [
     {
      "slug": "opd2",
      "name": "OPD2 delta signal (Heo et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "exopd",
      "name": "ExOPD, G-OPD reward extrapolation (Yang et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "delta_raw",
      "name": "raw teacher-minus-reference delta (unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "opd",
      "name": "OPD, plain on-policy distillation (Heo et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "null",
      "name": "constant signal, self-SFT (null)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -841,36 +997,44 @@
      "display": "14 transporter IF/OF pairs (AFsample2 TP16 / IOMemP)"
     }
    ],
+   "gpus": 8,
+   "image": {
+    "src": "task-images/ai4bio-msa-conformational-ensemble.webp",
+    "caption": "Recovering Multiple Protein Conformations",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 131804
+   },
    "baselines": [
     {
      "slug": "full_msa",
      "name": "full MSA, untouched AF2 (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "msa_subsample",
      "name": "MSA subsampling (del Alamo et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "afcluster",
      "name": "AF-Cluster (Wayment-Steele et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "speach_af",
      "name": "SPEACH_AF (Stein & Mchaourab, 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "afsample2",
      "name": "AFsample2 (Kalakoti & Wallner, 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "cf_random",
      "name": "CF-random (Lee et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.07700586849599349
@@ -896,56 +1060,64 @@
      "display": "math, Qwen3-0.6B student"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/llm-distill-sgo-objective.webp",
+    "caption": "Designing On-Policy Distillation for Reasoning",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 87822
+   },
    "baselines": [
     {
      "slug": "sft",
      "name": "SFT on gold responses (method null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "untouched",
      "name": "untouched student, zero gradient (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "kd",
      "name": "word-level KD (Hinton et al., 2015)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "seqkd",
      "name": "SeqKD (Kim & Rush, 2016)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "imitkd",
      "name": "ImitKD (Lin et al., 2020)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "gkd",
      "name": "GKD (Agarwal et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "opd",
      "name": "OPD full-vocabulary reverse KL, MiniLLM (Gu et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "opd_sampled",
      "name": "OPD sampled-token policy gradient (MOPD, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "opd_topk",
      "name": "OPD top-k, k=64 (MOPD, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "distillm",
      "name": "DistiLLM (Ko et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09840873042572519
@@ -971,56 +1143,64 @@
      "display": "human lung atlas, inductive held-out donors"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/ai4bio-cell-representation-objective.webp",
+    "caption": "Preserving Cell Biology while Removing Batch Effects",
+    "width": 1536,
+    "height": 720,
+    "bytes": 85846
+   },
    "baselines": [
     {
      "slug": "frozen",
      "name": "Geneformer zero-shot embedding (Theodoris et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "collapse",
      "name": "constant embedding",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "null_mlm",
      "name": "MLM with random targets (null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "hvg_pca",
      "name": "HVG + PCA, scIB unintegrated (Luecken et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "harmony",
      "name": "Harmony (Korsunsky et al., 2019)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "scanorama",
      "name": "Scanorama (Hie et al., 2019)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "scvi",
      "name": "scVI (Lopez et al., 2018)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mlm_continue",
      "name": "continued Geneformer MLM pretraining (Theodoris et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "scgpt_ecs_dab",
      "name": "scGPT ECS + DAB integration objective (Cui et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "contrastive",
      "name": "CLEAR MoCo contrastive (Han et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.08975731789652736
@@ -1042,31 +1222,39 @@
      "display": "LIT-PCBA AVE-unbiased, 6 targets x (40 actives + 160 inactives) = 20% prevalence, 1199 ligands; AUROC (+ AP, EF5%)"
     }
    ],
+   "gpus": 0,
+   "image": {
+    "src": "task-images/ai4bio-cofolding-affinity-scoring.webp",
+    "caption": "Predicting Binding Affinity from Co-Folded Complexes",
+    "width": 1600,
+    "height": 800,
+    "bytes": 100342
+   },
    "baselines": [
     {
      "slug": "null_logp",
      "name": "Ligand cLogP, fixed sign (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "null_ha",
      "name": "Ligand heavy-atom count (null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "vina",
      "name": "AutoDock Vina score (Trott & Olson, 2010)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "gnina_cnn",
      "name": "GNINA CNNaffinity / CNNscore (McNutt et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "boltz2_head",
      "name": "Boltz-2 affinity head as released (Passaro et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -1092,21 +1280,29 @@
      "display": "real articulated elbow tosses, 32 train"
     }
    ],
+   "gpus": 0,
+   "image": {
+    "src": "task-images/phys-contact-sysid-loss.webp",
+    "caption": "Identifying Contact Dynamics from Real Motion",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 82438
+   },
    "baselines": [
     {
      "slug": "ccn",
      "name": "ContactNets loss (Pfrommer et al., 2020)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "diffsim",
      "name": "DiffSim prediction loss (Bianchini et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "nominal",
      "name": "poor initial CAD guess, no learning",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.0752118872272172
@@ -1132,31 +1328,39 @@
      "display": "resting-contact stacks"
     }
    ],
+   "gpus": 0,
+   "image": {
+    "src": "task-images/phys-contact-solver.webp",
+    "caption": "Frictional Contact under a Compute Budget",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 101944
+   },
    "baselines": [
     {
      "slug": "null",
      "name": "zero impulse (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "ncp_pgs",
      "name": "NCP projected Gauss-Seidel (Le Lidec et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ccp_pgs",
      "name": "CCP projected Gauss-Seidel (Le Lidec et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "raisim",
      "name": "RaiSim per-contact bisection solver",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ccp_admm",
      "name": "CCP ADMM (Le Lidec et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.08322107598702899
@@ -1182,26 +1386,34 @@
      "display": "LAMBADA perplexity (6L+12L mean)"
     }
    ],
+   "gpus": 2,
+   "image": {
+    "src": "task-images/llm-conditional-memory-design.webp",
+    "caption": "Separating Memory Lookup from Language-Model Computation",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 52546
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "no conditional memory, dense null (unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "overencoding",
      "name": "Over-Tokenized Transformer / OverEncoding (Huang et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "bigram_hash",
      "name": "bigram-hash memory (modded-nanogpt record #62)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "engram",
      "name": "Engram conditional memory (Cheng et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -1227,36 +1439,44 @@
      "display": "CLIP ViT-L/14, 8-task merge accuracy"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/cv-model-merge-rule.webp",
+    "caption": "Preserving Specialist Skills through Model Merging",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 75790
+   },
    "baselines": [
     {
      "slug": "pretrained",
      "name": "zero-shot CLIP, no merge (Radford et al., 2021; null reference)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "average",
      "name": "Model Soups uniform averaging (Wortsman et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "task_arithmetic",
      "name": "Task Arithmetic (Ilharco et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ties",
      "name": "TIES-Merging (Yadav et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "fisher",
      "name": "Fisher Merging (Matena & Raffel, 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "regmean",
      "name": "RegMean (Jin et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -1282,36 +1502,44 @@
      "display": "ALFWorld seen games (140), Qwen2.5-3B-Instruct"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/agent-alfworld-planning-policy.webp",
+    "caption": "Household Planning through Language and Feedback",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 109192
+   },
    "baselines": [
     {
      "slug": "zeroshot_react",
      "name": "zero-shot Thought/Action prompting (Fei et al., 2025), unmodified starter",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "act_only",
      "name": "Act-only prompting, ReAct ablation (Yao et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "react",
      "name": "ReAct (Yao et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "reflexion",
      "name": "Reflexion (Shinn et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "adaplanner",
      "name": "AdaPlanner (Sun et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "automanual",
      "name": "AutoManual test-stage Planner (Chen et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.07367353624350934
@@ -1333,26 +1561,34 @@
      "display": "Gemma-3-4B (base): typo, multi-hop, multilingual and order-of-operations sets (pass@k AUC)"
     }
    ],
+   "gpus": 2,
+   "image": {
+    "src": "task-images/llm-activation-readout-lens.webp",
+    "caption": "Interpreting Unspoken Concepts in Language Models",
+    "width": 1600,
+    "height": 800,
+    "bytes": 58608
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "Logit Lens (nostalgebraist, 2020), unmodified starter",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "null",
      "name": "final-layer-only readout (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "tuned_lens",
      "name": "Tuned Lens (Belrose et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "jacobian_lens",
      "name": "Jacobian Lens, 1000 x 128-token WikiText sequences (Anthropic, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.08135383262886996
@@ -1378,31 +1614,39 @@
      "display": "K562 histone ChIP, 4 marks (H3K27ac/H3K4me3/H3K36me3/H3K27me3), whole held-out fold"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/ai4bio-genome-coverage-objective.webp",
+    "caption": "Learning Genomic Signal Shape and Magnitude",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 105368
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "AlphaGenome multi-resolution multinomial+Poisson loss (Google DeepMind, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "poisson_binned",
      "name": "Enformer/Basenji2 Poisson NLL (Avsec et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "profile_count",
      "name": "BPNet/ChromBPNet profile+count loss (Avsec et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "poisson_multinomial",
      "name": "Borzoi Poisson-multinomial loss (Linder et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mse_null",
      "name": "plain masked MSE (null)",
-     "role": "declared null"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09431321859239354
@@ -1428,26 +1672,34 @@
      "display": "64x data repetition (13M unique tokens)"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/moe-repetition-regularizer.webp",
+    "caption": "Preserving MoE Generalization under Repeated Data",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 43324
+   },
    "baselines": [
     {
      "slug": "null",
      "name": "unregularised top-k MoE (Shazeer et al., 2017), unmodified starter",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "dropout",
      "name": "Dropout p=0.1 on expert outputs (Srivastava et al., 2014)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "load_balance",
      "name": "Switch Transformer load-balancing loss (Fedus et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "masking",
      "name": "router jitter + expert-output masking (Jha et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -1485,26 +1737,34 @@
      "display": "ISPD-2005 bigblue3 macro placement HPWL, 2,000 decoder evaluations"
     }
    ],
+   "gpus": 0,
+   "image": {
+    "src": "task-images/chip-macro-placement-search.webp",
+    "caption": "Reducing Chip Wirelength with Budgeted Search",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 172282
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "WireMask-RS random search (Shi et al., 2023), unmodified starter",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "null",
      "name": "one random layout, no search (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "bo",
      "name": "WireMask-BO with TuRBO (Shi et al., 2023; Eriksson et al., 2019)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ea",
      "name": "WireMask-EA (Shi et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09551339091860678
@@ -1550,31 +1810,39 @@
      "display": "ICCAD-04 IBM (ibm01/03/07/10/13/17), macro-only HPWL, geometric mean"
     }
    ],
+   "gpus": 8,
+   "image": {
+    "src": "task-images/chip-diffusion-placement.webp",
+    "caption": "Guiding Layout Diffusion with Physical Objectives",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 163428
+   },
    "baselines": [
     {
      "slug": "null",
      "name": "no guidance, released ChipDiffusion prior only (null)",
-     "role": "declared null"
+     "role": "baseline"
     },
     {
      "slug": "chipdiffusion",
      "name": "ChipDiffusion Lagrangian universal guidance (Lee et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "chipdiffusion_sgd",
      "name": "ChipDiffusion fixed-weight guidance (Lee et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "hpwl_only",
      "name": "ChipDiffusion guidance without the legality term (Lee et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "legality_only",
      "name": "ChipDiffusion guidance without the wirelength term (Lee et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000006
@@ -1600,31 +1868,39 @@
      "display": "Qwen2.5-7B-Instruct / 0.5B drafter, L=8, verification priced (eff_tau)"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/spec-drafter-block-head.webp",
+    "caption": "Learning Efficient Draft Blocks for Speculative Decoding",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 50652
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "no block head, position-1 reuse (null / unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "medusa",
      "name": "Medusa-1 (Cai et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "dflash",
      "name": "DFlash (Chen et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "dflash2",
      "name": "DFlash 2 (Inco AI, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "dspark",
      "name": "DSpark (Cheng et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09170986928254936
@@ -1650,26 +1926,34 @@
      "display": "spill_wipe with 1.5x longer spill"
     }
    ],
+   "gpus": 6,
+   "image": {
+    "src": "task-images/robot-codegen-replan-policy.webp",
+    "caption": "Recovering Robot Programs through Execution Feedback",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 60378
+   },
    "baselines": [
     {
      "slug": "single_shot",
      "name": "single-turn Code-as-Policies, CaP-X S1 (Fu et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "multi_turn_text",
      "name": "CaP-Agent0 multi-turn console feedback, M1 (Fu et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "multi_turn_vdm",
      "name": "CaP-Agent0 multi-turn + visual differencing, M3 (Fu et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ensemble_synthesis",
      "name": "CaP-Agent0 M3 + parallel-candidate synthesis (Fu et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09155513251609379
@@ -1695,21 +1979,29 @@
      "display": "InverseBench EHT black-hole imaging, 10% observation time; PSNR + closure chi-square (geometric mean over images)"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/ai4sci-inverse-diffusion-algo.webp",
+    "caption": "Recovering Hidden Structure from Sparse Measurements",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 153370
+   },
    "baselines": [
     {
      "slug": "dps",
      "name": "DPS, Diffusion Posterior Sampling (Chung et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "reddiff",
      "name": "RED-diff (Mardani et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "lgd",
      "name": "LGD, Loss-Guided Diffusion (Song et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.08753952742958591
@@ -1735,31 +2027,39 @@
      "display": "MuJoCo, high forward-speed commands"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/robo-humanoid-sim2real-algo.webp",
+    "caption": "From Privileged Physics to Proprioceptive Control",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 66154
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "Humanoid-Gym stock PPO, asymmetric actor-critic with privileged critic (Gu et al., 2024; Pinto et al., 2017)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "symmetric_critic",
      "name": "symmetric actor-critic, critic sees only the policy's observation (Pinto et al., 2017, ablation)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "rma",
      "name": "Rapid Motor Adaptation, privileged extrinsics + adaptation module from history (Kumar et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "dreamwaq",
      "name": "DreamWaQ, context-aided velocity/latent estimator (Nahrendra et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "him",
      "name": "Hybrid Internal Model estimator over proprioceptive history (Long et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.046415888336127795
@@ -1785,21 +2085,29 @@
      "display": "TS50 de novo test set (CATH 4.2 train)"
     }
    ],
+   "gpus": 2,
+   "image": {
+    "src": "task-images/ai4bio-protein-inverse-folding.webp",
+    "caption": "Protein Sequence Design from Backbone Geometry",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 103794
+   },
    "baselines": [
     {
      "slug": "proteinmpnn",
      "name": "ProteinMPNN (Dauparas et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "pifold",
      "name": "PiFold (Gao et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "gvp",
      "name": "GVP (Jing et al., 2021)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -1825,21 +2133,29 @@
      "display": "SMAC 3s_vs_5z (hard), SMAClite, 10M steps"
     }
    ],
+   "gpus": 5,
+   "image": {
+    "src": "task-images/marl-centralized-critic.webp",
+    "caption": "Centralized Critics for Decentralized Cooperation",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 54848
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "centralised V critic on the global state plus agent id: EPyMARL's CentralV without the joint last action (unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ippo_critic",
      "name": "IPPO decentralized critic (Yu et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mappo_critic",
      "name": "MAPPO centralized-V critic (Yu et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.046415888336127795
@@ -1865,26 +2181,34 @@
      "display": "D4RL Adroit pen-expert-v1 (expert-policy rollouts)"
     }
    ],
+   "gpus": 4,
+   "image": {
+    "src": "task-images/rl-offline-adroit.webp",
+    "caption": "Improving Dexterous Policies from Offline Experience",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 79888
+   },
    "baselines": [
     {
      "slug": "iql",
      "name": "IQL (Kostrikov et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "awac",
      "name": "AWAC (Nair et al., 2020)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "rebrac",
      "name": "ReBRAC (Tarasov et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "bc",
      "name": "BC (reference; CORL any_percent_bc, Tarasov et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.0901987170079525
@@ -1914,21 +2238,29 @@
      "display": "Mip-NeRF 360 bonsai (images_2), test PSNR after 30k steps"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/cv-3dgs-densification.webp",
+    "caption": "Allocating 3D Gaussians to Recover Fine Detail",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 196560
+   },
    "baselines": [
     {
      "slug": "default",
      "name": "3DGS adaptive density control (Kerbl et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "absgrad",
      "name": "AbsGS (Ye et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mcmc",
      "name": "3DGS-MCMC (Kheradmand et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000006
@@ -1954,21 +2286,29 @@
      "display": "AirfRANS angle-of-attack extrapolation split (Bonnet et al., 2022)"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/pde-design-solver.webp",
+    "caption": "Neural Operators for Predicting Aerodynamic Fields",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 199380
+   },
    "baselines": [
     {
      "slug": "pointnet",
      "name": "PointNet (Qi et al., 2017)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "graphsage",
      "name": "GraphSAGE (Hamilton et al., 2017)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "transolver",
      "name": "Transolver (Wu et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.07521387795840076
@@ -1994,26 +2334,34 @@
      "display": "DINO-WM Wall (JEPA-WMs release), random start and goal states"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/jepa-planning.webp",
+    "caption": "Goal-Directed Planning through Latent World Models",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 38178
+   },
    "baselines": [
     {
      "slug": "random_shooting",
      "name": "random-shooting MPC (Nagabandi et al., 2018)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "cem",
      "name": "Cross-Entropy Method (EB-JEPA / JEPA-WMs CEM planners)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mppi",
      "name": "MPPI with elites (EB-JEPA MPPI planner and config)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "icem",
      "name": "iCEM (Pinneri et al., 2020)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.08634383879311798
@@ -2039,26 +2387,34 @@
      "display": "MDLM-OWT, 1,000 unconditional 1,024-token samples at 512 steps, MAUVE with an entropy guard (KLASS Sec. 6.2)"
     }
    ],
+   "gpus": 2,
+   "image": {
+    "src": "task-images/llm-dllm-demask-strategy.webp",
+    "caption": "Balancing Parallel Decoding and Token Commitment",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 63304
+   },
    "baselines": [
     {
      "slug": "random_remask",
      "name": "random-order decoding: LLaDA random remasking / MDLM ancestral sampler (Nie et al., 2025; Sahoo et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "topk_margin",
      "name": "Dream top-k margin decoding (Ye et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "confidence_greedy",
      "name": "LLaDA low-confidence remasking (Nie et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "klass",
      "name": "KLASS (Kim et al., 2025; unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09273246723458893
@@ -2080,21 +2436,29 @@
      "display": "345M zero-shot lm-eval, the linear-attention papers' table (LAMBADA acc, PIQA, HellaSwag, ARC-e; WinoGrande and ARC-c reported)"
     }
    ],
+   "gpus": 4,
+   "image": {
+    "src": "task-images/llm-pretrain-linear-attention.webp",
+    "caption": "Language Modeling with Linear-Time Attention",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 56952
+   },
    "baselines": [
     {
      "slug": "retnet",
      "name": "RetNet multi-scale retention (Sun et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "deltanet",
      "name": "DeltaNet (Yang et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "gla",
      "name": "Gated Linear Attention (Yang et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09221021117052347
@@ -2120,26 +2484,34 @@
      "display": "held-out polar columns (same split and budget)"
     }
    ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/ai4sci-climate-emulation.webp",
+    "caption": "Climate Emulation in Unseen Physical Regimes",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 115904
+   },
    "baselines": [
     {
      "slug": "cnn",
      "name": "ClimSim reference 1-D ResNet CNN (Yu et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ed",
      "name": "ClimSim reference encoder–decoder (Yu et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "unet",
      "name": "ClimSim-Unet (Hu et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "hsr",
      "name": "ClimSim heteroskedastic regression (Yu et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -2165,21 +2537,29 @@
      "display": "LIT-PCBA virtual screening, 15 targets"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/ai4sci-vs-contrastive-scoring.webp",
+    "caption": "Retrieving Rare Binders from Molecular Libraries",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 63054
+   },
    "baselines": [
     {
      "slug": "vanilla_clip",
      "name": "DrugCLIP-style CLIP contrastive loss (Gao et al., 2023), unmodified starter",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "hcc",
      "name": "HypSeek HCC loss, Euclidean (Wang et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "hcc_hyp_cone",
      "name": "full HypSeek: hyperbolic HCC + cone hierarchy (Wang et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.07767739990786107
@@ -2205,36 +2585,44 @@
      "display": "ResNet-18 CIFAR-10, forget a random 50%"
     }
    ],
+   "gpus": 8,
+   "image": {
+    "src": "task-images/security-machine-unlearning.webp",
+    "caption": "Forgetting Training Examples while Preserving Generalization",
+    "width": 1600,
+    "height": 800,
+    "bytes": 152904
+   },
    "baselines": [
     {
      "slug": "original",
      "name": "no unlearning, the Original model (null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ft",
      "name": "FT, fine-tune on the retain set (Warnecke et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ga",
      "name": "GA, gradient ascent on the forget set (Thudi et al., 2022)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "rl",
      "name": "RL, random labelling (Golatkar et al., 2020)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "l1_sparse",
      "name": "l1-sparse fine-tuning (Jia et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "salun",
      "name": "SalUn, saliency-masked random labelling (Fan et al., 2024)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09886050386201858
@@ -2260,46 +2648,54 @@
      "display": "64-bit inputs, 8-sparse parity"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/optimization-parity.webp",
+    "caption": "Learning Hidden Parity through Input Curricula",
+    "width": 1536,
+    "height": 757,
+    "bytes": 64856
+   },
    "baselines": [
     {
      "slug": "uniform_onepass",
      "name": "online SGD on fresh uniform samples, one pass (Barak et al., 2022; null)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "uniform_repeat",
      "name": "finite uniform sample, multi-pass repetition (Edelman et al., 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "batch_reuse",
      "name": "two gradient steps per fresh minibatch (repetition line, 2024–2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mixed_inputs",
      "name": "mixed sparse+uniform inputs, no ordering (Abbe, Cornacchia & Lotfi, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "sparse_first_curriculum",
      "name": "sparse-inputs-first curriculum (Abbe, Cornacchia & Lotfi, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "two_step_curriculum",
      "name": "2-steps curriculum, 2-CL (Cornacchia & Mossel, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "continuous_curriculum",
      "name": "continuous curriculum, C-CL (Cornacchia & Mossel, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "degree_curriculum",
      "name": "Hamming balls of increasing radius, Degree-Curriculum (Cornacchia & Mossel, 2023)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000006
@@ -2329,36 +2725,44 @@
      "display": "LIBERO-Object, delay 8 steps"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/vla-smolvla-realtime-chunking.webp",
+    "caption": "Maintaining Robot Control under Inference Delay",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 54586
+   },
    "baselines": [
     {
      "slug": "naive_async",
      "name": "naive asynchronous chunk switch, SmolVLA default (Shukor et al., 2025; unmodified starter)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "temporal_ensemble",
      "name": "temporal ensembling, ACT (Zhao et al., 2023; lerobot ACTTemporalEnsembler)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "rtc_soft",
      "name": "IT-RTC soft-mask inpainting as lerobot's RTCProcessor runs it (Black et al., 2025; arXiv:2605.08168 protocol)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "rtc_hard",
      "name": "hard-mask inpainting, RTC's own ablation (Black et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "rtc_soft_vjp",
      "name": "real-time chunking, the paper's Kinetix reference with full VJP guidance (Black et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "delay_unaware",
      "name": "fresh chunk executed from step 0, replaying the elapsed actions (null)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.05210526567404808
@@ -2384,26 +2788,39 @@
      "display": "LIBERO-Spatial, 480 rollout episodes (half budget)"
     }
    ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/vla-smolvla-rl-chunk-objective.webp",
+    "caption": "Improving Action-Chunk Policies with Sparse Rewards",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 50622
+   },
    "baselines": [
     {
      "slug": "sft_only",
      "name": "the imitation policy unchanged, no RL (null; the SFT row of the papers)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "rloo_ript",
      "name": "RIPT-VLA: leave-one-out advantages over K rollouts of one initial state, PPO clipping, rejection of uninformative groups (Tan et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "grpo_simplevla",
      "name": "SimpleVLA-RL: group-relative advantages with clip-higher and no KL (Li et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ppo_flow_sde",
      "name": "πRL Flow-SDE: ODE-to-SDE likelihood for the flow expert, PPO with a learned value (Chen et al., 2025; Flow-GRPO, Liu et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
+    },
+    {
+     "slug": "ppo_flow_noise",
+     "name": "πRL Flow-Noise: learned noise-injection likelihood, PPO with a learned value (Chen et al., 2025; ReinFlow, Zhang et al., 2025)",
+     "role": "baseline"
     }
    ],
    "best_score": 0.10000000000000002
@@ -2433,56 +2850,64 @@
      "display": "int8 weights, activations and KV cache in the sampler against a bf16 trainer, 400 steps"
     }
    ],
+   "gpus": 4,
+   "image": {
+    "src": "task-images/llm-rl-mismatch-correction.webp",
+    "caption": "Stabilizing RL under Training–Inference Mismatch",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 56242
+   },
    "baselines": [
     {
      "slug": "pg",
      "name": "uncorrected REINFORCE with group-centred rewards (null; Williams, 1992)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "naive_is",
      "name": "naive per-token importance sampling, unclipped",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "tis",
      "name": "truncated importance sampling, clip 2 (Yao et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "mis",
      "name": "masked importance sampling, IcePop band [0.5, 5] (Ling Team, 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "ppo",
      "name": "PPO clipped surrogate [0.8, 1.2] with dual clip (Schulman et al., 2017)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "gspo",
      "name": "GSPO sequence-level ratio band with dual clip (Zheng et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "topr",
      "name": "TOPR sequence-level clipping on negatives (Le Roux et al., 2025)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "dppo",
      "name": "DPPO binary total-variation band, pessimistic (Qi et al., 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "sc",
      "name": "score centering with a top-128 tail model (Marek & Ryabinin, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     },
     {
      "slug": "tis_sc",
      "name": "score centering composed with truncated importance sampling (Marek & Ryabinin, 2026)",
-     "role": "anchor"
+     "role": "baseline"
     }
    ],
    "best_score": 0.09977817734738385
