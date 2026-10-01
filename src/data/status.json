@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T21:47:51+00:00",
+ "generated": "2026-10-01T21:57:49+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "tasks": {
   "agent-alfworld-planning-policy": [
@@ -9,6 +9,9 @@
     "type": "replacement",
     "state": "open",
     "phase": null,
+    "requester": "Imbernoulli",
+    "opened": "2026-10-01T21:40:41Z",
+    "done": false,
     "pr": 4,
     "pr_state": "draft",
     "updated": "2026-10-01T21:41:43Z",
@@ -23,10 +26,14 @@
    "type": "new task",
    "state": "open",
    "phase": "A",
+   "requester": "Imbernoulli",
+   "opened": "2026-10-01T19:06:06Z",
+   "done": false,
    "pr": null,
    "pr_state": null,
    "updated": "2026-10-01T19:11:27Z",
-   "replacement": null
+   "replacement": null,
+   "task": null
   }
  ]
 }
