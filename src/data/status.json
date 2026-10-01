@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T23:41:53+00:00",
+ "generated": "2026-10-01T23:44:46+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "tasks": {
   "agent-alfworld-planning-policy": [
@@ -22,34 +22,6 @@
  },
  "new_tasks": [],
  "issues": [
-  {
-   "issue": 6,
-   "title": "[change] remove leftover hidden-setting wording (50 tasks)",
-   "requester": "Imbernoulli",
-   "type": "maintenance",
-   "task": null,
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-01T23:40:29Z",
-   "opened": "2026-10-01T23:39:34Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1790898027,
-      "kind": "maintainer",
-      "label": "Sweep delivered files",
-      "state": "done",
-      "detail_public": "53 files in 50 tasks carry hidden-setting wording; hit list in the issue"
-     }
-    ]
-   }
-  },
   {
    "issue": 3,
    "title": "[change] agent-alfworld-planning-policy → robot-agent-direct-control",
