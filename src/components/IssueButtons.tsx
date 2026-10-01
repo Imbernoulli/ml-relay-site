@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { changeUrl, feedbackUrl } from "@/lib/site";
 
 /** Feedback and change-request links: GitHub issues in the private ML-Relay repo. */
@@ -21,10 +22,13 @@ export default function IssueButtons({ task }: { task: string }) {
         >
           Request a change
         </a>
+        <Link href="/propose/" className="rounded-lg border border-border px-3 py-1.5 text-sm font-medium hover:border-foreground/40">
+          Propose a new task
+        </Link>
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
         Both open a GitHub issue in the private Imbernoulli/ML-Relay repository; only its collaborators can open them. Feedback is read by the
-        team. A change request (label <code>relay-request</code>) starts the relay agent on the task. GitHub emails you on every reply.
+        team. A change request (label <code>relay-request</code>) starts the relay agent on the task. Proposing a new task explains the new-task form first. GitHub emails you on every reply.
       </p>
     </div>
   );

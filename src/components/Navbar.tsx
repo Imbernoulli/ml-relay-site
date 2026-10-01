@@ -37,6 +37,12 @@ export default function Navbar({ mode = "internal" }: { mode?: "public" | "inter
               </Link>
             );
           })}
+          <Link
+            href="/propose/"
+            className="ml-1 rounded-md border border-emerald-600/60 bg-emerald-600/10 px-3 py-1.5 text-sm font-medium text-emerald-800 hover:border-emerald-600 dark:text-emerald-200"
+          >
+            Propose a task
+          </Link>
           <ThemeToggle />
         </div>
       </div>

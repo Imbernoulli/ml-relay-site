@@ -62,3 +62,6 @@ export function changeUrl(task: string): string {
   const q = new URLSearchParams({ title: `[change] ${task}: `, labels: "relay-request", body });
   return `${ISSUES}?${q.toString()}`;
 }
+
+export const NEW_TASK_FORM = "https://github.com/Imbernoulli/ML-Relay/issues/new?template=new-task.yml";
+export const PROPOSE_PAGE = "/propose/";

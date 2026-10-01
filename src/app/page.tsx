@@ -17,7 +17,15 @@ export default function Home() {
           Internal · ML-Relay is not public · this site shows the full bundles
         </div>
       )}
-      <h1 className="text-3xl font-bold tracking-tight">ML-Relay</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="text-3xl font-bold tracking-tight">ML-Relay</h1>
+        <Link
+          href="/propose/"
+          className="rounded-lg border border-emerald-600/60 bg-emerald-600/15 px-4 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-600 dark:text-emerald-200"
+        >
+          Propose a new task
+        </Link>
+      </div>
       <div className="mt-3 max-w-4xl">
         <MarkdownContent content={intro} />
       </div>
