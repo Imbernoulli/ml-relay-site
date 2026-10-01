@@ -17,6 +17,9 @@ import { BASE_PATH, GH_AUTH_PROXY, GH_CLIENT_ID, RELAY_REPO } from "./site";
 const SESSION_KEY = "mlr-gh-session";
 const LEGACY_KEY = "mlr-gh-token";
 const STATE_KEY = "mlr-gh-oauth-state";
+const VIEWER_KEY = "mlr-gh-viewer";
+/** Window event fired on sign-in and sign-out (listened to by the navbar and My work). */
+export const AUTH_EVENT = "mlrelay-auth";
 const API = "https://api.github.com";
 
 interface Session {
@@ -45,13 +48,26 @@ function readSession(): Session | null {
   }
 }
 
+/** Tell every component on the page (navbar, My work) that the session changed;
+ *  other tabs hear it through the browser's own "storage" event. */
+function announceAuthChange(): void {
+  try {
+    window.dispatchEvent(new Event(AUTH_EVENT));
+  } catch {
+    /* not in a browser */
+  }
+}
+
 function writeSession(s: Session): void {
+  const fresh = !readSession();
   try {
     localStorage.setItem(SESSION_KEY, JSON.stringify(s));
     sessionStorage.removeItem(LEGACY_KEY);
   } catch {
     /* storage blocked: the session won't survive a reload */
   }
+  // A token renewal is not a sign-in; only announce real changes.
+  if (fresh) announceAuthChange();
 }
 
 function sessionFrom(body: TokenResponse): Session {
@@ -85,10 +101,22 @@ export function setToken(token: string): void {
 export function clearToken(): void {
   try {
     localStorage.removeItem(SESSION_KEY);
+    localStorage.removeItem(VIEWER_KEY);
     sessionStorage.removeItem(LEGACY_KEY);
     sessionStorage.removeItem(STATE_KEY);
   } catch {
     /* nothing to clear */
+  }
+  announceAuthChange();
+}
+
+/** The signed-in account as last seen (login + avatar), for an instant navbar. */
+export function cachedViewer(): Viewer | null {
+  try {
+    const raw = localStorage.getItem(VIEWER_KEY);
+    return raw && isSignedIn() ? (JSON.parse(raw) as Viewer) : null;
+  } catch {
+    return null;
   }
 }
 
@@ -199,15 +227,33 @@ export class GitHubError extends Error {
   }
 }
 
-async function gh<T>(path: string, retried = false): Promise<T> {
+async function gh<T>(path: string, init: { method?: string; body?: unknown } = {}, retried = false): Promise<T> {
   const token = await freshToken();
   if (!token) throw new GitHubError(401, "Not signed in.");
   const res = await fetch(`${API}${path}`, {
-    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
+    method: init.method ?? "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      Accept: "application/vnd.github+json",
+      "X-GitHub-Api-Version": "2022-11-28",
+      ...(init.body !== undefined ? { "Content-Type": "application/json" } : {}),
+    },
+    body: init.body !== undefined ? JSON.stringify(init.body) : undefined,
   });
-  if (res.status === 401 && !retried && (await refreshSession())) return gh<T>(path, true);
+  if (res.status === 401 && !retried && (await refreshSession())) return gh<T>(path, init, true);
   if (!res.ok) throw new GitHubError(res.status, `GitHub API ${res.status} for ${path}`);
   return (await res.json()) as T;
+}
+
+/** Open an issue on the relay repo as the signed-in visitor (needs the App's
+ *  Issues: write permission). Labels are applied only if the visitor may triage. */
+export async function createIssue(title: string, body: string, labels: string[]): Promise<{ number: number; html_url: string }> {
+  return gh(`/repos/${RELAY_REPO}/issues`, { method: "POST", body: { title, body, labels } });
+}
+
+/** Reply on an issue as the signed-in visitor (e.g. "go" to start the next phase). */
+export async function commentOnIssue(issue: number, body: string): Promise<{ html_url: string }> {
+  return gh(`/repos/${RELAY_REPO}/issues/${issue}/comments`, { method: "POST", body: { body } });
 }
 
 export interface Viewer {
@@ -285,7 +331,13 @@ function excerpt(md: string, n = 280): string {
 }
 
 export async function viewer(): Promise<Viewer> {
-  return gh<Viewer>("/user");
+  const v = await gh<Viewer>("/user");
+  try {
+    localStorage.setItem(VIEWER_KEY, JSON.stringify({ login: v.login, avatar_url: v.avatar_url, html_url: v.html_url }));
+  } catch {
+    /* cache only */
+  }
+  return v;
 }
 
 async function linkedPull(issue: number): Promise<MyRequest["pr"]> {

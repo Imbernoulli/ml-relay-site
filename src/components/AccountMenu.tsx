@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { clearToken, isSignedIn, oauthConfigured, viewer, warmUpSignIn, type Viewer } from "@/lib/github";
+import { AUTH_EVENT, cachedViewer, clearToken, isSignedIn, oauthConfigured, viewer, warmUpSignIn, type Viewer } from "@/lib/github";
 import SignInButton from "./SignInButton";
 
 /** Navbar account area. Rendered empty on the server; the session is read in the browser only. */
@@ -21,15 +21,16 @@ export default function AccountMenu() {
         warmUpSignIn();
         return;
       }
+      setMe(cachedViewer());
       viewer()
         .then(setMe)
-        .catch(() => setMe(null));
+        .catch(() => undefined);
     };
     sync();
-    window.addEventListener("mlrelay-auth", sync);
+    window.addEventListener(AUTH_EVENT, sync);
     window.addEventListener("storage", sync);
     return () => {
-      window.removeEventListener("mlrelay-auth", sync);
+      window.removeEventListener(AUTH_EVENT, sync);
       window.removeEventListener("storage", sync);
     };
   }, []);
@@ -56,7 +57,6 @@ export default function AccountMenu() {
         type="button"
         onClick={() => {
           clearToken();
-          window.dispatchEvent(new Event("mlrelay-auth"));
         }}
         className="rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted/60 hover:text-foreground"
       >
