@@ -1,0 +1,32 @@
+{
+ "generated": "2026-10-01T21:47:51+00:00",
+ "repo": "Imbernoulli/ML-Relay",
+ "tasks": {
+  "agent-alfworld-planning-policy": [
+   {
+    "issue": 3,
+    "title": "[change] agent-alfworld-planning-policy → robot-agent-direct-control",
+    "type": "replacement",
+    "state": "open",
+    "phase": null,
+    "pr": 4,
+    "pr_state": "draft",
+    "updated": "2026-10-01T21:41:43Z",
+    "replacement": "robot-agent-direct-control"
+   }
+  ]
+ },
+ "new_tasks": [
+  {
+   "issue": 2,
+   "title": "[new task] nnPU: non-negative PU risk (Phase-A smoke)",
+   "type": "new task",
+   "state": "open",
+   "phase": "A",
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-01T19:11:27Z",
+   "replacement": null
+  }
+ ]
+}
