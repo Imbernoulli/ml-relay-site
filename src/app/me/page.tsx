@@ -16,8 +16,8 @@ export default function MePage() {
       </nav>
       <h1 className="text-3xl font-bold tracking-tight">My work</h1>
       <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-        Your change requests and new-task proposals: where each one stands, the pull request the agent opened, and whether it is waiting for your
-        reply. No sign-in needed.
+        Your change requests and new-task proposals: where each one stands, the pull request the agent opened, the agent&apos;s latest reply,
+        and whether it is waiting for you.
       </p>
       <MyWork status={loadStatus()} knownTasks={loadIndex().tasks.map((t) => t.id)} />
     </div>

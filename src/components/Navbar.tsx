@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
+import AccountMenu from "./AccountMenu";
 
 const NAV = [
   { href: "/", label: "Tasks" },
@@ -46,6 +47,7 @@ export default function Navbar({ mode = "internal" }: { mode?: "public" | "inter
           >
             Propose a task
           </Link>
+          {mode === "public" && <AccountMenu />}
           <ThemeToggle />
         </div>
       </div>
