@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T22:02:50",
+ "generated": "2026-10-01T22:09:40",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-two machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 36 of the 50 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-two self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -115,7 +115,7 @@
     },
     {
      "slug": "default",
-     "name": "Magnitude pruning (unmodified starter)",
+     "name": "Magnitude pruning",
      "role": "baseline"
     },
     {
@@ -167,7 +167,7 @@
    "baselines": [
     {
      "slug": "naive_svd",
-     "name": "MHA2MLA ablation · high-frequency RoPE + split SVD (Ji et al., 2025; unmodified starter)",
+     "name": "MHA2MLA ablation · high-frequency RoPE + split SVD (Ji et al., 2025)",
      "role": "baseline"
     },
     {
@@ -220,7 +220,7 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "Maximum-softmax threshold (unmodified starter)",
+     "name": "Maximum-softmax threshold",
      "role": "baseline"
     },
     {
@@ -631,7 +631,7 @@
    "baselines": [
     {
      "slug": "lora_default",
-     "name": "Standard LoRA initialization (Hu et al., 2022; unmodified starter)",
+     "name": "Standard LoRA initialization (Hu et al., 2022)",
      "role": "baseline"
     },
     {
@@ -732,7 +732,7 @@
    "baselines": [
     {
      "slug": "ddim",
-     "name": "DDIM / Euler (Song et al., 2021; unmodified starter)",
+     "name": "DDIM / Euler (Song et al., 2021)",
      "role": "baseline"
     },
     {
@@ -776,7 +776,7 @@
    "baselines": [
     {
      "slug": "linear",
-     "name": "Independent linear path (Lipman et al., 2023; unmodified starter)",
+     "name": "Independent linear path (Lipman et al., 2023)",
      "role": "baseline"
     },
     {
@@ -960,7 +960,7 @@
     },
     {
      "slug": "delta_raw",
-     "name": "Raw teacher-reference delta (unmodified starter)",
+     "name": "Raw teacher-reference delta",
      "role": "baseline"
     },
     {
@@ -1397,7 +1397,7 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "No added memory (unmodified starter)",
+     "name": "No added memory",
      "role": "baseline"
     },
     {
@@ -1513,7 +1513,7 @@
    "baselines": [
     {
      "slug": "zeroshot_react",
-     "name": "Zero-shot ReAct (Fei et al., 2025; unmodified starter)",
+     "name": "Zero-shot ReAct (Fei et al., 2025)",
      "role": "baseline"
     },
     {
@@ -1572,7 +1572,7 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "Logit lens (nostalgebraist, 2020; unmodified starter)",
+     "name": "Logit lens (nostalgebraist, 2020)",
      "role": "baseline"
     },
     {
@@ -1683,7 +1683,7 @@
    "baselines": [
     {
      "slug": "null",
-     "name": "No regularizer (Shazeer et al., 2017; unmodified starter)",
+     "name": "No regularizer (Shazeer et al., 2017)",
      "role": "baseline"
     },
     {
@@ -1748,7 +1748,7 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "WireMask random search (Shi et al., 2023; unmodified starter)",
+     "name": "WireMask random search (Shi et al., 2023)",
      "role": "baseline"
     },
     {
@@ -1879,7 +1879,7 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "Repeated next-token distribution (unmodified starter)",
+     "name": "Repeated next-token distribution",
      "role": "baseline"
     },
     {
@@ -2144,7 +2144,7 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "CentralV critic without last actions (unmodified starter)",
+     "name": "CentralV critic without last actions",
      "role": "baseline"
     },
     {
@@ -2413,7 +2413,7 @@
     },
     {
      "slug": "klass",
-     "name": "KLASS (Kim et al., 2025; unmodified starter)",
+     "name": "KLASS (Kim et al., 2025)",
      "role": "baseline"
     }
    ],
@@ -2548,7 +2548,7 @@
    "baselines": [
     {
      "slug": "vanilla_clip",
-     "name": "DrugCLIP-style Euclidean scoring (Gao et al., 2023; unmodified starter)",
+     "name": "DrugCLIP-style Euclidean scoring (Gao et al., 2023)",
      "role": "baseline"
     },
     {
@@ -2736,7 +2736,7 @@
    "baselines": [
     {
      "slug": "naive_async",
-     "name": "Naive asynchronous switch (Shukor et al., 2025; unmodified starter)",
+     "name": "Naive asynchronous switch (Shukor et al., 2025)",
      "role": "baseline"
     },
     {
