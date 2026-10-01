@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NEW_TASK_FORM } from "@/lib/site";
+import { NEW_TASK_FORM, REQUEST_MODEL } from "@/lib/site";
 import { Card } from "@/components/ui";
 
 export const metadata = { title: "ML-Relay · Propose a new task" };
@@ -57,6 +57,7 @@ export default function ProposePage() {
         A new ML-Relay task starts as a GitHub issue form in the private Imbernoulli/ML-Relay repository. Only collaborators on that repository
         can submit it. The form asks for seven things; here is what each one is and why we need it.
       </p>
+      <p className="mt-3 rounded-lg border border-border bg-muted/50 px-4 py-2 text-sm">{REQUEST_MODEL}</p>
 
       <div className="mt-6 space-y-3">
         {ASKS.map(([title, what, why], i) => (
@@ -129,7 +130,7 @@ export default function ProposePage() {
         >
           Open the new-task form on GitHub
         </a>
-        <span className="text-xs text-muted-foreground">Collaborators on Imbernoulli/ML-Relay only.</span>
+        <span className="text-xs text-muted-foreground">Collaborators on Imbernoulli/ML-Relay only. {REQUEST_MODEL}</span>
       </div>
     </div>
   );
