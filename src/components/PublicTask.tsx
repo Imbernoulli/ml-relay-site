@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { DescSection, PublicBaseline, PublicTaskData, TaskData, Term } from "@/lib/types";
-import { fmt, fmtScore, firstParagraph } from "@/lib/format";
+import { arrow, fmt, fmtScore, firstParagraph } from "@/lib/format";
 import MarkdownContent from "./MarkdownContent";
 import AnnotatedCodeBlock from "./AnnotatedCodeBlock";
 import DiffBlock from "./DiffBlock";
@@ -46,7 +46,7 @@ function refLabel(term: Term) {
   return term.ref.kind;
 }
 
-function BaselineCard({ b }: { b: PublicBaseline }) {
+function BaselineCard({ b, sdisp }: { b: PublicBaseline; sdisp: (n: string) => string }) {
   const what = firstParagraph(b.docstring);
   return (
     <Fold
@@ -101,8 +101,8 @@ function BaselineCard({ b }: { b: PublicBaseline }) {
           <div className="text-xs text-muted-foreground">
             Per-setting score:{" "}
             {b.score_detail.settings.map((s) => (
-              <span key={s.name} className="mr-3 font-mono">
-                {s.name} {fmtScore(s.score)}
+              <span key={s.name} className="mr-3" title={s.name}>
+                {sdisp(s.name)}: <span className="font-mono">{fmtScore(s.score)}</span>
               </span>
             ))}
           </div>
@@ -115,6 +115,7 @@ function BaselineCard({ b }: { b: PublicBaseline }) {
 export default function PublicTask({ t }: { t: PublicTaskData }) {
   const sc = t.scoring;
   const status = loadStatus();
+  const sdisp = (n: string) => t.settings.find((x) => x.name === n)?.display ?? n;
   const titleSec = t.desc_sections.find((s) => s.kind === "title");
   const filesEdit = t.instruction_harness["Files You May Edit"];
   return (
@@ -218,7 +219,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
           {[...t.baselines]
             .sort((a, b) => (b.score ?? -1) - (a.score ?? -1))
             .map((b) => (
-              <BaselineCard key={b.slug} b={b} />
+              <BaselineCard key={b.slug} b={b} sdisp={sdisp} />
             ))}
         </div>
       </Section>
@@ -227,11 +228,23 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         <div className="grid gap-3">
           {t.settings.map((s) => (
             <Card key={s.name}>
-              <h4 className="font-mono text-sm font-semibold">{s.name}</h4>
-              <p className="mt-1 text-sm">{s.display ?? "—"}</p>
+              <h4 className="text-sm font-semibold" title={s.name}>
+                {s.display ?? s.name}
+              </h4>
               {gpuLabel(s.gpus) && <div className="mt-1 text-xs text-muted-foreground">Compute: {gpuLabel(s.gpus)}</div>}
               <div className="mt-2 text-xs text-muted-foreground">
-                Scored metrics: {s.metrics.length ? s.metrics.map((m) => <code key={m} className="mr-1">{m}</code>) : "—"}
+                Scored:{" "}
+                {(s.scored ?? []).length ? (
+                  (s.scored ?? []).map((m, i) => (
+                    <span key={m.metric}>
+                      {i > 0 && <span className="mx-1.5 text-border">|</span>}
+                      <span className="text-foreground">{m.label}</span> {arrow(m.direction)}
+                      {m.role === "constraint" && <span> (guard)</span>}
+                    </span>
+                  ))
+                ) : (
+                  "—"
+                )}
               </div>
             </Card>
           ))}
@@ -255,20 +268,22 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
                   <th className="px-2 py-2">Direction</th>
                   <th className="px-2 py-2">Normalisation</th>
                   <th className="px-2 py-2">Reference</th>
+                  <th className="px-2 py-2">Setting</th>
                   <th className="px-2 py-2">Role</th>
                 </tr>
               </thead>
               <tbody>
                 {sc.terms.map((x) => (
                   <tr key={x.name} className="border-t border-border">
-                    <td className="break-anywhere px-2 py-1.5 font-mono">
-                      {x.metric}
+                    <td className="break-anywhere px-2 py-1.5">
+                      {t.leaderboard.metric_labels?.[x.metric] ?? x.metric}
                       {x.transform !== "id" && <span className="text-muted-foreground"> ({x.transform})</span>}
                     </td>
                     <td className="px-2 py-1.5">{x.direction === "lower" ? "lower is better" : "higher is better"}</td>
                     <td className="px-2 py-1.5">{x.norm_type}</td>
                     <td className="px-2 py-1.5">{refLabel(x)}</td>
-                    <td className="px-2 py-1.5">{x.role}</td>
+                    <td className="px-2 py-1.5">{sdisp(t.settings.find((y) => y.metrics.includes(x.metric))?.name ?? "")}</td>
+                    <td className="px-2 py-1.5">{x.role === "objective" ? "scored" : x.role === "constraint" ? "guard" : x.role}</td>
                   </tr>
                 ))}
               </tbody>

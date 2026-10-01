@@ -36,6 +36,8 @@ export interface TestCmd { label: string; cmd: string; group: number | null; com
 
 export interface Setting {
   name: string; display: string | null; gpus?: number | null;
+  scored?: { metric: string; label: string; direction: string | null; role: string | null }[];
+  column_labels?: Record<string, string>;
   labels: string[]; metrics: string[]; terms: [string, number][]; constraints: string[];
   cmds: TestCmd[]; auxiliary?: boolean;
 }
@@ -58,7 +60,7 @@ export interface LbRow { kind: "baseline" | "control" | "agent"; arm: string; se
 export interface LbSummary { kind: "baseline" | "control" | "agent"; arm: string; n_seeds: number; seeds: string[]; mean: Record<string, number>; std: Record<string, number>; mean_source: Record<string, string> }
 export interface Leaderboard {
   columns: string[]; metric_columns: string[]; elapsed_columns: string[]; scored_columns: string[];
-  reported_columns: string[]; rows: LbRow[]; summaries: LbSummary[];
+  reported_columns: string[]; rows: LbRow[]; metric_labels?: Record<string, string>; summaries: LbSummary[];
 }
 
 export interface Curated { pipeline?: string; starter?: string }
@@ -123,4 +125,9 @@ export interface StatusEntry {
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; replacement: string | null;
   requester?: string | null; opened?: string | null; done?: boolean; task?: string | null;
 }
-export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[] }
+export interface StatusIssue {
+  issue: number; title: string; requester: string | null; type: "change" | "new task" | "maintenance"; task: string | null;
+  replacement: string | null; state: "open" | "closed"; stage: string; waiting: boolean; phase: string | null;
+  pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; opened: string | null;
+}
+export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[] }

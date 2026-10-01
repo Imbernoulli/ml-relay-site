@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { loadIndex, loadStatus, loadTask } from "@/lib/data";
 import type { Baseline, DescSection, TaskData, Term } from "@/lib/types";
-import { fmt, fmtScore, firstParagraph, gb, hours } from "@/lib/format";
+import { arrow, fmt, fmtScore, firstParagraph, gb, hours } from "@/lib/format";
 import MarkdownContent from "@/components/MarkdownContent";
 import AnnotatedCodeBlock from "@/components/AnnotatedCodeBlock";
 import CodeBlock from "@/components/CodeBlock";
@@ -100,7 +100,7 @@ function BaselineCard({ t, b }: { t: TaskData; b: Baseline }) {
         <div>
           <h5 className="mb-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">Code: edit ops against the starter</h5>
           {b.no_op ? (
-            <p className="text-sm">No edit ops: this arm is the unmodified starter.</p>
+            <p className="text-sm">No edit: this baseline is the starter as given.</p>
           ) : b.diffs.length === 0 ? (
             <p className="text-sm text-muted-foreground">— (ops not resolved)</p>
           ) : (
@@ -143,8 +143,8 @@ function BaselineCard({ t, b }: { t: TaskData; b: Baseline }) {
           <div className="text-xs text-muted-foreground">
             Per-setting score at the 0.1 anchor:{" "}
             {b.score_detail.settings.map((s) => (
-              <span key={s.name} className="mr-3 font-mono">
-                {s.name} {fmtScore(s.score)}
+              <span key={s.name} className="mr-3" title={s.name}>
+                {t.settings.find((x) => x.name === s.name)?.display ?? s.name}: <span className="font-mono">{fmtScore(s.score)}</span>
               </span>
             ))}
             (scored row: seed {b.score_detail.row_seed})
@@ -171,6 +171,10 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
   if ((t as unknown as { mode?: string }).mode === "public") return <PublicTask t={t as unknown as PublicTaskData} />;
   const c = t.curated || {};
   const status = loadStatus();
+  const termLabel = (n: string) => {
+    const m = t.scoring?.terms.find((x) => x.name === n)?.metric ?? n;
+    return t.leaderboard.metric_labels?.[m] ?? m;
+  };
   const sc = t.scoring;
   const editable = t.files.filter((f) => f.editable);
   const readonly = t.files.filter((f) => !f.editable);
@@ -377,15 +381,26 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
         <div className="grid gap-3">
           {settings.map((s) => (
             <Card key={s.name}>
-              <div className="flex flex-wrap items-center gap-2">
-                <h4 className="font-mono text-sm font-semibold">{s.name}</h4>
-              </div>
-              <p className="mt-1 text-sm">{s.display ?? <Missing what="setting description" />}</p>
+              <h4 className="text-sm font-semibold" title={s.name}>
+                {s.display ?? s.name}
+              </h4>
               {gpuLabel(s.gpus) && <div className="mt-1 text-xs text-muted-foreground">Compute: {gpuLabel(s.gpus)}</div>}
               <div className="mt-2 text-xs text-muted-foreground">
-                Scored metrics: {s.metrics.length ? s.metrics.map((m) => <code key={m} className="mr-1">{m}</code>) : "—"}
+                Scored:{" "}
+                {(s.scored ?? []).length ? (
+                  (s.scored ?? []).map((m, i) => (
+                    <span key={m.metric} title={m.metric}>
+                      {i > 0 && <span className="mx-1.5 text-border">|</span>}
+                      <span className="text-foreground">{m.label}</span> {arrow(m.direction)}
+                      {m.role === "constraint" && <span> (guard)</span>}
+                    </span>
+                  ))
+                ) : (
+                  "—"
+                )}
               </div>
               {s.cmds.length > 0 && (
+                <Fold summary="Run commands and scripts" className="mt-3">
                 <div className="mt-3 overflow-x-auto rounded-md border border-border">
                   <table className="w-full text-xs">
                     <thead>
@@ -412,7 +427,6 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                     </tbody>
                   </table>
                 </div>
-              )}
               {s.cmds
                 .filter((x) => x.script)
                 .map((x) => (
@@ -420,6 +434,8 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                     <CodeBlock code={x.script!} language="bash" maxHeight={420} />
                   </Fold>
                 ))}
+                </Fold>
+              )}
             </Card>
           ))}
           {aux.map((s) => (
@@ -502,8 +518,8 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                     const scale = pr.scale ?? x.scale ?? null;
                     return (
                       <tr key={x.name} className="border-t border-border">
-                        <td className="break-anywhere px-2 py-1.5 font-mono">
-                          {x.metric}
+                        <td className="break-anywhere px-2 py-1.5" title={x.metric}>
+                          {t.leaderboard.metric_labels?.[x.metric] ?? x.metric}
                           {x.role !== "objective" && <Badge tone="warn">{x.role}</Badge>}
                           {x.transform !== "id" && <span className="text-muted-foreground"> ({x.transform})</span>}
                         </td>
@@ -523,7 +539,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                           {x.role === "objective" ? x.ref_score ?? "—" : "—"}
                         </td>
                         <td className="px-2 py-1.5 text-right tabular-nums">{gamma !== null ? `γ ${fmt(gamma, 3)}` : scale !== null ? `s ${fmt(scale, 3)}` : "—"}</td>
-                        <td className="px-2 py-1.5 font-mono">{termUse(t, x.name).join(", ") || <span className="text-muted-foreground">none</span>}</td>
+                        <td className="px-2 py-1.5">{termUse(t, x.name).map((n) => t.settings.find((y) => y.name === n)?.display ?? n).join("; ") || <span className="text-muted-foreground">none</span>}</td>
                       </tr>
                     );
                   })}
@@ -540,15 +556,15 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                 <ul className="mt-2 space-y-1 text-xs">
                   {sc.settings.map((s) => (
                     <li key={s.name}>
-                      <span className="font-mono font-medium">{s.name}</span>
+                      <span className="font-medium" title={s.name}>{t.settings.find((y) => y.name === s.name)?.display ?? s.name}</span>
                       :{" "}
-                      {s.terms.map(([n, w]) => `${n} × ${w}`).join(" + ") || "—"}
-                      {s.constraints.length > 0 && <span className="text-muted-foreground"> · constraints: {s.constraints.join(", ")}</span>}
+                      {s.terms.map(([n, w]) => `${termLabel(n)} × ${w}`).join(" + ") || "—"}
+                      {s.constraints.length > 0 && <span className="text-muted-foreground"> · guards: {s.constraints.map(termLabel).join(", ")}</span>}
                     </li>
                   ))}
                 </ul>
                 <p className="mt-2 text-xs">
-                  Task = {sc.task_agg}({sc.settings.map((s) => s.name).join(", ")})
+                  Task = {sc.task_agg === "gmean" ? "geometric mean" : sc.task_agg} over the {sc.settings.length} settings
                 </p>
               </Card>
               <Card>
@@ -556,9 +572,9 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                 {t.leaderboard.reported_columns.length ? (
                   <div className="mt-2 flex flex-wrap gap-1">
                     {t.leaderboard.reported_columns.map((cname) => (
-                      <code key={cname} className="rounded border border-border px-1 text-[11px]">
-                        {cname}
-                      </code>
+                      <span key={cname} title={cname} className="rounded border border-border px-1 text-[11px]">
+                        {t.leaderboard.metric_labels?.[cname] ?? cname}
+                      </span>
                     ))}
                   </div>
                 ) : (
@@ -572,8 +588,8 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
                   <tr className="bg-muted/60 text-left">
                     <th className="px-2 py-2">Arm</th>
                     {sc.settings.map((s) => (
-                      <th key={s.name} className="px-2 py-2 text-right font-mono">
-                        {s.name}
+                      <th key={s.name} className="px-2 py-2 text-right" title={s.name}>
+                        {t.settings.find((y) => y.name === s.name)?.display ?? s.name}
                       </th>
                     ))}
                     <th className="px-2 py-2 text-right">Task</th>

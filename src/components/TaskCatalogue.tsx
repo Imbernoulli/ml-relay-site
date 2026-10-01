@@ -94,8 +94,8 @@ export default function TaskCatalogue({ tasks, status }: { tasks: IndexEntry[]; 
               <span className="text-muted-foreground">Settings</span>
               <span className="flex flex-wrap gap-1">
                 {t.settings.map((s) => (
-                  <span key={s.name} title={s.display ?? ""} className="rounded border border-border px-1.5 py-0.5 font-mono text-[11px]">
-                    {s.name}
+                  <span key={s.name} title={s.name} className="rounded border border-border px-1.5 py-0.5 text-[11px]">
+                    {s.display ?? s.name}
                   </span>
                 ))}
               </span>

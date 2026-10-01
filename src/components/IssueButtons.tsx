@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { changeUrl, REQUEST_MODEL } from "@/lib/site";
 
-/** Request-a-change and propose-a-task entry points (GitHub issues in the private ML-Relay repo). */
+/** The request-a-change entry point (a GitHub issue in the private ML-Relay repo). */
 export default function IssueButtons({ task }: { task: string }) {
   return (
     <div className="rounded-xl border border-border bg-card p-4">
@@ -14,9 +13,6 @@ export default function IssueButtons({ task }: { task: string }) {
         >
           Request a change
         </a>
-        <Link href="/propose/" className="rounded-lg border border-border px-3 py-1.5 text-sm font-medium hover:border-foreground/40">
-          Propose a new task
-        </Link>
       </div>
       <p className="mt-2 text-xs text-muted-foreground">
         {REQUEST_MODEL} Requests go to the private Imbernoulli/ML-Relay repository; only its collaborators can open them, and GitHub emails you on

@@ -1,5 +1,9 @@
 # One-click GitHub sign-in for the ML-Relay site
 
+**Optional.** "My work" works without any sign-in: it lists a visitor's requests from the
+public status data by GitHub username. This service only adds one-click sign-in for the
+optional "agent's latest replies" excerpts.
+
 "My work" (`/me/`) can read a visitor's issues and pull requests on the private
 `Imbernoulli/ML-Relay` repository in their browser. With this service, signing in is
 one click: **Sign in with GitHub → Authorize → back on the page**. Visitors never pick

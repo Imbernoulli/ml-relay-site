@@ -2,7 +2,7 @@
 
 import { Fragment, useMemo, useState } from "react";
 import type { TaskData, LbSummary, LbRow, Setting } from "@/lib/types";
-import { fmt, fmtScore } from "@/lib/format";
+import { arrow, colLabel, fmt, fmtScore } from "@/lib/format";
 import MetricBarChart from "./MetricBarChart";
 import { Badge } from "./ui";
 
@@ -83,7 +83,7 @@ function SettingTable({ t, st, kinds }: { t: TaskData; st: Setting; kinds: "base
               <th className="px-3 py-2 text-right font-medium" title="setting score at the ML-Relay 0.1 anchor">Setting score</th>
               {cols.map((c) => (
                 <th key={c} className={`px-3 py-2 text-right font-medium ${scored.includes(c) ? "" : "text-muted-foreground"}`}>
-                  <span className="font-mono">{c}</span> {dirs[c] ? (dirs[c] === "lower" ? "↓" : "↑") : ""}
+                  <span title={c}>{colLabel(t, st, c)}</span> {arrow(dirs[c])}
                   {!scored.includes(c) && <span className="block text-[10px] font-normal">not scored</span>}
                 </th>
               ))}
@@ -132,9 +132,8 @@ export default function ResultsSection({ t, publicMode = false }: { t: TaskData;
       {settings.map((st) => (
         <div key={st.name}>
           <h4 className="mb-1 flex flex-wrap items-center gap-2 text-base font-semibold">
-            <span className="font-mono">{st.name}</span>
+            <span title={st.name}>{st.display ?? st.name}</span>
           </h4>
-          {st.display && <p className="mb-2 text-sm text-muted-foreground">{st.display}</p>}
           <SettingTable t={t} st={st} kinds={["baseline"]} />
           <div className="mt-3">
             <MetricBarChart t={t} setting={st} />
@@ -153,8 +152,8 @@ export default function ResultsSection({ t, publicMode = false }: { t: TaskData;
                   <th className="px-3 py-2 font-medium">Agent model</th>
                   <th className="px-3 py-2 font-medium">Rows</th>
                   {agentCols.map((c) => (
-                    <th key={c} className="px-3 py-2 text-right font-mono font-medium">
-                      {c}
+                    <th key={c} className="px-3 py-2 text-right font-medium" title={c}>
+                      {colLabel(t, null, c)}
                     </th>
                   ))}
                 </tr>

@@ -46,3 +46,16 @@ export const VERDICT_STYLE: Record<string, string> = {
 export function areaSlug(a: string | null): string {
   return (a || "other").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 }
+
+/** Readable label of a leaderboard column, in the context of one setting. */
+export function colLabel(
+  t: { leaderboard: { metric_labels?: Record<string, string> } },
+  st: { column_labels?: Record<string, string> } | null | undefined,
+  c: string,
+): string {
+  return st?.column_labels?.[c] ?? t.leaderboard.metric_labels?.[c] ?? c;
+}
+
+export function arrow(dir?: string | null): string {
+  return dir === "lower" ? "↓" : dir === "higher" ? "↑" : "";
+}

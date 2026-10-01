@@ -3,7 +3,7 @@
 import { useSyncExternalStore } from "react";
 import { Bar, BarChart, CartesianGrid, Cell, ErrorBar, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { Setting, TaskData } from "@/lib/types";
-import { fmt } from "@/lib/format";
+import { colLabel, fmt } from "@/lib/format";
 
 const sub = () => () => {};
 
@@ -20,7 +20,8 @@ export default function MetricBarChart({ t, setting }: { t: TaskData; setting: S
           .map((s) => {
             const b = t.baselines.find((x) => x.slug === s.arm);
             const kind = b?.is_oracle ? "oracle" : "baseline";
-            return { arm: s.arm, mean: s.mean[m], err: s.std[m] ?? 0, kind, n: s.n_seeds };
+            const nm = b?.name ?? s.arm;
+            return { arm: nm.length > 34 ? `${nm.slice(0, 33)}…` : nm, mean: s.mean[m], err: s.std[m] ?? 0, kind, n: s.n_seeds };
           })
           .sort((a, b) => (dirs[m] === "lower" ? a.mean - b.mean : b.mean - a.mean));
         if (!data.length) return null;
@@ -28,7 +29,7 @@ export default function MetricBarChart({ t, setting }: { t: TaskData; setting: S
         return (
           <div key={m} className="rounded-lg border border-border bg-card p-3">
             <div className="mb-1 flex items-center justify-between gap-2 text-xs">
-              <span className="break-anywhere font-mono font-medium">{m}</span>
+              <span className="break-anywhere font-medium" title={m}>{colLabel(t, setting, m)}</span>
               <span className="text-muted-foreground">{dirs[m] === "lower" ? "lower is better ↓" : "higher is better ↑"}</span>
             </div>
             <div style={{ height: h }}>
@@ -37,7 +38,7 @@ export default function MetricBarChart({ t, setting }: { t: TaskData; setting: S
                   <BarChart data={data} layout="vertical" margin={{ top: 4, right: 24, bottom: 4, left: 4 }}>
                     <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="var(--border)" />
                     <XAxis type="number" tick={{ fontSize: 10, fill: "var(--muted-foreground)" }} tickFormatter={(v) => fmt(v, 3)} stroke="var(--border)" />
-                    <YAxis type="category" dataKey="arm" width={120} tick={{ fontSize: 10, fill: "var(--foreground)" }} stroke="var(--border)" />
+                    <YAxis type="category" dataKey="arm" width={190} tick={{ fontSize: 10, fill: "var(--foreground)" }} stroke="var(--border)" />
                     <Tooltip
                       cursor={{ fill: "var(--muted)" }}
                       content={({ active, payload }) => {
