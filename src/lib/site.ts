@@ -25,3 +25,9 @@ export function changeUrl(task: string): string {
 
 export const NEW_TASK_FORM = "https://github.com/Imbernoulli/ML-Relay/issues/new?template=new-task.yml";
 export const PROPOSE_PAGE = "/propose/";
+
+// GitHub sign-in ("My work"). Both are public values, set at build time from
+// repository variables (see worker/README.md). Empty = only the token fallback.
+export const GH_CLIENT_ID = process.env.NEXT_PUBLIC_GH_CLIENT_ID || "";
+export const GH_AUTH_PROXY = process.env.NEXT_PUBLIC_GH_AUTH_PROXY || "";
+export const RELAY_REPO = "Imbernoulli/ML-Relay";

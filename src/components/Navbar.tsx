@@ -7,6 +7,7 @@ import ThemeToggle from "./ThemeToggle";
 const NAV = [
   { href: "/", label: "Tasks" },
   { href: "/proposals/", label: "Proposals" },
+  { href: "/me/", label: "My work" },
 ];
 
 export default function Navbar({ mode = "internal" }: { mode?: "public" | "internal" }) {

@@ -1,0 +1,9 @@
+name = "ml-relay-auth"
+main = "index.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+ALLOWED_ORIGIN = "https://bohanlyu.com"
+REDIRECT_URI = "https://bohanlyu.com/ml-relay-site/auth/callback/"
+# GH_CLIENT_ID is set below once the GitHub App exists; GH_CLIENT_SECRET via `wrangler secret put`.
+GH_CLIENT_ID = ""
