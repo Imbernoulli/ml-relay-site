@@ -121,5 +121,6 @@ export interface GapsData { generated: string; n_gaps: number; by_field: Record<
 export interface StatusEntry {
   issue: number; title: string; type: "change" | "replacement" | "new task"; state: string; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; replacement: string | null;
+  requester?: string | null; opened?: string | null; done?: boolean; task?: string | null;
 }
 export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[] }

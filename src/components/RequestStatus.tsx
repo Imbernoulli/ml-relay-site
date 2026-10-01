@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { StatusData, StatusEntry } from "@/lib/types";
 
 const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
@@ -38,6 +39,15 @@ function Links({ e, repo }: { e: StatusEntry; repo: string }) {
       )}
     </span>
   );
+}
+
+/** Plain-words stage of a new-task proposal. */
+export function proposalStage(e: StatusEntry): string {
+  if (e.pr_state === "merged") return "Merged";
+  if (e.state === "awaiting reply") return "Waiting for requester";
+  if (e.phase === "C") return "Full measurement";
+  if (e.phase === "B") return "Building & pilot run";
+  return "Design review";
 }
 
 export function statusBadge(entries: StatusEntry[] | undefined): string | null {
@@ -87,16 +97,16 @@ export default function RequestStatus({ task, status }: { task: string; status: 
 
 /** Index: open new-task proposals and their phase. */
 export function NewTaskProposals({ status }: { status: StatusData }) {
-  if (!status.new_tasks.length) return null;
+  const open = status.new_tasks.filter((e) => e.state !== "closed");
+  if (!open.length) return null;
   return (
     <div className="mt-8 rounded-xl border border-border bg-card p-4">
       <h2 className="text-base font-semibold">In progress: proposed new tasks</h2>
       <ul className="mt-2 space-y-2">
-        {status.new_tasks.map((e) => (
+        {open.map((e) => (
           <li key={e.issue} className="flex flex-wrap items-center gap-2 text-sm">
             <Pill cls="border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
-              {e.phase ? `phase ${e.phase}` : "proposed"}
-              {e.state === "awaiting reply" ? " · awaiting reply" : e.state === "running" ? " · agent running" : ""}
+              {proposalStage(e)}
             </Pill>
             <span>{e.title}</span>
             <Links e={e} repo={status.repo} />
@@ -104,7 +114,11 @@ export function NewTaskProposals({ status }: { status: StatusData }) {
         ))}
       </ul>
       <p className="mt-2 text-[11px] text-muted-foreground">
-        Phases: A design review, B build and pilot, C full measurement. Links go to the private repository (404 for non-collaborators).
+        Each proposal goes through design review, a pilot build, and full measurement; links open the private GitHub repo (collaborators
+        only).{" "}
+        <Link href="/proposals/" className="underline">
+          All proposals
+        </Link>
       </p>
     </div>
   );

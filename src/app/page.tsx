@@ -29,6 +29,9 @@ export default function Home() {
         >
           Propose a new task
         </Link>
+        <Link href="/proposals/" className="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40">
+          See proposed tasks
+        </Link>
         <span className="text-sm text-muted-foreground">To change an existing task, open it below and use &ldquo;Request a change&rdquo;.</span>
       </div>
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
