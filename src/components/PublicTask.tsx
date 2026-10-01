@@ -8,6 +8,7 @@ import EnvViewer from "./EnvViewer";
 import ResultsSection from "./ResultsSection";
 import { Badge, Card, Fold, Section } from "./ui";
 import TaskImage from "./TaskImage";
+import StarButton from "./StarButton";
 import IssueButtons from "./IssueButtons";
 import RequestStatus from "./RequestStatus";
 import { loadStatus } from "@/lib/data";
@@ -140,7 +141,12 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
       <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
+          <div className="flex items-start gap-3">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
+            <div className="mt-1.5">
+              <StarButton id={t.id} withLabel />
+            </div>
+          </div>
           <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
           <div className="mt-4">
             <IssueButtons task={t.id} />

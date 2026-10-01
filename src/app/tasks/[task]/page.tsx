@@ -9,6 +9,7 @@ import DiffBlock from "@/components/DiffBlock";
 import EnvViewer from "@/components/EnvViewer";
 import PublicTask from "@/components/PublicTask";
 import TaskImage from "@/components/TaskImage";
+import StarButton from "@/components/StarButton";
 import IssueButtons from "@/components/IssueButtons";
 import RequestStatus from "@/components/RequestStatus";
 import { gpuLabel } from "@/lib/site";
@@ -206,7 +207,12 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
       <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
+          <div className="flex items-start gap-3">
+            <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
+            <div className="mt-1.5">
+              <StarButton id={t.id} withLabel />
+            </div>
+          </div>
           <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
           <div className="mt-4">
             <IssueButtons task={t.id} />
