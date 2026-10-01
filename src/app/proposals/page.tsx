@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { loadIndex, loadStatus } from "@/lib/data";
 import type { StatusEntry } from "@/lib/types";
+import ProgressTimeline from "@/components/ProgressTimeline";
+import PrivateStatus from "@/components/PrivateStatus";
 
 export const metadata = { title: "ML-Relay · Proposed tasks" };
 
@@ -67,7 +69,8 @@ function ProposalCard({ e, repo, known }: { e: StatusEntry; repo: string; known:
         )}
         {opened && <> · opened {opened}</>}
       </div>
-      <Timeline e={e} />
+      {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : <Timeline e={e} />}
+      <PrivateStatus issue={e.issue} />
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
         <a href={`https://github.com/${repo}/issues/${e.issue}`} target="_blank" rel="noreferrer" title={PRIVATE_TIP} className="font-mono underline">
           issue #{e.issue}

@@ -16,6 +16,8 @@ import {
   type Viewer,
 } from "@/lib/github";
 import type { StatusData, StatusIssue } from "@/lib/types";
+import ProgressTimeline from "@/components/ProgressTimeline";
+import PrivateStatus from "@/components/PrivateStatus";
 import { NEW_TASK_FORM, RELAY_REPO } from "@/lib/site";
 
 const PR_STYLE: Record<string, string> = {
@@ -73,7 +75,8 @@ function RequestCard({ r, st, known }: { r: MyRequest; st: StatusIssue | undefin
       <a href={r.url} target="_blank" rel="noreferrer" className="mt-2 block text-base font-semibold hover:underline">
         #{r.number} {r.title}
       </a>
-      <Timeline r={r} stage={stage} />
+      {st?.progress?.steps?.length ? <ProgressTimeline progress={st.progress} /> : <Timeline r={r} stage={stage} />}
+      <PrivateStatus issue={r.number} />
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
         {r.pr ? (
           <>

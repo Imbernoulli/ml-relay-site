@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { loadIndex, loadStatus } from "@/lib/data";
 import type { StatusIssue } from "@/lib/types";
+import ProgressTimeline from "@/components/ProgressTimeline";
+import PrivateStatus from "@/components/PrivateStatus";
 
 export const metadata = { title: "ML-Relay · Modifications" };
 
@@ -29,10 +31,12 @@ function Entry({ r, repo, titles }: { r: StatusIssue; repo: string; titles: Map<
           <span className="text-base font-semibold">{r.task ?? "—"}</span>
         )}
         <Pill cls="border-border bg-muted text-foreground">{r.type === "maintenance" ? "maintainer change" : "change request"}</Pill>
-        <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{r.stage}</Pill>
+        {!r.progress?.steps?.length && <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{r.stage}</Pill>}
         <span className="ml-auto text-xs text-muted-foreground">updated {r.updated.slice(0, 10)}</span>
       </div>
       <div className="mt-1 text-sm">{r.title}</div>
+      {r.progress?.steps?.length ? <ProgressTimeline progress={r.progress} /> : null}
+      <PrivateStatus issue={r.issue} />
       {r.replacement && (
         <div className="mt-1 text-sm text-amber-800 dark:text-amber-200">
           Being replaced by <span className="font-mono">{r.replacement}</span>.

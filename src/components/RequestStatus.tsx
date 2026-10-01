@@ -1,5 +1,7 @@
 import Link from "next/link";
 import type { StatusData, StatusEntry } from "@/lib/types";
+import ProgressTimeline from "./ProgressTimeline";
+import PrivateStatus from "./PrivateStatus";
 
 const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
 
@@ -74,6 +76,8 @@ export default function RequestStatus({ task, status }: { task: string; status: 
           <div className="mt-2">
             <Links e={e} repo={status.repo} />
           </div>
+          {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : null}
+          <PrivateStatus issue={e.issue} />
         </div>
       ))}
       {other.length > 0 && (
@@ -81,10 +85,16 @@ export default function RequestStatus({ task, status }: { task: string; status: 
           <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Status: open requests</div>
           <ul className="mt-2 space-y-2">
             {other.map((e) => (
-              <li key={e.issue} className="flex flex-wrap items-center gap-2 text-sm">
-                <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{e.state === "running" ? "agent running" : "change requested"}</Pill>
-                <span>{e.title}</span>
-                <Links e={e} repo={status.repo} />
+              <li key={e.issue} className="text-sm">
+                <div className="flex flex-wrap items-center gap-2">
+                  {!e.progress?.steps?.length && (
+                    <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{e.state === "running" ? "agent running" : "change requested"}</Pill>
+                  )}
+                  <span>{e.title}</span>
+                  <Links e={e} repo={status.repo} />
+                </div>
+                {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : null}
+                <PrivateStatus issue={e.issue} />
               </li>
             ))}
           </ul>
@@ -105,9 +115,11 @@ export function NewTaskProposals({ status }: { status: StatusData }) {
       <ul className="mt-2 space-y-2">
         {open.map((e) => (
           <li key={e.issue} className="flex flex-wrap items-center gap-2 text-sm">
-            <Pill cls="border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">
-              {proposalStage(e)}
-            </Pill>
+{e.progress?.steps?.length ? (
+              <ProgressTimeline progress={e.progress} compact />
+            ) : (
+              <Pill cls="border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">{proposalStage(e)}</Pill>
+            )}
             <span>{e.title}</span>
             <Links e={e} repo={status.repo} />
           </li>
