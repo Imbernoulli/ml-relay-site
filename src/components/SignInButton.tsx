@@ -5,7 +5,7 @@ import { startOAuth } from "@/lib/github";
 import Spinner from "./Spinner";
 
 /** Starts GitHub sign-in with instant feedback (the redirect can take a moment). */
-export default function SignInButton({ variant = "primary" }: { variant?: "primary" | "nav" }) {
+export default function SignInButton({ variant = "primary", label }: { variant?: "primary" | "nav"; label?: string }) {
   const [busy, setBusy] = useState(false);
   const click = () => {
     if (busy) return;
@@ -27,7 +27,7 @@ export default function SignInButton({ variant = "primary" }: { variant?: "prima
           {variant === "primary" ? "Redirecting to GitHub…" : "Redirecting…"}
         </>
       ) : variant === "primary" ? (
-        "Sign in with GitHub"
+        label ?? "Sign in with GitHub"
       ) : (
         "Sign in"
       )}

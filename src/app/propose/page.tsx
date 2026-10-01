@@ -122,15 +122,16 @@ export default function ProposePage() {
       </p>
 
       <div className="mt-8 flex flex-wrap items-center gap-3">
-        <a
-          href={NEW_TASK_FORM}
-          target="_blank"
-          rel="noreferrer"
+        <Link
+          href="/propose/new/"
           className="rounded-lg border border-emerald-600/60 bg-emerald-600/15 px-4 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-600 dark:text-emerald-200"
         >
-          Open the new-task form on GitHub
+          Fill in the proposal form
+        </Link>
+        <a href={NEW_TASK_FORM} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground underline">
+          Prefer GitHub? Open the form there
         </a>
-        <span className="text-xs text-muted-foreground">Collaborators on Imbernoulli/ML-Relay only. {REQUEST_MODEL}</span>
+        <span className="w-full text-xs text-muted-foreground">Collaborators on Imbernoulli/ML-Relay only. {REQUEST_MODEL}</span>
       </div>
     </div>
   );

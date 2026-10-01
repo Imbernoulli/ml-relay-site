@@ -1,0 +1,145 @@
+{
+ "new-task": {
+  "file": "new-task.yml",
+  "name": "Propose a new task",
+  "description": "Propose a brand-new ML-Relay task. The relay agent reviews the design, then builds and measures it in phases, waiting for your reply after each one.",
+  "title": "[new task] ",
+  "labels": [
+   "relay-newtask"
+  ],
+  "fields": [
+   {
+    "type": "markdown",
+    "value": "**How this works.** Opening this issue starts the relay agent (collaborators with write access only).\n- **Phase A, design review (no GPU):** it reads your paper and code, checks that the repo installs and the data downloads, and replies with a design doc or with targeted questions.\n- **Phase B, build + pilot:** after you reply `go`, it builds the task and pilots two baselines at reduced scale, then opens a PR.\n- **Phase C, full measurement:** after another `go`, it measures every baseline on every setting and runs the final checks.\n\nYou get an @mention (an email by default) whenever it needs you. Reply in the issue to answer or to give `go`. This issue maps to exactly one pull request (opened in Phase B, updated in Phase C, `Closes #<this issue>`).\n\n**The rules a task must meet:** one atomic research question that is a paper's own; at least 3 settings from the papers' own protocol (real checkpoints, data and benchmarks, no toy scales; the settings must genuinely differ); published baselines with code; an editable surface that is one algorithmic component; everything downloadable at build time, because compute is offline.\n"
+   },
+   {
+    "type": "textarea",
+    "id": "question",
+    "label": "Research question",
+    "description": "The one atomic ML-science question, and why it matters.\nExample: \"Which per-token advantage should on-policy distillation use when the teacher is weaker than the student? Matters because OPD is now standard for reasoning models and the usual reverse-KL signal collapses in that regime.\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "papers",
+    "label": "Source paper(s)",
+    "description": "arXiv / DOI links. The question must be the paper's own research question.\nExample: \"https://arxiv.org/abs/2306.13649 (GKD, Agarwal et al. 2024), Sec. 4 'on-policy distillation'\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "codebase",
+    "label": "Codebase",
+    "description": "Repository URL + commit or branch (preferably the paper authors' own, small repo), and the entry point that trains / evaluates.\nExample: \"https://github.com/kiryor/nnPUlearning @ 1a2b3c4, entry point: train.py (trains and reports test error)\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "settings",
+    "label": "Evaluation settings",
+    "description": "At least 3, each from the papers' own protocol: model / dataset / budget, plus the metric(s) and direction. Real checkpoints, data and benchmarks, no toy scales; the settings must genuinely differ.\nExample (one row per setting):\n| setting | model | dataset | budget | metric (direction) |\n|---|---|---|---|---|\n| mnist-evenodd | 6-layer MLP | MNIST even/odd | 100 epochs | test error (lower is better) |\n| cifar10-vehicle | 13-layer CNN | CIFAR-10 vehicle/animal | 200 epochs | test error (lower is better) |\n| 20news | 5-layer MLP on GloVe | 20 Newsgroups | 50 epochs | test error (lower is better) |\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "baselines",
+    "label": "Baselines",
+    "description": "Published methods with code: name, paper, repo@commit. Say which one is the STARTER (the default the agent begins from).\nExample:\n- uPU (starter): du Plessis et al. 2015, https://github.com/kiryor/nnPUlearning@1a2b3c4 (loss=upu)\n- nnPU: Kiryo et al. 2017, https://arxiv.org/abs/1703.00593, same repo (loss=nnpu)\n- Dist-PU: Zhao et al. 2022, https://github.com/Ray-rui/Dist-PU-Positive-Unlabeled-Learning-from-a-Label-Distribution-Perspective@main\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "scope",
+    "label": "Editable scope",
+    "description": "Which files / functions / regions the agent may edit, and what stays fixed (data, eval, training loop, budget).\nExample: \"Editable: the `pu_risk(...)` function in custom_pu.py (the risk estimator). Fixed: data loading and splits, the model, optimizer and epochs, the evaluation.\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "compute",
+    "label": "Compute budget",
+    "description": "GPUs per setting and wall time per setting. (The agent itself gets 5 h in total.)\nExample: \"1 x H100 per setting, about 20 min per setting per seed; 3 seeds.\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "data",
+    "label": "Data and weights",
+    "description": "Optional. Where datasets and checkpoints come from (URLs, Hugging Face ids), with sizes if known.\nExample: \"torchvision MNIST / CIFAR-10; 20 Newsgroups via sklearn; GloVe 6B 300d (https://nlp.stanford.edu/data/glove.6B.zip, 822 MB)\"\n",
+    "required": false
+   },
+   {
+    "type": "textarea",
+    "id": "integrity",
+    "label": "Integrity concerns",
+    "description": "Optional. What the agent must not be able to reach (test labels, the eval script, a generator, cached answers).\nExample: \"The class prior pi is given to all methods; the agent must not read test labels or change the prior.\"\n",
+    "required": false
+   },
+   {
+    "type": "textarea",
+    "id": "acceptance",
+    "label": "Acceptance criteria",
+    "description": "Optional. What would make the task good: e.g. the published ordering reproduces on every setting, the starter is clearly beaten by the best baseline.\nExample: \"nnPU < uPU in test error on all three settings, as in the paper's Table 2.\"\n",
+    "required": false
+   },
+   {
+    "type": "textarea",
+    "id": "notes",
+    "label": "Notes",
+    "description": "Optional. Anything else the agent should know.",
+    "required": false
+   }
+  ]
+ },
+ "change-task": {
+  "file": "change-task.yml",
+  "name": "Change an existing task",
+  "description": "Ask the relay agent to change one existing ML-Relay task (fix, rerun, improve a baseline, tighten a setting). One issue = one task = one PR.",
+  "title": "[change] ",
+  "labels": [
+   "relay-request"
+  ],
+  "fields": [
+   {
+    "type": "markdown",
+    "value": "Opening this issue starts the relay agent (collaborators with write access only). It works on **this task only**, reports back here with an @mention (an email by default), and proposes its changes as **one pull request** linked to this issue (`Closes #<this issue>`). To iterate, reply in the issue; the same PR is updated. `/status` and `/stop` also work. A change that touches another task, or shared files (README, site), needs its own issue.\n"
+   },
+   {
+    "type": "input",
+    "id": "task",
+    "label": "Task",
+    "description": "The one task to change: its id as listed in dataset.toml (the backend validates it).\nExample: \"ml-pu-learning-risk\"\n",
+    "placeholder": "ml-pu-learning-risk",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "change",
+    "label": "What should change",
+    "description": "Concretely, what should be different in the task.\nExample: \"Rerun the `nnpu` baseline at 5 seeds instead of 3 and update its leaderboard rows.\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "why",
+    "label": "Why",
+    "description": "The reason: a bug, a mismatch with the paper, a weak setting, a new result.\nExample: \"Seed variance on cifar10-vehicle is larger than the gap between nnpu and dist_pu, so the ordering is not resolved.\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "acceptance",
+    "label": "Acceptance criteria",
+    "description": "How we will know the change is right.\nExample: \"5 seeds per setting; the reported std of nnpu on cifar10-vehicle drops below 0.01; the bundle's oracle still scores.\"\n",
+    "required": true
+   },
+   {
+    "type": "textarea",
+    "id": "pointers",
+    "label": "Pointers",
+    "description": "Optional. Files, lines, papers, earlier issues or runs.\nExample: \"tests/meta/config.json `seeds`; issue #1.\"\n",
+    "required": false
+   }
+  ]
+ }
+}

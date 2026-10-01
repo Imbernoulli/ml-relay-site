@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { finishOAuth } from "@/lib/github";
 import Spinner from "@/components/Spinner";
+import { RETURN_KEY } from "@/lib/issueForm";
 
 export default function Callback() {
   const router = useRouter();
@@ -25,7 +26,19 @@ export default function Callback() {
       return;
     }
     finishOAuth(code, state)
-      .then(() => router.replace("/me/"))
+      .then(() => {
+        // Back to the page that started the sign-in (e.g. a half-filled form), else My work.
+        let to = "/me/";
+        try {
+          const r = sessionStorage.getItem(RETURN_KEY);
+          sessionStorage.removeItem(RETURN_KEY);
+          if (r && r.startsWith("/")) {
+            const base = process.env.NEXT_PUBLIC_BASE_PATH || "";
+            to = base && r.startsWith(base) ? r.slice(base.length) || "/" : r;
+          }
+        } catch {}
+        router.replace(to);
+      })
       .catch((e: unknown) => setError(e instanceof Error ? e.message : "Sign-in failed."));
   }, [router]);
 

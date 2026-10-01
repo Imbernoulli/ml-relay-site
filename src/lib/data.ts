@@ -28,3 +28,10 @@ export function siteMode(): "public" | "internal" {
     return "internal";
   }
 }
+
+/** ML-Relay's issue forms, copied by the sync job (absent until it runs). */
+export function loadForms(): import("./issueForm").FormsData {
+  const p = path.join(DATA, "forms.json");
+  if (!fs.existsSync(p)) return {};
+  return JSON.parse(fs.readFileSync(p, "utf-8"));
+}

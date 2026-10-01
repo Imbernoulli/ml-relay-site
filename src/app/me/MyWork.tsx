@@ -20,6 +20,8 @@ import ProgressTimeline from "@/components/ProgressTimeline";
 import PrivateStatus from "@/components/PrivateStatus";
 import SignInButton from "@/components/SignInButton";
 import RequestAccess from "@/components/RequestAccess";
+import ReplyBox from "@/components/ReplyBox";
+import { getOptimistic } from "@/lib/issueForm";
 import { NEW_TASK_FORM, RELAY_REPO } from "@/lib/site";
 
 const PR_STYLE: Record<string, string> = {
@@ -62,7 +64,7 @@ function Timeline({ r, stage }: { r: MyRequest; stage: string | null }) {
   );
 }
 
-function RequestCard({ r, st, known }: { r: MyRequest; st: StatusIssue | undefined; known: Set<string> }) {
+function RequestCard({ r, st, known, onPosted }: { r: MyRequest; st: StatusIssue | undefined; known: Set<string>; onPosted: () => void }) {
   const stage = st?.stage ?? r.stage;
   const waiting = r.waitingForYou || Boolean(st?.waiting && st.state === "open");
   return (
@@ -79,6 +81,7 @@ function RequestCard({ r, st, known }: { r: MyRequest; st: StatusIssue | undefin
       </a>
       {st?.progress?.steps?.length ? <ProgressTimeline progress={st.progress} /> : <Timeline r={r} stage={stage} />}
       <PrivateStatus issue={r.number} />
+      {waiting && r.state === "open" && <ReplyBox issue={r.number} url={r.url} onPosted={onPosted} />}
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
         {r.pr ? (
           <>
@@ -183,7 +186,26 @@ export default function MyWork({ status, knownTasks }: { status: StatusData; kno
     try {
       const me = await viewer();
       const items = await myRequests(me.login);
-      setLoad({ s: "ok", me, items });
+      // Requests just filed from the site appear at once, before GitHub's list catches up.
+      const have = new Set(items.map((x) => x.number));
+      const fresh = getOptimistic()
+        .filter((o) => !have.has(o.number) && Date.now() - Date.parse(o.created) < 86400000)
+        .map(
+          (o): MyRequest => ({
+            number: o.number,
+            title: o.title,
+            url: o.url,
+            state: "open",
+            kind: o.kind,
+            stage: o.kind === "new task" ? "Design review" : "Requested",
+            waitingForYou: false,
+            created: o.created,
+            updated: o.created,
+            pr: null,
+            lastAgent: null,
+          }),
+        );
+      setLoad({ s: "ok", me, items: [...fresh, ...items] });
     } catch (e) {
       if (e instanceof GitHubError && e.status === 401) {
         clearToken();
@@ -261,14 +283,14 @@ export default function MyWork({ status, knownTasks }: { status: StatusData; kno
         <>
           <h2 className="mt-6 text-lg font-semibold">Open ({open.length})</h2>
           <div className="mt-2 space-y-3">
-            {open.length ? open.map((r) => <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} />) : <p className="text-sm text-muted-foreground">None.</p>}
+            {open.length ? open.map((r) => <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} onPosted={() => void refresh()} />) : <p className="text-sm text-muted-foreground">None.</p>}
           </div>
           {closed.length > 0 && (
             <>
               <h2 className="mt-8 text-lg font-semibold">Closed ({closed.length})</h2>
               <div className="mt-2 space-y-3">
                 {closed.map((r) => (
-                  <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} />
+                  <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} onPosted={() => void refresh()} />
                 ))}
               </div>
             </>
