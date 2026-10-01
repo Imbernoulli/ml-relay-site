@@ -117,3 +117,9 @@ export interface PublicTaskData {
 
 export interface Gap { task: string; field: string; detail: string }
 export interface GapsData { generated: string; n_gaps: number; by_field: Record<string, number>; gaps: Gap[] }
+
+export interface StatusEntry {
+  issue: number; title: string; type: "change" | "replacement" | "new task"; state: string; phase: string | null;
+  pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; replacement: string | null;
+}
+export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[] }

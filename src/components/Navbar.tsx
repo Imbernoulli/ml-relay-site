@@ -6,7 +6,6 @@ import ThemeToggle from "./ThemeToggle";
 
 const NAV = [
   { href: "/", label: "Tasks" },
-  { href: "/gaps/", label: "Gaps" },
 ];
 
 export default function Navbar({ mode = "internal" }: { mode?: "public" | "internal" }) {

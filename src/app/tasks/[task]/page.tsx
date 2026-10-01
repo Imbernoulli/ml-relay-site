@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loadIndex, loadTask } from "@/lib/data";
+import { loadIndex, loadStatus, loadTask } from "@/lib/data";
 import type { Baseline, DescSection, TaskData, Term } from "@/lib/types";
 import { fmt, fmtScore, firstParagraph, gb, hours } from "@/lib/format";
 import MarkdownContent from "@/components/MarkdownContent";
@@ -10,6 +10,7 @@ import EnvViewer from "@/components/EnvViewer";
 import PublicTask from "@/components/PublicTask";
 import TaskImage from "@/components/TaskImage";
 import IssueButtons from "@/components/IssueButtons";
+import RequestStatus from "@/components/RequestStatus";
 import { gpuLabel } from "@/lib/site";
 import type { PublicTaskData } from "@/lib/types";
 import ResultsSection from "@/components/ResultsSection";
@@ -55,7 +56,7 @@ function Staff({ text, label }: { text?: string; label: string }) {
   return (
     <div className="rounded-lg border-l-4 border-emerald-500/60 bg-muted/50 px-4 py-3">
       <div className="mb-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{label}</div>
-      {text ? <MarkdownContent content={text} /> : <p className="text-sm text-muted-foreground">— (no plain-language text sourced in the delivered files; listed in gaps.json)</p>}
+      {text ? <MarkdownContent content={text} /> : <p className="text-sm text-muted-foreground">— (no plain-language summary yet)</p>}
     </div>
   );
 }
@@ -169,6 +170,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
   }
   if ((t as unknown as { mode?: string }).mode === "public") return <PublicTask t={t as unknown as PublicTaskData} />;
   const c = t.curated || {};
+  const status = loadStatus();
   const sc = t.scoring;
   const editable = t.files.filter((f) => f.editable);
   const readonly = t.files.filter((f) => !f.editable);
@@ -197,6 +199,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
         )}
         {gpuLabel(t.exec?.gpus) && <Badge>Trial: {gpuLabel(t.exec?.gpus)}</Badge>}
       </div>
+      <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
@@ -222,7 +225,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
       <Section id="question" n={1} title="Research question">
         <Card>
           <div className="mb-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Background · question · why it matters (ML-Relay README)</div>
-          {t.elab ? <p className="text-sm leading-relaxed">{t.elab}</p> : <Missing what="README section" />}
+          {t.elab ? <div className="space-y-2 text-sm leading-relaxed">{t.elab.split("\n\n").map((p, i) => <p key={i}>{p}</p>)}</div> : <Missing what="README section" />}
           <div className="mt-3 space-y-1 text-xs">
             <p>
               <span className="font-semibold">Settings (README):</span> {t.readme_settings_line ?? "—"}
@@ -599,7 +602,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
             </div>
           </>
         ) : (
-          <p className="text-sm text-muted-foreground">— scoring could not be computed (see gaps).</p>
+          <p className="text-sm text-muted-foreground">— scoring could not be computed.</p>
         )}
         <Fold summary="score_spec.py (tests/meta)">
           <CodeBlock code={t.score_spec_source || "—"} language="python" />

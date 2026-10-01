@@ -9,6 +9,8 @@ import ResultsSection from "./ResultsSection";
 import { Badge, Card, Fold, Section } from "./ui";
 import TaskImage from "./TaskImage";
 import IssueButtons from "./IssueButtons";
+import RequestStatus from "./RequestStatus";
+import { loadStatus } from "@/lib/data";
 import { gpuLabel } from "@/lib/site";
 
 const TOC = [
@@ -112,6 +114,7 @@ function BaselineCard({ b }: { b: PublicBaseline }) {
 
 export default function PublicTask({ t }: { t: PublicTaskData }) {
   const sc = t.scoring;
+  const status = loadStatus();
   const titleSec = t.desc_sections.find((s) => s.kind === "title");
   const filesEdit = t.instruction_harness["Files You May Edit"];
   return (
@@ -133,6 +136,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         )}
         {gpuLabel(t.gpus) && <Badge>Trial: {gpuLabel(t.gpus)}</Badge>}
       </div>
+      <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
           <h1 className="text-2xl font-bold tracking-tight sm:text-3xl">{t.title ?? t.id}</h1>
@@ -156,7 +160,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
 
       <Section id="question" n={1} title="Research question">
         <Card>
-          {t.elab ? <p className="text-sm leading-relaxed">{t.elab}</p> : <p className="text-sm text-muted-foreground">—</p>}
+          {t.elab ? <div className="space-y-2 text-sm leading-relaxed">{t.elab.split("\n\n").map((p, i) => <p key={i}>{p}</p>)}</div> : <p className="text-sm text-muted-foreground">—</p>}
           <div className="mt-3 space-y-1 text-xs">
             <p>
               <span className="font-semibold">Settings:</span> {t.readme_settings_line ?? "—"}

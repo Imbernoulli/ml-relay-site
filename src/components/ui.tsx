@@ -72,5 +72,5 @@ export function KV({ items }: { items: [ReactNode, ReactNode][] }) {
 }
 
 export function Missing({ what }: { what?: string }) {
-  return <span className="text-muted-foreground" title={what ? `${what}: not resolved — listed in gaps.json` : "not resolved — listed in gaps.json"}>—</span>;
+  return <span className="text-muted-foreground" title={what ? `${what}: not available` : "not available"}>—</span>;
 }

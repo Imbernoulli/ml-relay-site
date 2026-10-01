@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { IndexEntry } from "@/lib/types";
+import type { IndexEntry, StatusData } from "@/lib/types";
+import { statusBadge } from "./RequestStatus";
 import { fmtScore } from "@/lib/format";
 import { Badge } from "./ui";
 import { gpuLabel } from "@/lib/site";
@@ -11,7 +12,7 @@ import TaskImage from "./TaskImage";
 // Filter chips group by the top-level area (the part before " / ").
 const topArea = (a?: string | null) => (a ? a.split(" / ")[0].trim() : "—");
 
-export default function TaskCatalogue({ tasks }: { tasks: IndexEntry[] }) {
+export default function TaskCatalogue({ tasks, status }: { tasks: IndexEntry[]; status?: StatusData }) {
   const [q, setQ] = useState("");
   const [area, setArea] = useState<string>("");
   const areas = useMemo(() => {
@@ -84,6 +85,7 @@ export default function TaskCatalogue({ tasks }: { tasks: IndexEntry[] }) {
                 <h3 className="mt-1 text-base font-semibold leading-snug group-hover:underline">{t.title ?? t.id}</h3>
               </div>
               <div className="flex flex-wrap gap-1.5">
+                {statusBadge(status?.tasks[t.id]) && <Badge tone="warn">{statusBadge(status?.tasks[t.id])}</Badge>}
                 {gpuLabel(t.gpus) && <Badge>{gpuLabel(t.gpus)}</Badge>}
               </div>
             </div>

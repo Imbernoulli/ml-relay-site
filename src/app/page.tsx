@@ -1,11 +1,12 @@
-import { loadIndex, loadGaps, siteMode } from "@/lib/data";
+import { loadIndex, loadStatus, siteMode } from "@/lib/data";
+import { NewTaskProposals } from "@/components/RequestStatus";
 import TaskCatalogue from "@/components/TaskCatalogue";
 import MarkdownContent from "@/components/MarkdownContent";
 import Link from "next/link";
 
 export default function Home() {
   const idx = loadIndex();
-  const gaps = loadGaps();
+  const status = loadStatus();
   const intro = idx.intro_md.replace(/^# ML-Relay\s*/, "");
   const mode = siteMode();
   const nSettings = idx.tasks.reduce((a, t) => a + t.settings.length, 0);
@@ -44,11 +45,11 @@ export default function Home() {
       </div>
       <p className="mt-3 text-xs text-muted-foreground">
         Generated {idx.generated}{" "}from the ML-Relay task bundles and README. Scores come from each task&apos;s own scorer and use
-        the ML-Relay anchor: the weakest reference arm maps to 0, the strongest to {idx.relay_ref_score}. {gaps.n_gaps} unresolved fields are
-        listed on the <Link href="/gaps/" className="underline">gaps page</Link>.
+        the ML-Relay anchor: the weakest reference arm maps to 0, the strongest to {idx.relay_ref_score}.
       </p>
+      <NewTaskProposals status={status} />
       <div className="mt-8">
-        <TaskCatalogue tasks={idx.tasks} />
+        <TaskCatalogue tasks={idx.tasks} status={status} />
       </div>
     </div>
   );
