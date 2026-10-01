@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T22:17:32+00:00",
+ "generated": "2026-10-01T22:21:37+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "tasks": {
   "agent-alfworld-planning-policy": [
@@ -19,5 +19,39 @@
    }
   ]
  },
- "new_tasks": []
+ "new_tasks": [],
+ "issues": [
+  {
+   "issue": 3,
+   "title": "[change] agent-alfworld-planning-policy → robot-agent-direct-control",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "agent-alfworld-planning-policy",
+   "replacement": "robot-agent-direct-control",
+   "state": "open",
+   "stage": "Draft PR",
+   "waiting": false,
+   "phase": null,
+   "pr": 4,
+   "pr_state": "draft",
+   "updated": "2026-10-01T22:09:32Z",
+   "opened": "2026-10-01T21:40:41Z"
+  },
+  {
+   "issue": 1,
+   "title": "[smoke] relay backend",
+   "requester": "Imbernoulli",
+   "type": "change",
+   "task": null,
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-09-30T23:52:16Z",
+   "opened": "2026-09-30T22:18:58Z"
+  }
+ ]
 }
