@@ -10,7 +10,7 @@
   "fields": [
    {
     "type": "markdown",
-    "value": "**How this works.** Opening this issue starts the relay agent (collaborators with write access only).\n- **Phase A, design review (no GPU):** it reads your paper and code, checks that the repo installs and the data downloads, and replies with a design doc or with targeted questions.\n- **Phase B, build + pilot:** after you reply `go`, it builds the task and pilots two baselines at reduced scale, then opens a PR.\n- **Phase C, full measurement:** after another `go`, it measures every baseline on every setting and runs the final checks.\n\nYou get an @mention (an email by default) whenever it needs you. Reply in the issue to answer or to give `go`. This issue maps to exactly one pull request (opened in Phase B, updated in Phase C, `Closes #<this issue>`).\n\n**The rules a task must meet:** one atomic research question that is a paper's own; at least 3 settings from the papers' own protocol (real checkpoints, data and benchmarks, no toy scales; the settings must genuinely differ); published baselines with code; an editable surface that is one algorithmic component; everything downloadable at build time, because compute is offline.\n"
+    "value": "**How this works.** Opening this issue starts the relay agent (collaborators with write access only).\n- **Phase A, design review (no GPU):** it reads your paper and code, checks that the repo installs and the data downloads, and replies with a design doc or with targeted questions.\n- **Phase B, build + pilot:** after you reply `go`, it builds the task and pilots two baselines at reduced scale, then opens a PR.\n- **Phase C, full measurement:** after another `go`, it measures every baseline on every setting and runs the final checks.\n\nYou get an @mention (an email by default) whenever it needs you. Reply in the issue to answer or to give `go`. This issue maps to exactly one pull request (opened in Phase B, updated in Phase C, `Closes #<this issue>`).\n\n**Only the research question and the source paper(s) are required.** Leave any other field blank and the agent proposes it from the paper(s) and the authors' code in its design review; you confirm or edit it before anything is built.\n\n**The rules a task must meet:** one atomic research question that is a paper's own; at least 3 settings from the papers' own protocol (real checkpoints, data and benchmarks, no toy scales; the settings must genuinely differ); published baselines with code; an editable surface that is one algorithmic component; everything downloadable at build time, because compute is offline.\n"
    },
    {
     "type": "textarea",
@@ -30,36 +30,36 @@
     "type": "textarea",
     "id": "codebase",
     "label": "Codebase",
-    "description": "Repository URL + commit or branch (preferably the paper authors' own, small repo), and the entry point that trains / evaluates.\nExample: \"https://github.com/kiryor/nnPUlearning @ 1a2b3c4, entry point: train.py (trains and reports test error)\"\n",
-    "required": true
+    "description": "Optional — leave blank and the agent will propose one from the paper(s).\nRepository URL + commit or branch (preferably the paper authors' own, small repo), and the entry point that trains / evaluates.\nExample: \"https://github.com/kiryor/nnPUlearning @ 1a2b3c4, entry point: train.py (trains and reports test error)\"\n",
+    "required": false
    },
    {
     "type": "textarea",
     "id": "settings",
     "label": "Evaluation settings",
-    "description": "At least 3, each from the papers' own protocol: model / dataset / budget, plus the metric(s) and direction. Real checkpoints, data and benchmarks, no toy scales; the settings must genuinely differ.\nExample (one row per setting):\n| setting | model | dataset | budget | metric (direction) |\n|---|---|---|---|---|\n| mnist-evenodd | 6-layer MLP | MNIST even/odd | 100 epochs | test error (lower is better) |\n| cifar10-vehicle | 13-layer CNN | CIFAR-10 vehicle/animal | 200 epochs | test error (lower is better) |\n| 20news | 5-layer MLP on GloVe | 20 Newsgroups | 50 epochs | test error (lower is better) |\n",
-    "required": true
+    "description": "Optional — leave blank and the agent will propose one from the paper(s).\nAt least 3, each from the papers' own protocol: model / dataset / budget, plus the metric(s) and direction. Real checkpoints, data and benchmarks, no toy scales; the settings must genuinely differ.\nExample (one row per setting):\n| setting | model | dataset | budget | metric (direction) |\n|---|---|---|---|---|\n| mnist-evenodd | 6-layer MLP | MNIST even/odd | 100 epochs | test error (lower is better) |\n| cifar10-vehicle | 13-layer CNN | CIFAR-10 vehicle/animal | 200 epochs | test error (lower is better) |\n| 20news | 5-layer MLP on GloVe | 20 Newsgroups | 50 epochs | test error (lower is better) |\n",
+    "required": false
    },
    {
     "type": "textarea",
     "id": "baselines",
     "label": "Baselines",
-    "description": "Published methods with code: name, paper, repo@commit. Say which one is the STARTER (the default the agent begins from).\nExample:\n- uPU (starter): du Plessis et al. 2015, https://github.com/kiryor/nnPUlearning@1a2b3c4 (loss=upu)\n- nnPU: Kiryo et al. 2017, https://arxiv.org/abs/1703.00593, same repo (loss=nnpu)\n- Dist-PU: Zhao et al. 2022, https://github.com/Ray-rui/Dist-PU-Positive-Unlabeled-Learning-from-a-Label-Distribution-Perspective@main\n",
-    "required": true
+    "description": "Optional — leave blank and the agent will propose one from the paper(s).\nPublished methods with code: name, paper, repo@commit. Say which one is the STARTER (the default the agent begins from).\nExample:\n- uPU (starter): du Plessis et al. 2015, https://github.com/kiryor/nnPUlearning@1a2b3c4 (loss=upu)\n- nnPU: Kiryo et al. 2017, https://arxiv.org/abs/1703.00593, same repo (loss=nnpu)\n- Dist-PU: Zhao et al. 2022, https://github.com/Ray-rui/Dist-PU-Positive-Unlabeled-Learning-from-a-Label-Distribution-Perspective@main\n",
+    "required": false
    },
    {
     "type": "textarea",
     "id": "scope",
     "label": "Editable scope",
-    "description": "Which files / functions / regions the agent may edit, and what stays fixed (data, eval, training loop, budget).\nExample: \"Editable: the `pu_risk(...)` function in custom_pu.py (the risk estimator). Fixed: data loading and splits, the model, optimizer and epochs, the evaluation.\"\n",
-    "required": true
+    "description": "Optional — leave blank and the agent will propose one from the paper(s).\nWhich files / functions / regions the agent may edit, and what stays fixed (data, eval, training loop, budget).\nExample: \"Editable: the `pu_risk(...)` function in custom_pu.py (the risk estimator). Fixed: data loading and splits, the model, optimizer and epochs, the evaluation.\"\n",
+    "required": false
    },
    {
     "type": "textarea",
     "id": "compute",
     "label": "Compute budget",
-    "description": "GPUs per setting and wall time per setting. (The agent itself gets 5 h in total.)\nExample: \"1 x H100 per setting, about 20 min per setting per seed; 3 seeds.\"\n",
-    "required": true
+    "description": "Optional — leave blank and the agent will propose one from the paper(s).\nGPUs per setting and wall time per setting. (The agent itself gets 5 h in total.)\nExample: \"1 x H100 per setting, about 20 min per setting per seed; 3 seeds.\"\n",
+    "required": false
    },
    {
     "type": "textarea",
