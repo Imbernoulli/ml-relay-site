@@ -5,7 +5,7 @@
 // visitor's own token, so what they see is exactly what GitHub lets them see.
 // The token lives in sessionStorage only and is sent to api.github.com only.
 
-import { BASE_PATH, GH_AUTH_PROXY, GH_CLIENT_ID, RELAY_REPO } from "./site";
+import { BASE_PATH, GH_AUTH_PROXY, RELAY_REPO } from "./site";
 
 const TOKEN_KEY = "mlr-gh-token";
 const STATE_KEY = "mlr-gh-oauth-state";
@@ -36,21 +36,34 @@ export function clearToken(): void {
   }
 }
 
-export const oauthConfigured = Boolean(GH_CLIENT_ID && GH_AUTH_PROXY);
+export const oauthConfigured = Boolean(GH_AUTH_PROXY);
 
 function callbackUrl(): string {
   return `${window.location.origin}${BASE_PATH}/auth/callback/`;
 }
 
-/** Step 1 of the web flow: send the visitor to GitHub with a one-time state. */
-export function startOAuth(): void {
+/** Step 1 of the web flow: send the visitor to GitHub with a one-time state.
+ *  The client id is read from the sign-in service, so the site needs no rebuild
+ *  when the GitHub App is (re)created. */
+export async function startOAuth(): Promise<void> {
+  let clientId = "";
+  try {
+    const r = await fetch(`${GH_AUTH_PROXY}/client-id`);
+    clientId = ((await r.json()) as { client_id?: string }).client_id || "";
+  } catch {
+    /* handled below */
+  }
+  if (!clientId) {
+    window.alert("GitHub sign-in is not set up yet. Use a personal access token for now.");
+    return;
+  }
   const state = crypto.randomUUID();
   try {
     sessionStorage.setItem(STATE_KEY, state);
   } catch {
     /* the callback will refuse without a stored state */
   }
-  const q = new URLSearchParams({ client_id: GH_CLIENT_ID, redirect_uri: callbackUrl(), state });
+  const q = new URLSearchParams({ client_id: clientId, redirect_uri: callbackUrl(), state });
   window.location.assign(`https://github.com/login/oauth/authorize?${q.toString()}`);
 }
 
@@ -64,7 +77,7 @@ export async function finishOAuth(code: string, state: string): Promise<void> {
     /* handled below */
   }
   if (!expected || expected !== state) throw new Error("Sign-in state did not match; please try again.");
-  const res = await fetch(GH_AUTH_PROXY, {
+  const res = await fetch(`${GH_AUTH_PROXY}/token`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code, redirect_uri: callbackUrl() }),

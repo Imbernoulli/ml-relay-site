@@ -27,8 +27,7 @@ jobs:
       - name: Build static export
         env:
           NEXT_BASE_PATH: /ml-relay-site
-          # GitHub sign-in (worker/README.md). Public values; empty = token sign-in only.
-          NEXT_PUBLIC_GH_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
+          # GitHub sign-in service (auth/README.md). Public URL; empty = token sign-in only.
           NEXT_PUBLIC_GH_AUTH_PROXY: ${{ vars.GH_AUTH_PROXY }}
         run: npm run build
       - run: touch out/.nojekyll
