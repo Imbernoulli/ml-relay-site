@@ -1,13 +1,11 @@
 import { loadIndex, loadStatus, siteMode } from "@/lib/data";
 import { NewTaskProposals } from "@/components/RequestStatus";
 import TaskCatalogue from "@/components/TaskCatalogue";
-import MarkdownContent from "@/components/MarkdownContent";
 import Link from "next/link";
 
 export default function Home() {
   const idx = loadIndex();
   const status = loadStatus();
-  const intro = idx.intro_md.replace(/^# ML-Relay\s*/, "");
   const mode = siteMode();
   const nSettings = idx.tasks.reduce((a, t) => a + t.settings.length, 0);
   const nBaselines = idx.tasks.reduce((a, t) => a + t.baselines.length, 0);
@@ -18,17 +16,20 @@ export default function Home() {
           Internal · ML-Relay is not public · this site shows the full bundles
         </div>
       )}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-3xl font-bold tracking-tight">ML-Relay</h1>
+      <h1 className="text-3xl font-bold tracking-tight">ML-Relay</h1>
+      <p className="mt-3 max-w-3xl text-base leading-relaxed text-muted-foreground">
+        ML-Relay is a collection of open machine-learning research tasks. If something in a task looks wrong, request a change on that
+        task&apos;s page. If there is a research problem you think matters, one where you would like to see how far today&apos;s models can go,
+        propose it as a new task.
+      </p>
+      <div className="mt-4 flex flex-wrap items-center gap-3">
         <Link
           href="/propose/"
           className="rounded-lg border border-emerald-600/60 bg-emerald-600/15 px-4 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-600 dark:text-emerald-200"
         >
           Propose a new task
         </Link>
-      </div>
-      <div className="mt-3 max-w-4xl">
-        <MarkdownContent content={intro} />
+        <span className="text-sm text-muted-foreground">To change an existing task, open it below and use &ldquo;Request a change&rdquo;.</span>
       </div>
       <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {[
@@ -43,14 +44,26 @@ export default function Home() {
           </div>
         ))}
       </div>
-      <p className="mt-3 text-xs text-muted-foreground">
-        Generated {idx.generated}{" "}from the ML-Relay task bundles and README. Scores come from each task&apos;s own scorer and use
-        the ML-Relay anchor: the weakest reference arm maps to 0, the strongest to {idx.relay_ref_score}.
-      </p>
       <NewTaskProposals status={status} />
       <div className="mt-8">
         <TaskCatalogue tasks={idx.tasks} status={status} />
       </div>
+      <details className="group mt-10 rounded-xl border border-border bg-card">
+        <summary className="flex items-center gap-2 px-4 py-3 text-sm font-semibold">
+          <span className="chev text-muted-foreground">▸</span>
+          How is ML-Relay different from MLS-Bench?
+        </summary>
+        <ul className="list-disc space-y-1.5 border-t border-border px-4 py-3 pl-9 text-sm leading-relaxed">
+          <li>
+            It is a more advanced framework that covers more fields and sits closer to real research: each task uses the papers&apos; own
+            models, data and evaluation protocols.
+          </li>
+          <li>
+            MLS-Bench collected classical tasks from the field&apos;s past decades. ML-Relay focuses on research problems people are actively
+            pushing in 2025–2026 and that are still unsolved.
+          </li>
+        </ul>
+      </details>
     </div>
   );
 }
