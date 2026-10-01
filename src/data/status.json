@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T23:40:18+00:00",
+ "generated": "2026-10-01T23:41:08+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "tasks": {
   "agent-alfworld-planning-policy": [
@@ -35,9 +35,20 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-01T23:39:47Z",
+   "updated": "2026-10-01T23:40:29Z",
    "opened": "2026-10-01T23:39:34Z",
-   "progress": null
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790898027,
+      "kind": "maintainer",
+      "label": "Sweep delivered files",
+      "state": "done",
+      "detail_public": "53 files in 50 tasks carry hidden-setting wording; hit list in the issue"
+     }
+    ]
+   }
   },
   {
    "issue": 3,
