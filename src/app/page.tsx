@@ -7,8 +7,6 @@ export default function Home() {
   const idx = loadIndex();
   const status = loadStatus();
   const mode = siteMode();
-  const nSettings = idx.tasks.reduce((a, t) => a + t.settings.length, 0);
-  const nBaselines = idx.tasks.reduce((a, t) => a + t.baselines.length, 0);
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       {mode === "internal" && (
@@ -33,19 +31,6 @@ export default function Home() {
           See proposed tasks
         </Link>
         <span className="text-sm text-muted-foreground">To change an existing task, open it below and use &ldquo;Request a change&rdquo;.</span>
-      </div>
-      <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {[
-          ["Tasks", idx.tasks.length],
-          ["Evaluation settings", nSettings],
-          ["Baseline arms", nBaselines],
-          ["Areas", new Set(idx.tasks.map((t) => (t.area ?? "").split(" / ")[0])).size],
-        ].map(([k, v]) => (
-          <div key={String(k)} className="rounded-xl border border-border bg-card p-3">
-            <div className="text-xs text-muted-foreground">{k}</div>
-            <div className="mt-1 text-lg font-semibold tabular-nums">{v}</div>
-          </div>
-        ))}
       </div>
       <NewTaskProposals status={status} />
       <div className="mt-8">
