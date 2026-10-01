@@ -29,4 +29,7 @@ export const PROPOSE_PAGE = "/propose/";
 // GitHub sign-in ("My work"): base URL of the sign-in service (auth/README.md),
 // set at build time from a repository variable. Empty = only the token fallback.
 export const GH_AUTH_PROXY = (process.env.NEXT_PUBLIC_GH_AUTH_PROXY || "").replace(/\/+$/, "");
+// The GitHub App's public client id, baked in so "Sign in" redirects at once
+// (empty = read it from the sign-in service at click time).
+export const GH_CLIENT_ID = process.env.NEXT_PUBLIC_GH_CLIENT_ID || "";
 export const RELAY_REPO = "Imbernoulli/ML-Relay";

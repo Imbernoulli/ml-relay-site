@@ -29,6 +29,8 @@ jobs:
           NEXT_BASE_PATH: /ml-relay-site
           # GitHub sign-in service (auth/README.md). Public URL; empty = token sign-in only.
           NEXT_PUBLIC_GH_AUTH_PROXY: ${{ vars.GH_AUTH_PROXY }}
+          # The GitHub App's public client id: lets "Sign in" redirect without a round trip.
+          NEXT_PUBLIC_GH_CLIENT_ID: ${{ vars.GH_CLIENT_ID }}
         run: npm run build
       - run: touch out/.nojekyll
       - uses: actions/upload-pages-artifact@v3

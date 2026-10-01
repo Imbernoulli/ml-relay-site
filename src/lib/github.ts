@@ -12,7 +12,7 @@
 // renewal, to the sign-in service. A cross-site HttpOnly cookie is not an option
 // here: the site and the service live on different domains.
 
-import { BASE_PATH, GH_AUTH_PROXY, RELAY_REPO } from "./site";
+import { BASE_PATH, GH_AUTH_PROXY, GH_CLIENT_ID, RELAY_REPO } from "./site";
 
 const SESSION_KEY = "mlr-gh-session";
 const LEGACY_KEY = "mlr-gh-token";
@@ -133,16 +133,31 @@ function callbackUrl(): string {
   return `${window.location.origin}${BASE_PATH}/auth/callback/`;
 }
 
-/** Step 1 of the web flow: send the visitor to GitHub with a one-time state.
- *  The client id is read from the sign-in service, so the site needs no rebuild
- *  when the GitHub App is (re)created. */
-export async function startOAuth(): Promise<void> {
-  let clientId = "";
+/** Wake the scale-to-zero sign-in service ahead of time (a cold start takes a
+ *  few seconds), so the code-for-token exchange after GitHub's redirect is quick.
+ *  `keepalive` lets the request finish even while the page navigates away. */
+export function warmUpSignIn(): void {
+  if (!GH_AUTH_PROXY) return;
   try {
-    const r = await fetch(`${GH_AUTH_PROXY}/client-id`);
-    clientId = ((await r.json()) as { client_id?: string }).client_id || "";
+    void fetch(`${GH_AUTH_PROXY}/client-id`, { keepalive: true }).catch(() => undefined);
   } catch {
-    /* handled below */
+    /* best effort */
+  }
+}
+
+/** Step 1 of the web flow: send the visitor to GitHub with a one-time state.
+ *  The public client id is baked in at build time, so the redirect is immediate;
+ *  only if it is missing is it read from the sign-in service. */
+export async function startOAuth(): Promise<void> {
+  warmUpSignIn();
+  let clientId = GH_CLIENT_ID;
+  if (!clientId) {
+    try {
+      const r = await fetch(`${GH_AUTH_PROXY}/client-id`);
+      clientId = ((await r.json()) as { client_id?: string }).client_id || "";
+    } catch {
+      /* handled below */
+    }
   }
   if (!clientId) {
     window.alert("GitHub sign-in is not set up yet. Use a personal access token for now.");
