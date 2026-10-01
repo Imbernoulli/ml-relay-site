@@ -3,37 +3,128 @@
 // Browser-side GitHub access for the "My work" page. Nothing private is in the
 // static build: everything below is fetched in the visitor's browser with the
 // visitor's own token, so what they see is exactly what GitHub lets them see.
-// The token lives in sessionStorage only and is sent to api.github.com only.
+//
+// Sign in once, stay signed in: the session (a read-only GitHub App user token
+// plus its refresh token) is kept in localStorage on this browser. The access
+// token expires after 8 h and is renewed through the sign-in service with the
+// refresh token (valid ~6 months), so the visitor only signs in again after
+// that or after "Sign out". Tokens are sent only to api.github.com and, for the
+// renewal, to the sign-in service. A cross-site HttpOnly cookie is not an option
+// here: the site and the service live on different domains.
 
 import { BASE_PATH, GH_AUTH_PROXY, RELAY_REPO } from "./site";
 
-const TOKEN_KEY = "mlr-gh-token";
+const SESSION_KEY = "mlr-gh-session";
+const LEGACY_KEY = "mlr-gh-token";
 const STATE_KEY = "mlr-gh-oauth-state";
 const API = "https://api.github.com";
 
-export function getToken(): string | null {
+interface Session {
+  access_token: string;
+  expires_at?: number; // epoch ms; absent = does not expire (e.g. a pasted PAT)
+  refresh_token?: string;
+  refresh_expires_at?: number;
+}
+
+interface TokenResponse {
+  access_token?: string;
+  expires_in?: number;
+  refresh_token?: string;
+  refresh_token_expires_in?: number;
+  error?: string;
+}
+
+function readSession(): Session | null {
   try {
-    return sessionStorage.getItem(TOKEN_KEY);
+    const raw = localStorage.getItem(SESSION_KEY);
+    if (raw) return JSON.parse(raw) as Session;
+    const legacy = sessionStorage.getItem(LEGACY_KEY);
+    return legacy ? { access_token: legacy } : null;
   } catch {
     return null;
   }
 }
 
-export function setToken(token: string): void {
+function writeSession(s: Session): void {
   try {
-    sessionStorage.setItem(TOKEN_KEY, token.trim());
+    localStorage.setItem(SESSION_KEY, JSON.stringify(s));
+    sessionStorage.removeItem(LEGACY_KEY);
   } catch {
-    /* storage blocked: the session simply won't persist across reloads */
+    /* storage blocked: the session won't survive a reload */
   }
+}
+
+function sessionFrom(body: TokenResponse): Session {
+  const now = Date.now();
+  return {
+    access_token: body.access_token as string,
+    expires_at: body.expires_in ? now + body.expires_in * 1000 : undefined,
+    refresh_token: body.refresh_token,
+    refresh_expires_at: body.refresh_token_expires_in ? now + body.refresh_token_expires_in * 1000 : undefined,
+  };
+}
+
+/** True when this browser holds a session that is still usable or renewable. */
+export function isSignedIn(): boolean {
+  const s = readSession();
+  if (!s) return false;
+  const now = Date.now();
+  if (!s.expires_at || s.expires_at > now) return true;
+  return Boolean(s.refresh_token && (!s.refresh_expires_at || s.refresh_expires_at > now));
+}
+
+export function getToken(): string | null {
+  return readSession()?.access_token ?? null;
+}
+
+/** A pasted personal access token: no expiry, no refresh. */
+export function setToken(token: string): void {
+  writeSession({ access_token: token.trim() });
 }
 
 export function clearToken(): void {
   try {
-    sessionStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(LEGACY_KEY);
     sessionStorage.removeItem(STATE_KEY);
   } catch {
     /* nothing to clear */
   }
+}
+
+let refreshing: Promise<boolean> | null = null;
+
+/** Renew the access token with the refresh token; false if it cannot be renewed. */
+async function refreshSession(): Promise<boolean> {
+  const s = readSession();
+  if (!s?.refresh_token || !GH_AUTH_PROXY) return false;
+  refreshing ??= (async () => {
+    try {
+      const res = await fetch(`${GH_AUTH_PROXY}/refresh`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: s.refresh_token }),
+      });
+      const body = (await res.json().catch(() => ({}))) as TokenResponse;
+      if (!res.ok || !body.access_token) return false;
+      writeSession(sessionFrom(body));
+      return true;
+    } catch {
+      return false;
+    } finally {
+      refreshing = null;
+    }
+  })();
+  return refreshing;
+}
+
+async function freshToken(): Promise<string | null> {
+  const s = readSession();
+  if (!s) return null;
+  if (s.expires_at && s.expires_at - 60_000 < Date.now()) {
+    if (!(await refreshSession())) return null;
+  }
+  return getToken();
 }
 
 export const oauthConfigured = Boolean(GH_AUTH_PROXY);
@@ -82,9 +173,9 @@ export async function finishOAuth(code: string, state: string): Promise<void> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ code, redirect_uri: callbackUrl() }),
   });
-  const body = (await res.json().catch(() => ({}))) as { access_token?: string; error?: string };
+  const body = (await res.json().catch(() => ({}))) as TokenResponse;
   if (!res.ok || !body.access_token) throw new Error(body.error || `Sign-in failed (${res.status}).`);
-  setToken(body.access_token);
+  writeSession(sessionFrom(body));
 }
 
 export class GitHubError extends Error {
@@ -93,12 +184,13 @@ export class GitHubError extends Error {
   }
 }
 
-async function gh<T>(path: string): Promise<T> {
-  const token = getToken();
+async function gh<T>(path: string, retried = false): Promise<T> {
+  const token = await freshToken();
   if (!token) throw new GitHubError(401, "Not signed in.");
   const res = await fetch(`${API}${path}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
   });
+  if (res.status === 401 && !retried && (await refreshSession())) return gh<T>(path, true);
   if (!res.ok) throw new GitHubError(res.status, `GitHub API ${res.status} for ${path}`);
   return (await res.json()) as T;
 }

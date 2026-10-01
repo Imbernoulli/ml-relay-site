@@ -119,6 +119,19 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
             return cors(JSONResponse({"error": "bad code"}, status_code=400))
         if payload.get("redirect_uri") != CALLBACK:
             return cors(JSONResponse({"error": "bad redirect_uri"}, status_code=400))
+        return exchange({"code": code, "redirect_uri": CALLBACK})
+
+    @api.post("/refresh")
+    def refresh(request: Request, payload: dict | None = Body(default=None)):
+        """Renew an expired user token (GitHub App tokens last 8 h; refresh tokens ~6 months)."""
+        if request.headers.get("origin") != SITE_ORIGIN:
+            return Response("forbidden", status_code=403)
+        rt = payload.get("refresh_token") if isinstance(payload, dict) else None
+        if not isinstance(rt, str) or not (20 <= len(rt) <= 200) or not rt.replace("_", "").isalnum():
+            return cors(JSONResponse({"error": "bad refresh token"}, status_code=400))
+        return exchange({"grant_type": "refresh_token", "refresh_token": rt})
+
+    def exchange(fields: dict) -> Response:
         cid, secret = store.get("client_id"), store.get("client_secret")
         if not cid or not secret:
             return cors(JSONResponse({"error": "sign-in is not set up yet"}, status_code=503))
@@ -126,11 +139,12 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
             r = client.post(
                 "https://github.com/login/oauth/access_token",
                 headers={"Accept": "application/json"},
-                json={"client_id": cid, "client_secret": secret, "code": code, "redirect_uri": CALLBACK},
+                json={"client_id": cid, "client_secret": secret, **fields},
             )
         body = r.json() if r.headers.get("content-type", "").startswith("application/json") else {}
         if not body.get("access_token"):
             return cors(JSONResponse({"error": body.get("error_description") or body.get("error") or "exchange failed"}, status_code=400))
-        return cors(JSONResponse({"access_token": body["access_token"]}))
+        keep = ("access_token", "expires_in", "refresh_token", "refresh_token_expires_in")
+        return cors(JSONResponse({k: body[k] for k in keep if k in body}))
 
     return api
