@@ -8,12 +8,15 @@ import { RELAY_REPO } from "./site";
 // The backend marks its single, edited-in-place status comment with this.
 export const STATUS_MARKER = "<!-- relay-status";
 
+export class NoAccessError extends Error {}
+
 export async function statusComment(issue: number): Promise<{ body: string; url: string; updated: string } | null> {
   const token = getToken();
   if (!token) return null;
   const r = await fetch(`https://api.github.com/repos/${RELAY_REPO}/issues/${issue}/comments?per_page=100`, {
     headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" },
   });
+  if (r.status === 404) throw new NoAccessError("no access to the private repository");
   if (!r.ok) return null;
   const comments: { body?: string; html_url: string; updated_at: string }[] = await r.json();
   for (let i = comments.length - 1; i >= 0; i--) {

@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { clearToken, isSignedIn, viewer, type Viewer } from "@/lib/github";
+import { clearToken, isSignedIn, oauthConfigured, viewer, warmUpSignIn, type Viewer } from "@/lib/github";
+import SignInButton from "./SignInButton";
 
 /** Navbar account area. Rendered empty on the server; the session is read in the browser only. */
 export default function AccountMenu() {
@@ -17,6 +18,7 @@ export default function AccountMenu() {
       setSignedIn(on);
       if (!on) {
         setMe(null);
+        warmUpSignIn();
         return;
       }
       viewer()
@@ -34,6 +36,7 @@ export default function AccountMenu() {
 
   if (!mounted) return null;
   if (!signedIn) {
+    if (oauthConfigured) return <SignInButton variant="nav" />;
     return (
       <Link href="/me/" className="rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-muted/60 hover:text-foreground">
         Sign in

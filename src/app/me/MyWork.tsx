@@ -10,14 +10,16 @@ import {
   myRequests,
   oauthConfigured,
   setToken,
-  startOAuth,
   viewer,
+  warmUpSignIn,
   type MyRequest,
   type Viewer,
 } from "@/lib/github";
 import type { StatusData, StatusIssue } from "@/lib/types";
 import ProgressTimeline from "@/components/ProgressTimeline";
 import PrivateStatus from "@/components/PrivateStatus";
+import SignInButton from "@/components/SignInButton";
+import RequestAccess from "@/components/RequestAccess";
 import { NEW_TASK_FORM, RELAY_REPO } from "@/lib/site";
 
 const PR_STYLE: Record<string, string> = {
@@ -115,13 +117,7 @@ function SignedOut({ onToken, message }: { onToken: () => void; message?: string
     <Card className="mt-6">
       {message && <p className="mb-4 rounded-lg border border-amber-500/50 bg-amber-500/10 px-3 py-2 text-sm">{message}</p>}
       {oauthConfigured ? (
-        <button
-          type="button"
-          onClick={() => void startOAuth()}
-          className="rounded-lg border border-foreground/30 bg-foreground px-5 py-2.5 text-base font-semibold text-background hover:opacity-90"
-        >
-          Sign in with GitHub
-        </button>
+        <SignInButton />
       ) : (
         <p className="text-sm text-muted-foreground">GitHub sign-in is not available right now.</p>
       )}
@@ -169,7 +165,11 @@ function SignedOut({ onToken, message }: { onToken: () => void; message?: string
   );
 }
 
-type Load = { s: "loading" } | { s: "signed-out"; msg?: string } | { s: "error"; msg: string } | { s: "ok"; me: Viewer; items: MyRequest[] };
+type Load =
+  | { s: "loading" }
+  | { s: "signed-out"; msg?: string }
+  | { s: "error"; msg: string; noAccess?: boolean }
+  | { s: "ok"; me: Viewer; items: MyRequest[] };
 
 export default function MyWork({ status, knownTasks }: { status: StatusData; knownTasks: string[] }) {
   const [load, setLoad] = useState<Load>({ s: "loading" });
@@ -190,7 +190,7 @@ export default function MyWork({ status, knownTasks }: { status: StatusData; kno
         window.dispatchEvent(new Event("mlrelay-auth"));
         setLoad({ s: "signed-out", msg: "Your GitHub session expired. Please sign in again." });
       } else if (e instanceof GitHubError && e.status === 404) {
-        setLoad({ s: "error", msg: `You need to be a collaborator on ${RELAY_REPO} to see requests.` });
+        setLoad({ s: "error", msg: `You need to be a collaborator on ${RELAY_REPO} to see requests.`, noAccess: true });
       } else if (e instanceof GitHubError && e.status === 403) {
         setLoad({ s: "error", msg: "GitHub refused the request (missing read access or rate limit). Try again later." });
       } else {
@@ -200,6 +200,7 @@ export default function MyWork({ status, knownTasks }: { status: StatusData; kno
   }, []);
 
   useEffect(() => {
+    if (!isSignedIn()) warmUpSignIn();
     void refresh();
   }, [refresh]);
 
@@ -215,6 +216,11 @@ export default function MyWork({ status, knownTasks }: { status: StatusData; kno
     return (
       <div className="mt-6">
         <p className="rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-2 text-sm">{load.msg}</p>
+        {load.noAccess && (
+          <div className="mt-3">
+            <RequestAccess />
+          </div>
+        )}
         <button type="button" onClick={signOut} className="mt-3 rounded-md border border-border px-3 py-1 text-xs hover:bg-muted">
           Sign out
         </button>

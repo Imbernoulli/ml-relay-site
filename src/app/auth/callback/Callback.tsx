@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { finishOAuth } from "@/lib/github";
+import Spinner from "@/components/Spinner";
 
 export default function Callback() {
   const router = useRouter();
@@ -28,7 +29,14 @@ export default function Callback() {
       .catch((e: unknown) => setError(e instanceof Error ? e.message : "Sign-in failed."));
   }, [router]);
 
-  if (!error) return <p className="text-sm text-muted-foreground">Signing you in…</p>;
+  if (!error)
+    return (
+      <div className="flex flex-col items-center gap-3 text-muted-foreground" role="status" aria-live="polite">
+        <Spinner className="h-8 w-8" />
+        <p className="text-base font-medium text-foreground">Connecting to GitHub…</p>
+        <p className="text-sm">Signing you in.</p>
+      </div>
+    );
   return (
     <>
       <p className="text-sm">{error}</p>

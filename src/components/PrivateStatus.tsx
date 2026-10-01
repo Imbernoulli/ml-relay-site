@@ -1,20 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { statusComment } from "@/lib/relayStatus";
+import { NoAccessError, statusComment } from "@/lib/relayStatus";
+import RequestAccess from "./RequestAccess";
 
 /** Signed-in My work only: the agent's detailed status comment, fetched live, shown as plain text. */
 export default function PrivateStatus({ issue }: { issue: number }) {
   const [c, setC] = useState<{ body: string; url: string; updated: string } | null>(null);
+  const [noAccess, setNoAccess] = useState(false);
   useEffect(() => {
     let live = true;
     statusComment(issue)
       .then((x) => live && setC(x))
-      .catch(() => {});
+      .catch((e) => {
+        if (live && e instanceof NoAccessError) setNoAccess(true);
+      });
     return () => {
       live = false;
     };
   }, [issue]);
+  if (noAccess)
+    return (
+      <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+        <span>You need to be a collaborator on Imbernoulli/ML-Relay to see the agent&apos;s details.</span>
+        <RequestAccess compact />
+      </div>
+    );
   if (!c || !c.body) return null;
   return (
     <details className="mt-3 rounded-lg border border-border bg-muted/30">
