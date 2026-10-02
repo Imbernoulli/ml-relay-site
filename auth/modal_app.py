@@ -32,7 +32,8 @@ SITE_ORIGIN = "https://bohanlyu.com"
 CALLBACK = "https://bohanlyu.com/ml-relay-site/auth/callback/"
 APP_NAME = "ml-relay-site-signin"
 
-image = modal.Image.debian_slim(python_version="3.12").pip_install("fastapi[standard]==0.115.6", "httpx==0.28.1")
+image = modal.Image.debian_slim(python_version="3.12").pip_install(
+    "fastapi[standard]==0.115.6", "httpx==0.28.1", "pyjwt[crypto]==2.9.0")
 app = modal.App("ml-relay-auth", image=image)
 store = modal.Dict.from_name("ml-relay-auth", create_if_missing=True)
 reviews = modal.Dict.from_name("ml-relay-reviews", create_if_missing=True)
@@ -42,9 +43,84 @@ RELAY_REPO = "Imbernoulli/ML-Relay"
 setup_secret = modal.Secret.from_dict({"SETUP_STATE": os.environ.get("SETUP_STATE", "")})
 # Shared with the ML-Relay repo secret RELAY_STATUS_SECRET: only the backend may push status.
 status_secret = modal.Secret.from_name("ml-relay-status-secret")
+RELAY_REPO_FULL = "Imbernoulli/ML-Relay"
 
 
-@app.function(secrets=[setup_secret, status_secret], min_containers=1, max_containers=2)
+def _optional_secret(name: str):
+    """A Modal secret only when it exists, so the app deploys before the owner creates it."""
+    try:
+        sec = modal.Secret.from_name(name)
+        sec.hydrate()
+        return [sec]
+    except Exception:  # noqa: BLE001
+        return []
+
+
+# Credential for workflow_dispatch of relay-poller.yml (Actions: write on Imbernoulli/ML-Relay):
+# either GH_APP_ID + GH_APP_PRIVATE_KEY (the GitHub App; installation token minted per call)
+# or GH_DISPATCH_TOKEN (a fine-grained token). See the ML-Relay BACKEND.md.
+dispatch_secrets = _optional_secret("ml-relay-dispatch")
+
+
+def _dispatch_token():
+    import time as _time
+
+    import httpx as _httpx
+
+    tok = os.environ.get("GH_DISPATCH_TOKEN", "")
+    if tok:
+        return tok
+    app_id, key = os.environ.get("GH_APP_ID", ""), os.environ.get("GH_APP_PRIVATE_KEY", "")
+    if not app_id or not key:
+        return ""
+    import jwt
+    now = int(_time.time())
+    j = jwt.encode({"iat": now - 60, "exp": now + 540, "iss": app_id}, key.replace("\\n", "\n"), algorithm="RS256")
+    h = {"Authorization": f"Bearer {j}", "Accept": "application/vnd.github+json"}
+    with _httpx.Client(timeout=20) as c:
+        r = c.get(f"https://api.github.com/repos/{RELAY_REPO_FULL}/installation", headers=h)
+        if r.status_code != 200:
+            return ""
+        r = c.post(f"https://api.github.com/app/installations/{r.json()['id']}/access_tokens", headers=h,
+                   json={"repositories": [RELAY_REPO_FULL.split("/")[1]], "permissions": {"actions": "write"}})
+        return r.json().get("token", "") if r.status_code == 201 else ""
+
+
+def dispatch_poller(reason: str) -> int:
+    """workflow_dispatch of relay-poller.yml; 0 when no credential is configured."""
+    import httpx as _httpx
+
+    tok = _dispatch_token()
+    if not tok:
+        return 0
+    with _httpx.Client(timeout=20) as c:
+        r = c.post(f"https://api.github.com/repos/{RELAY_REPO_FULL}/actions/workflows/relay-poller.yml/dispatches",
+                   headers={"Authorization": f"Bearer {tok}", "Accept": "application/vnd.github+json"},
+                   json={"ref": "main", "inputs": {"reason": reason[:100]}})
+        return r.status_code
+
+
+def _runs_in_flight() -> bool:
+    for k, rec in live_status.items():
+        if not k.startswith("issue:") or not isinstance(rec, dict) or rec.get("state") == "closed":
+            continue
+        for st in rec.get("steps") or []:
+            if st.get("kind") in ("daytona", "setting", "precheck") and st.get("state") == "running":
+                return True
+    return False
+
+
+@app.function(secrets=[status_secret, *dispatch_secrets], schedule=modal.Period(minutes=10), max_containers=1)
+def poller_heartbeat():
+    """Fallback for GitHub's unreliable cron: trigger the relay poller every 10 min,
+    but only while a relay run is in flight (otherwise it does nothing)."""
+    if _runs_in_flight():
+        print("runs in flight -> poller dispatch:", dispatch_poller("modal heartbeat (runs in flight)"))
+    else:
+        print("no relay runs in flight")
+
+
+@app.function(secrets=[setup_secret, status_secret, *dispatch_secrets], min_containers=1, max_containers=2)
 @modal.concurrent(max_inputs=100)
 @modal.asgi_app()
 def web():
@@ -198,6 +274,54 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         live_status[f"issue:{n}"] = record
         live_status["meta:version"] = (live_status.get("meta:version") or 0) + 1
         return JSONResponse({"ok": True, "updated": record["updated"]})
+
+    # ---- run events from the Daytona driver ------------------------------------
+    # The relay driver pings each stage change of its run (started, environment
+    # built, verifier running, finished / failed). Each ping carries a per-run token
+    # (HMAC-SHA256 of the run id under RELAY_STATUS_SECRET, minted at submit), so a
+    # sandbox never holds a GitHub token or the secret. The ping moves the live
+    # timeline at once and triggers the relay poller, which collects the results.
+    RUN_EVENT_LABELS = {
+        "started": "Daytona run started",
+        "env_built": "Environment built, trial running",
+        "verifying": "Evaluation running",
+        "finished": "Daytona run finished, collecting results",
+        "failed": "Daytona run failed, collecting logs",
+    }
+
+    @api.post("/run-event")
+    def run_event(payload: dict | None = Body(default=None)):
+        import hashlib
+        import hmac
+        import re as _re
+
+        secret = os.environ.get("RELAY_STATUS_SECRET", "")
+        if not secret or not isinstance(payload, dict):
+            return Response("forbidden", status_code=403)
+        rid = str(payload.get("run_id") or "")
+        m = _re.fullmatch(r"gh-(\d+)-\d+(?:-\d+)?", rid)
+        want = hmac.new(secret.encode(), rid.encode(), hashlib.sha256).hexdigest()
+        if not m or not hmac.compare_digest(want, str(payload.get("token") or "")):
+            return Response("forbidden", status_code=403)
+        event = str(payload.get("event") or "")
+        if event not in RUN_EVENT_LABELS:
+            return JSONResponse({"error": "unknown event"}, status_code=400)
+        n = int(m.group(1))
+        rec = dict(live_status.get(f"issue:{n}") or {"issue": n, "steps": []})
+        now = int(datetime.now(timezone.utc).timestamp())
+        state = "failed" if event == "failed" else ("done" if event == "finished" else "running")
+        step = {"t": now, "kind": "daytona", "label": RUN_EVENT_LABELS[event], "state": state,
+                "detail_public": f"run {rid}", "visibility": "public", "key": f"run:{rid}:event"}
+        steps = [s_ for s_ in rec.get("steps") or [] if s_.get("key") != step["key"]]
+        rec["steps"] = (steps + [step])[-200:]
+        rec["current"] = {k: step[k] for k in ("t", "kind", "label", "state", "detail_public", "visibility", "key")}
+        rec["updated"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        live_status[f"issue:{n}"] = rec
+        live_status["meta:version"] = (live_status.get("meta:version") or 0) + 1
+        dispatched = 0
+        if event in ("env_built", "verifying", "finished", "failed"):
+            dispatched = dispatch_poller(f"run-event {event} {rid}")
+        return JSONResponse({"ok": True, "dispatched": dispatched})
 
     @api.get("/status/stream")
     async def stream_status(request: Request):
