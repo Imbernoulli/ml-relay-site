@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T01:02:30+00:00",
+ "generated": "2026-10-02T01:07:44+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -97,7 +97,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "open",
+   "state": "awaiting reply",
    "phase": "A",
    "approval": {
     "state": "approved",
@@ -150,12 +150,46 @@
       "label": "Paused: Claude usage limit, retrying at 03:15 UTC",
       "state": "waiting",
       "detail_public": "attempt 1 of 3"
+     },
+     {
+      "t": 1790903016,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
+     },
+     {
+      "t": 1790903016,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
+     },
+     {
+      "t": 1790903100,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
+     },
+     {
+      "t": 1790903184,
+      "kind": "go",
+      "label": "Waiting for the requester's go (phase A finished)",
+      "state": "waiting"
+     },
+     {
+      "t": 1790903184,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:01:13Z",
+   "updated": "2026-10-02T01:06:30Z",
    "replacement": null,
    "task": null
   }
@@ -169,12 +203,12 @@
    "task": null,
    "replacement": null,
    "state": "open",
-   "stage": "Design review",
-   "waiting": false,
+   "stage": "Waiting for requester",
+   "waiting": true,
    "phase": "A",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:01:13Z",
+   "updated": "2026-10-02T01:06:30Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -219,6 +253,40 @@
       "label": "Paused: Claude usage limit, retrying at 03:15 UTC",
       "state": "waiting",
       "detail_public": "attempt 1 of 3"
+     },
+     {
+      "t": 1790903016,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
+     },
+     {
+      "t": 1790903016,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
+     },
+     {
+      "t": 1790903100,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
+     },
+     {
+      "t": 1790903184,
+      "kind": "go",
+      "label": "Waiting for the requester's go (phase A finished)",
+      "state": "waiting"
+     },
+     {
+      "t": 1790903184,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 36949075492"
      }
     ]
    },
