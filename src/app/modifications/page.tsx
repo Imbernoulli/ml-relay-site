@@ -1,9 +1,9 @@
 import Link from "next/link";
+import RequestTrack from "@/components/RequestTrack";
+import { fromIssue } from "@/lib/stages";
 import { loadIndex, loadStatus, taskTitles } from "@/lib/data";
 import LiveRequests from "@/components/LiveRequests";
 import type { StatusIssue } from "@/lib/types";
-import ProgressTimeline from "@/components/ProgressTimeline";
-import PrivateStatus from "@/components/PrivateStatus";
 import MaintainerActions from "@/components/MaintainerActions";
 
 export const metadata = { title: "ML-Relay · Modifications" };
@@ -37,8 +37,7 @@ function Entry({ r, repo, titles, maintainers }: { r: StatusIssue; repo: string;
         <span className="ml-auto text-xs text-muted-foreground">updated {r.updated.slice(0, 10)}</span>
       </div>
       <div className="mt-1 text-sm">{r.title}</div>
-      {r.progress?.steps?.length ? <ProgressTimeline progress={r.progress} /> : null}
-      <PrivateStatus issue={r.issue} />
+      <RequestTrack input={fromIssue(r)} issue={r.issue} opened={r.opened} requester={r.requester} approval={r.approval} updated={r.updated} />
       <MaintainerActions issue={r.issue} approval={r.approval} maintainers={maintainers} repo={repo} />
       {r.replacement && (
         <div className="mt-1 text-sm text-amber-800 dark:text-amber-200">

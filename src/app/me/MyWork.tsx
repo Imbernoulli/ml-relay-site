@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import RequestTrack from "@/components/RequestTrack";
+import { fromIssue } from "@/lib/stages";
 import { useCallback, useEffect, useState } from "react";
 import { Card } from "@/components/ui";
 import {
@@ -16,8 +18,6 @@ import {
   type Viewer,
 } from "@/lib/github";
 import type { StatusData, StatusIssue } from "@/lib/types";
-import ProgressTimeline from "@/components/ProgressTimeline";
-import PrivateStatus from "@/components/PrivateStatus";
 import SignInButton from "@/components/SignInButton";
 import RequestAccess from "@/components/RequestAccess";
 import ReplyBox from "@/components/ReplyBox";
@@ -38,35 +38,6 @@ function Pill({ children, cls }: { children: React.ReactNode; cls: string }) {
   return <span className={`inline-flex items-center whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px] font-medium ${cls}`}>{children}</span>;
 }
 
-const NEW_TASK_STAGES = ["Design review", "Building & pilot run", "Full measurement", "Merged"];
-const CHANGE_STAGES = ["Requested", "Agent working", "PR in review", "Merged"];
-
-function Timeline({ r, stage }: { r: MyRequest; stage: string | null }) {
-  const isNew = r.kind === "new task";
-  const stages = isNew ? NEW_TASK_STAGES : CHANGE_STAGES;
-  const last = stages.length - 1;
-  let cur = 0;
-  if (r.pr?.state === "merged") cur = last;
-  else if (isNew) cur = Math.max(0, stages.indexOf(stage ?? ""));
-  else if (r.pr?.state === "open") cur = 2;
-  else if (r.pr?.state === "draft" || stage === "Agent working") cur = 1;
-  const stopped = r.state !== "open" && r.pr?.state !== "merged";
-  return (
-    <ol className="mt-3 grid grid-cols-4 gap-1">
-      {stages.map((s, i) => {
-        const done = i < cur || (i === cur && i === last);
-        const active = i === cur && i !== last && !stopped;
-        return (
-          <li key={s} className="min-w-0">
-            <div className={`h-1.5 rounded-full ${done ? "bg-emerald-500" : active ? "bg-amber-500" : "bg-muted"}`} />
-            <div className={`mt-1 text-[11px] leading-tight ${active ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{s}</div>
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
-
 function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: StatusIssue | undefined; known: Set<string>; titles: TaskTitles; onPosted: () => void }) {
   const stage = st?.stage ?? r.stage;
   const appr = st?.approval;
@@ -85,8 +56,26 @@ function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: Sta
       <a href={r.url} target="_blank" rel="noreferrer" className="mt-2 block text-base font-semibold hover:underline">
         #{r.number} {cleanRequestTitle(r.title, titles)}
       </a>
-      {st?.progress?.steps?.length ? <ProgressTimeline progress={st.progress} /> : <Timeline r={r} stage={stage} />}
-      <PrivateStatus issue={r.number} />
+      <RequestTrack
+        input={
+          st
+            ? fromIssue(st)
+            : {
+                newTask: r.kind === "new task",
+                phase: stage === "Full measurement" ? "C" : stage === "Building & pilot run" ? "B" : null,
+                waitingGo: r.waitingForYou && r.state === "open",
+                done: stage === "Done",
+                closed: r.state !== "open" && r.pr?.state !== "merged",
+                prState: r.pr?.state ?? null,
+                since: r.created,
+              }
+        }
+        issue={r.number}
+        opened={st?.opened ?? r.created}
+        requester={st?.requester ?? null}
+        approval={st?.approval}
+        updated={r.updated}
+      />
       {awaitingApproval && appr?.note && (
         <div className="mt-3 rounded-lg border border-violet-500/40 bg-violet-500/5 px-3 py-2">
           <div className="text-[11px] font-medium uppercase tracking-wide text-violet-800 dark:text-violet-200">Maintainer feedback</div>

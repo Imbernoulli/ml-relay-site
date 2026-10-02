@@ -28,3 +28,13 @@ export function withApproval(progress: ProgressRecord | null | undefined, a: App
   if (current === null && !rest.length) current = 0;
   return { current, steps: [step, ...rest] };
 }
+
+/** Approval from an issue's labels (live fetch); a maintainer's own issue is auto-approved. */
+export function approvalOf(labels: string[], author: string | null, maintainers: string[]): { a: Approval; auto: boolean } {
+  if (labels.includes("rejected")) return { a: { state: "rejected", by: null, note: null }, auto: false };
+  if (labels.includes("approved")) return { a: { state: "approved", by: maintainers.length === 1 ? maintainers[0] : null, note: null }, auto: false };
+  if (labels.includes("awaiting-approval")) return { a: { state: "waiting", by: null, note: null }, auto: false };
+  if (author && maintainers.some((m) => m.toLowerCase() === author.toLowerCase())) return { a: { state: "approved", by: author, note: null }, auto: true };
+  return { a: { state: "waiting", by: null, note: null }, auto: false };
+}
+

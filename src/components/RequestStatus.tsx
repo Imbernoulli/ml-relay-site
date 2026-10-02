@@ -1,7 +1,7 @@
 import Link from "next/link";
+import RequestTrack from "./RequestTrack";
+import { fromEntry } from "@/lib/stages";
 import type { StatusData, StatusEntry } from "@/lib/types";
-import ProgressTimeline from "./ProgressTimeline";
-import PrivateStatus from "./PrivateStatus";
 import MaintainerActions from "./MaintainerActions";
 
 const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
@@ -77,8 +77,7 @@ export default function RequestStatus({ task, status }: { task: string; status: 
           <div className="mt-2">
             <Links e={e} repo={status.repo} />
           </div>
-          {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : null}
-          <PrivateStatus issue={e.issue} />
+          <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} />
           <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
         </div>
       ))}
@@ -95,8 +94,7 @@ export default function RequestStatus({ task, status }: { task: string; status: 
                   <span>{e.title}</span>
                   <Links e={e} repo={status.repo} />
                 </div>
-                {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : null}
-                <PrivateStatus issue={e.issue} />
+                <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} />
                 <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
               </li>
             ))}
@@ -118,13 +116,11 @@ export function NewTaskProposals({ status }: { status: StatusData }) {
       <ul className="mt-2 space-y-2">
         {open.map((e) => (
           <li key={e.issue} className="flex flex-wrap items-center gap-2 text-sm">
-{e.progress?.steps?.length ? (
-              <ProgressTimeline progress={e.progress} compact />
-            ) : (
-              <Pill cls="border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300">{proposalStage(e)}</Pill>
-            )}
-            <span>{e.title}</span>
+<span>{e.title}</span>
             <Links e={e} repo={status.repo} />
+            <div className="w-full">
+              <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} compact />
+            </div>
             <div className="w-full">
               <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
             </div>

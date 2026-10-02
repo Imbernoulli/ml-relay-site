@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import RequestTrack from "./RequestTrack";
 import { useEffect, useState } from "react";
 import { getToken, isSignedIn } from "@/lib/github";
 import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
-import { approvalStep } from "@/lib/approval";
+import { approvalOf, approvalStep } from "@/lib/approval";
 import type { Approval, ProgressRecord } from "@/lib/types";
-import ProgressTimeline from "./ProgressTimeline";
 import MaintainerActions from "./MaintainerActions";
 
 // For signed-in visitors: open relay issues fetched live from the GitHub API with their
@@ -38,14 +38,6 @@ interface Live {
   task: string | null;
   approval: Approval;
   auto: boolean;
-}
-
-function approvalOf(labels: string[], author: string | null, maintainers: string[]): { a: Approval; auto: boolean } {
-  if (labels.includes("rejected")) return { a: { state: "rejected", by: null, note: null }, auto: false };
-  if (labels.includes("approved")) return { a: { state: "approved", by: maintainers.length === 1 ? maintainers[0] : null, note: null }, auto: false };
-  if (labels.includes("awaiting-approval")) return { a: { state: "waiting", by: null, note: null }, auto: false };
-  if (author && maintainers.some((m) => m.toLowerCase() === author.toLowerCase())) return { a: { state: "approved", by: author, note: null }, auto: true };
-  return { a: { state: "waiting", by: null, note: null }, auto: false };
 }
 
 export default function LiveRequests({
@@ -141,7 +133,7 @@ export default function LiveRequests({
               ) : null}{" "}
               · opened {x.opened.slice(0, 10)}
             </div>
-            <ProgressTimeline progress={progress} />
+            <RequestTrack input={{ newTask: kind === "proposals", approval: x.approval, progress, since: x.opened }} issue={x.number} opened={x.opened} requester={x.requester} approval={x.approval} updated={x.opened} />
             <MaintainerActions issue={x.number} approval={x.approval} maintainers={maintainers} repo={repo} />
             <div className="mt-3 text-xs">
               <a href={x.url} target="_blank" rel="noreferrer" className="font-mono underline">

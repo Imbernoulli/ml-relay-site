@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ProgressRecord, ProgressStep } from "@/lib/types";
+import { activeBlock, supersededSet } from "@/lib/stages";
 
 const ICON: Record<string, { ch: string; cls: string; label: string }> = {
   done: { ch: "✓", cls: "bg-emerald-500 text-white", label: "done" },
@@ -56,8 +57,14 @@ export default function ProgressTimeline({ progress, compact = false }: { progre
       ? progress.current
       : typeof progress.current === "string"
         ? steps.findIndex((s) => s.kind === progress.current || s.label === progress.current)
-        : steps.map((s) => s.state).lastIndexOf("running");
+        : (() => {
+            const r = steps.map((s) => s.state).lastIndexOf("running");
+            if (r >= 0) return r;
+            const b = activeBlock(steps);
+            return b ? steps.indexOf(b) : -1;
+          })();
   const indexed = steps.map((s, i) => [s, i] as [ProgressStep, number]);
+  const sup = supersededSet(steps);
   if (compact) {
     const [s] = indexed[curIdx >= 0 ? curIdx : indexed.length - 1];
     const ic = ICON[s.state] ?? ICON.pending;
@@ -73,15 +80,16 @@ export default function ProgressTimeline({ progress, compact = false }: { progre
       </span>
     );
   }
-  // collapsed: the maintainer-approval step (always the first) plus the last three
+  // collapsed: "Request created" and the maintainer-approval step (always first) plus the last three
   const tail = indexed.slice(-3);
-  const shown = all ? indexed : [...indexed.filter(([st, i]) => st.kind === "approval" && !tail.some(([, j]) => j === i)), ...tail];
+  const shown = all ? indexed : [...indexed.filter(([st, i]) => (st.kind === "approval" || st.kind === "created") && !tail.some(([, j]) => j === i)), ...tail];
   return (
     <div className="mt-3">
       <ol className="space-y-1.5">
         {shown.map(([s, i]) => {
-          const ic = ICON[s.state] ?? ICON.pending;
-          const isCur = i === curIdx;
+          const old = sup.has(i) || Boolean(s.superseded);
+          const ic = old ? ICON.skipped : ICON[s.state] ?? ICON.pending;
+          const isCur = i === curIdx && !old;
           const el = s.state === "running" && s.t && now !== null ? elapsed(s.t, now) : null;
           return (
             <li key={i} className={`flex items-start gap-2 rounded-md px-2 py-1 text-sm ${isCur ? "bg-amber-500/10 ring-1 ring-amber-500/40" : ""}`}>
@@ -89,7 +97,8 @@ export default function ProgressTimeline({ progress, compact = false }: { progre
                 {ic.ch}
               </span>
               <div className="min-w-0 flex-1">
-                <span className={isCur ? "font-semibold" : ""}>{s.label ?? s.kind ?? "step"}</span>
+                {old && <span className="mr-1 rounded bg-muted px-1 text-[10px] text-muted-foreground">earlier attempt</span>}
+                <span className={old ? "text-muted-foreground line-through" : isCur ? "font-semibold" : ""}>{s.label ?? s.kind ?? "step"}</span>
                 {s.detail_public && <span className="text-muted-foreground"> · {s.detail_public}</span>}
                 {el && <span className="text-muted-foreground"> · {el}</span>}
               </div>

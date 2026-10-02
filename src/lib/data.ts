@@ -60,3 +60,15 @@ export function loadForms(): import("./issueForm").FormsData {
   if (!fs.existsSync(p)) return {};
   return JSON.parse(fs.readFileSync(p, "utf-8"));
 }
+
+export interface Contributor { login: string; avatar_url: string; html_url: string }
+/** Public contributors list written by the sync job (collaborators, requesters, approvers). */
+export function loadContributors(): Contributor[] {
+  const p = path.join(DATA, "contributors.json");
+  if (!fs.existsSync(p)) return [];
+  try {
+    return (JSON.parse(fs.readFileSync(p, "utf-8")).contributors ?? []) as Contributor[];
+  } catch {
+    return [];
+  }
+}

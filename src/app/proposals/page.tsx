@@ -1,44 +1,17 @@
 import Link from "next/link";
+import RequestTrack from "@/components/RequestTrack";
+import { fromEntry } from "@/lib/stages";
 import { loadIndex, loadStatus, taskTitles } from "@/lib/data";
 import LiveRequests from "@/components/LiveRequests";
 import type { StatusEntry } from "@/lib/types";
-import ProgressTimeline from "@/components/ProgressTimeline";
-import PrivateStatus from "@/components/PrivateStatus";
 import MaintainerActions from "@/components/MaintainerActions";
 
 export const metadata = { title: "ML-Relay · Proposed tasks" };
 
-const STAGES = ["Design review", "Building & pilot run", "Full measurement", "Merged"];
 const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
-
-function stageIndex(e: StatusEntry): number {
-  if (e.pr_state === "merged") return 3;
-  if (e.phase === "C") return 2;
-  if (e.phase === "B") return 1;
-  return 0;
-}
 
 function day(iso?: string | null): string | null {
   return iso ? iso.slice(0, 10) : null;
-}
-
-function Timeline({ e }: { e: StatusEntry }) {
-  const cur = stageIndex(e);
-  const closedUnmerged = e.state === "closed" && e.pr_state !== "merged";
-  return (
-    <ol className="mt-3 grid grid-cols-4 gap-1">
-      {STAGES.map((s, i) => {
-        const done = i < cur || (i === cur && i === 3);
-        const active = i === cur && i !== 3 && !closedUnmerged;
-        return (
-          <li key={s} className="min-w-0">
-            <div className={`h-1.5 rounded-full ${done ? "bg-emerald-500" : active ? "bg-amber-500" : "bg-muted"}`} />
-            <div className={`mt-1 text-[11px] leading-tight ${active ? "font-semibold text-foreground" : "text-muted-foreground"}`}>{s}</div>
-          </li>
-        );
-      })}
-    </ol>
-  );
 }
 
 function ProposalCard({ e, repo, known, maintainers }: { e: StatusEntry; repo: string; known: Set<string>; maintainers?: string[] }) {
@@ -71,8 +44,7 @@ function ProposalCard({ e, repo, known, maintainers }: { e: StatusEntry; repo: s
         )}
         {opened && <> · opened {opened}</>}
       </div>
-      {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : <Timeline e={e} />}
-      <PrivateStatus issue={e.issue} />
+      <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} />
       <MaintainerActions issue={e.issue} approval={e.approval} maintainers={maintainers} repo={repo} />
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
         <a href={`https://github.com/${repo}/issues/${e.issue}`} target="_blank" rel="noreferrer" title={PRIVATE_TIP} className="font-mono underline">

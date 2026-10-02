@@ -1,5 +1,5 @@
-import { loadIndex, loadStatus, siteMode } from "@/lib/data";
-import { NewTaskProposals } from "@/components/RequestStatus";
+import { loadContributors, loadIndex, loadStatus, siteMode } from "@/lib/data";
+import Contributors from "@/components/Contributors";
 import TaskCatalogue from "@/components/TaskCatalogue";
 import Link from "next/link";
 
@@ -14,25 +14,29 @@ export default function Home() {
           Internal · ML-Relay is not public · this site shows the full bundles
         </div>
       )}
-      <h1 className="text-3xl font-bold tracking-tight">ML-Relay</h1>
-      <p className="mt-3 max-w-3xl text-base leading-relaxed text-muted-foreground">
-        ML-Relay is a collection of open machine-learning research tasks. If something in a task looks wrong, request a change on that
-        task&apos;s page. If there is a research problem you think matters, one where you would like to see how far today&apos;s models can go,
-        propose it as a new task.
-      </p>
-      <div className="mt-4 flex flex-wrap items-center gap-3">
-        <Link
-          href="/propose/new/"
-          className="rounded-lg border border-emerald-600/60 bg-emerald-600/15 px-4 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-600 dark:text-emerald-200"
-        >
-          Propose a new task
-        </Link>
-        <Link href="/proposals/" className="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40">
-          See proposed tasks
-        </Link>
-        <span className="text-sm text-muted-foreground">To change an existing task, open it below and use &ldquo;Request a change&rdquo;.</span>
+      <div className="grid items-center gap-6 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">ML-Relay</h1>
+          <p className="mt-3 max-w-[65ch] text-base leading-relaxed text-muted-foreground">
+            ML-Relay is a collection of open machine-learning research tasks. If something in a task looks wrong, request a change on that
+            task&apos;s page. If there is a research problem you think matters, one where you would like to see how far today&apos;s models can go,
+            propose it as a new task.
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <Link
+              href="/propose/new/"
+              className="rounded-lg border border-emerald-600/60 bg-emerald-600/15 px-4 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-600 dark:text-emerald-200"
+            >
+              Propose a new task
+            </Link>
+            <Link href="/proposals/" className="rounded-lg border border-border px-4 py-2 text-sm font-medium hover:border-foreground/40">
+              See proposed tasks
+            </Link>
+            <span className="text-sm text-muted-foreground">To change an existing task, open it below and use &ldquo;Request a change&rdquo;.</span>
+          </div>
+        </div>
+        <Contributors list={loadContributors()} />
       </div>
-      <NewTaskProposals status={status} />
       <div className="mt-8">
         <TaskCatalogue tasks={idx.tasks} status={status} />
       </div>
