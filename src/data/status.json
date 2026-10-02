@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T05:25:28+00:00",
+ "generated": "2026-10-02T05:39:33+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -873,7 +873,7 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506: 30m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506: 45m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -889,14 +889,14 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506-2: 29m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506-2: 44m of 10h00m budget",
       "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T05:22:45Z",
+   "updated": "2026-10-02T05:38:04Z",
    "replacement": null,
    "task": null
   }
@@ -915,7 +915,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T05:22:45Z",
+   "updated": "2026-10-02T05:38:04Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1736,7 +1736,7 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506: 30m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506: 45m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -1752,7 +1752,7 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506-2: 29m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506-2: 44m of 10h00m budget",
       "visibility": "public"
      }
     ]
