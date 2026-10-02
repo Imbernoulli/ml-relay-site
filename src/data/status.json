@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T06:08:22+00:00",
+ "generated": "2026-10-02T06:15:30+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -873,7 +873,7 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506: 1h00m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506: 1h21m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -889,7 +889,7 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506-2: 59m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506-2: 1h20m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -938,12 +938,20 @@
       "label": "Read the issue thread",
       "state": "running",
       "visibility": "public"
+     },
+     {
+      "t": 1790921631,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "16 of 16 checks passed",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T06:06:04Z",
+   "updated": "2026-10-02T06:15:14Z",
    "replacement": null,
    "task": null
   }
@@ -962,7 +970,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T06:06:04Z",
+   "updated": "2026-10-02T06:15:14Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1783,7 +1791,7 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506: 1h00m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506: 1h21m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -1799,7 +1807,7 @@
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506-2: 59m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506-2: 1h20m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -1847,6 +1855,14 @@
       "kind": "agent",
       "label": "Read the issue thread",
       "state": "running",
+      "visibility": "public"
+     },
+     {
+      "t": 1790921631,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "16 of 16 checks passed",
       "visibility": "public"
      }
     ]
