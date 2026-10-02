@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T02:09:03+00:00",
+ "generated": "2026-10-02T02:27:30+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -66,15 +66,15 @@
       {
        "t": 1790902292,
        "kind": "maintainer",
-       "label": "Maintainer lane started: piloting candidate third semiautomata",
-       "state": "running",
+       "label": "Pilots done: no App. B.1.1 member is uncapped at the paper's T=100; waiting for an owner decision on the alternative",
+       "state": "waiting",
        "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T01:11:22Z",
+    "updated": "2026-10-02T02:26:15Z",
     "replacement": null
    }
   ]
@@ -368,6 +368,46 @@
   }
  ],
  "issues": [
+  {
+   "issue": 7,
+   "title": "[change] theory-semiautomata: add a third evaluation setting",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "theory-semiautomata",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T02:26:15Z",
+   "opened": "2026-10-02T00:51:22Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790902282,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790902292,
+      "kind": "maintainer",
+      "label": "Pilots done: no App. B.1.1 member is uncapped at the paper's T=100; waiting for an owner decision on the alternative",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
+  },
   {
    "issue": 8,
    "title": "[change] ai4bio-cofolding-affinity-scoring: add a third evaluation setting",
@@ -714,46 +754,6 @@
    "approval": {
     "state": "approved",
     "by": null,
-    "note": null
-   }
-  },
-  {
-   "issue": 7,
-   "title": "[change] theory-semiautomata: add a third evaluation setting",
-   "requester": "Imbernoulli",
-   "type": "maintenance",
-   "task": "theory-semiautomata",
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-02T01:11:22Z",
-   "opened": "2026-10-02T00:51:22Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1790902282,
-      "kind": "created",
-      "label": "Request created by @Imbernoulli",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1790902292,
-      "kind": "maintainer",
-      "label": "Maintainer lane started: piloting candidate third semiautomata",
-      "state": "running",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
-    "by": "Imbernoulli",
     "note": null
    }
   },
