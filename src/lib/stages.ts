@@ -34,13 +34,29 @@ const RESTART_RE = /\b(started|queued|gate passed|retrying now|resumed|restarted
 export const ANSWER_RE = /your answers|your reply|questions/i;
 export const GO_RE = /requester'?s go|your go|waiting for (the )?requester/i;
 
-/** A failed or paused step is superseded once a later attempt starts (or a later step runs). */
+const RUN_LABEL_RE = /^(Setting \S.* \(seed -?\d+\)|Environment building|Sandbox started|Run finished, collecting|Daytona run )/;
+
+/** A step of a Daytona run (environment, sandbox, an evaluation setting, collection). Runs go on
+ * for hours in the background, independently of the agent: a running run step is not the agent
+ * working, does not supersede a pause, and does not hide the agent's question to the requester. */
+export function isRunStep(s: ProgressStep): boolean {
+  if (typeof s.key === "string" && s.key.startsWith("run:")) return true;
+  return s.kind === "setting" || RUN_LABEL_RE.test(s.label ?? "");
+}
+
+/** The last running step that is the AGENT's own work (not a background run), or -1. */
+export function lastAgentRunning(steps: ProgressStep[]): number {
+  for (let i = steps.length - 1; i >= 0; i--) if (steps[i].state === "running" && !isRunStep(steps[i])) return i;
+  return -1;
+}
+
+/** A failed or paused step is superseded once a later attempt starts (or a later agent step runs). */
 export function supersededSet(steps: ProgressStep[]): Set<number> {
   const out = new Set<number>();
   steps.forEach((s, i) => {
     if (s.kind === "approval" || s.kind === "created") return;
     if (s.state !== "failed" && s.state !== "waiting") return;
-    if (steps.slice(i + 1).some((t) => t.state === "running" || (t.state === "done" && RESTART_RE.test(t.label ?? "")))) out.add(i);
+    if (steps.slice(i + 1).some((t) => !isRunStep(t) && (t.state === "running" || (t.state === "done" && RESTART_RE.test(t.label ?? ""))))) out.add(i);
   });
   return out;
 }
@@ -52,7 +68,7 @@ export function activeBlock(steps: ProgressStep[]): ProgressStep | null {
     const s = steps[i];
     if (s.kind === "approval" || s.kind === "created" || sup.has(i)) continue;
     if (s.state === "failed" || s.state === "waiting") return s;
-    if (s.state === "running") return null;
+    if (s.state === "running" && !isRunStep(s)) return null;
   }
   return null;
 }

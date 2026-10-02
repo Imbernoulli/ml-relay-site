@@ -9,7 +9,7 @@ import { agentThread, NoAccessError, type AgentReport } from "@/lib/relayStatus"
 import MarkdownContent from "./MarkdownContent";
 import ReplyBox from "./ReplyBox";
 import Skeleton from "./Skeleton";
-import { computeStages, displayProgress, parseStatusTable, toMs, withCreated, type StageInput } from "@/lib/stages";
+import { computeStages, displayProgress, lastAgentRunning, parseStatusTable, toMs, withCreated, type StageInput } from "@/lib/stages";
 import { approvalOf, withApproval } from "@/lib/approval";
 import type { Approval, ProgressRecord } from "@/lib/types";
 import StageBar from "./StageBar";
@@ -168,7 +168,8 @@ export default function RequestTrack({
 
   // what the card asks of the visitor: nothing while the agent works
   const steps = progress?.steps ?? [];
-  const runIdx = steps.map((x) => x.state).lastIndexOf("running");
+  // the agent's own running step; a Daytona run in flight is background work, not the agent
+  const runIdx = lastAgentRunning(steps);
   const lastRunning =
     runIdx >= 0 && !steps.slice(runIdx + 1).some((x) => x.state === "waiting" || x.state === "failed" || /\b(finished|ended|stopped)\b/i.test(x.label ?? "")) ? steps[runIdx] : null;
   const working = isOpen && ((lab ? lab.names.includes("relay-running") : Boolean(input.running)) || Boolean(lastRunning));
