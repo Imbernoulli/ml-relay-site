@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T02:05:53+00:00",
+ "generated": "2026-10-02T02:07:20+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -75,61 +75,6 @@
     "pr": null,
     "pr_state": null,
     "updated": "2026-10-02T01:11:22Z",
-    "replacement": null
-   }
-  ],
-  "ai4bio-cofolding-affinity-scoring": [
-   {
-    "issue": 8,
-    "title": "[change] ai4bio-cofolding-affinity-scoring: add a third evaluation setting",
-    "type": "change",
-    "state": "open",
-    "phase": null,
-    "approval": {
-     "state": "approved",
-     "by": "Imbernoulli",
-     "note": null
-    },
-    "requester": "Imbernoulli",
-    "opened": "2026-10-02T00:51:24Z",
-    "done": false,
-    "progress": {
-     "current": null,
-     "steps": [
-      {
-       "t": 1790902284,
-       "kind": "created",
-       "label": "Request created by @Imbernoulli",
-       "state": "done",
-       "visibility": "public"
-      },
-      {
-       "t": 1790902297,
-       "kind": "maintainer",
-       "label": "Third condition built and measured (140 blind pairs co-folded once; all five arms; no capped term)",
-       "state": "done",
-       "visibility": "public"
-      },
-      {
-       "t": 1790906392,
-       "kind": "maintainer",
-       "label": "Gate 3 (oracle + no-edit control) running on Daytona",
-       "state": "running",
-       "visibility": "public"
-      },
-      {
-       "t": 1790906733,
-       "kind": "pr",
-       "label": "PR #12 open",
-       "state": "done",
-       "detail_public": "PR #12",
-       "visibility": "public"
-      }
-     ]
-    },
-    "pr": 12,
-    "pr_state": "open",
-    "updated": "2026-10-02T02:05:36Z",
     "replacement": null
    }
   ]
@@ -430,13 +375,13 @@
    "type": "maintenance",
    "task": "ai4bio-cofolding-affinity-scoring",
    "replacement": null,
-   "state": "open",
-   "stage": "PR in review",
+   "state": "closed",
+   "stage": "Merged",
    "waiting": false,
    "phase": null,
    "pr": 12,
-   "pr_state": "open",
-   "updated": "2026-10-02T02:05:36Z",
+   "pr_state": "merged",
+   "updated": "2026-10-02T02:06:18Z",
    "opened": "2026-10-02T00:51:24Z",
    "progress": {
     "current": null,
@@ -458,16 +403,23 @@
      {
       "t": 1790906392,
       "kind": "maintainer",
-      "label": "Gate 3 (oracle + no-edit control) running on Daytona",
-      "state": "running",
+      "label": "Gate 3 (oracle + no-edit control) VERIFIED on Daytona",
+      "state": "done",
       "visibility": "public"
      },
      {
       "t": 1790906733,
       "kind": "pr",
-      "label": "PR #12 open",
+      "label": "PR #12 merged",
       "state": "done",
       "detail_public": "PR #12",
+      "visibility": "public"
+     },
+     {
+      "t": 1790906776,
+      "kind": "maintainer",
+      "label": "PR #12 merged: bundle re-rendered with three settings, README updated",
+      "state": "done",
       "visibility": "public"
      }
     ]
