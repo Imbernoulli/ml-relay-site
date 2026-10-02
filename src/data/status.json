@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T00:58:02+00:00",
+ "generated": "2026-10-02T01:02:30+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -143,12 +143,19 @@
       "label": "Orchestrator failed",
       "state": "failed",
       "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902871,
+      "kind": "retry",
+      "label": "Paused: Claude usage limit, retrying at 03:15 UTC",
+      "state": "waiting",
+      "detail_public": "attempt 1 of 3"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T00:57:25Z",
+   "updated": "2026-10-02T01:01:13Z",
    "replacement": null,
    "task": null
   }
@@ -167,7 +174,7 @@
    "phase": "A",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T00:57:25Z",
+   "updated": "2026-10-02T01:01:13Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -205,6 +212,13 @@
       "label": "Orchestrator failed",
       "state": "failed",
       "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902871,
+      "kind": "retry",
+      "label": "Paused: Claude usage limit, retrying at 03:15 UTC",
+      "state": "waiting",
+      "detail_public": "attempt 1 of 3"
      }
     ]
    },
