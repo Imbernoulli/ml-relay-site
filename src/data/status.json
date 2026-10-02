@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T08:03:06+00:00",
+ "generated": "2026-10-02T08:04:53+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -57,6 +57,78 @@
     "pr": null,
     "pr_state": null,
     "updated": "2026-10-02T06:27:27Z",
+    "replacement": null
+   }
+  ],
+  "llm-opd-token-signal": [
+   {
+    "issue": 16,
+    "title": "[change] llm-opd-token-signal: 这个一张卡就能搞定吗？",
+    "type": "change",
+    "state": "running",
+    "phase": null,
+    "approval": {
+     "state": "approved",
+     "by": null,
+     "note": null
+    },
+    "requester": "Imbernoulli",
+    "opened": "2026-10-02T08:03:09Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1790928189,
+       "kind": "created",
+       "label": "Request created by @Imbernoulli",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1790928203,
+       "kind": "approval",
+       "label": "Auto-approved (opened by a maintainer)",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1790928211,
+       "kind": "gate",
+       "label": "Gate passed (write access)",
+       "state": "done",
+       "detail_public": "Actions run 36981860985",
+       "visibility": "internal"
+      },
+      {
+       "t": 1790928211,
+       "kind": "queue",
+       "label": "Queued for the orchestrator",
+       "state": "done",
+       "detail_public": "Actions run 36981860985",
+       "visibility": "internal"
+      },
+      {
+       "t": 1790928278,
+       "kind": "orchestrator",
+       "label": "Orchestrator started",
+       "state": "running",
+       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36981860985",
+       "visibility": "internal"
+      },
+      {
+       "t": 1790928287,
+       "kind": "heartbeat",
+       "label": "Agent working",
+       "state": "running",
+       "detail_public": "Actions run 36981860985",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-02T08:04:47Z",
     "replacement": null
    }
   ]
@@ -1149,6 +1221,78 @@
   }
  ],
  "issues": [
+  {
+   "issue": 16,
+   "title": "[change] llm-opd-token-signal: 这个一张卡就能搞定吗？",
+   "requester": "Imbernoulli",
+   "type": "change",
+   "task": "llm-opd-token-signal",
+   "replacement": null,
+   "state": "open",
+   "stage": "Agent working",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T08:04:47Z",
+   "opened": "2026-10-02T08:03:09Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790928189,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790928203,
+      "kind": "approval",
+      "label": "Auto-approved (opened by a maintainer)",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790928211,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36981860985",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790928211,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 36981860985",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790928278,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36981860985",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790928287,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 36981860985",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": null,
+    "note": null
+   }
+  },
   {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
