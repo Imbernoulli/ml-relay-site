@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T13:22:44+00:00",
+ "generated": "2026-10-02T13:27:31+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1400,7 +1400,7 @@
       "t": 1790945623,
       "kind": "agent",
       "label": "Reading the paper(s) and code",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -1418,12 +1418,35 @@
       "state": "failed",
       "detail_public": "8 of 9 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790947558,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790947587,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "running",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790947641,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "4 checks",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T13:21:06Z",
+   "updated": "2026-10-02T13:26:42Z",
    "replacement": null,
    "task": null
   }
@@ -1442,7 +1465,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T13:21:06Z",
+   "updated": "2026-10-02T13:26:42Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -2659,7 +2682,7 @@
       "t": 1790945623,
       "kind": "agent",
       "label": "Reading the paper(s) and code",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -2676,6 +2699,29 @@
       "label": "Precheck finished with failures",
       "state": "failed",
       "detail_public": "8 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790947558,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790947587,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "running",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790947641,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "4 checks",
       "visibility": "public"
      }
     ]
