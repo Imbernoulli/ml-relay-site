@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T21:40:43+00:00",
+ "generated": "2026-10-02T21:41:57+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -2288,12 +2288,55 @@
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:39:22Z",
+   "updated": "2026-10-02T21:40:54Z",
+   "replacement": null,
+   "task": null
+  },
+  {
+   "issue": 18,
+   "title": "[new task] vla-minivla-action-tokenization: compressing robot action chunks into VLA tokens",
+   "type": "new task",
+   "state": "open",
+   "phase": "C",
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   },
+   "requester": "Imbernoulli",
+   "opened": "2026-10-02T21:41:04Z",
+   "done": false,
+   "progress": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T21:41:04Z",
    "replacement": null,
    "task": null
   }
  ],
  "issues": [
+  {
+   "issue": 18,
+   "title": "[new task] vla-minivla-action-tokenization: compressing robot action chunks into VLA tokens",
+   "requester": "Imbernoulli",
+   "type": "new task",
+   "task": null,
+   "replacement": null,
+   "state": "open",
+   "stage": "Full measurement",
+   "waiting": false,
+   "phase": "C",
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T21:41:04Z",
+   "opened": "2026-10-02T21:41:04Z",
+   "progress": null,
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
+  },
   {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
@@ -2307,7 +2350,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:39:22Z",
+   "updated": "2026-10-02T21:40:54Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
