@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T03:07:42+00:00",
+ "generated": "2026-10-02T03:10:44+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -558,6 +558,44 @@
       "t": 1790910376,
       "kind": "agent",
       "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910545,
+      "kind": "agent",
+      "label": "Dry run checked",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910570,
+      "kind": "agent",
+      "label": "Agent working (10 min so far)",
+      "state": "done",
+      "detail_public": "Actions run 36958027548",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910628,
+      "kind": "daytona",
+      "label": "Daytona run gh-9-36958027548 submitted",
+      "state": "done",
+      "detail_public": "task llm-ppo-critic-objective, agent oracle, 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910628,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "running",
+      "detail_public": "run gh-9-36958027548",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910640,
+      "kind": "agent",
+      "label": "Daytona run submitted",
       "state": "running",
       "visibility": "public"
      }
@@ -565,7 +603,7 @@
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:06:17Z",
+   "updated": "2026-10-02T03:10:30Z",
    "replacement": null,
    "task": null
   }
@@ -584,7 +622,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:06:17Z",
+   "updated": "2026-10-02T03:10:30Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1050,6 +1088,44 @@
       "t": 1790910376,
       "kind": "agent",
       "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910545,
+      "kind": "agent",
+      "label": "Dry run checked",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910570,
+      "kind": "agent",
+      "label": "Agent working (10 min so far)",
+      "state": "done",
+      "detail_public": "Actions run 36958027548",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910628,
+      "kind": "daytona",
+      "label": "Daytona run gh-9-36958027548 submitted",
+      "state": "done",
+      "detail_public": "task llm-ppo-critic-objective, agent oracle, 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910628,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "running",
+      "detail_public": "run gh-9-36958027548",
+      "visibility": "public"
+     },
+     {
+      "t": 1790910640,
+      "kind": "agent",
+      "label": "Daytona run submitted",
       "state": "running",
       "visibility": "public"
      }
