@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T07:52:34+00:00",
+ "generated": "2026-10-02T07:56:54+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -66,7 +66,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "closed",
+   "state": "open",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -1099,12 +1099,28 @@
       "state": "waiting",
       "detail_public": "continuation 1 of 5",
       "visibility": "public"
+     },
+     {
+      "t": 1790927792,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36981225359",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790927792,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "waiting",
+      "detail_public": "Actions run 36981225359",
+      "visibility": "internal"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T07:49:51Z",
+   "updated": "2026-10-02T07:55:37Z",
    "replacement": null,
    "task": null
   }
@@ -1117,13 +1133,13 @@
    "type": "new task",
    "task": null,
    "replacement": null,
-   "state": "closed",
-   "stage": "Closed",
+   "state": "open",
+   "stage": "Building & pilot run",
    "waiting": false,
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T07:49:51Z",
+   "updated": "2026-10-02T07:55:37Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -2148,6 +2164,22 @@
       "state": "waiting",
       "detail_public": "continuation 1 of 5",
       "visibility": "public"
+     },
+     {
+      "t": 1790927792,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36981225359",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790927792,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "waiting",
+      "detail_public": "Actions run 36981225359",
+      "visibility": "internal"
      }
     ]
    },
