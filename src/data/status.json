@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T01:17:26+00:00",
+ "generated": "2026-10-02T01:20:39+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -124,8 +124,8 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "awaiting reply",
-   "phase": "A",
+   "state": "running",
+   "phase": "B",
    "approval": {
     "state": "approved",
     "by": null,
@@ -218,8 +218,8 @@
      {
       "t": 1790903184,
       "kind": "go",
-      "label": "Waiting for the requester's go (phase A finished)",
-      "state": "waiting",
+      "label": "Go received: phase A -> B",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -229,12 +229,45 @@
       "state": "done",
       "detail_public": "Actions run 36949075492",
       "visibility": "internal"
+     },
+     {
+      "t": 1790903857,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790903857,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790903936,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790903973,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done"
+     },
+     {
+      "t": 1790903993,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "running"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:16:02Z",
+   "updated": "2026-10-02T01:19:35Z",
    "replacement": null,
    "task": null
   }
@@ -248,12 +281,12 @@
    "task": null,
    "replacement": null,
    "state": "open",
-   "stage": "Waiting for requester",
-   "waiting": true,
-   "phase": "A",
+   "stage": "Building & pilot run",
+   "waiting": false,
+   "phase": "B",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:16:02Z",
+   "updated": "2026-10-02T01:19:35Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -339,8 +372,8 @@
      {
       "t": 1790903184,
       "kind": "go",
-      "label": "Waiting for the requester's go (phase A finished)",
-      "state": "waiting",
+      "label": "Go received: phase A -> B",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -350,6 +383,39 @@
       "state": "done",
       "detail_public": "Actions run 36949075492",
       "visibility": "internal"
+     },
+     {
+      "t": 1790903857,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790903857,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790903936,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790903973,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done"
+     },
+     {
+      "t": 1790903993,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "running"
      }
     ]
    },
