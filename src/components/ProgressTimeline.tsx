@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ProgressRecord, ProgressStep } from "@/lib/types";
-import { activeBlock, supersededSet } from "@/lib/stages";
+import { activeBlock, lastAgentRunning, supersededSet } from "@/lib/stages";
 
 const ICON: Record<string, { ch: string; cls: string; label: string }> = {
   done: { ch: "✓", cls: "bg-emerald-500 text-white", label: "done" },
@@ -58,10 +58,10 @@ export default function ProgressTimeline({ progress, compact = false }: { progre
       : typeof progress.current === "string"
         ? steps.findIndex((s) => s.kind === progress.current || s.label === progress.current)
         : (() => {
-            const r = steps.map((s) => s.state).lastIndexOf("running");
+            const r = lastAgentRunning(steps);
             if (r >= 0) return r;
             const b = activeBlock(steps);
-            return b ? steps.indexOf(b) : -1;
+            return b ? steps.indexOf(b) : steps.map((s) => s.state).lastIndexOf("running");
           })();
   const indexed = steps.map((s, i) => [s, i] as [ProgressStep, number]);
   const sup = supersededSet(steps);
