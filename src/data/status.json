@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T21:54:32+00:00",
+ "generated": "2026-10-02T21:56:23+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -46,7 +46,7 @@
     "state": "open",
     "phase": null,
     "approval": {
-     "state": "waiting",
+     "state": "approved",
      "by": null,
      "note": null
     },
@@ -69,12 +69,35 @@
        "label": "Waiting for maintainer approval",
        "state": "waiting",
        "visibility": "public"
+      },
+      {
+       "t": 1790978123,
+       "kind": "approval",
+       "label": "Approved by the maintainer",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1790978128,
+       "kind": "gate",
+       "label": "Gate passed (write access)",
+       "state": "done",
+       "detail_public": "Actions run 37069626240",
+       "visibility": "internal"
+      },
+      {
+       "t": 1790978128,
+       "kind": "queue",
+       "label": "Queued for the orchestrator",
+       "state": "waiting",
+       "detail_public": "Actions run 37069626240",
+       "visibility": "internal"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T21:54:27Z",
+    "updated": "2026-10-02T21:55:25Z",
     "replacement": null
    }
   ]
@@ -2355,12 +2378,20 @@
       "state": "done",
       "detail_public": "11 of 11 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790978082,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "28 of 28 checks passed",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:53:35Z",
+   "updated": "2026-10-02T21:55:27Z",
    "replacement": null,
    "task": null
   },
@@ -2388,46 +2419,6 @@
  ],
  "issues": [
   {
-   "issue": 19,
-   "title": "[change] dl-optim-mup-parametrization: this is too old, refer to https://arxiv.org/pdf/2505.16932 pls",
-   "requester": "PeterLauLukChen",
-   "type": "change",
-   "task": "dl-optim-mup-parametrization",
-   "replacement": null,
-   "state": "open",
-   "stage": "Waiting for maintainer approval",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-02T21:54:27Z",
-   "opened": "2026-10-02T21:54:13Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1790978053,
-      "kind": "created",
-      "label": "Request created by @PeterLauLukChen",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1790978068,
-      "kind": "approval",
-      "label": "Waiting for maintainer approval",
-      "state": "waiting",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "waiting",
-    "by": null,
-    "note": null
-   }
-  },
-  {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "requester": "Imbernoulli",
@@ -2440,7 +2431,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:53:35Z",
+   "updated": "2026-10-02T21:55:27Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -4703,6 +4694,77 @@
       "state": "done",
       "detail_public": "11 of 11 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790978082,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "28 of 28 checks passed",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 19,
+   "title": "[change] dl-optim-mup-parametrization: this is too old, refer to https://arxiv.org/pdf/2505.16932 pls",
+   "requester": "PeterLauLukChen",
+   "type": "change",
+   "task": "dl-optim-mup-parametrization",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T21:55:25Z",
+   "opened": "2026-10-02T21:54:13Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790978053,
+      "kind": "created",
+      "label": "Request created by @PeterLauLukChen",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790978068,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1790978123,
+      "kind": "approval",
+      "label": "Approved by the maintainer",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790978128,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37069626240",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790978128,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "waiting",
+      "detail_public": "Actions run 37069626240",
+      "visibility": "internal"
      }
     ]
    },
