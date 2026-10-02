@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T23:35:49+00:00",
+ "generated": "2026-10-02T23:40:05+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -301,14 +301,29 @@
        "t": 1790984007,
        "kind": "agent",
        "label": "Read the issue thread",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1790984291,
+       "kind": "agent",
+       "label": "Reading the paper(s) and code",
        "state": "running",
+       "visibility": "public"
+      },
+      {
+       "t": 1790984312,
+       "kind": "precheck",
+       "label": "Precheck started",
+       "state": "running",
+       "detail_public": "9 checks",
        "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T23:33:29Z",
+    "updated": "2026-10-02T23:38:13Z",
     "replacement": null
    }
   ]
@@ -2771,7 +2786,7 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T23:33:29Z",
+   "updated": "2026-10-02T23:38:13Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -3021,7 +3036,22 @@
       "t": 1790984007,
       "kind": "agent",
       "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790984291,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
       "state": "running",
+      "visibility": "public"
+     },
+     {
+      "t": 1790984312,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "9 checks",
       "visibility": "public"
      }
     ]
