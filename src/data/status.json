@@ -1,7 +1,9 @@
 {
- "generated": "2026-10-02T00:50:53+00:00",
+ "generated": "2026-10-02T00:52:27+00:00",
  "repo": "Imbernoulli/ML-Relay",
- "maintainers": [],
+ "maintainers": [
+  "Imbernoulli"
+ ],
  "tasks": {
   "agent-alfworld-planning-policy": [
    {
@@ -10,7 +12,11 @@
     "type": "replacement",
     "state": "open",
     "phase": null,
-    "approval": null,
+    "approval": {
+     "state": "approved",
+     "by": "Imbernoulli",
+     "note": null
+    },
     "requester": "Imbernoulli",
     "opened": "2026-10-01T21:40:41Z",
     "done": false,
@@ -20,10 +26,138 @@
     "updated": "2026-10-02T00:11:23Z",
     "replacement": "robot-agent-direct-control"
    }
+  ],
+  "theory-semiautomata": [
+   {
+    "issue": 7,
+    "title": "[change] theory-semiautomata: add a third evaluation setting",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "approved",
+     "by": "Imbernoulli",
+     "note": null
+    },
+    "requester": "Imbernoulli",
+    "opened": "2026-10-02T00:51:22Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1790902292,
+       "kind": "maintainer",
+       "label": "Maintainer lane started: piloting candidate third semiautomata",
+       "state": "running"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-02T00:51:34Z",
+    "replacement": null
+   }
+  ],
+  "ai4bio-cofolding-affinity-scoring": [
+   {
+    "issue": 8,
+    "title": "[change] ai4bio-cofolding-affinity-scoring: add a third evaluation setting",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "approved",
+     "by": "Imbernoulli",
+     "note": null
+    },
+    "requester": "Imbernoulli",
+    "opened": "2026-10-02T00:51:24Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1790902297,
+       "kind": "maintainer",
+       "label": "Maintainer lane started: preparing the third condition's fixture",
+       "state": "running"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-02T00:51:39Z",
+    "replacement": null
+   }
   ]
  },
  "new_tasks": [],
  "issues": [
+  {
+   "issue": 8,
+   "title": "[change] ai4bio-cofolding-affinity-scoring: add a third evaluation setting",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "ai4bio-cofolding-affinity-scoring",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T00:51:39Z",
+   "opened": "2026-10-02T00:51:24Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790902297,
+      "kind": "maintainer",
+      "label": "Maintainer lane started: preparing the third condition's fixture",
+      "state": "running"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
+  },
+  {
+   "issue": 7,
+   "title": "[change] theory-semiautomata: add a third evaluation setting",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "theory-semiautomata",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T00:51:34Z",
+   "opened": "2026-10-02T00:51:22Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790902292,
+      "kind": "maintainer",
+      "label": "Maintainer lane started: piloting candidate third semiautomata",
+      "state": "running"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
+  },
   {
    "issue": 3,
    "title": "[change] agent-alfworld-planning-policy → robot-agent-direct-control",
@@ -40,7 +174,11 @@
    "updated": "2026-10-02T00:11:23Z",
    "opened": "2026-10-01T21:40:41Z",
    "progress": null,
-   "approval": null
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
   }
  ]
 }
