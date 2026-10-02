@@ -44,7 +44,7 @@ setup_secret = modal.Secret.from_dict({"SETUP_STATE": os.environ.get("SETUP_STAT
 status_secret = modal.Secret.from_name("ml-relay-status-secret")
 
 
-@app.function(secrets=[setup_secret, status_secret], min_containers=0, max_containers=2)
+@app.function(secrets=[setup_secret, status_secret], min_containers=1, max_containers=2)
 @modal.concurrent(max_inputs=20)
 @modal.asgi_app()
 def web():
