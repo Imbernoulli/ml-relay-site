@@ -9,22 +9,24 @@ import { Badge } from "./ui";
 import { gpuLabel } from "@/lib/site";
 import TaskImage from "./TaskImage";
 import StarButton from "./StarButton";
+import { areaCounts, splitArea } from "@/lib/areas";
+import { currentApprovals, useReviews } from "@/lib/reviews";
 
-// Filter chips group by the top-level area (the part before " / ").
-const topArea = (a?: string | null) => (a ? a.split(" / ")[0].trim() : "—");
+// Filter chips group by the top-level area (the part before " / "), in the taxonomy's fixed order.
+const topArea = (a?: string | null) => splitArea(a).area;
 
 export default function TaskCatalogue({ tasks, status }: { tasks: IndexEntry[]; status?: StatusData }) {
   const [q, setQ] = useState("");
   const [area, setArea] = useState<string>("");
-  const areas = useMemo(() => {
-    const m = new Map<string, number>();
-    for (const t of tasks) m.set(topArea(t.area), (m.get(topArea(t.area)) || 0) + 1);
-    return [...m.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-  }, [tasks]);
+  const [appr, setAppr] = useState<"" | "yes" | "no">("");
+  const { reviews } = useReviews();
+  const nApproved = (t: IndexEntry) => currentApprovals(reviews?.[t.id], t.version).length;
+  const areas = useMemo(() => areaCounts(tasks.map((t) => t.area)), [tasks]);
   const shown = useMemo(() => {
     const s = q.trim().toLowerCase();
     return tasks.filter((t) => {
       if (area && topArea(t.area) !== area) return false;
+      if (appr && reviews && (appr === "yes") !== currentApprovals(reviews[t.id], t.version).length > 0) return false;
       if (!s) return true;
       const hay = [
         t.id, t.title, t.area, t.question, t.repo, t.oracle, t.oracle_name,
@@ -36,7 +38,7 @@ export default function TaskCatalogue({ tasks, status }: { tasks: IndexEntry[]; 
         .toLowerCase();
       return s.split(/\s+/).every((w) => hay.includes(w));
     });
-  }, [tasks, q, area]);
+  }, [tasks, q, area, appr, reviews]);
 
   return (
     <div>
@@ -66,6 +68,26 @@ export default function TaskCatalogue({ tasks, status }: { tasks: IndexEntry[]; 
           </button>
         ))}
       </div>
+      <div className="mt-2 flex flex-wrap items-center gap-1.5 text-xs">
+        {(
+          [
+            ["", "Any review state"],
+            ["yes", "✓ Approved"],
+            ["no", "Not yet approved"],
+          ] as const
+        ).map(([k, label]) => (
+          <button
+            key={k}
+            onClick={() => setAppr(k)}
+            disabled={k !== "" && !reviews}
+            className={`rounded-full border px-2.5 py-1 ${appr === k ? "border-foreground/40 bg-muted font-medium" : "border-border text-muted-foreground hover:text-foreground"} disabled:opacity-50`}
+          >
+            {label}
+            {k === "yes" && reviews ? <span className="ml-1 text-muted-foreground">{tasks.filter((t) => nApproved(t) > 0).length}</span> : null}
+            {k === "no" && reviews ? <span className="ml-1 text-muted-foreground">{tasks.filter((t) => nApproved(t) === 0).length}</span> : null}
+          </button>
+        ))}
+      </div>
 
       <div className="mt-6 grid gap-3">
         {shown.map((t) => (
@@ -81,12 +103,21 @@ export default function TaskCatalogue({ tasks, status }: { tasks: IndexEntry[]; 
                   <span className="font-mono">#{t.n}</span>
                   <span className="break-anywhere font-mono">{t.id}</span>
                   <span>·</span>
-                  <span>{t.area ?? "—"}</span>
+                  <span>{topArea(t.area)}</span>
                 </div>
                 <h3 className="mt-1 text-base font-semibold leading-snug group-hover:underline">{t.title ?? t.id}</h3>
+                {splitArea(t.area).topic && <div className="mt-0.5 text-xs text-muted-foreground">{splitArea(t.area).topic}</div>}
               </div>
               <div className="flex flex-wrap gap-1.5">
                 <StarButton id={t.id} />
+                {nApproved(t) > 0 && (
+                  <span
+                    title={`Approved by ${currentApprovals(reviews?.[t.id], t.version).map((m) => m.login).join(", ")}`}
+                    className="inline-flex items-center rounded-full border border-emerald-600/50 bg-emerald-600/10 px-2 py-0.5 text-[11px] font-semibold text-emerald-800 dark:text-emerald-200"
+                  >
+                    ✓ {nApproved(t)}
+                  </span>
+                )}
                 {statusBadge(status?.tasks[t.id]) && <Badge tone="warn">{statusBadge(status?.tasks[t.id])}</Badge>}
                 {gpuLabel(t.gpus) && <Badge>{gpuLabel(t.gpus)}</Badge>}
               </div>

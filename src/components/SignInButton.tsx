@@ -29,7 +29,7 @@ export default function SignInButton({ variant = "primary", label }: { variant?:
       ) : variant === "primary" ? (
         label ?? "Sign in with GitHub"
       ) : (
-        "Sign in"
+        label ?? "Sign in"
       )}
     </button>
   );

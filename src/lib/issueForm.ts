@@ -32,10 +32,20 @@ export function buildIssueBody(form: IssueForm, values: Record<string, string>):
   return parts.join("\n\n");
 }
 
-export function issueTitle(form: IssueForm, title: string): string {
-  const prefix = form.title ?? "";
-  const t = title.trim();
-  return t.startsWith(prefix.trim()) ? t : `${prefix}${t}`;
+/** The GitHub issue title: the form's type tag (and, for a change request, the
+ *  task id) the backend maps requests by, then the visitor's title. The site
+ *  never shows the tag; a blank title falls back to the first answer. */
+export function issueTitle(form: IssueForm, title: string, values: Record<string, string> = {}, task?: string): string {
+  const prefix = (form.title ?? "").trim();
+  let t = title.trim();
+  if (prefix && t.toLowerCase().startsWith(prefix.toLowerCase())) t = t.slice(prefix.length).trim();
+  if (task && t.toLowerCase().startsWith(`${task.toLowerCase()}:`)) t = t.slice(task.length + 1).trim();
+  if (!t) {
+    const first = form.fields.find((f) => f.type !== "markdown" && f.id && f.id !== "task" && (values[f.id] ?? "").trim());
+    t = first ? (values[first.id!] ?? "").trim().split("\n")[0] : "";
+    if (t.length > 90) t = `${t.slice(0, 87).trimEnd()}…`;
+  }
+  return [prefix, task ? `${task}:` : "", t].filter(Boolean).join(" ");
 }
 
 /** The GitHub form itself (fallback). */
@@ -59,24 +69,24 @@ export function newTaskHints(v: Record<string, string>): Record<string, string[]
   const h: Record<string, string[]> = {};
   const add = (k: string, m: string) => (h[k] = [...(h[k] ?? []), m]);
   const papers = (v.papers ?? "").trim();
-  if (papers && !URL_RE.test(papers) && !/\b\d{4}\.\d{4,5}\b|10\.\d{4,}\//.test(papers)) add("papers", "Add an arXiv id, DOI or link.");
+  if (papers && !URL_RE.test(papers) && !/\b\d{4}\.\d{4,5}\b|10\.\d{4,}\//.test(papers)) add("papers", "An arXiv id, DOI or link helps the agent find the paper.");
   const code = (v.codebase ?? "").trim();
-  if (code && !URL_RE.test(code)) add("codebase", "Add the repository URL.");
-  if (code && !/(@|commit|branch|tag|\b[0-9a-f]{7,40}\b)/i.test(code)) add("codebase", "Pin a commit, branch or tag (repo@commit).");
+  if (code && !URL_RE.test(code)) add("codebase", "A repository URL helps.");
+  if (code && !/(@|commit|branch|tag|\b[0-9a-f]{7,40}\b)/i.test(code)) add("codebase", "If you know it, pin a commit, branch or tag (repo@commit).");
   const settings = (v.settings ?? "").trim();
   if (settings) {
     const n = countItems(settings);
-    if (n < 3) add("settings", `${n} setting${n === 1 ? "" : "s"} found; at least 3 are required.`);
-    if (!/\b(higher|lower|maximi[sz]e|minimi[sz]e)\b|↑|↓/i.test(settings)) add("settings", "Say the metric direction (higher / lower is better).");
+    if (n < 3) add("settings", `${n} setting${n === 1 ? "" : "s"} listed; a task scores at least 3, so the agent will propose the rest.`);
+    if (!/\b(higher|lower|maximi[sz]e|minimi[sz]e)\b|↑|↓/i.test(settings)) add("settings", "Saying whether higher or lower is better helps.");
   }
   const bl = (v.baselines ?? "").trim();
   if (bl) {
-    if (countItems(bl) < 2) add("baselines", "At least 2 published methods.");
-    if (!/\b(starter|default)\b/i.test(bl)) add("baselines", "Name the starter (the default the agent begins from).");
-    if (!URL_RE.test(bl)) add("baselines", "Add code links.");
+    if (countItems(bl) < 2) add("baselines", "A task usually has 2 or more published methods; the agent can add more.");
+    if (!/\b(starter|default)\b/i.test(bl)) add("baselines", "If you have a preference, say which one is the starter.");
+    if (!URL_RE.test(bl)) add("baselines", "Code links help.");
   }
   const cb = (v.compute ?? "").trim();
-  if (cb && !/\d/.test(cb)) add("compute", "Give numbers: GPUs and wall time per setting.");
+  if (cb && !/\d/.test(cb)) add("compute", "Numbers help: GPUs and wall time per setting.");
   return h;
 }
 

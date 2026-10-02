@@ -55,16 +55,26 @@ export default function ProposePage() {
       <h1 className="text-3xl font-bold tracking-tight">How to propose a task</h1>
       <p className="mt-3 text-base leading-relaxed text-muted-foreground">
         A new ML-Relay task starts as a GitHub issue form in the private Imbernoulli/ML-Relay repository. Only collaborators on that repository
-        can submit it. The form asks for seven things; here is what each one is and why we need it.
+        can submit it.
+      </p>
+      <p className="mt-3 text-base leading-relaxed">
+        <strong>Only two things are required: the research question and the source paper(s).</strong> Everything else is optional. The agent
+        reads the papers and drafts the rest (codebase, settings, baselines, editable scope, compute) in its design review, for you to confirm or
+        correct. If you already know some of it, filling it in saves a round. Here is what each item is and why we need it.
       </p>
       <p className="mt-3 rounded-lg border border-border bg-muted/50 px-4 py-2 text-sm">{REQUEST_MODEL}</p>
 
       <div className="mt-6 space-y-3">
         {ASKS.map(([title, what, why], i) => (
           <Card key={title}>
-            <h2 className="text-base font-semibold">
-              <span className="mr-2 font-mono text-sm text-muted-foreground">{i + 1}</span>
+            <h2 className="flex flex-wrap items-center gap-2 text-base font-semibold">
+              <span className="font-mono text-sm text-muted-foreground">{i + 1}</span>
               {title}
+              {i < 2 ? (
+                <span className="rounded-full border border-emerald-600/50 bg-emerald-600/10 px-2 py-0.5 text-[11px] font-medium text-emerald-800 dark:text-emerald-200">required</span>
+              ) : (
+                <span className="rounded-full border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">optional · the agent proposes it</span>
+              )}
             </h2>
             <p className="mt-1 text-sm leading-relaxed">{what}</p>
             <p className="mt-1 text-sm leading-relaxed text-muted-foreground">Why: {why}</p>
@@ -72,7 +82,7 @@ export default function ProposePage() {
         ))}
       </div>
 
-      <h2 className="mt-10 text-xl font-semibold tracking-tight">A worked example</h2>
+      <h2 className="mt-10 text-xl font-semibold tracking-tight">A worked example (every item filled in)</h2>
       <Card className="mt-3">
         <dl className="grid gap-x-4 gap-y-3 text-sm sm:grid-cols-[11rem_1fr]">
           <dt className="font-semibold">Question</dt>
@@ -107,8 +117,8 @@ export default function ProposePage() {
       <h2 className="mt-10 text-xl font-semibold tracking-tight">What happens next</h2>
       <ol className="mt-3 list-decimal space-y-2 pl-6 text-sm leading-relaxed">
         <li>
-          <strong>Design review.</strong> We check the question, settings, baselines and editable scope, and reply on the issue with a proposed
-          design.
+          <strong>Design review.</strong> The agent reads your papers and code, drafts whatever you left out (codebase, settings, baselines,
+          editable scope, compute) and replies on the issue with a full design for you to confirm or correct.
         </li>
         <li>
           <strong>Build and pilot.</strong> The task is built in its codebase and a small pilot checks that the baselines run and separate.

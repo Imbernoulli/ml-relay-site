@@ -17,11 +17,12 @@ import {
   type IssueForm,
 } from "@/lib/issueForm";
 import { RELAY_REPO } from "@/lib/site";
+import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
 
 type Submit =
   | { s: "idle" }
   | { s: "sending" }
-  | { s: "done"; number: number; url: string }
+  | { s: "done"; number: number; url: string; title: string }
   | { s: "error"; msg: string; noAccess?: boolean; noWrite?: boolean };
 
 /** One of ML-Relay's GitHub issue forms, filled in on the site and filed with the visitor's own GitHub access. */
@@ -31,12 +32,14 @@ export default function IssueFormView({
   draftKey,
   locked = {},
   next,
+  titles = {},
 }: {
   form: IssueForm;
   kind: "change" | "new task";
   draftKey: string;
   locked?: Record<string, string>;
   next: React.ReactNode;
+  titles?: TaskTitles;
 }) {
   const [title, setTitle] = useState("");
   const [values, setValues] = useState<Record<string, string>>({ ...locked });
@@ -72,8 +75,8 @@ export default function IssueFormView({
 
   const fields = form.fields;
   const missing = useMemo(
-    () => [!title.trim() ? "Title" : null, ...fields.filter((f) => f.required && f.id && !(values[f.id] ?? "").trim()).map((f) => f.label ?? f.id!)].filter(Boolean) as string[],
-    [fields, values, title],
+    () => fields.filter((f) => f.required && f.id && !(values[f.id] ?? "").trim()).map((f) => f.label ?? f.id!),
+    [fields, values],
   );
   const hints = kind === "new task" ? newTaskHints(values) : {};
   const ghUrl = githubFormUrl(RELAY_REPO, form, locked.task ? { task: locked.task, title: `${form.title}${locked.task}: ` } : {});
@@ -83,13 +86,13 @@ export default function IssueFormView({
     if (missing.length) return;
     setSub({ s: "sending" });
     try {
-      const fullTitle = issueTitle(form, title);
+      const fullTitle = issueTitle(form, title, values, locked.task);
       const r = await createIssue(fullTitle, buildIssueBody(form, values), form.labels);
       addOptimistic({ number: r.number, title: fullTitle, url: r.html_url, kind, created: new Date().toISOString() });
       try {
         localStorage.removeItem(draftKey);
       } catch {}
-      setSub({ s: "done", number: r.number, url: r.html_url });
+      setSub({ s: "done", number: r.number, url: r.html_url, title: cleanRequestTitle(fullTitle, titles) });
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (e) {
       if (e instanceof GitHubError && e.status === 403)
@@ -113,6 +116,7 @@ export default function IssueFormView({
             issue #{sub.number}
           </a>
         </h2>
+        <p className="mt-1 text-sm font-medium">{sub.title}</p>
         <div className="mt-2 text-sm leading-relaxed">{next}</div>
         <div className="mt-4 flex flex-wrap gap-3">
           <Link href="/me/" className="rounded-lg border border-foreground/30 bg-foreground px-4 py-2 text-sm font-semibold text-background">
@@ -137,15 +141,16 @@ export default function IssueFormView({
     >
       <div>
         <label htmlFor="f-title" className="text-sm font-semibold">
-          Title <span className="text-red-600">*</span>
+          Title
         </label>
-        <div className="mt-1 flex items-stretch overflow-hidden rounded-md border border-border">
-          <span className="flex items-center bg-muted px-3 font-mono text-xs text-muted-foreground">{form.title.trim()}</span>
-          <input id="f-title" value={title} onChange={(e) => setTitle(e.target.value)} className="min-w-0 flex-1 bg-background px-3 py-2 text-sm outline-none" />
-        </div>
-        {kind === "new task" && (
-          <p className="mt-1 text-xs text-muted-foreground">Testing? Put &ldquo;[test]&rdquo; in the title: such issues are marked as tests and never start the agent.</p>
-        )}
+        <input
+          id="f-title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder={kind === "new task" ? "A short name for the task (optional)" : "A short summary of the change (optional)"}
+          className={`${inputCls} mt-1`}
+        />
+        {!title.trim() && <p className="mt-1 text-xs text-muted-foreground">Left blank, the title is taken from your first answer.</p>}
       </div>
       {fields.map((f, i) => {
         if (f.type === "markdown")
@@ -197,11 +202,15 @@ export default function IssueFormView({
               />
             )}
             {err && <p className="mt-1 text-xs text-red-600 dark:text-red-400">Required.</p>}
-            {(hints[id] ?? []).map((h) => (
-              <p key={h} className="mt-1 text-xs text-amber-700 dark:text-amber-300">
-                {h}
-              </p>
-            ))}
+            {kind === "new task" && !f.required && !isLocked && !v.trim() && (
+              <p className="mt-1 text-xs text-muted-foreground">Optional: the agent will propose this from the paper(s).</p>
+            )}
+            {v.trim() &&
+              (hints[id] ?? []).map((h) => (
+                <p key={h} className="mt-1 text-xs text-sky-700 dark:text-sky-300">
+                  Suggestion: {h}
+                </p>
+              ))}
           </div>
         );
       })}

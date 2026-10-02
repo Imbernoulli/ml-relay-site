@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loadForms, loadIndex } from "@/lib/data";
+import { loadForms, loadIndex, taskTitles } from "@/lib/data";
 import IssueFormView from "@/components/IssueFormView";
 import { REQUEST_MODEL } from "@/lib/site";
 
@@ -33,6 +33,7 @@ export default async function ChangePage({ params }: { params: Promise<{ task: s
         {form ? (
           <IssueFormView
             form={form}
+            titles={taskTitles()}
             kind="change"
             draftKey={`mlrelay-draft-change-${task}`}
             locked={{ task }}

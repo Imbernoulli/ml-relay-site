@@ -9,6 +9,8 @@ import ResultsSection from "./ResultsSection";
 import { Badge, Card, Fold, Section } from "./ui";
 import TaskImage from "./TaskImage";
 import StarButton from "./StarButton";
+import ApproveBox from "./ApproveBox";
+import { splitArea } from "@/lib/areas";
 import IssueButtons from "./IssueButtons";
 import RequestStatus from "./RequestStatus";
 import { loadStatus } from "@/lib/data";
@@ -130,7 +132,8 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
       </nav>
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
         <span className="font-mono">#{t.n}</span>
-        <Badge>{t.area ?? "—"}</Badge>
+        <Badge>{splitArea(t.area).area}</Badge>
+        {splitArea(t.area).topic && <span>{splitArea(t.area).topic}</span>}
         {t.repo_url && (
           <a href={t.repo_url} target="_blank" rel="noreferrer" className="break-anywhere underline">
             built on {t.repo}
@@ -151,6 +154,9 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
           <div className="mt-4">
             <IssueButtons task={t.id} />
           </div>
+          <div className="mt-4 max-w-xl">
+            <ApproveBox task={t.id} version={t.version} />
+          </div>
         </div>
         <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} />
       </div>
@@ -170,7 +176,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
           {t.elab ? <div className="space-y-2 text-sm leading-relaxed">{t.elab.split("\n\n").map((p, i) => <p key={i}>{p}</p>)}</div> : <p className="text-sm text-muted-foreground">—</p>}
           <div className="mt-3 space-y-1 text-xs">
             <p>
-              <span className="font-semibold">Settings:</span> {t.readme_settings_line ?? "—"}
+              <span className="font-semibold">Settings:</span> {t.readme_settings_line ?? t.settings.map((x) => x.display ?? x.name).join(", ")}
             </p>
             <p>
               <span className="font-semibold">Reference methods:</span> {t.readme_methods_line ?? "—"}

@@ -11,6 +11,8 @@ import PublicTask from "@/components/PublicTask";
 import TaskImage from "@/components/TaskImage";
 import StarButton from "@/components/StarButton";
 import IssueButtons from "@/components/IssueButtons";
+import ApproveBox from "@/components/ApproveBox";
+import { splitArea } from "@/lib/areas";
 import RequestStatus from "@/components/RequestStatus";
 import { gpuLabel } from "@/lib/site";
 import type { PublicTaskData } from "@/lib/types";
@@ -196,7 +198,8 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
 
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
         <span className="font-mono">#{t.n}</span>
-        <Badge>{t.area ?? "—"}</Badge>
+        <Badge>{splitArea(t.area).area}</Badge>
+        {splitArea(t.area).topic && <span>{splitArea(t.area).topic}</span>}
         {t.repo_url && (
           <a href={t.repo_url} target="_blank" rel="noreferrer" className="break-anywhere underline">
             built on {t.repo}
@@ -216,6 +219,9 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
           <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
           <div className="mt-4">
             <IssueButtons task={t.id} />
+            <div className="mt-4 max-w-xl">
+              <ApproveBox task={t.id} version={t.version} />
+            </div>
           </div>
         </div>
         <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} />

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loadForms } from "@/lib/data";
+import { loadForms, taskTitles } from "@/lib/data";
 import IssueFormView from "@/components/IssueFormView";
 import { NEW_TASK_FORM, REQUEST_MODEL } from "@/lib/site";
 
@@ -28,6 +28,7 @@ export default function ProposeNewPage() {
         {form ? (
           <IssueFormView
             form={form}
+            titles={taskTitles()}
             kind="new task"
             draftKey="mlrelay-draft-new-task"
             next={

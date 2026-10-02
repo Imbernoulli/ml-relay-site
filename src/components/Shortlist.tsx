@@ -54,7 +54,7 @@ export default function Shortlist({ tasks }: { tasks: T[] }) {
           <Link href={`/tasks/${id}/`} className="font-semibold hover:underline">
             {t.title}
           </Link>
-          {t.area && <div className="text-xs text-muted-foreground">{t.area}</div>}
+          {t.area && <div className="text-xs text-muted-foreground">{t.area.replace(" / ", " · ")}</div>}
         </div>
         {editable && (
           <div className="flex items-center gap-1">

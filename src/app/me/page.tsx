@@ -1,6 +1,6 @@
 import Link from "next/link";
 import MyWork from "./MyWork";
-import { loadIndex, loadStatus } from "@/lib/data";
+import { loadIndex, loadStatus, taskTitles } from "@/lib/data";
 
 export const metadata = { title: "ML-Relay · My work" };
 
@@ -19,7 +19,7 @@ export default function MePage() {
         Your change requests and new-task proposals: where each one stands, the pull request the agent opened, the agent&apos;s latest reply,
         and whether it is waiting for you.
       </p>
-      <MyWork status={loadStatus()} knownTasks={loadIndex().tasks.map((t) => t.id)} />
+      <MyWork status={loadStatus()} knownTasks={loadIndex().tasks.map((t) => t.id)} titles={taskTitles()} />
     </div>
   );
 }

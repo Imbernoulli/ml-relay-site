@@ -22,6 +22,7 @@ import SignInButton from "@/components/SignInButton";
 import RequestAccess from "@/components/RequestAccess";
 import ReplyBox from "@/components/ReplyBox";
 import { getOptimistic } from "@/lib/issueForm";
+import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
 import { NEW_TASK_FORM, RELAY_REPO } from "@/lib/site";
 
 const PR_STYLE: Record<string, string> = {
@@ -64,7 +65,7 @@ function Timeline({ r, stage }: { r: MyRequest; stage: string | null }) {
   );
 }
 
-function RequestCard({ r, st, known, onPosted }: { r: MyRequest; st: StatusIssue | undefined; known: Set<string>; onPosted: () => void }) {
+function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: StatusIssue | undefined; known: Set<string>; titles: TaskTitles; onPosted: () => void }) {
   const stage = st?.stage ?? r.stage;
   const waiting = r.waitingForYou || Boolean(st?.waiting && st.state === "open");
   return (
@@ -77,7 +78,7 @@ function RequestCard({ r, st, known, onPosted }: { r: MyRequest; st: StatusIssue
         <span className="ml-auto text-xs text-muted-foreground">updated {r.updated.slice(0, 10)}</span>
       </div>
       <a href={r.url} target="_blank" rel="noreferrer" className="mt-2 block text-base font-semibold hover:underline">
-        #{r.number} {r.title}
+        #{r.number} {cleanRequestTitle(r.title, titles)}
       </a>
       {st?.progress?.steps?.length ? <ProgressTimeline progress={st.progress} /> : <Timeline r={r} stage={stage} />}
       <PrivateStatus issue={r.number} />
@@ -174,7 +175,7 @@ type Load =
   | { s: "error"; msg: string; noAccess?: boolean }
   | { s: "ok"; me: Viewer; items: MyRequest[] };
 
-export default function MyWork({ status, knownTasks }: { status: StatusData; knownTasks: string[] }) {
+export default function MyWork({ status, knownTasks, titles }: { status: StatusData; knownTasks: string[]; titles: TaskTitles }) {
   const [load, setLoad] = useState<Load>({ s: "loading" });
 
   const refresh = useCallback(async () => {
@@ -283,14 +284,14 @@ export default function MyWork({ status, knownTasks }: { status: StatusData; kno
         <>
           <h2 className="mt-6 text-lg font-semibold">Open ({open.length})</h2>
           <div className="mt-2 space-y-3">
-            {open.length ? open.map((r) => <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} onPosted={() => void refresh()} />) : <p className="text-sm text-muted-foreground">None.</p>}
+            {open.length ? open.map((r) => <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} titles={titles} onPosted={() => void refresh()} />) : <p className="text-sm text-muted-foreground">None.</p>}
           </div>
           {closed.length > 0 && (
             <>
               <h2 className="mt-8 text-lg font-semibold">Closed ({closed.length})</h2>
               <div className="mt-2 space-y-3">
                 {closed.map((r) => (
-                  <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} onPosted={() => void refresh()} />
+                  <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} titles={titles} onPosted={() => void refresh()} />
                 ))}
               </div>
             </>
