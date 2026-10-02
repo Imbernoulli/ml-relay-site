@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T23:43:00+00:00",
+ "generated": "2026-10-02T23:44:21+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -326,12 +326,28 @@
        "state": "done",
        "detail_public": "10 of 10 checks passed",
        "visibility": "public"
+      },
+      {
+       "t": 1790984590,
+       "kind": "precheck",
+       "label": "Precheck done",
+       "state": "done",
+       "detail_public": "8 of 8 checks passed",
+       "visibility": "public"
+      },
+      {
+       "t": 1790984624,
+       "kind": "precheck",
+       "label": "Precheck done",
+       "state": "done",
+       "detail_public": "9 of 9 checks passed",
+       "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T23:41:34Z",
+    "updated": "2026-10-02T23:43:46Z",
     "replacement": null
    }
   ]
@@ -2794,7 +2810,7 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T23:41:34Z",
+   "updated": "2026-10-02T23:43:46Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -3068,6 +3084,22 @@
       "label": "Precheck done",
       "state": "done",
       "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790984590,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "8 of 8 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790984624,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
       "visibility": "public"
      }
     ]
