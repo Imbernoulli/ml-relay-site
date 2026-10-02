@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T13:27:31+00:00",
+ "generated": "2026-10-02T13:28:58+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1431,22 +1431,29 @@
       "t": 1790947587,
       "kind": "agent",
       "label": "Precheck started",
-      "state": "running",
+      "state": "done",
       "visibility": "internal"
      },
      {
       "t": 1790947641,
       "kind": "precheck",
-      "label": "Precheck started",
-      "state": "running",
-      "detail_public": "4 checks",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790947665,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "running",
+      "visibility": "internal"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T13:26:42Z",
+   "updated": "2026-10-02T13:27:48Z",
    "replacement": null,
    "task": null
   }
@@ -1465,7 +1472,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T13:26:42Z",
+   "updated": "2026-10-02T13:27:48Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -2713,16 +2720,23 @@
       "t": 1790947587,
       "kind": "agent",
       "label": "Precheck started",
-      "state": "running",
+      "state": "done",
       "visibility": "internal"
      },
      {
       "t": 1790947641,
       "kind": "precheck",
-      "label": "Precheck started",
-      "state": "running",
-      "detail_public": "4 checks",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790947665,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "running",
+      "visibility": "internal"
      }
     ]
    },
