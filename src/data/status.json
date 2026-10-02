@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T00:53:50+00:00",
+ "generated": "2026-10-02T00:56:27+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -92,8 +92,100 @@
    }
   ]
  },
- "new_tasks": [],
+ "new_tasks": [
+  {
+   "issue": 9,
+   "title": "[new task] critic model for llm rl",
+   "type": "new task",
+   "state": "open",
+   "phase": null,
+   "approval": {
+    "state": "approved",
+    "by": null,
+    "note": null
+   },
+   "requester": "Imbernoulli",
+   "opened": "2026-10-02T00:54:56Z",
+   "done": false,
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790902511,
+      "kind": "approval",
+      "label": "Auto-approved (opened by a maintainer)",
+      "state": "done"
+     },
+     {
+      "t": 1790902515,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902515,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "waiting",
+      "detail_public": "Actions run 36948375504"
+     }
+    ]
+   },
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T00:55:13Z",
+   "replacement": null,
+   "task": null
+  }
+ ],
  "issues": [
+  {
+   "issue": 9,
+   "title": "[new task] critic model for llm rl",
+   "requester": "Imbernoulli",
+   "type": "new task",
+   "task": null,
+   "replacement": null,
+   "state": "open",
+   "stage": "Design review",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T00:55:13Z",
+   "opened": "2026-10-02T00:54:56Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790902511,
+      "kind": "approval",
+      "label": "Auto-approved (opened by a maintainer)",
+      "state": "done"
+     },
+     {
+      "t": 1790902515,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902515,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "waiting",
+      "detail_public": "Actions run 36948375504"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": null,
+    "note": null
+   }
+  },
   {
    "issue": 8,
    "title": "[change] ai4bio-cofolding-affinity-scoring: add a third evaluation setting",
