@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T13:33:41+00:00",
+ "generated": "2026-10-02T13:35:13+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -175,7 +175,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "running",
+   "state": "open",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -1377,17 +1377,17 @@
       "t": 1790945188,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37008515958",
       "visibility": "internal"
      },
      {
       "t": 1790945199,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37008515958",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1790945230,
@@ -1499,14 +1499,45 @@
       "t": 1790948007,
       "kind": "agent",
       "label": "Drafting the report",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
+     },
+     {
+      "t": 1790948047,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790948085,
+      "kind": "pr",
+      "label": "PR #13 updated",
+      "state": "done",
+      "detail_public": "PR #13",
+      "visibility": "public"
+     },
+     {
+      "t": 1790948085,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37008515958",
+      "visibility": "public"
+     },
+     {
+      "t": 1790948085,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37008515958",
+      "visibility": "internal"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T13:33:29Z",
+   "updated": "2026-10-02T13:34:54Z",
    "replacement": null,
    "task": null
   }
@@ -1525,7 +1556,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T13:33:29Z",
+   "updated": "2026-10-02T13:34:54Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -2719,17 +2750,17 @@
       "t": 1790945188,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37008515958",
       "visibility": "internal"
      },
      {
       "t": 1790945199,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37008515958",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1790945230,
@@ -2841,8 +2872,39 @@
       "t": 1790948007,
       "kind": "agent",
       "label": "Drafting the report",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
+     },
+     {
+      "t": 1790948047,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790948085,
+      "kind": "pr",
+      "label": "PR #13 updated",
+      "state": "done",
+      "detail_public": "PR #13",
+      "visibility": "public"
+     },
+     {
+      "t": 1790948085,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37008515958",
+      "visibility": "public"
+     },
+     {
+      "t": 1790948085,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37008515958",
+      "visibility": "internal"
      }
     ]
    },
