@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T22:09:46+00:00",
+ "generated": "2026-10-02T22:11:17+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -170,12 +170,36 @@
        "state": "done",
        "detail_public": "14 of 14 checks passed",
        "visibility": "public"
+      },
+      {
+       "t": 1790978986,
+       "kind": "precheck",
+       "label": "Precheck done",
+       "state": "done",
+       "detail_public": "18 of 18 checks passed",
+       "visibility": "public"
+      },
+      {
+       "t": 1790979029,
+       "kind": "precheck",
+       "label": "Precheck done",
+       "state": "done",
+       "detail_public": "10 of 10 checks passed",
+       "visibility": "public"
+      },
+      {
+       "t": 1790979070,
+       "kind": "precheck",
+       "label": "Precheck started",
+       "state": "running",
+       "detail_public": "10 checks",
+       "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T22:09:07Z",
+    "updated": "2026-10-02T22:11:11Z",
     "replacement": null
    }
   ]
@@ -2638,7 +2662,7 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T22:09:07Z",
+   "updated": "2026-10-02T22:11:11Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -2756,6 +2780,30 @@
       "label": "Precheck done",
       "state": "done",
       "detail_public": "14 of 14 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790978986,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "18 of 18 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790979029,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790979070,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "10 checks",
       "visibility": "public"
      }
     ]
