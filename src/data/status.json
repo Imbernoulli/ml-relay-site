@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T06:27:02+00:00",
+ "generated": "2026-10-02T06:28:52+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -36,6 +36,28 @@
     "pr_state": "draft",
     "updated": "2026-10-02T01:11:12Z",
     "replacement": "robot-agent-direct-control"
+   }
+  ],
+  "dl-optim-mup-parametrization": [
+   {
+    "issue": 15,
+    "title": "[change] dl-optim-mup-parametrization: add a Transformer / WikiText-2 setting",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "approved",
+     "by": "Imbernoulli",
+     "note": null
+    },
+    "requester": "Imbernoulli",
+    "opened": "2026-10-02T06:27:27Z",
+    "done": false,
+    "progress": null,
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-02T06:27:27Z",
+    "replacement": null
    }
   ]
  },
@@ -997,6 +1019,28 @@
   }
  ],
  "issues": [
+  {
+   "issue": 15,
+   "title": "[change] dl-optim-mup-parametrization: add a Transformer / WikiText-2 setting",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "dl-optim-mup-parametrization",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T06:27:27Z",
+   "opened": "2026-10-02T06:27:27Z",
+   "progress": null,
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
+  },
   {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
