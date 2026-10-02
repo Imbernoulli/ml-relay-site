@@ -58,13 +58,17 @@ function attr(s: string, k: string): string | null {
  *  `preferDesign`), else the newest bot comment that is neither the status comment
  *  nor a /status reply. Markers are stripped; raw HTML is never rendered. */
 export function pickReport(comments: ThreadComment[], preferDesign = false): AgentReport | null {
-  const marked = comments.filter((c) => REPORT_MARK.test(c.body ?? ""));
+  // interim notes ("run ended early") are never the main report
+  const marked = comments.filter((c) => REPORT_MARK.test(c.body ?? "") && attr(REPORT_MARK.exec(c.body ?? "")![1], "kind") !== "interim");
+  const interim = comments.filter((c) => REPORT_MARK.test(c.body ?? "") && attr(REPORT_MARK.exec(c.body ?? "")![1], "kind") === "interim");
   let pick: ThreadComment | undefined;
   if (marked.length) {
     if (preferDesign) pick = [...marked].reverse().find((c) => attr(REPORT_MARK.exec(c.body ?? "")![1], "kind") === "design-draft");
     pick = pick ?? marked[marked.length - 1];
   } else {
-    pick = [...comments].reverse().find((c) => isBotUser(c.user) && !(c.body ?? "").includes(STATUS_MARKER) && !STATUS_REPLY.test(c.body ?? ""));
+    pick = [...comments]
+      .reverse()
+      .find((c) => isBotUser(c.user) && !interim.includes(c) && !(c.body ?? "").includes(STATUS_MARKER) && !STATUS_REPLY.test(c.body ?? ""));
   }
   if (!pick) return null;
   const m = REPORT_MARK.exec(pick.body ?? "");

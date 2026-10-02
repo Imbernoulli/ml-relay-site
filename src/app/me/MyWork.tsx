@@ -6,6 +6,7 @@ import { fromIssue } from "@/lib/stages";
 import { useCallback, useEffect, useState } from "react";
 import { Card } from "@/components/ui";
 import {
+  cachedViewer,
   clearToken,
   GitHubError,
   isSignedIn,
@@ -21,11 +22,12 @@ import type { StatusData, StatusIssue } from "@/lib/types";
 import SignInButton from "@/components/SignInButton";
 import RequestAccess from "@/components/RequestAccess";
 import AccessQueue from "@/components/AccessQueue";
+import Skeleton from "@/components/Skeleton";
 import MaintainerActions, { isMaintainer } from "@/components/MaintainerActions";
 import { approvalLabel } from "@/lib/approval";
 import { getOptimistic } from "@/lib/issueForm";
 import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
-import { NEW_TASK_FORM, RELAY_REPO } from "@/lib/site";
+import { RELAY_REPO } from "@/lib/site";
 
 const PR_STYLE: Record<string, string> = {
   draft: "border-slate-400/50 bg-slate-500/10 text-slate-700 dark:text-slate-300",
@@ -42,20 +44,20 @@ function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: Sta
   const stage = st?.stage ?? r.stage;
   const appr = st?.approval;
   const awaitingApproval = r.state === "open" && (appr?.state === "waiting" || appr?.state === "feedback");
-  const waiting = r.waitingForYou || Boolean(st?.waiting && st.state === "open") || awaitingApproval;
   return (
     <Card>
       <div className="flex flex-wrap items-center gap-2">
         <Pill cls="border-border bg-muted text-foreground">{r.kind}</Pill>
-        {stage && <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{stage}</Pill>}
-        {awaitingApproval && appr && <Pill cls="border-violet-500/50 bg-violet-500/10 text-violet-800 dark:text-violet-200">{approvalLabel(appr)}</Pill>}
-        {waiting && !awaitingApproval && <Pill cls="border-amber-500/60 bg-amber-500/15 text-amber-800 dark:text-amber-200">waiting for your reply</Pill>}
-        <Pill cls={r.state === "open" ? PR_STYLE.open : PR_STYLE.closed}>{r.state}</Pill>
-        <span className="ml-auto text-xs text-muted-foreground">updated {r.updated.slice(0, 10)}</span>
+        {r.state !== "open" && <Pill cls={PR_STYLE.closed}>closed</Pill>}
+        {st?.task && known.has(st.task) && (
+          <Link href={`/tasks/${st.task}/`} className="ml-auto text-xs underline">
+            task page
+          </Link>
+        )}
       </div>
-      <a href={r.url} target="_blank" rel="noreferrer" className="mt-2 block text-base font-semibold hover:underline">
+      <Link href={`/requests/${r.number}/`} className="mt-2 block text-base font-semibold hover:underline">
         #{r.number} {cleanRequestTitle(r.title, titles)}
-      </a>
+      </Link>
       <RequestTrack
         input={
           st
@@ -75,38 +77,12 @@ function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: Sta
         requester={st?.requester ?? null}
         approval={st?.approval}
         updated={r.updated}
+        pr={r.pr ? { number: r.pr.number, state: r.pr.state } : st ? { number: st.pr, state: st.pr_state } : null}
       />
       {awaitingApproval && appr?.note && (
         <div className="mt-3 rounded-lg border border-violet-500/40 bg-violet-500/5 px-3 py-2">
           <div className="text-[11px] font-medium uppercase tracking-wide text-violet-800 dark:text-violet-200">Maintainer feedback</div>
           <p className="mt-1 text-sm leading-relaxed">{appr.note}</p>
-        </div>
-      )}
-      <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
-        {r.pr ? (
-          <>
-            <a href={r.pr.url} target="_blank" rel="noreferrer" className="font-mono underline">
-              PR #{r.pr.number}
-            </a>
-            <Pill cls={PR_STYLE[r.pr.state]}>PR {r.pr.state}</Pill>
-          </>
-        ) : (
-          <span className="text-muted-foreground">no PR yet</span>
-        )}
-        {st?.task && known.has(st.task) && (
-          <Link href={`/tasks/${st.task}/`} className="underline">
-            task page
-          </Link>
-        )}
-        <span className="text-muted-foreground">opened {r.created.slice(0, 10)}</span>
-      </div>
-      {r.lastAgent && (
-        <div className="mt-3 rounded-lg border border-border bg-muted/40 px-3 py-2">
-          <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Latest agent reply · {r.lastAgent.when.slice(0, 10)}</div>
-          <p className="mt-1 text-sm leading-relaxed">{r.lastAgent.excerpt}</p>
-          <a href={r.lastAgent.url} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs underline">
-            Read and reply on GitHub
-          </a>
         </div>
       )}
     </Card>
@@ -176,6 +152,11 @@ type Load =
 
 export default function MyWork({ status, knownTasks, titles }: { status: StatusData; knownTasks: string[]; titles: TaskTitles }) {
   const [load, setLoad] = useState<Load>({ s: "loading" });
+  // the signed-in login from the session cache, so the page's sections show before any fetch returns
+  const [cached, setCached] = useState<Viewer | null>(null);
+  useEffect(() => {
+    if (isSignedIn()) setCached(cachedViewer());
+  }, []);
 
   const refresh = useCallback(async () => {
     if (!isSignedIn()) {
@@ -232,7 +213,7 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
     setLoad({ s: "signed-out" });
   };
 
-  if (load.s === "loading") return <p className="mt-6 text-sm text-muted-foreground">Loading…</p>;
+  if (load.s === "loading" && !cached) return <Skeleton lines={3} className="mt-6" />;
   if (load.s === "signed-out") return <SignedOut onToken={() => void refresh()} message={load.msg} />;
   if (load.s === "error")
     return (
@@ -251,17 +232,19 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
 
   const byIssue = new Map((status.issues ?? []).map((x) => [x.issue, x]));
   const known = new Set(knownTasks);
-  const maint = isMaintainer(load.me.login, status.maintainers);
+  const me = load.s === "ok" ? load.me : cached!;
+  const items = load.s === "ok" ? load.items : null;
+  const maint = isMaintainer(me.login, status.maintainers);
   const needs = maint ? (status.issues ?? []).filter((x) => x.state === "open" && (x.approval?.state === "waiting" || x.approval?.state === "feedback")) : [];
-  const open = load.items.filter((r) => r.state === "open");
-  const closed = load.items.filter((r) => r.state !== "open");
+  const open = (items ?? []).filter((r) => r.state === "open");
+  const closed = (items ?? []).filter((r) => r.state !== "open");
   return (
     <div className="mt-6">
       <div className="flex flex-wrap items-center gap-3">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={load.me.avatar_url} alt="" className="h-8 w-8 rounded-full" />
-        <a href={load.me.html_url} target="_blank" rel="noreferrer" className="text-sm font-semibold hover:underline">
-          {load.me.login}
+        <img src={me.avatar_url} alt="" className="h-8 w-8 rounded-full" />
+        <a href={me.html_url} target="_blank" rel="noreferrer" className="text-sm font-semibold hover:underline">
+          {me.login}
         </a>
         <button type="button" onClick={() => void refresh()} className="ml-auto rounded-md border border-border px-3 py-1 text-xs hover:bg-muted">
           Refresh
@@ -270,9 +253,11 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
           Sign out
         </button>
       </div>
-      <div id="access-requests">
-        <AccessQueue />
-      </div>
+      {maint && (
+        <div id="access-requests">
+          <AccessQueue />
+        </div>
+      )}
       {maint && (
         <section className="mt-6">
           <h2 className="text-lg font-semibold">Needs your approval ({needs.length})</h2>
@@ -285,9 +270,9 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
                     {x.approval && <Pill cls="border-violet-500/50 bg-violet-500/10 text-violet-800 dark:text-violet-200">{approvalLabel(x.approval)}</Pill>}
                     <span className="ml-auto text-xs text-muted-foreground">opened {(x.opened ?? x.updated).slice(0, 10)}</span>
                   </div>
-                  <a href={`https://github.com/${RELAY_REPO}/issues/${x.issue}`} target="_blank" rel="noreferrer" className="mt-2 block text-base font-semibold hover:underline">
+                  <Link href={`/requests/${x.issue}/`} className="mt-2 block text-base font-semibold hover:underline">
                     #{x.issue} {x.title}
-                  </a>
+                  </Link>
                   <div className="mt-1 text-xs text-muted-foreground">
                     {x.task && known.has(x.task) ? (
                       <Link href={`/tasks/${x.task}/`} className="underline">
@@ -303,40 +288,47 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
                 </Card>
               ))
             ) : (
-              <p className="text-sm text-muted-foreground">Nothing is waiting for approval.</p>
+              <p className="text-sm text-muted-foreground">Nothing pending.</p>
             )}
           </div>
         </section>
       )}
-      {load.items.length === 0 ? (
-        <Card className="mt-4">
-          <p className="text-sm">You have not opened any requests yet.</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Request a change from any task page, or{" "}
-            <a href={NEW_TASK_FORM} target="_blank" rel="noreferrer" className="underline">
-              propose a new task
-            </a>
-            .
-          </p>
-        </Card>
-      ) : (
-        <>
-          <h2 className="mt-6 text-lg font-semibold">Open ({open.length})</h2>
+      <section className="mt-6">
+        <h2 className="text-lg font-semibold">Your requests{items ? ` (${open.length} open)` : ""}</h2>
+        {items === null ? (
           <div className="mt-2 space-y-3">
-            {open.length ? open.map((r) => <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} titles={titles} onPosted={() => void refresh()} />) : <p className="text-sm text-muted-foreground">None.</p>}
+            <Skeleton lines={4} />
+            <Skeleton lines={4} />
           </div>
-          {closed.length > 0 && (
-            <>
-              <h2 className="mt-8 text-lg font-semibold">Closed ({closed.length})</h2>
-              <div className="mt-2 space-y-3">
-                {closed.map((r) => (
-                  <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} titles={titles} onPosted={() => void refresh()} />
-                ))}
-              </div>
-            </>
-          )}
-        </>
-      )}
+        ) : items.length === 0 ? (
+          <Card className="mt-2">
+            <p className="text-sm">You have not opened any requests yet.</p>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Request a change from any task page, or{" "}
+              <Link href="/propose/new/" className="underline">
+                propose a new task
+              </Link>
+              .
+            </p>
+          </Card>
+        ) : (
+          <>
+            <div className="mt-2 space-y-3">
+              {open.length ? open.map((r) => <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} titles={titles} onPosted={() => void refresh()} />) : <p className="text-sm text-muted-foreground">Nothing open.</p>}
+            </div>
+            {closed.length > 0 && (
+              <>
+                <h3 className="mt-8 text-base font-semibold">Closed ({closed.length})</h3>
+                <div className="mt-2 space-y-3">
+                  {closed.map((r) => (
+                    <RequestCard key={r.number} r={r} st={byIssue.get(r.number)} known={known} titles={titles} onPosted={() => void refresh()} />
+                  ))}
+                </div>
+              </>
+            )}
+          </>
+        )}
+      </section>
     </div>
   );
 }

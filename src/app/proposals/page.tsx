@@ -8,7 +8,6 @@ import MaintainerActions from "@/components/MaintainerActions";
 
 export const metadata = { title: "ML-Relay · Proposed tasks" };
 
-const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
 
 function day(iso?: string | null): string | null {
   return iso ? iso.slice(0, 10) : null;
@@ -17,22 +16,10 @@ function day(iso?: string | null): string | null {
 function ProposalCard({ e, repo, known, maintainers }: { e: StatusEntry; repo: string; known: Set<string>; maintainers?: string[] }) {
   const opened = day(e.opened);
   const merged = e.pr_state === "merged";
-  const statusText = merged
-    ? "merged"
-    : e.state === "closed"
-      ? "closed"
-      : e.state === "awaiting reply"
-        ? "Waiting for requester"
-        : e.state === "running"
-          ? "agent working"
-          : "in progress";
   return (
     <div id={`issue-${e.issue}`} className="scroll-mt-20 rounded-xl border border-border bg-card p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <h2 className="text-base font-semibold leading-snug">{e.title}</h2>
-        <span className="whitespace-nowrap rounded-full border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
-          {statusText}
-        </span>
       </div>
       <div className="mt-1 text-xs text-muted-foreground">
         {e.requester ? (
@@ -44,26 +31,13 @@ function ProposalCard({ e, repo, known, maintainers }: { e: StatusEntry; repo: s
         )}
         {opened && <> · opened {opened}</>}
       </div>
-      <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} />
       <MaintainerActions issue={e.issue} approval={e.approval} maintainers={maintainers} repo={repo} />
-      <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
-        <a href={`https://github.com/${repo}/issues/${e.issue}`} target="_blank" rel="noreferrer" title={PRIVATE_TIP} className="font-mono underline">
-          issue #{e.issue}
-        </a>
-        {e.pr !== null ? (
-          <a href={`https://github.com/${repo}/pull/${e.pr}`} target="_blank" rel="noreferrer" title={PRIVATE_TIP} className="font-mono underline">
-            PR #{e.pr}
-            {e.pr_state ? ` (${e.pr_state})` : ""}
-          </a>
-        ) : (
-          <span className="text-muted-foreground">no PR yet</span>
-        )}
-        {merged && e.task && known.has(e.task) && (
-          <Link href={`/tasks/${e.task}/`} className="font-medium underline">
-            Open the task page
-          </Link>
-        )}
-      </div>
+      <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} pr={{ number: e.pr, state: e.pr_state }} />
+      {merged && e.task && known.has(e.task) && (
+        <Link href={`/tasks/${e.task}/`} className="mt-2 inline-block text-xs font-medium underline">
+          Open the task page
+        </Link>
+      )}
     </div>
   );
 }

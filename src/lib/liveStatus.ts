@@ -2,7 +2,7 @@
 
 // Live request status from the sign-in service (GET /status, public, no-store): the
 // backend pushes each request's public record the moment it changes. Fetched on load,
-// every ~20 s while the tab is visible, and on focus; merged over the static
+// every 3 s while the tab is visible (or a server-sent-events stream), and on focus; merged over the static
 // status.json per issue (the newer `updated` wins). No token is needed.
 import { useEffect, useState } from "react";
 import type { ProgressStep } from "./types";
@@ -45,12 +45,42 @@ function refresh(): Promise<void> {
   return inflight;
 }
 
+/** Re-read now (after the visitor acts: reply, approve, submit). */
+export function refreshLiveStatus(): void {
+  void refresh();
+}
+
+let sseLive = false;
+function onSnapshot(data: string) {
+  try {
+    const d = JSON.parse(data);
+    if (d && typeof d.issues === "object") cache = d.issues;
+    else if (d && typeof d.issue === "number") cache = { ...(cache ?? {}), [String(d.issue)]: d };
+    else return;
+    sseLive = true;
+    listeners.forEach((f) => f());
+  } catch {}
+}
+
 function start() {
   if (timer || typeof window === "undefined") return;
   void refresh();
+  // primary: the service's server-sent-events stream ("status" events carry the full
+  // snapshot on connect and on every change; EventSource reconnects by itself).
+  // Fallback: poll /status every 3 s whenever the stream is not delivering.
+  try {
+    const es = new EventSource(`${URL}/stream`);
+    es.addEventListener("status", (ev) => onSnapshot((ev as MessageEvent).data));
+    es.onmessage = (ev) => onSnapshot(ev.data);
+    es.onerror = () => {
+      sseLive = false;
+    };
+  } catch {
+    sseLive = false;
+  }
   timer = setInterval(() => {
-    if (document.visibilityState === "visible") void refresh();
-  }, 20000);
+    if (document.visibilityState === "visible" && !sseLive) void refresh();
+  }, 3000);
   window.addEventListener("focus", () => void refresh());
   document.addEventListener("visibilitychange", () => {
     if (document.visibilityState === "visible") void refresh();

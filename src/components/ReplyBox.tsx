@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { refreshLiveStatus } from "@/lib/liveStatus";
 import { commentOnIssue, GitHubError } from "@/lib/github";
 import Spinner from "./Spinner";
 
@@ -15,6 +16,7 @@ export default function ReplyBox({ issue, url, onPosted, go = true, title }: { i
     setMsg(null);
     try {
       await commentOnIssue(issue, body.trim());
+      refreshLiveStatus();
       setText("");
       setMsg({ ok: true, text: "Posted. The agent picks it up shortly." });
       setTimeout(onPosted, 1500);

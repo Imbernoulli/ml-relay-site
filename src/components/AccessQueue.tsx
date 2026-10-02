@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { COLLAB_SETTINGS_URL, decideAccess, HttpError, inviteCollaborator, listAccessRequests, type AccessRequest } from "@/lib/access";
 import Spinner from "./Spinner";
+import Skeleton from "./Skeleton";
 
 /** Maintainers: pending access requests, approved by inviting the person as a collaborator. Renders nothing for others. */
 export default function AccessQueue() {
@@ -17,12 +18,19 @@ export default function AccessQueue() {
       .catch(() => setAllowed(false));
   }, []);
   useEffect(load, [load]);
-  if (!allowed || reqs === null) return null;
   return (
     <section className="mt-6">
-      <h2 className="text-lg font-semibold">Access requests ({reqs.length})</h2>
+      <h2 className="text-lg font-semibold">Access requests{reqs ? ` (${reqs.length})` : ""}</h2>
       <div className="mt-2 space-y-3">
-        {reqs.length ? reqs.map((r) => <Row key={r.login} r={r} onDone={load} />) : <p className="text-sm text-muted-foreground">No pending access requests.</p>}
+        {!allowed ? (
+          <p className="text-sm text-muted-foreground">The access queue is shown to repository admins only.</p>
+        ) : reqs === null ? (
+          <Skeleton lines={2} />
+        ) : reqs.length ? (
+          reqs.map((r) => <Row key={r.login} r={r} onDone={load} />)
+        ) : (
+          <p className="text-sm text-muted-foreground">Nothing pending.</p>
+        )}
       </div>
     </section>
   );

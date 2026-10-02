@@ -74,11 +74,8 @@ export default function RequestStatus({ task, status }: { task: string; status: 
             {e.pr_state === "merged" ? "" : `, blocked on the build of ${e.replacement}`}.
           </div>
           <div className="mt-1 text-sm">{e.title}</div>
-          <div className="mt-2">
-            <Links e={e} repo={status.repo} />
-          </div>
-          <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} />
           <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
+          <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} pr={{ number: e.pr, state: e.pr_state }} />
         </div>
       ))}
       {other.length > 0 && (
@@ -88,20 +85,15 @@ export default function RequestStatus({ task, status }: { task: string; status: 
             {other.map((e) => (
               <li key={e.issue} className="text-sm">
                 <div className="flex flex-wrap items-center gap-2">
-                  {!e.progress?.steps?.length && (
-                    <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{e.state === "running" ? "agent running" : "change requested"}</Pill>
-                  )}
-                  <span>{e.title}</span>
-                  <Links e={e} repo={status.repo} />
+                  <span className="font-medium">{e.title}</span>
                 </div>
-                <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} />
                 <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
+                <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} pr={{ number: e.pr, state: e.pr_state }} />
               </li>
             ))}
           </ul>
         </div>
       )}
-      <p className="text-[11px] text-muted-foreground">Issue and PR links go to the private Imbernoulli/ML-Relay repository and show 404 to non-collaborators.</p>
     </div>
   );
 }

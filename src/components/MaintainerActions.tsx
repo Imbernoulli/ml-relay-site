@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { refreshLiveStatus } from "@/lib/liveStatus";
 import { cachedViewer, commentOnIssue, GitHubError, isSignedIn, viewer } from "@/lib/github";
 import type { Approval } from "@/lib/types";
 import Spinner from "./Spinner";
@@ -60,6 +61,7 @@ export default function MaintainerActions({
     setErr(null);
     try {
       await commentOnIssue(issue, body);
+      refreshLiveStatus();
       setDone(mode === "approve" ? "Approved." : mode === "reject" ? "Rejected." : "Feedback posted.");
       setMode(null);
       setText("");

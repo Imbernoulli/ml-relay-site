@@ -8,7 +8,8 @@ import { liveRecord, useLiveStatus } from "@/lib/liveStatus";
 import { agentThread, NoAccessError, type AgentReport } from "@/lib/relayStatus";
 import MarkdownContent from "./MarkdownContent";
 import ReplyBox from "./ReplyBox";
-import { displayProgress, parseStatusTable, toMs, withCreated, type StageInput } from "@/lib/stages";
+import Skeleton from "./Skeleton";
+import { computeStages, displayProgress, parseStatusTable, toMs, withCreated, type StageInput } from "@/lib/stages";
 import { approvalOf, withApproval } from "@/lib/approval";
 import type { Approval, ProgressRecord } from "@/lib/types";
 import StageBar from "./StageBar";
@@ -41,6 +42,9 @@ export default function RequestTrack({
   compact = false,
   noDetails = false,
   noLink = false,
+  pr = null,
+  noReport = false,
+  noPr = false,
 }: {
   input: StageInput;
   issue: number;
@@ -51,13 +55,28 @@ export default function RequestTrack({
   compact?: boolean;
   noDetails?: boolean;
   noLink?: boolean;
+  pr?: { number: number | null; state?: string | null } | null;
+  /** the request page shows the report and the PR itself */
+  noReport?: boolean;
+  noPr?: boolean;
 }) {
   const [c, setC] = useState<{ body: string; url: string; updated: string } | null>(null);
   const [noAccess, setNoAccess] = useState(false);
   const [report, setReport] = useState<AgentReport | null>(null);
   const [full, setFull] = useState(false);
   const [tick, setTick] = useState(0);
+  const [threadLoading, setThreadLoading] = useState(false);
   const [labels, setLabels] = useState<{ names: string[]; state: string; author: string } | null>(null);
+  const [poll, setPoll] = useState(0);
+  const [note, setNote] = useState(false);
+  // signed in: re-read the issue and its comments every ~10 s while the tab is visible
+  useEffect(() => {
+    if (!isSignedIn()) return;
+    const id = setInterval(() => {
+      if (document.visibilityState === "visible") setPoll((n) => n + 1);
+    }, 10000);
+    return () => clearInterval(id);
+  }, []);
   // the issue's current labels, live (signed in), so the bar follows them at once
   useEffect(() => {
     if (!isSignedIn()) return;
@@ -76,11 +95,13 @@ export default function RequestTrack({
     return () => {
       live = false;
     };
-  }, [issue]);
+  }, [issue, poll]);
   useEffect(() => {
     if (!isSignedIn()) return;
     let live = true;
+    if (poll === 0) setThreadLoading(true);
     agentThread(issue)
+      .finally(() => live && setThreadLoading(false))
       .then((x) => {
         if (!live) return;
         setC(x.status);
@@ -92,7 +113,7 @@ export default function RequestTrack({
     return () => {
       live = false;
     };
-  }, [issue, tick]);
+  }, [issue, tick, poll]);
 
   const liveAll = useLiveStatus();
   const rec = liveRecord(liveAll, issue);
@@ -136,26 +157,39 @@ export default function RequestTrack({
   const isOpen = !(labels?.state === "closed" || stageInput.closed);
   const upd = Math.max(...[toMs(updated), newest(progress), fromLive && c ? toMs(c.updated) : NaN, pushed && rec ? toMs(rec.updated) : NaN].filter((x) => Number.isFinite(x)));
 
+  // what the card asks of the visitor: nothing while the agent works
+  const steps = progress?.steps ?? [];
+  const runIdx = steps.map((x) => x.state).lastIndexOf("running");
+  const lastRunning =
+    runIdx >= 0 && !steps.slice(runIdx + 1).some((x) => x.state === "waiting" || x.state === "failed" || /\b(finished|ended|stopped)\b/i.test(x.label ?? "")) ? steps[runIdx] : null;
+  const working = isOpen && ((lab ? lab.names.includes("relay-running") : Boolean(input.running)) || Boolean(lastRunning));
+  const stages = computeStages(stageInput);
+  const waitingReq = stages.note === "Waiting for your answers" || stages.note === "Waiting for your go";
+  const needed = !working && isOpen && Boolean(report?.readyForGo) && waitingReq;
+  const workStep = lastRunning ?? [...steps].reverse().find((x) => x.kind !== "created" && x.kind !== "approval") ?? null;
+  const workSince = toMs(workStep?.t);
+  const workEl = Number.isFinite(workSince) ? Math.max(1, Math.round((Date.now() - workSince) / 60000)) : null;
+  const prNum = (pushed && rec?.pr) || pr?.number || null;
+  const prState = (pushed && rec?.pr_state) || pr?.state || stageInput.prState || null;
+  const full2 = !compact && !noDetails;
+
   return (
     <div>
       <StageBar {...stageInput} />
       {shown?.steps?.length ? <ProgressTimeline progress={shown} compact={compact} /> : null}
-      <div className="mt-1 flex flex-wrap items-center gap-x-3 text-[11px] text-muted-foreground">
-        <span>
-          {fmt(upd) ? `updated ${fmt(upd)}` : null}
-          {fromLive ? " · live from the agent's status comment" : pushed ? " · live" : null}
-        </span>
-        {!noLink && (
-          <Link href={`/requests/${issue}/`} className="font-medium text-foreground underline">
-            Open the request: reports, discussion, actions
-          </Link>
-        )}
-      </div>
-      {!compact && !noDetails && report && (
+      {full2 && working && (
+        <div className="mt-3 rounded-lg border border-sky-500/50 bg-sky-500/10 px-3 py-2 text-sm">
+          <span className="font-semibold">The agent is working</span>
+          {workStep?.label ? `: ${workStep.label}` : ""}
+          {workEl !== null ? ` · ${workEl < 60 ? `${workEl} m` : `${Math.floor(workEl / 60)} h ${workEl % 60} m`}` : ""}. Nothing needed from you.
+        </div>
+      )}
+      {full2 && !noReport && !working && threadLoading && !report && <Skeleton lines={5} className="mt-3" />}
+      {full2 && !noReport && !working && report && (
         <div className="mt-3 rounded-lg border-2 border-emerald-600/40 bg-card">
           <div className="flex flex-wrap items-center gap-2 border-b border-border px-3 py-1.5 text-[11px] text-muted-foreground">
             <span className="font-semibold text-emerald-800 dark:text-emerald-200">
-              {report.kind === "design-draft" ? "Design draft" : report.kind === "pilot-report" ? "Pilot report" : report.kind === "results" ? "Results" : report.kind === "final" ? "Final report" : "Latest agent report"}
+              {report.kind === "design-draft" ? "Design draft" : report.kind === "pilot-report" ? "Pilot report" : report.kind === "results" ? "Results" : report.kind === "final" ? "Final report" : "Agent update"}
             </span>
             <span>{report.updated.slice(0, 16).replace("T", " ")} UTC</span>
             <a href={report.url} target="_blank" rel="noreferrer" className="ml-auto underline">
@@ -171,14 +205,25 @@ export default function RequestTrack({
           </button>
         </div>
       )}
-      {!compact && !noDetails && report && isOpen && (
+      {full2 && needed && report && (
         <ReplyBox
           issue={issue}
           url={report.url}
           onPosted={() => setTick((n) => n + 1)}
           go={report.readyForGo === "yes"}
-          title={report.readyForGo === "no" ? "Answer the agent's questions" : report.readyForGo === "yes" ? "The agent is waiting for your go" : "Reply to the agent"}
+          title={report.readyForGo === "no" ? "Answer the agent's questions" : "The agent is waiting for your go"}
         />
+      )}
+      {full2 && !needed && isOpen && (report || working) && c !== undefined && (
+        <div className="mt-2">
+          {note ? (
+            <ReplyBox issue={issue} url={`https://github.com/${RELAY_REPO}/issues/${issue}`} onPosted={() => setTick((n) => n + 1)} go={false} title="Add a note for the agent" />
+          ) : (
+            <button type="button" onClick={() => setNote(true)} className="text-xs underline">
+              add a note
+            </button>
+          )}
+        </div>
       )}
       {noAccess && (
         <div className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
@@ -186,17 +231,28 @@ export default function RequestTrack({
           <RequestAccess compact />
         </div>
       )}
-      {!compact && !noDetails && c?.body && (
-        <details className="mt-2 rounded-lg border border-border bg-muted/30">
-          <summary className="cursor-pointer px-3 py-2 text-xs font-medium">Agent&apos;s detailed status · {c.updated.slice(0, 16).replace("T", " ")} UTC</summary>
-          <div className="border-t border-border px-3 py-2">
-            <pre className="max-h-80 overflow-auto whitespace-pre-wrap break-anywhere text-xs leading-relaxed">{c.body}</pre>
-            <a href={c.url} target="_blank" rel="noreferrer" className="mt-1 inline-block text-xs underline">
-              Open on GitHub
+      <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-muted-foreground">
+        {!compact &&
+          !noDetails &&
+          !noPr &&
+          (prNum ? (
+            <a href={`https://github.com/${RELAY_REPO}/pull/${prNum}`} target="_blank" rel="noreferrer" className="font-mono underline">
+              PR #{prNum}
+              {prState ? ` (${prState})` : ""}
             </a>
-          </div>
-        </details>
-      )}
+          ) : (
+            <span>no PR yet</span>
+          ))}
+        <span>
+          {fmt(upd) ? `updated ${fmt(upd)}` : null}
+          {fromLive || pushed ? " · live" : null}
+        </span>
+        {!noLink && (
+          <Link href={`/requests/${issue}/`} className="font-medium text-foreground underline">
+            Open the request: reports, discussion, actions
+          </Link>
+        )}
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { refreshLiveStatus } from "@/lib/liveStatus";
 import { useEffect, useMemo, useState } from "react";
 import MarkdownContent from "./MarkdownContent";
 import SignInButton from "./SignInButton";
@@ -88,6 +89,7 @@ export default function IssueFormView({
     try {
       const fullTitle = issueTitle(form, title, values, locked.task);
       const r = await createIssue(fullTitle, buildIssueBody(form, values), form.labels);
+      refreshLiveStatus();
       addOptimistic({ number: r.number, title: fullTitle, url: r.html_url, kind, created: new Date().toISOString() });
       try {
         localStorage.removeItem(draftKey);

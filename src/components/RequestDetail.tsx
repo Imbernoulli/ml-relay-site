@@ -12,7 +12,6 @@ import { RETURN_KEY } from "@/lib/issueForm";
 import type { Approval, StatusIssue } from "@/lib/types";
 import MarkdownContent from "./MarkdownContent";
 import RequestTrack from "./RequestTrack";
-import ReplyBox from "./ReplyBox";
 import MaintainerActions, { isMaintainer, useLogin } from "./MaintainerActions";
 import SignInButton from "./SignInButton";
 import RequestAccess from "./RequestAccess";
@@ -171,7 +170,6 @@ export default function RequestDetail({
   const inDesign = type === "new task" && !input.phase && !input.done;
   const report = pickReport(thread, inDesign);
   const maint = isMaintainer(login, maintainers);
-  const canReply = Boolean(login) && (maint || (requester && String(login).toLowerCase() === requester.toLowerCase()));
   const task = st?.task ?? null;
 
   return (
@@ -218,7 +216,7 @@ export default function RequestDetail({
         </p>
       ) : (
       <div className="mt-4 rounded-xl border border-border bg-card p-4">
-        <RequestTrack input={input} issue={n} opened={opened} requester={requester} approval={approval} updated={issue?.updated_at ?? st?.updated ?? null} noDetails noLink />
+        <RequestTrack input={input} issue={n} opened={opened} requester={requester} approval={approval} updated={issue?.updated_at ?? st?.updated ?? null} noLink noReport noPr pr={pr ? { number: pr.number, state: null } : null} />
         <MaintainerActions issue={n} approval={approval} maintainers={maintainers} repo={repo} />
       </div>
       )}
@@ -261,7 +259,7 @@ export default function RequestDetail({
             <section className="mt-6 rounded-xl border-2 border-emerald-600/40 bg-card p-4">
               <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                 <span className="rounded-full border border-emerald-600/50 bg-emerald-600/10 px-2 py-0.5 font-semibold text-emerald-800 dark:text-emerald-200">
-                  {report.kind === "design-draft" ? "Design draft" : report.kind === "pilot-report" ? "Pilot report" : report.kind === "results" ? "Results" : report.kind === "final" ? "Final report" : "Latest agent report"}
+                  {report.kind === "design-draft" ? "Design draft" : report.kind === "pilot-report" ? "Pilot report" : report.kind === "results" ? "Results" : report.kind === "final" ? "Final report" : "Agent update"}
                 </span>
                 <span>{fmt(report.updated)}</span>
                 <a href={report.url} target="_blank" rel="noreferrer" className="ml-auto underline">
@@ -272,18 +270,6 @@ export default function RequestDetail({
                 <MarkdownContent content={report.body} />
               </div>
             </section>
-          )}
-
-          {canReply && issue.state === "open" && (
-            <div className="mt-6">
-              <ReplyBox
-                issue={n}
-                url={issue.html_url}
-                onPosted={() => void load()}
-                go={report?.readyForGo === "yes"}
-                title={report?.readyForGo === "no" ? "Answer the agent's questions" : report?.readyForGo === "yes" ? "The agent is waiting for your go" : "Reply on this request"}
-              />
-            </div>
           )}
 
           {pr && (

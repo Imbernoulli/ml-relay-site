@@ -8,13 +8,6 @@ import MaintainerActions from "@/components/MaintainerActions";
 
 export const metadata = { title: "ML-Relay · Modifications" };
 
-const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
-const PR_STYLE: Record<string, string> = {
-  draft: "border-slate-400/50 bg-slate-500/10 text-slate-700 dark:text-slate-300",
-  open: "border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
-  merged: "border-violet-500/40 bg-violet-500/10 text-violet-700 dark:text-violet-300",
-  closed: "border-border bg-muted text-muted-foreground",
-};
 
 function Pill({ children, cls }: { children: React.ReactNode; cls: string }) {
   return <span className={`inline-flex items-center whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px] font-medium ${cls}`}>{children}</span>;
@@ -33,37 +26,23 @@ function Entry({ r, repo, titles, maintainers }: { r: StatusIssue; repo: string;
           <span className="text-base font-semibold">{r.task ?? "—"}</span>
         )}
         <Pill cls="border-border bg-muted text-foreground">{r.type === "maintenance" ? "maintainer change" : "change request"}</Pill>
-        {!r.progress?.steps?.length && <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{r.stage}</Pill>}
-        <span className="ml-auto text-xs text-muted-foreground">updated {r.updated.slice(0, 10)}</span>
       </div>
-      <div className="mt-1 text-sm">{r.title}</div>
-      <RequestTrack input={fromIssue(r)} issue={r.issue} opened={r.opened} requester={r.requester} approval={r.approval} updated={r.updated} />
-      <MaintainerActions issue={r.issue} approval={r.approval} maintainers={maintainers} repo={repo} />
+      <div className="mt-1 text-sm">
+        {r.title}
+        {r.requester && (
+          <span className="text-xs text-muted-foreground">
+            {" "}
+            · requested by <span className="font-mono">{r.requester}</span>
+          </span>
+        )}
+      </div>
       {r.replacement && (
         <div className="mt-1 text-sm text-amber-800 dark:text-amber-200">
           Being replaced by <span className="font-mono">{r.replacement}</span>.
         </div>
       )}
-      <div className="mt-2 flex flex-wrap items-center gap-3 text-xs">
-        {r.requester && (
-          <span className="text-muted-foreground">
-            requested by <span className="font-mono">{r.requester}</span>
-          </span>
-        )}
-        <a href={`https://github.com/${repo}/issues/${r.issue}`} target="_blank" rel="noreferrer" title={PRIVATE_TIP} className="font-mono underline">
-          issue #{r.issue}
-        </a>
-        {r.pr !== null ? (
-          <>
-            <a href={`https://github.com/${repo}/pull/${r.pr}`} target="_blank" rel="noreferrer" title={PRIVATE_TIP} className="font-mono underline">
-              PR #{r.pr}
-            </a>
-            {r.pr_state && <Pill cls={PR_STYLE[r.pr_state] ?? PR_STYLE.closed}>PR {r.pr_state}</Pill>}
-          </>
-        ) : (
-          <span className="text-muted-foreground">no PR yet</span>
-        )}
-      </div>
+      <MaintainerActions issue={r.issue} approval={r.approval} maintainers={maintainers} repo={repo} />
+      <RequestTrack input={fromIssue(r)} issue={r.issue} opened={r.opened} requester={r.requester} approval={r.approval} updated={r.updated} pr={{ number: r.pr, state: r.pr_state }} />
     </li>
   );
 }
