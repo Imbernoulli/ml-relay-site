@@ -3,17 +3,27 @@ import path from "path";
 import type { IndexData, StatusData, TaskData } from "./types";
 import { cleanRequestTitle, type TaskTitles } from "./requestTitle";
 import { withApproval } from "./approval";
+import { FEATURED_ORDER } from "./featured";
 
 const DATA = path.join(process.cwd(), "src", "data");
 
+/** The index in display order (FEATURED_ORDER first, the rest in sync order), numbered 1..N in that order. */
 export function loadIndex(): IndexData {
-  return JSON.parse(fs.readFileSync(path.join(DATA, "index.json"), "utf-8"));
+  const idx: IndexData = JSON.parse(fs.readFileSync(path.join(DATA, "index.json"), "utf-8"));
+  const rank = new Map(FEATURED_ORDER.map((id, i) => [id, i]));
+  const tasks = idx.tasks
+    .map((t, i) => ({ t, i }))
+    .sort((a, b) => (rank.get(a.t.id) ?? FEATURED_ORDER.length + a.i) - (rank.get(b.t.id) ?? FEATURED_ORDER.length + b.i))
+    .map(({ t }, i) => ({ ...t, n: i + 1 }));
+  return { ...idx, tasks };
 }
 
 export function loadTask(id: string): TaskData | null {
   const p = path.join(DATA, "tasks", `${id}.json`);
   if (!fs.existsSync(p)) return null;
-  return JSON.parse(fs.readFileSync(p, "utf-8"));
+  const t: TaskData = JSON.parse(fs.readFileSync(p, "utf-8"));
+  const n = loadIndex().tasks.find((x) => x.id === id)?.n;
+  return n === undefined ? t : { ...t, n };
 }
 
 /** Live request status written by the sync job (absent locally until it runs). */
