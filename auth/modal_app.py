@@ -100,6 +100,84 @@ def dispatch_poller(reason: str) -> int:
         return r.status_code
 
 
+# ---- driver run events: an overlay on the backend's timeline ---------------------
+# A driver ping (/run-event) moves the run's OWN timeline steps (the keys the backend
+# writes: run:<id>:env, :sandbox, :setting:*, :results), instead of adding a parallel
+# "event" step: the old separate step repeated "environment building / sandbox started"
+# and was wiped by the backend's next full POST /status (which only knows progress/<n>.json).
+# The events are kept per issue (live_status["runevents:<n>"] = {run_id: {event: t}}) and
+# re-applied on every POST /status until the backend has collected the run (its
+# run:<id>:results step exists), then dropped.
+RUN_EVENTS = ("started", "env_built", "verifying", "finished", "failed")
+
+
+def _recompute_current(steps):
+    pub = [s for s in steps if s.get("visibility", "public") != "internal"] or steps
+    if not pub:
+        return None
+    live = [s for s in pub if s.get("state") in ("running", "waiting")]
+    cur = live[-1] if live else max(pub, key=lambda s: int(s.get("t") or 0))
+    return {k: cur[k] for k in ("t", "kind", "label", "state", "detail_public", "visibility", "key") if k in cur}
+
+
+def apply_run_events(rec: dict, events: dict) -> tuple[dict, dict]:
+    """Pure: the record with its runs' driver events applied, and the events still pending
+    (a run whose results the backend has collected is dropped)."""
+    steps = [dict(s) for s in rec.get("steps") or []]
+    pending = {}
+    changed = False
+    for rid, evs in sorted((events or {}).items()):
+        if not isinstance(evs, dict):
+            continue
+        by_key = {s.get("key"): s for s in steps if s.get("key")}
+        if f"run:{rid}:results" in by_key:
+            changed = changed or bool(evs)
+            continue                                     # collected: the backend's steps are final
+        pending[rid] = evs
+        ts = {e: int(evs[e]) for e in RUN_EVENTS if isinstance(evs.get(e), (int, float))}
+        if not ts:
+            continue
+        last = max(ts, key=lambda e: (ts[e], RUN_EVENTS.index(e)))
+        built = any(e in ts for e in ("env_built", "verifying", "finished", "failed"))
+
+        def upsert(key, label, state, t, detail=None, keep_label=True):
+            nonlocal changed
+            cur = by_key.get(key)
+            if cur is None:
+                cur = {"t": int(t), "kind": "daytona", "label": label, "state": state,
+                       "detail_public": detail or f"run {rid}", "visibility": "public", "key": key}
+                steps.append(cur)
+                by_key[key] = cur
+                changed = True
+                return
+            new_label = cur.get("label") if keep_label else label
+            if cur.get("state") != state or cur.get("label") != new_label:
+                cur["state"], cur["label"] = state, new_label
+                changed = True
+
+        env = by_key.get(f"run:{rid}:env")
+        if built:
+            upsert(f"run:{rid}:env", "Environment building", "done", ts.get("started") or min(ts.values()))
+            upsert(f"run:{rid}:sandbox", "Sandbox started", "done",
+                   ts.get("env_built") or min(t for e, t in ts.items() if e != "started"))
+        elif "started" in ts and (env is None or env.get("state") == "failed"):
+            upsert(f"run:{rid}:env", "Environment building", "running", ts["started"])
+        if last in ("finished", "failed"):
+            ok = last == "finished"
+            for s in steps:
+                if s.get("state") == "running" and str(s.get("key") or "").startswith(f"run:{rid}:setting:"):
+                    s["state"] = "done" if ok else "failed"
+                    changed = True
+            upsert(f"run:{rid}:results",
+                   "Run finished, collecting results" if ok else "Run failed, collecting logs",
+                   "running" if ok else "failed", ts[last], keep_label=False)
+    out = dict(rec)
+    if changed:
+        out["steps"] = steps[-200:]
+        out["current"] = _recompute_current(out["steps"])
+    return out, pending
+
+
 def _runs_in_flight() -> bool:
     for k, rec in live_status.items():
         if not k.startswith("issue:") or not isinstance(rec, dict) or rec.get("state") == "closed":
@@ -271,6 +349,14 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
             "steps": steps[-200:],
             "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         }
+        events = live_status.get(f"runevents:{n}") or {}
+        if events:
+            record, pending = apply_run_events(record, events)
+            if pending != events:
+                if pending:
+                    live_status[f"runevents:{n}"] = pending
+                else:
+                    live_status.pop(f"runevents:{n}", None)
         live_status[f"issue:{n}"] = record
         live_status["meta:version"] = (live_status.get("meta:version") or 0) + 1
         return JSONResponse({"ok": True, "updated": record["updated"]})
@@ -307,14 +393,14 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         if event not in RUN_EVENT_LABELS:
             return JSONResponse({"error": "unknown event"}, status_code=400)
         n = int(m.group(1))
-        rec = dict(live_status.get(f"issue:{n}") or {"issue": n, "steps": []})
         now = int(datetime.now(timezone.utc).timestamp())
-        state = "failed" if event == "failed" else ("done" if event == "finished" else "running")
-        step = {"t": now, "kind": "daytona", "label": RUN_EVENT_LABELS[event], "state": state,
-                "detail_public": f"run {rid}", "visibility": "public", "key": f"run:{rid}:event"}
-        steps = [s_ for s_ in rec.get("steps") or [] if s_.get("key") != step["key"]]
-        rec["steps"] = (steps + [step])[-200:]
-        rec["current"] = {k: step[k] for k in ("t", "kind", "label", "state", "detail_public", "visibility", "key")}
+        events = dict(live_status.get(f"runevents:{n}") or {})
+        events.setdefault(rid, {}).setdefault(event, now)    # first time each stage was seen
+        rec = dict(live_status.get(f"issue:{n}") or {"issue": n, "steps": []})
+        # an old-style separate event step (before the overlay) is dropped
+        rec["steps"] = [s_ for s_ in rec.get("steps") or [] if not str(s_.get("key") or "").endswith(":event")]
+        rec, pending = apply_run_events(rec, events)
+        live_status[f"runevents:{n}"] = pending
         rec["updated"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
         live_status[f"issue:{n}"] = rec
         live_status["meta:version"] = (live_status.get("meta:version") or 0) + 1
