@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T03:50:01+00:00",
+ "generated": "2026-10-02T03:51:43+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -37,53 +37,6 @@
     "updated": "2026-10-02T01:11:12Z",
     "replacement": "robot-agent-direct-control"
    }
-  ],
-  "theory-semiautomata": [
-   {
-    "issue": 7,
-    "title": "[change] theory-semiautomata: add a third evaluation setting",
-    "type": "change",
-    "state": "open",
-    "phase": null,
-    "approval": {
-     "state": "approved",
-     "by": "Imbernoulli",
-     "note": null
-    },
-    "requester": "Imbernoulli",
-    "opened": "2026-10-02T00:51:22Z",
-    "done": false,
-    "progress": {
-     "current": null,
-     "steps": [
-      {
-       "t": 1790902282,
-       "kind": "created",
-       "label": "Request created by @Imbernoulli",
-       "state": "done",
-       "visibility": "public"
-      },
-      {
-       "t": 1790902292,
-       "kind": "maintainer",
-       "label": "Third setting chosen (C2xC2xC2 word problem, longer streams) and measured: 5 arms x 3 seeds, no capped term",
-       "state": "done",
-       "visibility": "public"
-      },
-      {
-       "t": 1790911116,
-       "kind": "maintainer",
-       "label": "Gate 3 (oracle + no-edit control) running on Daytona",
-       "state": "running",
-       "visibility": "public"
-      }
-     ]
-    },
-    "pr": null,
-    "pr_state": null,
-    "updated": "2026-10-02T03:18:38Z",
-    "replacement": null
-   }
   ]
  },
  "new_tasks": [
@@ -91,7 +44,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "open",
+   "state": "running",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -744,20 +697,104 @@
       "t": 1790912921,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
       "detail_public": "Actions run 36961774506",
       "visibility": "internal"
+     },
+     {
+      "t": 1790913012,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36961774506",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790913051,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790913089,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:48:25Z",
+   "updated": "2026-10-02T03:51:30Z",
    "replacement": null,
    "task": null
   }
  ],
  "issues": [
+  {
+   "issue": 7,
+   "title": "[change] theory-semiautomata: add a third evaluation setting",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "theory-semiautomata",
+   "replacement": null,
+   "state": "closed",
+   "stage": "Merged",
+   "waiting": false,
+   "phase": null,
+   "pr": 14,
+   "pr_state": "merged",
+   "updated": "2026-10-02T03:51:32Z",
+   "opened": "2026-10-02T00:51:22Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790902282,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790902292,
+      "kind": "maintainer",
+      "label": "Third setting chosen (C2xC2xC2 word problem, longer streams) and measured: 5 arms x 3 seeds, no capped term",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790911116,
+      "kind": "maintainer",
+      "label": "Gate 3 (oracle + no-edit control) VERIFIED on Daytona",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790913051,
+      "kind": "pr",
+      "label": "PR #14 merged",
+      "state": "done",
+      "detail_public": "PR #14",
+      "visibility": "public"
+     },
+     {
+      "t": 1790913084,
+      "kind": "maintainer",
+      "label": "PR #14 merged: bundle re-rendered with three settings, README updated",
+      "state": "done",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
+  },
   {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
@@ -771,7 +808,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:48:25Z",
+   "updated": "2026-10-02T03:51:30Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1416,54 +1453,29 @@
       "t": 1790912921,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
       "detail_public": "Actions run 36961774506",
       "visibility": "internal"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
-    "by": null,
-    "note": null
-   }
-  },
-  {
-   "issue": 7,
-   "title": "[change] theory-semiautomata: add a third evaluation setting",
-   "requester": "Imbernoulli",
-   "type": "maintenance",
-   "task": "theory-semiautomata",
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-02T03:18:38Z",
-   "opened": "2026-10-02T00:51:22Z",
-   "progress": {
-    "current": null,
-    "steps": [
+     },
      {
-      "t": 1790902282,
-      "kind": "created",
-      "label": "Request created by @Imbernoulli",
+      "t": 1790913012,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36961774506",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790913051,
+      "kind": "agent",
+      "label": "Read the issue thread",
       "state": "done",
       "visibility": "public"
      },
      {
-      "t": 1790902292,
-      "kind": "maintainer",
-      "label": "Third setting chosen (C2xC2xC2 word problem, longer streams) and measured: 5 arms x 3 seeds, no capped term",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1790911116,
-      "kind": "maintainer",
-      "label": "Gate 3 (oracle + no-edit control) running on Daytona",
+      "t": 1790913089,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
       "state": "running",
       "visibility": "public"
      }
@@ -1471,7 +1483,7 @@
    },
    "approval": {
     "state": "approved",
-    "by": "Imbernoulli",
+    "by": null,
     "note": null
    }
   },
