@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T01:09:02+00:00",
+ "generated": "2026-10-02T01:13:01+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -20,10 +20,20 @@
     "requester": "Imbernoulli",
     "opened": "2026-10-01T21:40:41Z",
     "done": false,
-    "progress": null,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1790890841,
+       "kind": "created",
+       "label": "Request created by @Imbernoulli",
+       "state": "done"
+      }
+     ]
+    },
     "pr": 4,
     "pr_state": "draft",
-    "updated": "2026-10-02T00:11:23Z",
+    "updated": "2026-10-02T01:11:12Z",
     "replacement": "robot-agent-direct-control"
    }
   ],
@@ -46,6 +56,12 @@
      "current": null,
      "steps": [
       {
+       "t": 1790902282,
+       "kind": "created",
+       "label": "Request created by @Imbernoulli",
+       "state": "done"
+      },
+      {
        "t": 1790902292,
        "kind": "maintainer",
        "label": "Maintainer lane started: piloting candidate third semiautomata",
@@ -55,7 +71,7 @@
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T00:51:34Z",
+    "updated": "2026-10-02T01:11:22Z",
     "replacement": null
    }
   ],
@@ -78,6 +94,12 @@
      "current": null,
      "steps": [
       {
+       "t": 1790902284,
+       "kind": "created",
+       "label": "Request created by @Imbernoulli",
+       "state": "done"
+      },
+      {
        "t": 1790902297,
        "kind": "maintainer",
        "label": "Maintainer lane started: preparing the third condition's fixture",
@@ -87,7 +109,7 @@
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T00:51:39Z",
+    "updated": "2026-10-02T01:11:26Z",
     "replacement": null
    }
   ]
@@ -110,6 +132,12 @@
    "progress": {
     "current": null,
     "steps": [
+     {
+      "t": 1790902496,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done"
+     },
      {
       "t": 1790902511,
       "kind": "approval",
@@ -147,8 +175,8 @@
      {
       "t": 1790902871,
       "kind": "retry",
-      "label": "Paused: Claude usage limit, retrying at 03:15 UTC",
-      "state": "waiting",
+      "label": "Resumed after the usage-limit pause",
+      "state": "done",
       "detail_public": "attempt 1 of 3"
      },
      {
@@ -189,7 +217,7 @@
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:06:30Z",
+   "updated": "2026-10-02T01:11:30Z",
    "replacement": null,
    "task": null
   }
@@ -208,11 +236,17 @@
    "phase": "A",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:06:30Z",
+   "updated": "2026-10-02T01:11:30Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
     "steps": [
+     {
+      "t": 1790902496,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done"
+     },
      {
       "t": 1790902511,
       "kind": "approval",
@@ -250,8 +284,8 @@
      {
       "t": 1790902871,
       "kind": "retry",
-      "label": "Paused: Claude usage limit, retrying at 03:15 UTC",
-      "state": "waiting",
+      "label": "Resumed after the usage-limit pause",
+      "state": "done",
       "detail_public": "attempt 1 of 3"
      },
      {
@@ -309,11 +343,17 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T00:51:39Z",
+   "updated": "2026-10-02T01:11:26Z",
    "opened": "2026-10-02T00:51:24Z",
    "progress": {
     "current": null,
     "steps": [
+     {
+      "t": 1790902284,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done"
+     },
      {
       "t": 1790902297,
       "kind": "maintainer",
@@ -341,11 +381,17 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T00:51:34Z",
+   "updated": "2026-10-02T01:11:22Z",
    "opened": "2026-10-02T00:51:22Z",
    "progress": {
     "current": null,
     "steps": [
+     {
+      "t": 1790902282,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done"
+     },
      {
       "t": 1790902292,
       "kind": "maintainer",
@@ -373,9 +419,19 @@
    "phase": null,
    "pr": 4,
    "pr_state": "draft",
-   "updated": "2026-10-02T00:11:23Z",
+   "updated": "2026-10-02T01:11:12Z",
    "opened": "2026-10-01T21:40:41Z",
-   "progress": null,
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790890841,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done"
+     }
+    ]
+   },
    "approval": {
     "state": "approved",
     "by": "Imbernoulli",
