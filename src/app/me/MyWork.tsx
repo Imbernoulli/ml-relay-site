@@ -20,6 +20,7 @@ import {
 import type { StatusData, StatusIssue } from "@/lib/types";
 import SignInButton from "@/components/SignInButton";
 import RequestAccess from "@/components/RequestAccess";
+import AccessQueue from "@/components/AccessQueue";
 import MaintainerActions, { isMaintainer } from "@/components/MaintainerActions";
 import { approvalLabel } from "@/lib/approval";
 import { getOptimistic } from "@/lib/issueForm";
@@ -268,6 +269,9 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
         <button type="button" onClick={signOut} className="rounded-md border border-border px-3 py-1 text-xs hover:bg-muted">
           Sign out
         </button>
+      </div>
+      <div id="access-requests">
+        <AccessQueue />
       </div>
       {maint && (
         <section className="mt-6">
