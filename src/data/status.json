@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T21:52:55+00:00",
+ "generated": "2026-10-02T21:54:32+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -36,6 +36,46 @@
     "pr_state": "draft",
     "updated": "2026-10-02T01:11:12Z",
     "replacement": "robot-agent-direct-control"
+   }
+  ],
+  "dl-optim-mup-parametrization": [
+   {
+    "issue": 19,
+    "title": "[change] dl-optim-mup-parametrization: this is too old, refer to https://arxiv.org/pdf/2505.16932 pls",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "requester": "PeterLauLukChen",
+    "opened": "2026-10-02T21:54:13Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1790978053,
+       "kind": "created",
+       "label": "Request created by @PeterLauLukChen",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1790978068,
+       "kind": "approval",
+       "label": "Waiting for maintainer approval",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-02T21:54:27Z",
+    "replacement": null
    }
   ]
  },
@@ -2307,12 +2347,20 @@
       "state": "done",
       "detail_public": "4 of 4 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790977980,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "11 of 11 checks passed",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:51:29Z",
+   "updated": "2026-10-02T21:53:35Z",
    "replacement": null,
    "task": null
   },
@@ -2340,6 +2388,46 @@
  ],
  "issues": [
   {
+   "issue": 19,
+   "title": "[change] dl-optim-mup-parametrization: this is too old, refer to https://arxiv.org/pdf/2505.16932 pls",
+   "requester": "PeterLauLukChen",
+   "type": "change",
+   "task": "dl-optim-mup-parametrization",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T21:54:27Z",
+   "opened": "2026-10-02T21:54:13Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790978053,
+      "kind": "created",
+      "label": "Request created by @PeterLauLukChen",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790978068,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   }
+  },
+  {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "requester": "Imbernoulli",
@@ -2352,7 +2440,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:51:29Z",
+   "updated": "2026-10-02T21:53:35Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -4606,6 +4694,14 @@
       "label": "Precheck done",
       "state": "done",
       "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790977980,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "11 of 11 checks passed",
       "visibility": "public"
      }
     ]
