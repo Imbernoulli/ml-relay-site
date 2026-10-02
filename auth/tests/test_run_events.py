@@ -61,6 +61,13 @@ class RunEventOverlayTests(unittest.TestCase):
         self.assertEqual(pending, {})
         self.assertEqual(out["steps"], rec["steps"])
 
+    def test_finished_without_env_built_invents_no_sandbox(self):
+        out, _ = apply_run_events(backend_record(), {"gh-9-1": {"started": 120, "finished": 3300}})
+        keys = {s.get("key"): s for s in out["steps"] if s.get("key")}
+        self.assertNotIn("run:gh-9-1:sandbox", keys)
+        self.assertEqual(keys["run:gh-9-1:env"]["state"], "running")     # the collection decides
+        self.assertEqual(keys["run:gh-9-1:results"]["label"], "Run finished, collecting results")
+
     def test_started_only_does_not_invent_progress(self):
         out, _ = apply_run_events(backend_record(), {"gh-9-1": {"started": 120}})
         self.assertEqual(out["steps"], backend_record()["steps"])

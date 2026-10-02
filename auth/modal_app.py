@@ -138,7 +138,9 @@ def apply_run_events(rec: dict, events: dict) -> tuple[dict, dict]:
         if not ts:
             continue
         last = max(ts, key=lambda e: (ts[e], RUN_EVENTS.index(e)))
-        built = any(e in ts for e in ("env_built", "verifying", "finished", "failed"))
+        # only a ping from a STARTED trial says the environment was built: a run can end
+        # ("finished", harbor rc 0) because its image build failed (#9, 2026-10-02)
+        built = any(e in ts for e in ("env_built", "verifying"))
 
         def upsert(key, label, state, t, detail=None, keep_label=True):
             nonlocal changed
@@ -158,8 +160,7 @@ def apply_run_events(rec: dict, events: dict) -> tuple[dict, dict]:
         env = by_key.get(f"run:{rid}:env")
         if built:
             upsert(f"run:{rid}:env", "Environment building", "done", ts.get("started") or min(ts.values()))
-            upsert(f"run:{rid}:sandbox", "Sandbox started", "done",
-                   ts.get("env_built") or min(t for e, t in ts.items() if e != "started"))
+            upsert(f"run:{rid}:sandbox", "Sandbox started", "done", ts.get("env_built") or ts["verifying"])
         elif "started" in ts and (env is None or env.get("state") == "failed"):
             upsert(f"run:{rid}:env", "Environment building", "running", ts["started"])
         if last in ("finished", "failed"):
