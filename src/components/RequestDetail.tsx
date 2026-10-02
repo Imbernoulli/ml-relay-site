@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { getToken, isSignedIn, oauthConfigured } from "@/lib/github";
-import { STATUS_MARKER } from "@/lib/relayStatus";
+import { pickReport, STATUS_MARKER } from "@/lib/relayStatus";
 import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
 import { approvalOf } from "@/lib/approval";
 import { liveRecord, useLiveStatus } from "@/lib/liveStatus";
@@ -58,7 +58,6 @@ interface GhFile {
   deletions: number;
 }
 
-const REPORT_RE = /<!--\s*relay-report\s+kind=([\w-]+)[^>]*-->/;
 
 async function gh<T>(path: string): Promise<T> {
   const tok = getToken();
@@ -169,12 +168,8 @@ export default function RequestDetail({
 
   const statusC = comments.find((c) => (c.body ?? "").includes(STATUS_MARKER));
   const thread = comments.filter((c) => c !== statusC);
-  const reports = thread.filter((c) => REPORT_RE.test(c.body ?? "")).map((c) => ({ c, kind: REPORT_RE.exec(c.body ?? "")![1] }));
   const inDesign = type === "new task" && !input.phase && !input.done;
-  const report =
-    (inDesign ? [...reports].reverse().find((r) => r.kind === "design-draft") : undefined) ??
-    [...reports].reverse()[0] ??
-    ([...thread].reverse().find((c) => isBot(c.user)) ? { c: [...thread].reverse().find((c) => isBot(c.user))!, kind: "latest agent comment" } : undefined);
+  const report = pickReport(thread, inDesign);
   const maint = isMaintainer(login, maintainers);
   const canReply = Boolean(login) && (maint || (requester && String(login).toLowerCase() === requester.toLowerCase()));
   const task = st?.task ?? null;
@@ -268,20 +263,26 @@ export default function RequestDetail({
                 <span className="rounded-full border border-emerald-600/50 bg-emerald-600/10 px-2 py-0.5 font-semibold text-emerald-800 dark:text-emerald-200">
                   {report.kind === "design-draft" ? "Design draft" : report.kind === "pilot-report" ? "Pilot report" : report.kind === "results" ? "Results" : report.kind === "final" ? "Final report" : "Latest agent report"}
                 </span>
-                <span>{fmt(report.c.updated_at)}</span>
-                <a href={report.c.html_url} target="_blank" rel="noreferrer" className="ml-auto underline">
+                <span>{fmt(report.updated)}</span>
+                <a href={report.url} target="_blank" rel="noreferrer" className="ml-auto underline">
                   on GitHub
                 </a>
               </div>
               <div className="prose prose-sm mt-3 max-w-none dark:prose-invert">
-                <MarkdownContent content={clean(report.c.body)} />
+                <MarkdownContent content={report.body} />
               </div>
             </section>
           )}
 
           {canReply && issue.state === "open" && (
             <div className="mt-6">
-              <ReplyBox issue={n} url={issue.html_url} onPosted={() => void load()} />
+              <ReplyBox
+                issue={n}
+                url={issue.html_url}
+                onPosted={() => void load()}
+                go={report?.readyForGo === "yes"}
+                title={report?.readyForGo === "no" ? "Answer the agent's questions" : report?.readyForGo === "yes" ? "The agent is waiting for your go" : "Reply on this request"}
+              />
             </div>
           )}
 

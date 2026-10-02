@@ -5,7 +5,7 @@ import { commentOnIssue, GitHubError } from "@/lib/github";
 import Spinner from "./Spinner";
 
 /** Reply to the agent on an issue from the site (a "go" button and free text). */
-export default function ReplyBox({ issue, url, onPosted }: { issue: number; url: string; onPosted: () => void }) {
+export default function ReplyBox({ issue, url, onPosted, go = true, title }: { issue: number; url: string; onPosted: () => void; go?: boolean; title?: string }) {
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
@@ -28,7 +28,8 @@ export default function ReplyBox({ issue, url, onPosted }: { issue: number; url:
   };
   return (
     <div className="mt-3 rounded-lg border border-amber-500/50 bg-amber-500/5 p-3">
-      <div className="text-xs font-medium">The agent is waiting for your reply</div>
+      <div className="text-xs font-medium">{title ?? "The agent is waiting for your reply"}</div>
+      {go && (
       <div className="mt-2 flex flex-wrap gap-2">
         <button
           type="button"
@@ -40,6 +41,7 @@ export default function ReplyBox({ issue, url, onPosted }: { issue: number; url:
         </button>
         <span className="self-center text-xs text-muted-foreground">or answer below</span>
       </div>
+      )}
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
@@ -49,7 +51,7 @@ export default function ReplyBox({ issue, url, onPosted }: { issue: number; url:
       />
       <div className="mt-1 flex flex-wrap items-center gap-3">
         <button type="button" disabled={busy || !text.trim()} onClick={() => void post(text)} className="rounded-md border border-border px-3 py-1 text-sm font-medium hover:bg-muted disabled:opacity-50">
-          Post reply
+          Send
         </button>
         <a href={url} target="_blank" rel="noreferrer" className="text-xs underline">
           Reply on GitHub

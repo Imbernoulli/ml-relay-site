@@ -14,6 +14,8 @@ export interface StageInput {
   prState?: "draft" | "open" | "merged" | "closed" | null;
   progress?: ProgressRecord | null;
   since?: string | number | null;
+  /** from the latest agent report's marker: yes = waiting for "go", no = waiting for answers */
+  readyForGo?: "yes" | "no" | null;
 }
 
 export type Mark = "done" | "current" | "paused" | "failed" | "upcoming";
@@ -29,6 +31,7 @@ export function toMs(t?: string | number | null): number {
 }
 
 const RESTART_RE = /\b(started|queued|gate passed|retrying now|resumed|restarted)\b/i;
+export const ANSWER_RE = /your answers|your reply|questions/i;
 export const GO_RE = /requester'?s go|your go|waiting for (the )?requester/i;
 
 /** A failed or paused step is superseded once a later attempt starts (or a later step runs). */
@@ -75,7 +78,11 @@ export function computeStages(x: StageInput): { names: string[]; marks: Mark[]; 
   const steps = x.progress?.steps ?? [];
   const block = activeBlock(steps);
   if (cur > 1 && cur <= last) {
-    if (x.waitingGo || (block && block.state === "waiting" && GO_RE.test(block.label ?? ""))) {
+    const forRequester = x.waitingGo || (block && block.state === "waiting" && (GO_RE.test(block.label ?? "") || ANSWER_RE.test(block.label ?? "")));
+    if (forRequester && x.readyForGo) {
+      curMark = "paused";
+      note = x.readyForGo === "no" ? "Waiting for your answers" : "Waiting for your go";
+    } else if (x.waitingGo || (block && block.state === "waiting" && GO_RE.test(block.label ?? ""))) {
       curMark = "paused";
       note = "Waiting for your go";
     } else if (block?.state === "waiting") {

@@ -20,7 +20,6 @@ import {
 import type { StatusData, StatusIssue } from "@/lib/types";
 import SignInButton from "@/components/SignInButton";
 import RequestAccess from "@/components/RequestAccess";
-import ReplyBox from "@/components/ReplyBox";
 import MaintainerActions, { isMaintainer } from "@/components/MaintainerActions";
 import { approvalLabel } from "@/lib/approval";
 import { getOptimistic } from "@/lib/issueForm";
@@ -82,7 +81,6 @@ function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: Sta
           <p className="mt-1 text-sm leading-relaxed">{appr.note}</p>
         </div>
       )}
-      {waiting && r.state === "open" && <ReplyBox issue={r.number} url={r.url} onPosted={onPosted} />}
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
         {r.pr ? (
           <>
