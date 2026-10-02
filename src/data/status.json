@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T00:56:27+00:00",
+ "generated": "2026-10-02T00:58:02+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -98,7 +98,7 @@
    "title": "[new task] critic model for llm rl",
    "type": "new task",
    "state": "open",
-   "phase": null,
+   "phase": "A",
    "approval": {
     "state": "approved",
     "by": null,
@@ -127,14 +127,28 @@
       "t": 1790902515,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
+      "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902603,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902637,
+      "kind": "orchestrator",
+      "label": "Orchestrator failed",
+      "state": "failed",
       "detail_public": "Actions run 36948375504"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T00:55:13Z",
+   "updated": "2026-10-02T00:57:25Z",
    "replacement": null,
    "task": null
   }
@@ -150,10 +164,10 @@
    "state": "open",
    "stage": "Design review",
    "waiting": false,
-   "phase": null,
+   "phase": "A",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T00:55:13Z",
+   "updated": "2026-10-02T00:57:25Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -175,7 +189,21 @@
       "t": 1790902515,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
+      "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902603,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "Actions run 36948375504"
+     },
+     {
+      "t": 1790902637,
+      "kind": "orchestrator",
+      "label": "Orchestrator failed",
+      "state": "failed",
       "detail_public": "Actions run 36948375504"
      }
     ]
