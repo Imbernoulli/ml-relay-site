@@ -217,7 +217,14 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         me = _gh(auth, "/user")
         return (me.json(), auth) if me.status_code == 200 else (None, None)
 
-    def _is_maintainer(auth: str) -> bool:
+    MAINTAINERS = {m.strip().lower() for m in os.environ.get("RELAY_MAINTAINERS", "Imbernoulli").split(",") if m.strip()}
+
+    def _is_maintainer(auth: str, login: str | None = None) -> bool:
+        # The identity is GitHub-verified (/user); the maintainer list is ours. A
+        # GitHub App user token does not always report repo admin rights, so the
+        # list is the primary check and repo admin the fallback.
+        if login and login.lower() in MAINTAINERS:
+            return True
         r = _gh(auth, f"/repos/{RELAY_REPO}")
         return r.status_code == 200 and bool((r.json().get("permissions") or {}).get("admin"))
 
@@ -267,7 +274,7 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         by_secret = bool(want) and hmac.compare_digest(want, request.headers.get("x-relay-status-secret", ""))
         if not by_secret:
             user, auth = _caller(request)
-            if not user or not _is_maintainer(auth):
+            if not user or not _is_maintainer(auth, user.get("login")):
                 return cors(JSONResponse({"error": "maintainers only"}, status_code=403))
         out = [_public_request(v) for k, v in access_requests.items() if k.startswith("user:")]
         out.sort(key=lambda r: r.get("at") or "", reverse=True)
@@ -282,7 +289,7 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         if request.headers.get("origin") != SITE_ORIGIN:
             return Response("forbidden", status_code=403)
         user, auth = _caller(request)
-        if not user or not _is_maintainer(auth):
+        if not user or not _is_maintainer(auth, user.get("login")):
             return cors(JSONResponse({"error": "maintainers only"}, status_code=403))
         if not isinstance(payload, dict):
             return cors(JSONResponse({"error": "bad request"}, status_code=400))
