@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T06:05:20+00:00",
+ "generated": "2026-10-02T06:06:58+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -44,7 +44,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "open",
+   "state": "running",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -857,7 +857,7 @@
       "t": 1790915767,
       "kind": "go",
       "label": "Waiting for your answers (phase B)",
-      "state": "waiting",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -904,7 +904,7 @@
       "t": 1790921047,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
       "detail_public": "Actions run 36971769115",
       "visibility": "internal"
      },
@@ -920,15 +920,30 @@
       "t": 1790921056,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
       "detail_public": "Actions run 36971782080",
       "visibility": "internal"
+     },
+     {
+      "t": 1790921121,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36971769115",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790921162,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T06:04:08Z",
+   "updated": "2026-10-02T06:06:04Z",
    "replacement": null,
    "task": null
   }
@@ -947,7 +962,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T06:04:08Z",
+   "updated": "2026-10-02T06:06:04Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1752,7 +1767,7 @@
       "t": 1790915767,
       "kind": "go",
       "label": "Waiting for your answers (phase B)",
-      "state": "waiting",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -1799,7 +1814,7 @@
       "t": 1790921047,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
       "detail_public": "Actions run 36971769115",
       "visibility": "internal"
      },
@@ -1815,9 +1830,24 @@
       "t": 1790921056,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
       "detail_public": "Actions run 36971782080",
       "visibility": "internal"
+     },
+     {
+      "t": 1790921121,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36971769115",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790921162,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
