@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T01:26:12+00:00",
+ "generated": "2026-10-02T01:34:00+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -235,65 +235,81 @@
       "kind": "gate",
       "label": "Gate passed (write access)",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
      },
      {
       "t": 1790903857,
       "kind": "queue",
       "label": "Queued for the orchestrator",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
      },
      {
       "t": 1790903936,
       "kind": "orchestrator",
       "label": "Orchestrator started",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
      },
      {
       "t": 1790903973,
       "kind": "agent",
       "label": "Read the issue thread",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790903993,
       "kind": "agent",
       "label": "Precheck started",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790904120,
       "kind": "agent",
       "label": "Precheck finished",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790904202,
       "kind": "agent",
       "label": "Blocked",
-      "state": "failed"
+      "state": "failed",
+      "visibility": "public"
      },
      {
       "t": 1790904228,
       "kind": "report",
       "label": "Report posted",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "public"
      },
      {
       "t": 1790904228,
       "kind": "orchestrator",
       "label": "Orchestrator finished",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790904578,
+      "kind": "go",
+      "label": "Waiting for your answers (phase B)",
+      "state": "waiting",
+      "visibility": "public"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:25:48Z",
+   "updated": "2026-10-02T01:31:16Z",
    "replacement": null,
    "task": null
   }
@@ -312,7 +328,7 @@
    "phase": "B",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:25:48Z",
+   "updated": "2026-10-02T01:31:16Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -415,59 +431,75 @@
       "kind": "gate",
       "label": "Gate passed (write access)",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
      },
      {
       "t": 1790903857,
       "kind": "queue",
       "label": "Queued for the orchestrator",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
      },
      {
       "t": 1790903936,
       "kind": "orchestrator",
       "label": "Orchestrator started",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
      },
      {
       "t": 1790903973,
       "kind": "agent",
       "label": "Read the issue thread",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790903993,
       "kind": "agent",
       "label": "Precheck started",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790904120,
       "kind": "agent",
       "label": "Precheck finished",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790904202,
       "kind": "agent",
       "label": "Blocked",
-      "state": "failed"
+      "state": "failed",
+      "visibility": "public"
      },
      {
       "t": 1790904228,
       "kind": "report",
       "label": "Report posted",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "public"
      },
      {
       "t": 1790904228,
       "kind": "orchestrator",
       "label": "Orchestrator finished",
       "state": "done",
-      "detail_public": "Actions run 36950219870"
+      "detail_public": "Actions run 36950219870",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790904578,
+      "kind": "go",
+      "label": "Waiting for your answers (phase B)",
+      "state": "waiting",
+      "visibility": "public"
      }
     ]
    },

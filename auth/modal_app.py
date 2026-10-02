@@ -149,6 +149,12 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
     # for a rebuild. The static status.json stays as the fallback.
     PUBLIC_STEP_KEYS = ("t", "kind", "label", "state", "detail_public", "visibility", "key")
 
+    def _public_current(cur):
+        """The backend sends the current step as an object (or, from older code, a string)."""
+        if isinstance(cur, dict):
+            return {k: cur[k] for k in PUBLIC_STEP_KEYS if k in cur and cur.get("visibility", "public") != "internal"} or None
+        return str(cur)[:200] if cur else None
+
     @api.get("/status")
     def get_status():
         out = {k[6:]: v for k, v in live_status.items() if k.startswith("issue:")}
@@ -178,13 +184,13 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
             "issue": n,
             "title": str(payload.get("title", ""))[:200],
             "type": str(payload.get("type", ""))[:40],
-            "task": str(payload.get("task", ""))[:80],
+            "task": str(payload.get("task") or "")[:80] or None,
             "requester": str(payload.get("requester", ""))[:60],
             "state": str(payload.get("state", ""))[:20],
             "labels": [str(x)[:50] for x in (payload.get("labels") or [])][:30],
             "pr": payload.get("pr") if isinstance(payload.get("pr"), (int, type(None))) else None,
             "pr_state": str(payload.get("pr_state") or "")[:20] or None,
-            "current": str(payload.get("current", ""))[:200],
+            "current": _public_current(payload.get("current")),
             "steps": steps[-200:],
             "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         }
