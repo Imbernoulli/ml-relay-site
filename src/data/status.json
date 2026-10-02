@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T12:42:13+00:00",
+ "generated": "2026-10-02T12:43:33+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1003,7 +1003,7 @@
       "t": 1790916732,
       "kind": "setting",
       "label": "Setting aime (seed 42)",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-9-36961774506: budget 10h00m",
       "visibility": "public"
      },
@@ -1340,12 +1340,20 @@
       "state": "done",
       "detail_public": "Actions run 36981225359",
       "visibility": "internal"
+     },
+     {
+      "t": 1790944935,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-9-36961774506",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T08:39:54Z",
+   "updated": "2026-10-02T12:42:29Z",
    "replacement": null,
    "task": null
   }
@@ -1364,7 +1372,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T08:39:54Z",
+   "updated": "2026-10-02T12:42:29Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -2184,7 +2192,7 @@
       "t": 1790916732,
       "kind": "setting",
       "label": "Setting aime (seed 42)",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-9-36961774506: budget 10h00m",
       "visibility": "public"
      },
@@ -2521,6 +2529,14 @@
       "state": "done",
       "detail_public": "Actions run 36981225359",
       "visibility": "internal"
+     },
+     {
+      "t": 1790944935,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-9-36961774506",
+      "visibility": "public"
      }
     ]
    },
