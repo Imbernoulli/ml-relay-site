@@ -186,6 +186,9 @@ def _runs_in_flight() -> bool:
         for st in rec.get("steps") or []:
             if st.get("kind") in ("daytona", "setting", "precheck") and st.get("state") == "running":
                 return True
+            # a refused submit waiting for GPUs: the poller re-checks the budget gate each tick
+            if str(st.get("key") or "").startswith("capacity:") and st.get("state") == "waiting":
+                return True
     return False
 
 
