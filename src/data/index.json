@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-01T23:59:37",
+ "generated": "2026-10-02T00:11:31",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-two machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 36 of the 50 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-two self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -15,15 +15,15 @@
    "settings": [
     {
      "name": "longbench",
-     "display": "Mistral-7B · LongBench QA/summarization/classification · 64-entry byte budget"
+     "display": null
     },
     {
      "name": "lines",
-     "display": "Mistral-7B · LongEval line retrieval · same byte budget"
+     "display": null
     },
     {
      "name": "lbcode",
-     "display": "Mistral-7B · LongBench code retrieval · same byte budget"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -78,15 +78,15 @@
    "settings": [
     {
      "name": "unstructured-s1",
-     "display": "OPT-125M · 50% unstructured"
+     "display": null
     },
     {
      "name": "unstructured-s2",
-     "display": "OPT-1.3B · 70% unstructured"
+     "display": null
     },
     {
      "name": "semi2of4-s2",
-     "display": "OPT-1.3B · 2:4 semi-structured"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -141,19 +141,19 @@
    "settings": [
     {
      "name": "smollm2-360m-kv12",
-     "display": "SmolLM2-360M GQA · KV cache 12.5%"
+     "display": null
     },
     {
      "name": "smollm2-360m-kv31",
-     "display": "SmolLM2-360M GQA · KV cache 31.25%"
+     "display": null
     },
     {
      "name": "smollm2-1.7b-kv12",
-     "display": "SmolLM2-1.7B MHA · KV cache 12.5%"
+     "display": null
     },
     {
      "name": "zeroshot",
-     "display": "Recovered models · zero-shot reasoning and knowledge tasks"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -198,15 +198,15 @@
    "settings": [
     {
      "name": "set_a",
-     "display": "LayerSkip Llama-3.2-1B · CNN/DailyMail · depth 0.50"
+     "display": null
     },
     {
      "name": "set_b",
-     "display": "LayerSkip Llama-3.2-1B · XSUM · depth 0.40"
+     "display": null
     },
     {
      "name": "set_c",
-     "display": "LayerSkip Llama-3-8B · CNN/DailyMail · depth 0.30"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -256,15 +256,15 @@
    "settings": [
     {
      "name": "gpt-124m",
-     "display": "124M ClimbMix pretraining · 1k context"
+     "display": null
     },
     {
      "name": "longctx-4k",
-     "display": "Same checkpoint · 4k-window validation / WikiText-2"
+     "display": null
     },
     {
      "name": "recall-124m",
-     "display": "SQuAD completion + RULER needle recall"
+     "display": null
     }
    ],
    "gpus": 4,
@@ -314,15 +314,15 @@
    "settings": [
     {
      "name": "gpt-124m",
-     "display": "124M ClimbMix pretraining · 1k context + LAMBADA"
+     "display": null
     },
     {
      "name": "longctx-4k",
-     "display": "Same checkpoint · 4k-window validation / WikiText-2"
+     "display": null
     },
     {
      "name": "recall-124m",
-     "display": "SWDE / SQuAD completion + RULER needle recall"
+     "display": null
     }
    ],
    "gpus": 4,
@@ -367,19 +367,19 @@
    "settings": [
     {
      "name": "gsm8k-b2.5",
-     "display": "Frozen Ouro-1.4B · GSM8K · 2.5 mean loops"
+     "display": null
     },
     {
      "name": "gsm8k-b2.25",
-     "display": "Same rule re-calibrated · 2.25 mean loops"
+     "display": null
     },
     {
      "name": "bbh-b2.5",
-     "display": "Frozen Ouro-1.4B · BIG-Bench Hard · 2.5 loops"
+     "display": null
     },
     {
      "name": "ouro2.6b-gsm8k",
-     "display": "Frozen Ouro-2.6B · GSM8K · 2.5 loops"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -439,15 +439,15 @@
    "settings": [
     {
      "name": "width-256",
-     "display": "CIFAR-10 MLP, width 256"
+     "display": null
     },
     {
      "name": "width-1024",
-     "display": "CIFAR-10 MLP, width 1024"
+     "display": null
     },
     {
      "name": "width-4096",
-     "display": "CIFAR-10 MLP, width 4096"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -492,15 +492,15 @@
    "settings": [
     {
      "name": "mnist-a8-n1000",
-     "display": "MNIST, init scale 8, 1000 train points"
+     "display": null
     },
     {
      "name": "mnist-a8-n200",
-     "display": "MNIST, init scale 8, 200 train points"
+     "display": null
     },
     {
      "name": "mnist-a12-n1000",
-     "display": "MNIST, init scale 12, 1000 train points"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -555,11 +555,11 @@
    "settings": [
     {
      "name": "s4-word",
-     "display": "S4 word problem · 24 states"
+     "display": null
     },
     {
      "name": "s5-word",
-     "display": "S5 word problem · 120 states"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -609,15 +609,15 @@
    "settings": [
     {
      "name": "cola",
-     "display": "T5-base · GLUE CoLA · 3 runs"
+     "display": null
     },
     {
      "name": "mrpc",
-     "display": "T5-base · GLUE MRPC · 3 runs"
+     "display": null
     },
     {
      "name": "gsm8k",
-     "display": "Llama-2-7B · MetaMathQA → GSM8K"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -662,15 +662,15 @@
    "settings": [
     {
      "name": "train_small",
-     "display": "CIFAR-10, UNet 96 channels"
+     "display": null
     },
     {
      "name": "train_medium",
-     "display": "CIFAR-10, UNet 128 channels"
+     "display": null
     },
     {
      "name": "train_large",
-     "display": "CIFAR-10, UNet 192 channels"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -710,15 +710,15 @@
    "settings": [
     {
      "name": "cifar10-nfe4",
-     "display": "CIFAR-10 · 4 denoiser calls"
+     "display": null
     },
     {
      "name": "cifar10-nfe5",
-     "display": "CIFAR-10 · 5 denoiser calls"
+     "display": null
     },
     {
      "name": "ffhq64-nfe6",
-     "display": "FFHQ 64×64 · 6 denoiser calls"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -758,11 +758,11 @@
    "settings": [
     {
      "name": "set_a",
-     "display": "CIFAR-10 · 150k training steps · Euler 8/16/50 NFE"
+     "display": null
     },
     {
      "name": "set_b",
-     "display": "ImageNet 32×32 · 150k steps · Euler 8/16/50 NFE"
+     "display": null
     }
    ],
    "gpus": 2,
@@ -812,15 +812,15 @@
    "settings": [
     {
      "name": "cifar10-advtrain3",
-     "display": "CIFAR-10 · adversarially trained ResNet-18 · 3/255"
+     "display": null
     },
     {
      "name": "cifar100-advtrain2",
-     "display": "CIFAR-100 · adversarially trained ResNet-18 · 2/255"
+     "display": null
     },
     {
      "name": "cifar10-advtrain4",
-     "display": "CIFAR-10 · adversarially trained ResNet-18 · 4/255"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -880,15 +880,15 @@
    "settings": [
     {
      "name": "mnist-evenodd",
-     "display": "MNIST · even digits positive · 6-layer MLP"
+     "display": null
     },
     {
      "name": "fmnist-top",
-     "display": "Fashion-MNIST · top-wear positive · few labels"
+     "display": null
     },
     {
      "name": "cifar10-vehicle",
-     "display": "CIFAR-10 · vehicles positive · all-conv CNN"
+     "display": null
     }
    ],
    "gpus": 2,
@@ -928,15 +928,15 @@
    "settings": [
     {
      "name": "weakteacher_math500",
-     "display": "Qwen3-1.7B student / weaker Qwen3-0.6B teacher · MATH-500"
+     "display": null
     },
     {
      "name": "weakteacher_amc23",
-     "display": "Same checkpoint · AMC23 (avg@8)"
+     "display": null
     },
     {
      "name": "weakteacher_olympiadbench",
-     "display": "Same checkpoint · OlympiadBench"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -986,15 +986,15 @@
    "settings": [
     {
      "name": "foldswitch",
-     "display": "12 fold-switch pairs"
+     "display": null
     },
     {
      "name": "oc23",
-     "display": "10 open/closed pairs"
+     "display": null
     },
     {
      "name": "transporters",
-     "display": "14 transporter IF/OF pairs"
+     "display": null
     }
    ],
    "gpus": 8,
@@ -1049,15 +1049,15 @@
    "settings": [
     {
      "name": "math",
-     "display": "Math · Qwen3-1.7B · MATH-500 + OlympiadBench"
+     "display": null
     },
     {
      "name": "code",
-     "display": "Code · Qwen3-1.7B · LiveCodeBench + HumanEval+"
+     "display": null
     },
     {
      "name": "mathgap",
-     "display": "Math · Qwen3-0.6B student"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -1132,15 +1132,15 @@
    "settings": [
     {
      "name": "pancreas",
-     "display": "human pancreas, technology batches"
+     "display": null
     },
     {
      "name": "immune",
-     "display": "human immune, donor batches"
+     "display": null
     },
     {
      "name": "lung_transfer",
-     "display": "human lung atlas, inductive held-out donors"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -1215,11 +1215,11 @@
    "settings": [
     {
      "name": "leadopt",
-     "display": "Lead optimization · 14 congeneric series / 349 ligands"
+     "display": null
     },
     {
      "name": "hitdisc",
-     "display": "Hit discovery · 6 AVE-unbiased targets / 1,199 ligands"
+     "display": null
     }
    ],
    "gpus": 0,
@@ -1269,15 +1269,15 @@
    "settings": [
     {
      "name": "cube_real",
-     "display": "Real cube tosses · 64 training transitions"
+     "display": null
     },
     {
      "name": "elbow_real",
-     "display": "Real elbow tosses · 64 training transitions"
+     "display": null
     },
     {
      "name": "elbow_lowdata",
-     "display": "Real elbow tosses · 32 training transitions"
+     "display": null
     }
    ],
    "gpus": 0,
@@ -1317,15 +1317,15 @@
    "settings": [
     {
      "name": "slip",
-     "display": "sliding frictional contacts"
+     "display": null
     },
     {
      "name": "illcond",
-     "display": "ill-conditioned mass-ratio stacks"
+     "display": null
     },
     {
      "name": "resting",
-     "display": "resting-contact stacks"
+     "display": null
     }
    ],
    "gpus": 0,
@@ -1375,15 +1375,15 @@
    "settings": [
     {
      "name": "in_domain",
-     "display": "held-out ClimbMix validation loss (6L+12L mean)"
+     "display": null
     },
     {
      "name": "wikitext2",
-     "display": "WikiText-2 perplexity (6L+12L mean)"
+     "display": null
     },
     {
      "name": "lambada",
-     "display": "LAMBADA perplexity (6L+12L mean)"
+     "display": null
     }
    ],
    "gpus": 2,
@@ -1428,15 +1428,15 @@
    "settings": [
     {
      "name": "vit-b32-8task",
-     "display": "CLIP ViT-B/32, 8-task merge accuracy"
+     "display": null
     },
     {
      "name": "vit-b32-14task",
-     "display": "CLIP ViT-B/32, 14-task merge accuracy"
+     "display": null
     },
     {
      "name": "vit-l14-8task",
-     "display": "CLIP ViT-L/14, 8-task merge accuracy"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -1491,15 +1491,15 @@
    "settings": [
     {
      "name": "seen-a",
-     "display": "ALFWorld seen · Llama-3.2-3B-Instruct"
+     "display": null
     },
     {
      "name": "unseen-a",
-     "display": "ALFWorld unseen · Llama-3.2-3B-Instruct"
+     "display": null
     },
     {
      "name": "seen-b",
-     "display": "ALFWorld seen · Qwen2.5-3B-Instruct"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -1554,11 +1554,11 @@
    "settings": [
     {
      "name": "model_a",
-     "display": "Qwen3.5-4B · multi-hop / multilingual / order-of-operations"
+     "display": null
     },
     {
      "name": "model_b",
-     "display": "Gemma-3-4B · typo / multi-hop / multilingual / order"
+     "display": null
     }
    ],
    "gpus": 2,
@@ -1603,15 +1603,15 @@
    "settings": [
     {
      "name": "rnaseq",
-     "display": "Stranded RNA-seq · held-out genomic intervals"
+     "display": null
     },
     {
      "name": "dnase",
-     "display": "DNase-seq · six cell types · held-out intervals"
+     "display": null
     },
     {
      "name": "histone",
-     "display": "K562 histone ChIP · four marks · held-out intervals"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -1661,15 +1661,15 @@
    "settings": [
     {
      "name": "R4",
-     "display": "4x data repetition (210M unique tokens)"
+     "display": null
     },
     {
      "name": "R16",
-     "display": "16x data repetition (52M unique tokens)"
+     "display": null
     },
     {
      "name": "R64",
-     "display": "64x data repetition (13M unique tokens)"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -1714,27 +1714,27 @@
    "settings": [
     {
      "name": "set_a",
-     "display": "ISPD adaptec1 · 2,000 decoder calls"
+     "display": null
     },
     {
      "name": "set_b",
-     "display": "ISPD bigblue1 · 2,000 decoder calls"
+     "display": null
     },
     {
      "name": "set_c",
-     "display": "ISPD adaptec3 · 2,000 decoder calls"
+     "display": null
     },
     {
      "name": "set_d",
-     "display": "ISPD adaptec2 · 2,000 decoder calls"
+     "display": null
     },
     {
      "name": "set_e",
-     "display": "ISPD adaptec4 · 2,000 decoder calls"
+     "display": null
     },
     {
      "name": "set_f",
-     "display": "ISPD bigblue3 · 2,000 decoder calls"
+     "display": null
     }
    ],
    "gpus": 0,
@@ -1779,35 +1779,35 @@
    "settings": [
     {
      "name": "adaptec1",
-     "display": "ISPD adaptec1 · macro-only HPWL"
+     "display": null
     },
     {
      "name": "adaptec2",
-     "display": "ISPD adaptec2 · macro-only HPWL"
+     "display": null
     },
     {
      "name": "adaptec3",
-     "display": "ISPD adaptec3 · macro-only HPWL"
+     "display": null
     },
     {
      "name": "adaptec4",
-     "display": "ISPD adaptec4 · macro-only HPWL"
+     "display": null
     },
     {
      "name": "bigblue1",
-     "display": "ISPD bigblue1 · macro-only HPWL"
+     "display": null
     },
     {
      "name": "bigblue3",
-     "display": "ISPD bigblue3 · macro-only HPWL"
+     "display": null
     },
     {
      "name": "bigblue4",
-     "display": "ISPD bigblue4 · macro-only HPWL"
+     "display": null
     },
     {
      "name": "ibm",
-     "display": "ICCAD-04 IBM · six circuits · macro-only HPWL"
+     "display": null
     }
    ],
    "gpus": 8,
@@ -1857,15 +1857,15 @@
    "settings": [
     {
      "name": "s1",
-     "display": "Qwen2.5 7B/1.5B · block 8 · MT-Bench / GSM8K / HumanEval"
+     "display": null
     },
     {
      "name": "s2",
-     "display": "Qwen2.5 7B/0.5B · block 16 · accepted length"
+     "display": null
     },
     {
      "name": "s3",
-     "display": "Qwen2.5 7B/0.5B · block 8 · priced verification"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -1915,15 +1915,15 @@
    "settings": [
     {
      "name": "spill_wipe",
-     "display": "RoboSuite CaP-Bench spill_wipe success"
+     "display": null
     },
     {
      "name": "cube_restack",
-     "display": "RoboSuite CaP-Bench cube_restack success"
+     "display": null
     },
     {
      "name": "spill_wipe_large",
-     "display": "spill_wipe with 1.5x longer spill"
+     "display": null
     }
    ],
    "gpus": 6,
@@ -1968,15 +1968,15 @@
    "settings": [
     {
      "name": "inv-scatter",
-     "display": "InverseBench · scattering · 360 receivers"
+     "display": null
     },
     {
      "name": "blackhole",
-     "display": "EHT black-hole imaging · 100% observations"
+     "display": null
     },
     {
      "name": "blackhole-10pct",
-     "display": "EHT black-hole imaging · 10% observations"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -2016,15 +2016,15 @@
    "settings": [
     {
      "name": "push-recovery",
-     "display": "MuJoCo · mixed commands + unseen pushes"
+     "display": null
     },
     {
      "name": "payload-shift",
-     "display": "MuJoCo · forward gait + unseen payload"
+     "display": null
     },
     {
      "name": "high-speed",
-     "display": "MuJoCo · high-speed forward commands"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -2074,15 +2074,15 @@
    "settings": [
     {
      "name": "CATH4.2",
-     "display": "CATH 4.2 · recovery / perplexity"
+     "display": null
     },
     {
      "name": "CATH4.3",
-     "display": "CATH 4.3 · recovery / perplexity"
+     "display": null
     },
     {
      "name": "TS50",
-     "display": "TS50 · trained on CATH 4.2"
+     "display": null
     }
    ],
    "gpus": 2,
@@ -2122,15 +2122,15 @@
    "settings": [
     {
      "name": "3s5z_vs_3s6z",
-     "display": "SMAC 3s5z_vs_3s6z · super-hard"
+     "display": null
     },
     {
      "name": "corridor",
-     "display": "SMAC corridor · super-hard"
+     "display": null
     },
     {
      "name": "3s_vs_5z",
-     "display": "SMAC 3s_vs_5z · hard"
+     "display": null
     }
    ],
    "gpus": 5,
@@ -2170,15 +2170,15 @@
    "settings": [
     {
      "name": "pen-human-v1",
-     "display": "Adroit pen-human · 25 demonstrations"
+     "display": null
     },
     {
      "name": "pen-cloned-v1",
-     "display": "Adroit pen-cloned · demos + BC rollouts"
+     "display": null
     },
     {
      "name": "pen-expert-v1",
-     "display": "Adroit pen-expert · expert rollouts"
+     "display": null
     }
    ],
    "gpus": 4,
@@ -2223,19 +2223,19 @@
    "settings": [
     {
      "name": "garden",
-     "display": "Mip-NeRF 360 garden · PSNR after 30k steps"
+     "display": null
     },
     {
      "name": "bicycle",
-     "display": "Mip-NeRF 360 bicycle · PSNR after 30k steps"
+     "display": null
     },
     {
      "name": "stump",
-     "display": "Mip-NeRF 360 stump · PSNR after 30k steps"
+     "display": null
     },
     {
      "name": "bonsai",
-     "display": "Mip-NeRF 360 bonsai · PSNR after 30k steps"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -2275,15 +2275,15 @@
    "settings": [
     {
      "name": "Car",
-     "display": "ShapeNet-Car · pressure / velocity / drag"
+     "display": null
     },
     {
      "name": "AirfRANS",
-     "display": "AirfRANS full split · fields / lift"
+     "display": null
     },
     {
      "name": "AirfRANS-AoA",
-     "display": "AirfRANS · unseen angle of attack"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -2323,15 +2323,15 @@
    "settings": [
     {
      "name": "two-rooms",
-     "display": "EB-JEPA Two Rooms · opposite rooms"
+     "display": null
     },
     {
      "name": "pusht",
-     "display": "DINO-WM Push-T · goals 30 steps ahead"
+     "display": null
     },
     {
      "name": "wall",
-     "display": "DINO-WM Wall · random start/goal"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -2376,15 +2376,15 @@
    "settings": [
     {
      "name": "llada-math",
-     "display": "LLaDA-8B · MATH-500 · accuracy / calls"
+     "display": null
     },
     {
      "name": "llada-humaneval",
-     "display": "LLaDA-8B · HumanEval · pass@1 / calls"
+     "display": null
     },
     {
      "name": "mdlm-owt",
-     "display": "MDLM-OWT · open text · MAUVE / entropy"
+     "display": null
     }
    ],
    "gpus": 2,
@@ -2429,11 +2429,11 @@
    "settings": [
     {
      "name": "gpt-345m",
-     "display": "345M pretraining · loss / perplexity"
+     "display": null
     },
     {
      "name": "lm-eval-345m",
-     "display": "345M zero-shot · LAMBADA / PIQA / HellaSwag / ARC-e"
+     "display": null
     }
    ],
    "gpus": 4,
@@ -2473,15 +2473,15 @@
    "settings": [
     {
      "name": "holdout-warm",
-     "display": "ClimSim · held-out warm columns · 5 epochs"
+     "display": null
     },
     {
      "name": "holdout-land",
-     "display": "ClimSim · held-out land columns · 5 epochs"
+     "display": null
     },
     {
      "name": "holdout-polar",
-     "display": "ClimSim · held-out polar columns · 5 epochs"
+     "display": null
     }
    ],
    "gpus": 3,
@@ -2526,15 +2526,15 @@
    "settings": [
     {
      "name": "dude",
-     "display": "DUD-E virtual screening, 102 targets"
+     "display": null
     },
     {
      "name": "dekois",
-     "display": "DEKOIS 2.0 virtual screening"
+     "display": null
     },
     {
      "name": "lit-pcba",
-     "display": "LIT-PCBA virtual screening, 15 targets"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -2574,15 +2574,15 @@
    "settings": [
     {
      "name": "resnet18-cifar10-random10",
-     "display": "ResNet-18 CIFAR-10 · forget random 10%"
+     "display": null
     },
     {
      "name": "resnet18-cifar100-random10",
-     "display": "ResNet-18 CIFAR-100 · forget random 10%"
+     "display": null
     },
     {
      "name": "resnet18-cifar10-random50",
-     "display": "ResNet-18 CIFAR-10 · forget random 50%"
+     "display": null
     }
    ],
    "gpus": 8,
@@ -2637,15 +2637,15 @@
    "settings": [
     {
      "name": "n32-k8",
-     "display": "32-bit inputs, 8-sparse parity"
+     "display": null
     },
     {
      "name": "n50-k8",
-     "display": "50-bit inputs, 8-sparse parity"
+     "display": null
     },
     {
      "name": "n64-k8",
-     "display": "64-bit inputs, 8-sparse parity"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -2710,19 +2710,19 @@
    "settings": [
     {
      "name": "delay_a",
-     "display": "LIBERO-Spatial, inference delay 2 steps"
+     "display": null
     },
     {
      "name": "delay_b",
-     "display": "LIBERO-Spatial, delay 8 steps"
+     "display": null
     },
     {
      "name": "delay_c",
-     "display": "LIBERO-Spatial, delay 15 steps"
+     "display": null
     },
     {
      "name": "delay_x",
-     "display": "LIBERO-Object, delay 8 steps"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -2777,15 +2777,15 @@
    "settings": [
     {
      "name": "setting_a",
-     "display": "LIBERO-Spatial · 960 rollout episodes"
+     "display": null
     },
     {
      "name": "setting_b",
-     "display": "LIBERO-Goal · 960 rollout episodes"
+     "display": null
     },
     {
      "name": "setting_c",
-     "display": "LIBERO-Spatial · 480 rollout episodes"
+     "display": null
     }
    ],
    "gpus": 1,
@@ -2835,19 +2835,19 @@
    "settings": [
     {
      "name": "mismatch_a",
-     "display": "Qwen3-0.6B on Countdown, sampler weight noise 0.02, 300 steps"
+     "display": null
     },
     {
      "name": "mismatch_b",
-     "display": "sampler weight noise 0.05, 300 steps"
+     "display": null
     },
     {
      "name": "mismatch_c",
-     "display": "stale bf16 sampler, re-synchronised from the trainer only every 65 steps, 600 steps"
+     "display": null
     },
     {
      "name": "mismatch_x",
-     "display": "int8 weights, activations and KV cache in the sampler against a bf16 trainer, 400 steps"
+     "display": null
     }
    ],
    "gpus": 4,
