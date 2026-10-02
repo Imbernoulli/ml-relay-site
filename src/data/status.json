@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T01:15:16+00:00",
+ "generated": "2026-10-02T01:17:26+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -27,7 +27,8 @@
        "t": 1790890841,
        "kind": "created",
        "label": "Request created by @Imbernoulli",
-       "state": "done"
+       "state": "done",
+       "visibility": "public"
       }
      ]
     },
@@ -59,13 +60,15 @@
        "t": 1790902282,
        "kind": "created",
        "label": "Request created by @Imbernoulli",
-       "state": "done"
+       "state": "done",
+       "visibility": "public"
       },
       {
        "t": 1790902292,
        "kind": "maintainer",
        "label": "Maintainer lane started: piloting candidate third semiautomata",
-       "state": "running"
+       "state": "running",
+       "visibility": "public"
       }
      ]
     },
@@ -97,13 +100,15 @@
        "t": 1790902284,
        "kind": "created",
        "label": "Request created by @Imbernoulli",
-       "state": "done"
+       "state": "done",
+       "visibility": "public"
       },
       {
        "t": 1790902297,
        "kind": "maintainer",
        "label": "Maintainer lane started: preparing the third condition's fixture",
-       "state": "running"
+       "state": "running",
+       "visibility": "public"
       }
      ]
     },
@@ -136,88 +141,100 @@
       "t": 1790902496,
       "kind": "created",
       "label": "Request created by @Imbernoulli",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790902511,
       "kind": "approval",
       "label": "Auto-approved (opened by a maintainer)",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790902515,
       "kind": "gate",
       "label": "Gate passed (write access)",
       "state": "done",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "internal"
      },
      {
       "t": 1790902515,
       "kind": "queue",
       "label": "Queued for the orchestrator",
       "state": "done",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "internal"
      },
      {
       "t": 1790902603,
       "kind": "orchestrator",
       "label": "Orchestrator started",
       "state": "done",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "internal"
      },
      {
       "t": 1790902637,
       "kind": "orchestrator",
       "label": "Orchestrator failed",
       "state": "failed",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "public"
      },
      {
       "t": 1790902871,
       "kind": "retry",
       "label": "Resumed after the usage-limit pause",
       "state": "done",
-      "detail_public": "attempt 1 of 3"
+      "detail_public": "attempt 1 of 3",
+      "visibility": "public"
      },
      {
       "t": 1790903016,
       "kind": "gate",
       "label": "Gate passed (write access)",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      },
      {
       "t": 1790903016,
       "kind": "queue",
       "label": "Queued for the orchestrator",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      },
      {
       "t": 1790903100,
       "kind": "orchestrator",
       "label": "Orchestrator started",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      },
      {
       "t": 1790903184,
       "kind": "go",
       "label": "Waiting for the requester's go (phase A finished)",
-      "state": "waiting"
+      "state": "waiting",
+      "visibility": "public"
      },
      {
       "t": 1790903184,
       "kind": "orchestrator",
       "label": "Orchestrator finished",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:11:30Z",
+   "updated": "2026-10-02T01:16:02Z",
    "replacement": null,
    "task": null
   }
@@ -236,7 +253,7 @@
    "phase": "A",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:11:30Z",
+   "updated": "2026-10-02T01:16:02Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -245,82 +262,94 @@
       "t": 1790902496,
       "kind": "created",
       "label": "Request created by @Imbernoulli",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790902511,
       "kind": "approval",
       "label": "Auto-approved (opened by a maintainer)",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790902515,
       "kind": "gate",
       "label": "Gate passed (write access)",
       "state": "done",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "internal"
      },
      {
       "t": 1790902515,
       "kind": "queue",
       "label": "Queued for the orchestrator",
       "state": "done",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "internal"
      },
      {
       "t": 1790902603,
       "kind": "orchestrator",
       "label": "Orchestrator started",
       "state": "done",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "internal"
      },
      {
       "t": 1790902637,
       "kind": "orchestrator",
       "label": "Orchestrator failed",
       "state": "failed",
-      "detail_public": "Actions run 36948375504"
+      "detail_public": "Actions run 36948375504",
+      "visibility": "public"
      },
      {
       "t": 1790902871,
       "kind": "retry",
       "label": "Resumed after the usage-limit pause",
       "state": "done",
-      "detail_public": "attempt 1 of 3"
+      "detail_public": "attempt 1 of 3",
+      "visibility": "public"
      },
      {
       "t": 1790903016,
       "kind": "gate",
       "label": "Gate passed (write access)",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      },
      {
       "t": 1790903016,
       "kind": "queue",
       "label": "Queued for the orchestrator",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      },
      {
       "t": 1790903100,
       "kind": "orchestrator",
       "label": "Orchestrator started",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      },
      {
       "t": 1790903184,
       "kind": "go",
       "label": "Waiting for the requester's go (phase A finished)",
-      "state": "waiting"
+      "state": "waiting",
+      "visibility": "public"
      },
      {
       "t": 1790903184,
       "kind": "orchestrator",
       "label": "Orchestrator finished",
       "state": "done",
-      "detail_public": "Actions run 36949075492"
+      "detail_public": "Actions run 36949075492",
+      "visibility": "internal"
      }
     ]
    },
@@ -352,13 +381,15 @@
       "t": 1790902284,
       "kind": "created",
       "label": "Request created by @Imbernoulli",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790902297,
       "kind": "maintainer",
       "label": "Maintainer lane started: preparing the third condition's fixture",
-      "state": "running"
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
@@ -390,13 +421,15 @@
       "t": 1790902282,
       "kind": "created",
       "label": "Request created by @Imbernoulli",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      },
      {
       "t": 1790902292,
       "kind": "maintainer",
       "label": "Maintainer lane started: piloting candidate third semiautomata",
-      "state": "running"
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
@@ -428,7 +461,8 @@
       "t": 1790890841,
       "kind": "created",
       "label": "Request created by @Imbernoulli",
-      "state": "done"
+      "state": "done",
+      "visibility": "public"
      }
     ]
    },
