@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T08:31:22+00:00",
+ "generated": "2026-10-02T08:32:54+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1278,6 +1278,14 @@
       "label": "Precheck finished",
       "state": "running",
       "visibility": "public"
+     },
+     {
+      "t": 1790929971,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "6 checks",
+      "visibility": "public"
      }
     ]
    },
@@ -2396,6 +2404,14 @@
       "kind": "agent",
       "label": "Precheck finished",
       "state": "running",
+      "visibility": "public"
+     },
+     {
+      "t": 1790929971,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "6 checks",
       "visibility": "public"
      }
     ]
