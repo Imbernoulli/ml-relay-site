@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T02:57:09+00:00",
+ "generated": "2026-10-02T02:59:49+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -84,7 +84,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "open",
+   "state": "running",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -520,14 +520,38 @@
       "t": 1790909699,
       "kind": "go",
       "label": "Waiting for your answers (phase B)",
-      "state": "waiting",
+      "state": "done",
       "visibility": "public"
+     },
+     {
+      "t": 1790909887,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36958027548",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790909887,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 36958027548",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790909961,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36958027548",
+      "visibility": "internal"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T02:55:08Z",
+   "updated": "2026-10-02T02:59:29Z",
    "replacement": null,
    "task": null
   }
@@ -546,7 +570,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T02:55:08Z",
+   "updated": "2026-10-02T02:59:29Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -974,8 +998,32 @@
       "t": 1790909699,
       "kind": "go",
       "label": "Waiting for your answers (phase B)",
-      "state": "waiting",
+      "state": "done",
       "visibility": "public"
+     },
+     {
+      "t": 1790909887,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 36958027548",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790909887,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 36958027548",
+      "visibility": "internal"
+     },
+     {
+      "t": 1790909961,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 36958027548",
+      "visibility": "internal"
      }
     ]
    },
