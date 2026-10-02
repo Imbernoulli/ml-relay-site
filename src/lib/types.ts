@@ -127,11 +127,13 @@ export interface PublicTaskData {
 export interface Gap { task: string; field: string; detail: string }
 export interface GapsData { generated: string; n_gaps: number; by_field: Record<string, number>; gaps: Gap[] }
 
+export interface Approval { state: "waiting" | "approved" | "rejected" | "feedback"; by: string | null; note: string | null }
+
 export interface StatusEntry {
   issue: number; title: string; type: "change" | "replacement" | "new task"; state: string; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; replacement: string | null;
   requester?: string | null; opened?: string | null; done?: boolean; task?: string | null;
-  progress?: ProgressRecord | null;
+  progress?: ProgressRecord | null; approval?: Approval | null;
 }
 export interface ProgressStep { t?: string; kind?: string; label?: string; state: string; detail_public?: string }
 export interface ProgressRecord { current: number | string | null; steps: ProgressStep[] }
@@ -140,6 +142,6 @@ export interface StatusIssue {
   issue: number; title: string; requester: string | null; type: "change" | "new task" | "maintenance"; task: string | null;
   replacement: string | null; state: "open" | "closed"; stage: string; waiting: boolean; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; opened: string | null;
-  progress?: ProgressRecord | null;
+  progress?: ProgressRecord | null; approval?: Approval | null;
 }
-export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[] }
+export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[]; maintainers?: string[] }

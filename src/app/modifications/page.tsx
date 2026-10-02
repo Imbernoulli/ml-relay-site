@@ -3,6 +3,7 @@ import { loadIndex, loadStatus } from "@/lib/data";
 import type { StatusIssue } from "@/lib/types";
 import ProgressTimeline from "@/components/ProgressTimeline";
 import PrivateStatus from "@/components/PrivateStatus";
+import MaintainerActions from "@/components/MaintainerActions";
 
 export const metadata = { title: "ML-Relay · Modifications" };
 
@@ -18,7 +19,7 @@ function Pill({ children, cls }: { children: React.ReactNode; cls: string }) {
   return <span className={`inline-flex items-center whitespace-nowrap rounded-full border px-2 py-0.5 text-[11px] font-medium ${cls}`}>{children}</span>;
 }
 
-function Entry({ r, repo, titles }: { r: StatusIssue; repo: string; titles: Map<string, string> }) {
+function Entry({ r, repo, titles, maintainers }: { r: StatusIssue; repo: string; titles: Map<string, string>; maintainers?: string[] }) {
   const taskTitle = r.task ? titles.get(r.task) : undefined;
   return (
     <li className="rounded-xl border border-border bg-card p-4">
@@ -37,6 +38,7 @@ function Entry({ r, repo, titles }: { r: StatusIssue; repo: string; titles: Map<
       <div className="mt-1 text-sm">{r.title}</div>
       {r.progress?.steps?.length ? <ProgressTimeline progress={r.progress} /> : null}
       <PrivateStatus issue={r.issue} />
+      <MaintainerActions issue={r.issue} approval={r.approval} maintainers={maintainers} repo={repo} />
       {r.replacement && (
         <div className="mt-1 text-sm text-amber-800 dark:text-amber-200">
           Being replaced by <span className="font-mono">{r.replacement}</span>.
@@ -82,7 +84,7 @@ export default function ModificationsPage() {
       {active.length ? (
         <ul className="mt-3 space-y-3">
           {active.map((r) => (
-            <Entry key={r.issue} r={r} repo={status.repo} titles={titles} />
+            <Entry key={r.issue} r={r} repo={status.repo} titles={titles} maintainers={status.maintainers} />
           ))}
         </ul>
       ) : (
@@ -92,7 +94,7 @@ export default function ModificationsPage() {
       {merged.length ? (
         <ul className="mt-3 space-y-3">
           {merged.map((r) => (
-            <Entry key={r.issue} r={r} repo={status.repo} titles={titles} />
+            <Entry key={r.issue} r={r} repo={status.repo} titles={titles} maintainers={status.maintainers} />
           ))}
         </ul>
       ) : (

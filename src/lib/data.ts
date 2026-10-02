@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import type { IndexData, StatusData, TaskData } from "./types";
 import { cleanRequestTitle, type TaskTitles } from "./requestTitle";
+import { withApproval } from "./approval";
 
 const DATA = path.join(process.cwd(), "src", "data");
 
@@ -22,7 +23,12 @@ export function loadStatus(): StatusData {
   const st: StatusData = JSON.parse(fs.readFileSync(p, "utf-8"));
   // request titles are shown without their issue-title type tags
   const titles = taskTitles();
-  const clean = <T extends { title: string }>(e: T): T => ({ ...e, title: cleanRequestTitle(e.title, titles) });
+  // ... and with the maintainer-approval step first in their timeline
+  const clean = <T extends { title: string; progress?: import("./types").ProgressRecord | null; approval?: import("./types").Approval | null }>(e: T): T => ({
+    ...e,
+    title: cleanRequestTitle(e.title, titles),
+    progress: withApproval(e.progress, e.approval),
+  });
   return {
     ...st,
     tasks: Object.fromEntries(Object.entries(st.tasks ?? {}).map(([k, v]) => [k, v.map(clean)])),

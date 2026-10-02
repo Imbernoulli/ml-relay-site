@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { StatusData, StatusEntry } from "@/lib/types";
 import ProgressTimeline from "./ProgressTimeline";
 import PrivateStatus from "./PrivateStatus";
+import MaintainerActions from "./MaintainerActions";
 
 const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
 
@@ -78,6 +79,7 @@ export default function RequestStatus({ task, status }: { task: string; status: 
           </div>
           {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : null}
           <PrivateStatus issue={e.issue} />
+          <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
         </div>
       ))}
       {other.length > 0 && (
@@ -95,6 +97,7 @@ export default function RequestStatus({ task, status }: { task: string; status: 
                 </div>
                 {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : null}
                 <PrivateStatus issue={e.issue} />
+                <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
               </li>
             ))}
           </ul>
@@ -122,6 +125,9 @@ export function NewTaskProposals({ status }: { status: StatusData }) {
             )}
             <span>{e.title}</span>
             <Links e={e} repo={status.repo} />
+            <div className="w-full">
+              <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
+            </div>
           </li>
         ))}
       </ul>

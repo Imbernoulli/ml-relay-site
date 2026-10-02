@@ -21,6 +21,8 @@ import PrivateStatus from "@/components/PrivateStatus";
 import SignInButton from "@/components/SignInButton";
 import RequestAccess from "@/components/RequestAccess";
 import ReplyBox from "@/components/ReplyBox";
+import MaintainerActions, { isMaintainer } from "@/components/MaintainerActions";
+import { approvalLabel } from "@/lib/approval";
 import { getOptimistic } from "@/lib/issueForm";
 import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
 import { NEW_TASK_FORM, RELAY_REPO } from "@/lib/site";
@@ -67,13 +69,16 @@ function Timeline({ r, stage }: { r: MyRequest; stage: string | null }) {
 
 function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: StatusIssue | undefined; known: Set<string>; titles: TaskTitles; onPosted: () => void }) {
   const stage = st?.stage ?? r.stage;
-  const waiting = r.waitingForYou || Boolean(st?.waiting && st.state === "open");
+  const appr = st?.approval;
+  const awaitingApproval = r.state === "open" && (appr?.state === "waiting" || appr?.state === "feedback");
+  const waiting = r.waitingForYou || Boolean(st?.waiting && st.state === "open") || awaitingApproval;
   return (
     <Card>
       <div className="flex flex-wrap items-center gap-2">
         <Pill cls="border-border bg-muted text-foreground">{r.kind}</Pill>
         {stage && <Pill cls="border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300">{stage}</Pill>}
-        {waiting && <Pill cls="border-amber-500/60 bg-amber-500/15 text-amber-800 dark:text-amber-200">waiting for your reply</Pill>}
+        {awaitingApproval && appr && <Pill cls="border-violet-500/50 bg-violet-500/10 text-violet-800 dark:text-violet-200">{approvalLabel(appr)}</Pill>}
+        {waiting && !awaitingApproval && <Pill cls="border-amber-500/60 bg-amber-500/15 text-amber-800 dark:text-amber-200">waiting for your reply</Pill>}
         <Pill cls={r.state === "open" ? PR_STYLE.open : PR_STYLE.closed}>{r.state}</Pill>
         <span className="ml-auto text-xs text-muted-foreground">updated {r.updated.slice(0, 10)}</span>
       </div>
@@ -82,6 +87,12 @@ function RequestCard({ r, st, known, titles, onPosted }: { r: MyRequest; st: Sta
       </a>
       {st?.progress?.steps?.length ? <ProgressTimeline progress={st.progress} /> : <Timeline r={r} stage={stage} />}
       <PrivateStatus issue={r.number} />
+      {awaitingApproval && appr?.note && (
+        <div className="mt-3 rounded-lg border border-violet-500/40 bg-violet-500/5 px-3 py-2">
+          <div className="text-[11px] font-medium uppercase tracking-wide text-violet-800 dark:text-violet-200">Maintainer feedback</div>
+          <p className="mt-1 text-sm leading-relaxed">{appr.note}</p>
+        </div>
+      )}
       {waiting && r.state === "open" && <ReplyBox issue={r.number} url={r.url} onPosted={onPosted} />}
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
         {r.pr ? (
@@ -252,6 +263,8 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
 
   const byIssue = new Map((status.issues ?? []).map((x) => [x.issue, x]));
   const known = new Set(knownTasks);
+  const maint = isMaintainer(load.me.login, status.maintainers);
+  const needs = maint ? (status.issues ?? []).filter((x) => x.state === "open" && (x.approval?.state === "waiting" || x.approval?.state === "feedback")) : [];
   const open = load.items.filter((r) => r.state === "open");
   const closed = load.items.filter((r) => r.state !== "open");
   return (
@@ -269,6 +282,41 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
           Sign out
         </button>
       </div>
+      {maint && (
+        <section className="mt-6">
+          <h2 className="text-lg font-semibold">Needs your approval ({needs.length})</h2>
+          <div className="mt-2 space-y-3">
+            {needs.length ? (
+              needs.map((x) => (
+                <Card key={x.issue}>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <Pill cls="border-border bg-muted text-foreground">{x.type}</Pill>
+                    {x.approval && <Pill cls="border-violet-500/50 bg-violet-500/10 text-violet-800 dark:text-violet-200">{approvalLabel(x.approval)}</Pill>}
+                    <span className="ml-auto text-xs text-muted-foreground">opened {(x.opened ?? x.updated).slice(0, 10)}</span>
+                  </div>
+                  <a href={`https://github.com/${RELAY_REPO}/issues/${x.issue}`} target="_blank" rel="noreferrer" className="mt-2 block text-base font-semibold hover:underline">
+                    #{x.issue} {x.title}
+                  </a>
+                  <div className="mt-1 text-xs text-muted-foreground">
+                    {x.task && known.has(x.task) ? (
+                      <Link href={`/tasks/${x.task}/`} className="underline">
+                        {titles[x.task] ?? x.task}
+                      </Link>
+                    ) : x.type === "new task" ? (
+                      "new-task proposal"
+                    ) : null}
+                    {x.requester && <span> · requested by <span className="font-mono">{x.requester}</span></span>}
+                  </div>
+                  {x.approval?.note && <p className="mt-2 text-sm text-muted-foreground">Last feedback: {x.approval.note}</p>}
+                  <MaintainerActions issue={x.issue} approval={x.approval} maintainers={status.maintainers} repo={RELAY_REPO} />
+                </Card>
+              ))
+            ) : (
+              <p className="text-sm text-muted-foreground">Nothing is waiting for approval.</p>
+            )}
+          </div>
+        </section>
+      )}
       {load.items.length === 0 ? (
         <Card className="mt-4">
           <p className="text-sm">You have not opened any requests yet.</p>

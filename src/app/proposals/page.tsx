@@ -3,6 +3,7 @@ import { loadIndex, loadStatus } from "@/lib/data";
 import type { StatusEntry } from "@/lib/types";
 import ProgressTimeline from "@/components/ProgressTimeline";
 import PrivateStatus from "@/components/PrivateStatus";
+import MaintainerActions from "@/components/MaintainerActions";
 
 export const metadata = { title: "ML-Relay · Proposed tasks" };
 
@@ -39,7 +40,7 @@ function Timeline({ e }: { e: StatusEntry }) {
   );
 }
 
-function ProposalCard({ e, repo, known }: { e: StatusEntry; repo: string; known: Set<string> }) {
+function ProposalCard({ e, repo, known, maintainers }: { e: StatusEntry; repo: string; known: Set<string>; maintainers?: string[] }) {
   const opened = day(e.opened);
   const merged = e.pr_state === "merged";
   const statusText = merged
@@ -71,6 +72,7 @@ function ProposalCard({ e, repo, known }: { e: StatusEntry; repo: string; known:
       </div>
       {e.progress?.steps?.length ? <ProgressTimeline progress={e.progress} /> : <Timeline e={e} />}
       <PrivateStatus issue={e.issue} />
+      <MaintainerActions issue={e.issue} approval={e.approval} maintainers={maintainers} repo={repo} />
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
         <a href={`https://github.com/${repo}/issues/${e.issue}`} target="_blank" rel="noreferrer" title={PRIVATE_TIP} className="font-mono underline">
           issue #{e.issue}
@@ -117,7 +119,7 @@ export default function ProposalsPage() {
       {open.length ? (
         <div className="mt-3 space-y-3">
           {open.map((e) => (
-            <ProposalCard key={e.issue} e={e} repo={status.repo} known={known} />
+            <ProposalCard key={e.issue} e={e} repo={status.repo} known={known} maintainers={status.maintainers} />
           ))}
         </div>
       ) : (
@@ -128,7 +130,7 @@ export default function ProposalsPage() {
           <h2 className="mt-8 text-lg font-semibold">Finished</h2>
           <div className="mt-3 space-y-3">
             {finished.map((e) => (
-              <ProposalCard key={e.issue} e={e} repo={status.repo} known={known} />
+              <ProposalCard key={e.issue} e={e} repo={status.repo} known={known} maintainers={status.maintainers} />
             ))}
           </div>
         </>

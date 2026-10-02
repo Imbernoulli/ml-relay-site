@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { IndexEntry, StatusData } from "@/lib/types";
 import { statusBadge } from "./RequestStatus";
-import { fmtScore } from "@/lib/format";
 import { Badge } from "./ui";
 import { gpuLabel } from "@/lib/site";
 import TaskImage from "./TaskImage";
@@ -144,21 +143,6 @@ export default function TaskCatalogue({ tasks, status }: { tasks: IndexEntry[]; 
                   </span>
                 ))}
               </span>
-              {t.oracle !== undefined ? (
-                <>
-                  <span className="text-muted-foreground">Oracle</span>
-                  <span className="break-anywhere">
-                    <span className="font-mono">{t.oracle ?? "—"}</span>
-                    {t.oracle_name && <span className="text-muted-foreground"> · {t.oracle_name}</span>}
-                    <span className="text-muted-foreground"> · task score at the 0.1 anchor {fmtScore(t.oracle_score)}</span>
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span className="text-muted-foreground">Best baseline</span>
-                  <span className="font-mono">{fmtScore(t.best_score)}</span>
-                </>
-              )}
             </div>
             </div>
             </div>
