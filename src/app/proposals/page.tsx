@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { loadIndex, loadStatus } from "@/lib/data";
+import { loadIndex, loadStatus, taskTitles } from "@/lib/data";
+import LiveRequests from "@/components/LiveRequests";
 import type { StatusEntry } from "@/lib/types";
 import ProgressTimeline from "@/components/ProgressTimeline";
 import PrivateStatus from "@/components/PrivateStatus";
@@ -53,7 +54,7 @@ function ProposalCard({ e, repo, known, maintainers }: { e: StatusEntry; repo: s
           ? "agent working"
           : "in progress";
   return (
-    <div className="rounded-xl border border-border bg-card p-4">
+    <div id={`issue-${e.issue}`} className="scroll-mt-20 rounded-xl border border-border bg-card p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <h2 className="text-base font-semibold leading-snug">{e.title}</h2>
         <span className="whitespace-nowrap rounded-full border border-border bg-muted px-2 py-0.5 text-[11px] font-medium text-muted-foreground">
@@ -116,6 +117,7 @@ export default function ProposalsPage() {
         </Link>
       </div>
       <h2 className="mt-8 text-lg font-semibold">In progress</h2>
+      <LiveRequests kind="proposals" known={status.new_tasks.map((e) => e.issue)} titles={taskTitles()} maintainers={status.maintainers} repo={status.repo} />
       {open.length ? (
         <div className="mt-3 space-y-3">
           {open.map((e) => (

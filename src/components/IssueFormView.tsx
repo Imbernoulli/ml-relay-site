@@ -119,7 +119,13 @@ export default function IssueFormView({
         <p className="mt-1 text-sm font-medium">{sub.title}</p>
         <div className="mt-2 text-sm leading-relaxed">{next}</div>
         <div className="mt-4 flex flex-wrap gap-3">
-          <Link href="/me/" className="rounded-lg border border-foreground/30 bg-foreground px-4 py-2 text-sm font-semibold text-background">
+          <Link
+            href={`${kind === "new task" ? "/proposals/" : "/modifications/"}#issue-${sub.number}`}
+            className="rounded-lg border border-foreground/30 bg-foreground px-4 py-2 text-sm font-semibold text-background"
+          >
+            {kind === "new task" ? "See it on Proposals" : "See it on Modifications"}
+          </Link>
+          <Link href="/me/" className="rounded-lg border border-border px-4 py-2 text-sm font-medium">
             Go to My work
           </Link>
           <a href={sub.url} target="_blank" rel="noreferrer" className="rounded-lg border border-border px-4 py-2 text-sm font-medium">

@@ -15,13 +15,13 @@ export function approvalStep(a: Approval): ProgressStep {
   return { kind: "approval", state, label: approvalLabel(a), ...(a.note ? { detail_public: a.note } : {}) };
 }
 
-/** The progress record with the approval step first (synthesised from the labels when the record has none). */
+/** The progress record with the approval step first: the record's own approval
+ *  step (as the backend labelled it) moved to the front, else one synthesised from the labels. */
 export function withApproval(progress: ProgressRecord | null | undefined, a: Approval | null | undefined): ProgressRecord | null {
-  if (!a) return progress ?? null;
   const steps = progress?.steps ?? [];
   const own = steps.findIndex((s) => s.kind === "approval");
-  const step = { ...(own >= 0 ? steps[own] : {}), ...approvalStep(a) } as ProgressStep;
-  if (own >= 0 && steps[own].detail_public && !a.note) step.detail_public = steps[own].detail_public;
+  if (own < 0 && !a) return progress ?? null;
+  const step = own >= 0 ? steps[own] : approvalStep(a!);
   const rest = steps.filter((_, i) => i !== own);
   let current = progress?.current ?? null;
   if (typeof current === "number") current = own >= 0 ? (current === own ? 0 : current < own ? current + 1 : current) : current + 1;

@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { loadIndex, loadStatus } from "@/lib/data";
+import { loadIndex, loadStatus, taskTitles } from "@/lib/data";
+import LiveRequests from "@/components/LiveRequests";
 import type { StatusIssue } from "@/lib/types";
 import ProgressTimeline from "@/components/ProgressTimeline";
 import PrivateStatus from "@/components/PrivateStatus";
@@ -22,7 +23,7 @@ function Pill({ children, cls }: { children: React.ReactNode; cls: string }) {
 function Entry({ r, repo, titles, maintainers }: { r: StatusIssue; repo: string; titles: Map<string, string>; maintainers?: string[] }) {
   const taskTitle = r.task ? titles.get(r.task) : undefined;
   return (
-    <li className="rounded-xl border border-border bg-card p-4">
+    <li id={`issue-${r.issue}`} className="scroll-mt-20 rounded-xl border border-border bg-card p-4">
       <div className="flex flex-wrap items-center gap-2">
         {r.task && taskTitle ? (
           <Link href={`/tasks/${r.task}/`} className="text-base font-semibold hover:underline">
@@ -81,6 +82,7 @@ export default function ModificationsPage() {
         Tasks currently being changed, through a change request or a maintainer change. Links open the private GitHub repo (collaborators only).
       </p>
       <h2 className="mt-8 text-lg font-semibold">In progress ({active.length})</h2>
+      <LiveRequests kind="modifications" known={(status.issues ?? []).map((r) => r.issue)} titles={taskTitles()} maintainers={status.maintainers} repo={status.repo} />
       {active.length ? (
         <ul className="mt-3 space-y-3">
           {active.map((r) => (

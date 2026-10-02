@@ -135,7 +135,7 @@ export interface StatusEntry {
   requester?: string | null; opened?: string | null; done?: boolean; task?: string | null;
   progress?: ProgressRecord | null; approval?: Approval | null;
 }
-export interface ProgressStep { t?: string; kind?: string; label?: string; state: string; detail_public?: string }
+export interface ProgressStep { t?: string | number; kind?: string; label?: string; state: string; detail_public?: string }
 export interface ProgressRecord { current: number | string | null; steps: ProgressStep[] }
 
 export interface StatusIssue {
