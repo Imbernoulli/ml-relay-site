@@ -22,7 +22,7 @@ export default function Home() {
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-3">
         <Link
-          href="/propose/"
+          href="/propose/new/"
           className="rounded-lg border border-emerald-600/60 bg-emerald-600/15 px-4 py-2 text-sm font-semibold text-emerald-800 hover:border-emerald-600 dark:text-emerald-200"
         >
           Propose a new task

@@ -7,6 +7,7 @@ import AnnotatedCodeBlock from "@/components/AnnotatedCodeBlock";
 import CodeBlock from "@/components/CodeBlock";
 import DiffBlock from "@/components/DiffBlock";
 import EnvViewer from "@/components/EnvViewer";
+import AgentViewer from "@/components/AgentViewer";
 import PublicTask from "@/components/PublicTask";
 import TaskImage from "@/components/TaskImage";
 import StarButton from "@/components/StarButton";
@@ -315,7 +316,11 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
         <h3 className="text-sm font-semibold">Interface, I/O contract and edit rules</h3>
         <DescBlocks secs={t.desc_sections} kinds={["modify"]} empty="— (instruction.md has no separate interface section; see the full statement in the appendix)" />
         <h3 className="text-sm font-semibold">Environment viewer</h3>
-        <EnvViewer files={t.files} note="Source: environment/_workspace of the delivered bundle; editable ranges as instruction.md states them." />
+        {t.viewer ? (
+          <AgentViewer summary={t.viewer} />
+        ) : (
+          <EnvViewer files={t.files} note="Source: environment/_workspace of the delivered bundle; editable ranges as instruction.md states them." />
+        )}
       </Section>
 
       {/* 4 ─────────────────────────── baselines */}

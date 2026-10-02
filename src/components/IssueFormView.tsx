@@ -203,7 +203,7 @@ export default function IssueFormView({
             )}
             {err && <p className="mt-1 text-xs text-red-600 dark:text-red-400">Required.</p>}
             {kind === "new task" && !f.required && !isLocked && !v.trim() && (
-              <p className="mt-1 text-xs text-muted-foreground">Optional: the agent will propose this from the paper(s).</p>
+              <p className="mt-1 text-xs text-muted-foreground">Optional: if you leave it blank, the agent proposes one.</p>
             )}
             {v.trim() &&
               (hints[id] ?? []).map((h) => (

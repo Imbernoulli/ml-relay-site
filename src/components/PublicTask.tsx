@@ -10,6 +10,7 @@ import { Badge, Card, Fold, Section } from "./ui";
 import TaskImage from "./TaskImage";
 import StarButton from "./StarButton";
 import ApproveBox from "./ApproveBox";
+import AgentViewer from "./AgentViewer";
 import { splitArea } from "@/lib/areas";
 import IssueButtons from "./IssueButtons";
 import RequestStatus from "./RequestStatus";
@@ -197,11 +198,20 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         )}
       </Section>
 
-      <Section id="environment" n={3} title="Environment viewer" lead="The task's source files: the editable file(s) with the editable region marked, and the read-only context the method runs in.">
-        <EnvViewer
-          files={t.files}
-          note="Source code only. Build files, install and data-preparation scripts, dependency pins, data and the test harness are not published."
-        />
+      <Section
+        id="environment"
+        n={3}
+        title="Environment viewer"
+        lead="Everything the agent sees in a rollout: its whole workspace and the task prompt, with the editable region marked. The verifier's files, which the agent cannot see, follow separately."
+      >
+        {t.viewer ? (
+          <AgentViewer summary={t.viewer} />
+        ) : (
+          <EnvViewer
+            files={t.files}
+            note="Source code only. Build files, install and data-preparation scripts, dependency pins and data are not published."
+          />
+        )}
       </Section>
 
       <Section id="baselines" n={4} title="Baselines" lead="Published reference methods, each written as an edit of the same starter. Scores are task scores from the task's own scorer.">

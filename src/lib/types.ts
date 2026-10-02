@@ -84,7 +84,7 @@ export interface TaskData {
   };
   scoring: Scoring | null; score_spec_source: string; leaderboard: Leaderboard;
   image?: TaskImageInfo | null;
-  mode?: "internal"; version?: string | null;
+  mode?: "internal"; version?: string | null; viewer?: ViewerSummary | null;
 }
 
 export interface IndexEntry {
@@ -95,6 +95,11 @@ export interface IndexEntry {
   oracle?: string | null; oracle_name?: string | null; oracle_score?: number | null; best_score?: number | null;
   gpus?: number | null;
   version?: string | null;
+}
+
+export interface ViewerSummary {
+  agent_files: number; verifier_files: number; shown: number; upstream: number;
+  editable: Record<string, Range[]>; tree: string; files: string; bytes?: { tree: number; files: number };
 }
 
 export interface TaskImageInfo { src: string; caption: string | null; width: number | null; height: number | null; bytes?: number }
@@ -116,7 +121,7 @@ export interface PublicTaskData {
   gpus?: number | null; image?: TaskImageInfo | null;
   files: PublicFile[]; baselines: PublicBaseline[]; controls: Control[];
   settings: Setting[]; scoring: Scoring | null; leaderboard: Leaderboard;
-  version?: string | null; withheld?: number;
+  version?: string | null; viewer?: ViewerSummary | null;
 }
 
 export interface Gap { task: string; field: string; detail: string }

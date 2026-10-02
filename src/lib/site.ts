@@ -24,7 +24,7 @@ export function changeUrl(task: string): string {
 }
 
 export const NEW_TASK_FORM = "https://github.com/Imbernoulli/ML-Relay/issues/new?template=new-task.yml";
-export const PROPOSE_PAGE = "/propose/";
+export const PROPOSE_PAGE = "/propose/new/";
 
 // GitHub sign-in ("My work"): base URL of the sign-in service (auth/README.md),
 // set at build time from a repository variable. Empty = only the token fallback.
