@@ -36,11 +36,14 @@ image = modal.Image.debian_slim(python_version="3.12").pip_install("fastapi[stan
 app = modal.App("ml-relay-auth", image=image)
 store = modal.Dict.from_name("ml-relay-auth", create_if_missing=True)
 reviews = modal.Dict.from_name("ml-relay-reviews", create_if_missing=True)
+live_status = modal.Dict.from_name("ml-relay-live-status", create_if_missing=True)
 RELAY_REPO = "Imbernoulli/ML-Relay"
 setup_secret = modal.Secret.from_dict({"SETUP_STATE": os.environ.get("SETUP_STATE", "")})
+# Shared with the ML-Relay repo secret RELAY_STATUS_SECRET: only the backend may push status.
+status_secret = modal.Secret.from_name("ml-relay-status-secret")
 
 
-@app.function(secrets=[setup_secret], min_containers=0, max_containers=2)
+@app.function(secrets=[setup_secret, status_secret], min_containers=0, max_containers=2)
 @modal.concurrent(max_inputs=20)
 @modal.asgi_app()
 def web():
@@ -139,6 +142,54 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         if not isinstance(rt, str) or not (20 <= len(rt) <= 200) or not rt.replace("_", "").isalnum():
             return cors(JSONResponse({"error": "bad refresh token"}, status_code=400))
         return exchange({"grant_type": "refresh_token", "refresh_token": rt})
+
+    # ---- live request status -------------------------------------------------
+    # The backend pushes each request's PUBLIC progress (no private text) the
+    # moment it changes, so the site shows it within seconds instead of waiting
+    # for a rebuild. The static status.json stays as the fallback.
+    PUBLIC_STEP_KEYS = ("t", "kind", "label", "state", "detail_public", "visibility", "key")
+
+    @api.get("/status")
+    def get_status():
+        out = {k[6:]: v for k, v in live_status.items() if k.startswith("issue:")}
+        resp = cors(JSONResponse({"issues": out}))
+        resp.headers["Cache-Control"] = "no-store"
+        return resp
+
+    @api.post("/status")
+    def put_status(request: Request, payload: dict | None = Body(default=None)):
+        import hmac
+
+        want = os.environ.get("RELAY_STATUS_SECRET", "")
+        got = request.headers.get("x-relay-status-secret", "")
+        if not want or not hmac.compare_digest(want, got):
+            return Response("forbidden", status_code=403)
+        if not isinstance(payload, dict) or not isinstance(payload.get("issue"), int):
+            return JSONResponse({"error": "bad request"}, status_code=400)
+        n = payload["issue"]
+        if payload.get("delete"):
+            live_status.pop(f"issue:{n}", None)
+            return JSONResponse({"ok": True})
+        steps = []
+        for st in payload.get("steps") or []:
+            if isinstance(st, dict) and st.get("visibility", "public") != "internal":
+                steps.append({k: st[k] for k in PUBLIC_STEP_KEYS if k in st})
+        record = {
+            "issue": n,
+            "title": str(payload.get("title", ""))[:200],
+            "type": str(payload.get("type", ""))[:40],
+            "task": str(payload.get("task", ""))[:80],
+            "requester": str(payload.get("requester", ""))[:60],
+            "state": str(payload.get("state", ""))[:20],
+            "labels": [str(x)[:50] for x in (payload.get("labels") or [])][:30],
+            "pr": payload.get("pr") if isinstance(payload.get("pr"), (int, type(None))) else None,
+            "pr_state": str(payload.get("pr_state") or "")[:20] or None,
+            "current": str(payload.get("current", ""))[:200],
+            "steps": steps[-200:],
+            "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        }
+        live_status[f"issue:{n}"] = record
+        return JSONResponse({"ok": True, "updated": record["updated"]})
 
     @api.get("/reviews")
     def list_reviews():
