@@ -37,6 +37,7 @@ app = modal.App("ml-relay-auth", image=image)
 store = modal.Dict.from_name("ml-relay-auth", create_if_missing=True)
 reviews = modal.Dict.from_name("ml-relay-reviews", create_if_missing=True)
 live_status = modal.Dict.from_name("ml-relay-live-status", create_if_missing=True)
+access_requests = modal.Dict.from_name("ml-relay-access-requests", create_if_missing=True)
 RELAY_REPO = "Imbernoulli/ML-Relay"
 setup_secret = modal.Secret.from_dict({"SETUP_STATE": os.environ.get("SETUP_STATE", "")})
 # Shared with the ML-Relay repo secret RELAY_STATUS_SECRET: only the backend may push status.
@@ -196,6 +197,108 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         }
         live_status[f"issue:{n}"] = record
         return JSONResponse({"ok": True, "updated": record["updated"]})
+
+    # ---- access requests ------------------------------------------------------
+    # Someone signed in without access to the private repository asks for it; a
+    # maintainer approves (the site then invites them as a collaborator with the
+    # maintainer's own token) or denies. Identities come from GitHub tokens only.
+
+    def _gh(auth: str, path: str):
+        with httpx.Client(timeout=20) as client:
+            return client.get(
+                f"https://api.github.com{path}",
+                headers={"Authorization": auth, "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"},
+            )
+
+    def _caller(request: Request):
+        auth = request.headers.get("authorization", "")
+        if not auth.lower().startswith("bearer ") or len(auth) > 300:
+            return None, None
+        me = _gh(auth, "/user")
+        return (me.json(), auth) if me.status_code == 200 else (None, None)
+
+    def _is_maintainer(auth: str) -> bool:
+        r = _gh(auth, f"/repos/{RELAY_REPO}")
+        return r.status_code == 200 and bool((r.json().get("permissions") or {}).get("admin"))
+
+    def _public_request(rec: dict) -> dict:
+        return {k: rec.get(k) for k in ("login", "avatar_url", "html_url", "note", "at", "state", "decided_at", "decided_by")}
+
+    @api.post("/access-requests")
+    def request_access(request: Request, payload: dict | None = Body(default=None)):
+        if request.headers.get("origin") != SITE_ORIGIN:
+            return Response("forbidden", status_code=403)
+        user, auth = _caller(request)
+        if not user:
+            return cors(JSONResponse({"error": "sign in first"}, status_code=401))
+        if _gh(auth, f"/repos/{RELAY_REPO}").status_code == 200:
+            return cors(JSONResponse({"state": "has-access"}))
+        note = str((payload or {}).get("note") or "")[:500] if isinstance(payload, dict) else ""
+        key = f"user:{user['login'].lower()}"
+        prev = access_requests.get(key) or {}
+        if prev.get("state") == "pending":
+            return cors(JSONResponse(_public_request(prev)))
+        rec = {
+            "login": user["login"],
+            "avatar_url": user.get("avatar_url", ""),
+            "html_url": user.get("html_url", ""),
+            "note": note,
+            "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "state": "pending",
+        }
+        access_requests[key] = rec
+        return cors(JSONResponse(_public_request(rec)))
+
+    @api.get("/access-requests/me")
+    def my_access_request(request: Request):
+        user, _auth = _caller(request)
+        if not user:
+            return cors(JSONResponse({"error": "sign in first"}, status_code=401))
+        rec = access_requests.get(f"user:{user['login'].lower()}")
+        return cors(JSONResponse(_public_request(rec) if rec else {"state": "none"}))
+
+    @api.get("/access-requests")
+    def list_access_requests(request: Request):
+        # Maintainers (admin on the repo) see the queue; so does the backend poller
+        # with the shared status secret (it mentions the maintainer on a tracking issue).
+        import hmac
+
+        want = os.environ.get("RELAY_STATUS_SECRET", "")
+        by_secret = bool(want) and hmac.compare_digest(want, request.headers.get("x-relay-status-secret", ""))
+        if not by_secret:
+            user, auth = _caller(request)
+            if not user or not _is_maintainer(auth):
+                return cors(JSONResponse({"error": "maintainers only"}, status_code=403))
+        out = [_public_request(v) for k, v in access_requests.items() if k.startswith("user:")]
+        out.sort(key=lambda r: r.get("at") or "", reverse=True)
+        resp = cors(JSONResponse({"requests": out}))
+        resp.headers["Cache-Control"] = "no-store"
+        return resp
+
+    @api.post("/access-requests/decide")
+    def decide_access(request: Request, payload: dict | None = Body(default=None)):
+        """Record a maintainer's decision. The invitation itself is sent by the site
+        with the maintainer's own token (PUT /repos/.../collaborators/<login>)."""
+        if request.headers.get("origin") != SITE_ORIGIN:
+            return Response("forbidden", status_code=403)
+        user, auth = _caller(request)
+        if not user or not _is_maintainer(auth):
+            return cors(JSONResponse({"error": "maintainers only"}, status_code=403))
+        if not isinstance(payload, dict):
+            return cors(JSONResponse({"error": "bad request"}, status_code=400))
+        login = str(payload.get("login") or "")
+        decision = payload.get("decision")
+        if decision not in ("approved", "denied") or not login:
+            return cors(JSONResponse({"error": "bad request"}, status_code=400))
+        key = f"user:{login.lower()}"
+        rec = dict(access_requests.get(key) or {"login": login, "at": None})
+        rec.update(
+            state=decision,
+            decided_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            decided_by=user["login"],
+        )
+        access_requests[key] = rec
+        return cors(JSONResponse(_public_request(rec)))
 
     @api.get("/reviews")
     def list_reviews():

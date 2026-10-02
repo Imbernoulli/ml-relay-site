@@ -32,3 +32,10 @@ its installation (ML-Relay only) and their own access all allow.
 
 Without the service the page still works: a fine-grained personal access token
 (read-only Issues + Pull requests on ML-Relay) can be pasted instead.
+
+## Redeploying
+
+After `modal deploy auth/modal_app.py`, a container kept warm by steady traffic (the
+site polls `/status`) can keep serving the OLD code for a long time. Check a new route,
+and if it still 404/405s, stop the old container:
+`modal container list | grep ml-relay-auth` then `modal container stop -y <id>`.
