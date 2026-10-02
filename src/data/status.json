@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T21:23:40+00:00",
+ "generated": "2026-10-02T21:25:13+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -2077,7 +2077,7 @@
       "t": 1790973308,
       "kind": "agent",
       "label": "Reading the paper(s) and code",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -2183,12 +2183,19 @@
       "state": "done",
       "detail_public": "3 of 3 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790976240,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:22:01Z",
+   "updated": "2026-10-02T21:24:02Z",
    "replacement": null,
    "task": null
   }
@@ -2207,7 +2214,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:22:01Z",
+   "updated": "2026-10-02T21:24:02Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -4232,7 +4239,7 @@
       "t": 1790973308,
       "kind": "agent",
       "label": "Reading the paper(s) and code",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -4337,6 +4344,13 @@
       "label": "Precheck done",
       "state": "done",
       "detail_public": "3 of 3 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790976240,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "running",
       "visibility": "public"
      }
     ]
