@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T08:04:53+00:00",
+ "generated": "2026-10-02T08:06:20+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -123,12 +123,19 @@
        "state": "running",
        "detail_public": "Actions run 36981860985",
        "visibility": "public"
+      },
+      {
+       "t": 1790928313,
+       "kind": "agent",
+       "label": "Read the issue thread",
+       "state": "running",
+       "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T08:04:47Z",
+    "updated": "2026-10-02T08:05:15Z",
     "replacement": null
    }
   ]
@@ -1234,7 +1241,7 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T08:04:47Z",
+   "updated": "2026-10-02T08:05:15Z",
    "opened": "2026-10-02T08:03:09Z",
    "progress": {
     "current": null,
@@ -1283,6 +1290,13 @@
       "label": "Agent working",
       "state": "running",
       "detail_public": "Actions run 36981860985",
+      "visibility": "public"
+     },
+     {
+      "t": 1790928313,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
       "visibility": "public"
      }
     ]
