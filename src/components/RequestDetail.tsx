@@ -6,6 +6,7 @@ import { getToken, isSignedIn, oauthConfigured } from "@/lib/github";
 import { STATUS_MARKER } from "@/lib/relayStatus";
 import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
 import { approvalOf } from "@/lib/approval";
+import { liveRecord, useLiveStatus } from "@/lib/liveStatus";
 import { fromIssue, type StageInput } from "@/lib/stages";
 import { RETURN_KEY } from "@/lib/issueForm";
 import type { Approval, StatusIssue } from "@/lib/types";
@@ -94,6 +95,7 @@ export default function RequestDetail({
   repo: string;
 }) {
   const login = useLogin();
+  const rec = liveRecord(useLiveStatus(), n);
   const [signedIn, setSignedIn] = useState<boolean | null>(null);
   const [issue, setIssue] = useState<GhIssue | null>(null);
   const [comments, setComments] = useState<GhComment[]>([]);
@@ -148,8 +150,8 @@ export default function RequestDetail({
   const type = kindOf(st?.type, labels);
   const liveApproval: Approval | null = issue ? approvalOf(labels, issue.user.login, maintainers).a : null;
   const approval = st?.approval ?? liveApproval;
-  const title = cleanRequestTitle(issue?.title ?? st?.title ?? `Request #${n}`, titles);
-  const requester = issue?.user.login ?? st?.requester ?? null;
+  const title = cleanRequestTitle(issue?.title ?? st?.title ?? (rec?.title || `Request #${n}`), titles);
+  const requester = issue?.user.login ?? st?.requester ?? (rec?.requester || null);
   const opened = issue?.created_at ?? st?.opened ?? null;
   const input: StageInput = st
     ? fromIssue(st)
@@ -215,10 +217,16 @@ export default function RequestDetail({
         )}
       </div>
 
+      {!st && !rec && !issue ? (
+        <p className="mt-4 rounded-xl border border-border bg-card p-4 text-sm text-muted-foreground">
+          {signedIn ? (loading ? "Loading…" : "No request with this number is known.") : "This request is not in the published status yet; sign in to see it live."}
+        </p>
+      ) : (
       <div className="mt-4 rounded-xl border border-border bg-card p-4">
         <RequestTrack input={input} issue={n} opened={opened} requester={requester} approval={approval} updated={issue?.updated_at ?? st?.updated ?? null} noDetails noLink />
         <MaintainerActions issue={n} approval={approval} maintainers={maintainers} repo={repo} />
       </div>
+      )}
 
       {signedIn === false && (
         <div className="mt-6 rounded-xl border border-border bg-card p-4 text-sm">
