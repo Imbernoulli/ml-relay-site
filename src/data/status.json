@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T06:28:52+00:00",
+ "generated": "2026-10-02T06:30:28+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -891,11 +891,11 @@
       "visibility": "public"
      },
      {
-      "t": 1790916756,
+      "t": 1790916732,
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506: 1h21m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506: budget 10h00m",
       "visibility": "public"
      },
      {
@@ -907,11 +907,11 @@
       "visibility": "public"
      },
      {
-      "t": 1790917668,
+      "t": 1790916805,
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506-2: 1h20m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506-2: budget 10h00m",
       "visibility": "public"
      },
      {
@@ -958,7 +958,7 @@
       "t": 1790921162,
       "kind": "agent",
       "label": "Read the issue thread",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -973,7 +973,7 @@
       "t": 1790921731,
       "kind": "agent",
       "label": "Agent working (20 min so far)",
-      "state": "running",
+      "state": "done",
       "detail_public": "Actions run 36971769115",
       "visibility": "public"
      },
@@ -1008,39 +1008,24 @@
       "state": "done",
       "detail_public": "20 of 20 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790922593,
+      "kind": "agent",
+      "label": "Task scaffold written",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T06:25:37Z",
+   "updated": "2026-10-02T06:29:55Z",
    "replacement": null,
    "task": null
   }
  ],
  "issues": [
-  {
-   "issue": 15,
-   "title": "[change] dl-optim-mup-parametrization: add a Transformer / WikiText-2 setting",
-   "requester": "Imbernoulli",
-   "type": "maintenance",
-   "task": "dl-optim-mup-parametrization",
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-02T06:27:27Z",
-   "opened": "2026-10-02T06:27:27Z",
-   "progress": null,
-   "approval": {
-    "state": "approved",
-    "by": "Imbernoulli",
-    "note": null
-   }
-  },
   {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
@@ -1054,7 +1039,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T06:25:37Z",
+   "updated": "2026-10-02T06:29:55Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1871,11 +1856,11 @@
       "visibility": "public"
      },
      {
-      "t": 1790916756,
+      "t": 1790916732,
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506: 1h21m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506: budget 10h00m",
       "visibility": "public"
      },
      {
@@ -1887,11 +1872,11 @@
       "visibility": "public"
      },
      {
-      "t": 1790917668,
+      "t": 1790916805,
       "kind": "setting",
       "label": "Setting aime (seed 42)",
       "state": "running",
-      "detail_public": "run gh-9-36961774506-2: 1h20m of 10h00m budget",
+      "detail_public": "run gh-9-36961774506-2: budget 10h00m",
       "visibility": "public"
      },
      {
@@ -1938,7 +1923,7 @@
       "t": 1790921162,
       "kind": "agent",
       "label": "Read the issue thread",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -1953,7 +1938,7 @@
       "t": 1790921731,
       "kind": "agent",
       "label": "Agent working (20 min so far)",
-      "state": "running",
+      "state": "done",
       "detail_public": "Actions run 36971769115",
       "visibility": "public"
      },
@@ -1988,12 +1973,41 @@
       "state": "done",
       "detail_public": "20 of 20 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790922593,
+      "kind": "agent",
+      "label": "Task scaffold written",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
    "approval": {
     "state": "approved",
     "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 15,
+   "title": "[change] dl-optim-mup-parametrization: add a Transformer / WikiText-2 setting",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "dl-optim-mup-parametrization",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T06:27:27Z",
+   "opened": "2026-10-02T06:27:27Z",
+   "progress": null,
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
     "note": null
    }
   },
