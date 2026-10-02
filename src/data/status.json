@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T01:23:07+00:00",
+ "generated": "2026-10-02T01:24:23+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -124,7 +124,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "running",
+   "state": "open",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -248,7 +248,7 @@
       "t": 1790903936,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "Actions run 36950219870"
      },
      {
@@ -267,13 +267,33 @@
       "t": 1790904120,
       "kind": "agent",
       "label": "Precheck finished",
-      "state": "running"
+      "state": "done"
+     },
+     {
+      "t": 1790904202,
+      "kind": "agent",
+      "label": "Blocked",
+      "state": "failed"
+     },
+     {
+      "t": 1790904228,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790904228,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:22:02Z",
+   "updated": "2026-10-02T01:23:55Z",
    "replacement": null,
    "task": null
   }
@@ -292,7 +312,7 @@
    "phase": "B",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:22:02Z",
+   "updated": "2026-10-02T01:23:55Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -408,7 +428,7 @@
       "t": 1790903936,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "Actions run 36950219870"
      },
      {
@@ -427,7 +447,27 @@
       "t": 1790904120,
       "kind": "agent",
       "label": "Precheck finished",
-      "state": "running"
+      "state": "done"
+     },
+     {
+      "t": 1790904202,
+      "kind": "agent",
+      "label": "Blocked",
+      "state": "failed"
+     },
+     {
+      "t": 1790904228,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
+     },
+     {
+      "t": 1790904228,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 36950219870"
      }
     ]
    },
