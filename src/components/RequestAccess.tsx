@@ -1,28 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { viewer } from "@/lib/github";
 import { INVITATIONS_URL, myAccessRequest, requestAccess, type AccessRequest } from "@/lib/access";
 import Spinner from "./Spinner";
-
-const OWNER_EMAIL = "bohan@berkeley.edu";
 
 /** For signed-in visitors without access to the private repo: an in-site access request the maintainer approves. */
 export default function RequestAccess({ compact = false }: { compact?: boolean }) {
   const [me, setMe] = useState<AccessRequest | null>(null);
-  const [login, setLogin] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
   useEffect(() => {
     myAccessRequest()
       .then(setMe)
       .catch(() => setMe({ login: "", state: "none" }));
-    viewer()
-      .then((v) => setLogin(v.login))
-      .catch(() => {});
   }, []);
   const send = async () => {
     setBusy(true);
@@ -34,17 +26,6 @@ export default function RequestAccess({ compact = false }: { compact?: boolean }
       setErr(e instanceof Error ? e.message : "Could not send the request.");
     } finally {
       setBusy(false);
-    }
-  };
-  const copy = async () => {
-    const who = login ?? "<your GitHub username>";
-    const text = `To: ${OWNER_EMAIL}\nSubject: give me the request\n\nPlease add my GitHub account to Imbernoulli/ML-Relay.\nGitHub username: ${who}\nGitHub profile: https://github.com/${who}`;
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {
-      window.prompt("Copy this request", text);
     }
   };
   const sz = compact ? "text-xs" : "text-sm";
@@ -73,9 +54,6 @@ export default function RequestAccess({ compact = false }: { compact?: boolean }
             className={`rounded-md border border-emerald-600/60 bg-emerald-600/15 font-medium text-emerald-800 hover:border-emerald-600 dark:text-emerald-200 ${compact ? "px-2 py-0.5" : "px-3 py-1.5"}`}
           >
             Request access
-          </button>
-          <button type="button" onClick={copy} className="text-[11px] text-muted-foreground underline">
-            {copied ? "Copied" : "copy request text"}
           </button>
         </span>
       ) : (
