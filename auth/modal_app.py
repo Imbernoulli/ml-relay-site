@@ -45,7 +45,7 @@ status_secret = modal.Secret.from_name("ml-relay-status-secret")
 
 
 @app.function(secrets=[setup_secret, status_secret], min_containers=1, max_containers=2)
-@modal.concurrent(max_inputs=20)
+@modal.concurrent(max_inputs=100)
 @modal.asgi_app()
 def web():
     import html
@@ -196,7 +196,39 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
             "updated": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         }
         live_status[f"issue:{n}"] = record
+        live_status["meta:version"] = (live_status.get("meta:version") or 0) + 1
         return JSONResponse({"ok": True, "updated": record["updated"]})
+
+    @api.get("/status/stream")
+    async def stream_status(request: Request):
+        """Server-sent events: one `status` event with the full snapshot on connect
+        and after every change; the stream closes after ~5 min and the client
+        reconnects (EventSource does that by itself)."""
+        import asyncio
+
+        from fastapi.responses import StreamingResponse
+
+        async def events():
+            last = object()  # sentinel: always send the snapshot on connect
+            for _ in range(300):
+                if await request.is_disconnected():
+                    return
+                version = await live_status.get.aio("meta:version")
+                if version != last:
+                    last = version
+                    snap = {}
+                    async for k, v in live_status.items.aio():
+                        if k.startswith("issue:"):
+                            snap[k[6:]] = v
+                    yield f"event: status\ndata: {json.dumps({'issues': snap})}\n\n"
+                else:
+                    yield ": keep-alive\n\n"
+                await asyncio.sleep(1)
+
+        resp = StreamingResponse(events(), media_type="text/event-stream")
+        resp.headers["Cache-Control"] = "no-store"
+        resp.headers["X-Accel-Buffering"] = "no"
+        return cors(resp)
 
     # ---- access requests ------------------------------------------------------
     # Someone signed in without access to the private repository asks for it; a
