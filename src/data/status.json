@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T03:53:04+00:00",
+ "generated": "2026-10-02T04:01:41+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -722,79 +722,25 @@
       "label": "Reading the paper(s) and code",
       "state": "running",
       "visibility": "public"
+     },
+     {
+      "t": 1790913622,
+      "kind": "agent",
+      "label": "Agent working (10 min so far)",
+      "state": "running",
+      "detail_public": "Actions run 36961774506",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:51:30Z",
+   "updated": "2026-10-02T04:00:23Z",
    "replacement": null,
    "task": null
   }
  ],
  "issues": [
-  {
-   "issue": 7,
-   "title": "[change] theory-semiautomata: add a third evaluation setting",
-   "requester": "Imbernoulli",
-   "type": "maintenance",
-   "task": "theory-semiautomata",
-   "replacement": null,
-   "state": "closed",
-   "stage": "Merged",
-   "waiting": false,
-   "phase": null,
-   "pr": 14,
-   "pr_state": "merged",
-   "updated": "2026-10-02T03:51:32Z",
-   "opened": "2026-10-02T00:51:22Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1790902282,
-      "kind": "created",
-      "label": "Request created by @Imbernoulli",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1790902292,
-      "kind": "maintainer",
-      "label": "Third setting chosen (C2xC2xC2 word problem, longer streams) and measured: 5 arms x 3 seeds, no capped term",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1790911116,
-      "kind": "maintainer",
-      "label": "Gate 3 (oracle + no-edit control) VERIFIED on Daytona",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1790913051,
-      "kind": "pr",
-      "label": "PR #14 merged",
-      "state": "done",
-      "detail_public": "PR #14",
-      "visibility": "public"
-     },
-     {
-      "t": 1790913084,
-      "kind": "maintainer",
-      "label": "PR #14 merged: bundle re-rendered with three settings, README updated",
-      "state": "done",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
-    "by": "Imbernoulli",
-    "note": null
-   }
-  },
   {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
@@ -808,7 +754,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:51:30Z",
+   "updated": "2026-10-02T04:00:23Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1478,12 +1424,82 @@
       "label": "Reading the paper(s) and code",
       "state": "running",
       "visibility": "public"
+     },
+     {
+      "t": 1790913622,
+      "kind": "agent",
+      "label": "Agent working (10 min so far)",
+      "state": "running",
+      "detail_public": "Actions run 36961774506",
+      "visibility": "public"
      }
     ]
    },
    "approval": {
     "state": "approved",
     "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 7,
+   "title": "[change] theory-semiautomata: add a third evaluation setting",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "theory-semiautomata",
+   "replacement": null,
+   "state": "closed",
+   "stage": "Merged",
+   "waiting": false,
+   "phase": null,
+   "pr": 14,
+   "pr_state": "merged",
+   "updated": "2026-10-02T03:51:32Z",
+   "opened": "2026-10-02T00:51:22Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790902282,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790902292,
+      "kind": "maintainer",
+      "label": "Third setting chosen (C2xC2xC2 word problem, longer streams) and measured: 5 arms x 3 seeds, no capped term",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790911116,
+      "kind": "maintainer",
+      "label": "Gate 3 (oracle + no-edit control) VERIFIED on Daytona",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1790913051,
+      "kind": "pr",
+      "label": "PR #14 merged",
+      "state": "done",
+      "detail_public": "PR #14",
+      "visibility": "public"
+     },
+     {
+      "t": 1790913084,
+      "kind": "maintainer",
+      "label": "PR #14 merged: bundle re-rendered with three settings, README updated",
+      "state": "done",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
     "note": null
    }
   },
