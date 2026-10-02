@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T01:30:57+00:00",
+ "generated": "2026-10-02T01:32:40+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -301,7 +301,7 @@
      {
       "t": 1790904578,
       "kind": "go",
-      "label": "Waiting for the requester's reply (phase B)",
+      "label": "Waiting for your answers (phase B)",
       "state": "waiting",
       "visibility": "public"
      }
@@ -309,7 +309,7 @@
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:29:39Z",
+   "updated": "2026-10-02T01:31:16Z",
    "replacement": null,
    "task": null
   }
@@ -328,7 +328,7 @@
    "phase": "B",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T01:29:39Z",
+   "updated": "2026-10-02T01:31:16Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -497,7 +497,7 @@
      {
       "t": 1790904578,
       "kind": "go",
-      "label": "Waiting for the requester's reply (phase B)",
+      "label": "Waiting for your answers (phase B)",
       "state": "waiting",
       "visibility": "public"
      }
