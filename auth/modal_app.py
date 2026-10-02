@@ -11,8 +11,14 @@ app does the two server-side steps and nothing else:
                              to the install page (pick Imbernoulli/ML-Relay)
   GET  /client-id            the public client id (empty until setup is done)
   POST /token                trades a sign-in code for a user token (site origin only)
+  POST /refresh              renews an expired user token
+  GET  /reviews              every task's "Review OK" marks (public)
+  POST /reviews              add or withdraw the caller's mark on one task; the caller
+                             is identified by their own GitHub token and must have
+                             access to Imbernoulli/ML-Relay
 
-Nothing about visitors is stored or logged. Deploy:
+Nothing about visitors is stored or logged, apart from the review marks people make
+on purpose (GitHub login, avatar URL, time, task version). Deploy:
     SETUP_STATE=$(python3 -c 'import secrets;print(secrets.token_urlsafe(24))') \\
         modal deploy auth/modal_app.py
 """
@@ -29,6 +35,8 @@ APP_NAME = "ml-relay-site-signin"
 image = modal.Image.debian_slim(python_version="3.12").pip_install("fastapi[standard]==0.115.6", "httpx==0.28.1")
 app = modal.App("ml-relay-auth", image=image)
 store = modal.Dict.from_name("ml-relay-auth", create_if_missing=True)
+reviews = modal.Dict.from_name("ml-relay-reviews", create_if_missing=True)
+RELAY_REPO = "Imbernoulli/ML-Relay"
 setup_secret = modal.Secret.from_dict({"SETUP_STATE": os.environ.get("SETUP_STATE", "")})
 
 
@@ -37,6 +45,7 @@ setup_secret = modal.Secret.from_dict({"SETUP_STATE": os.environ.get("SETUP_STAT
 @modal.asgi_app()
 def web():
     import html
+    from datetime import datetime, timezone
 
     import httpx
     from fastapi import Body, FastAPI, Request
@@ -48,7 +57,7 @@ def web():
     def cors(resp: Response) -> Response:
         resp.headers["Access-Control-Allow-Origin"] = SITE_ORIGIN
         resp.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-        resp.headers["Access-Control-Allow-Headers"] = "Content-Type"
+        resp.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         resp.headers["Vary"] = "Origin"
         return resp
 
@@ -130,6 +139,56 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         if not isinstance(rt, str) or not (20 <= len(rt) <= 200) or not rt.replace("_", "").isalnum():
             return cors(JSONResponse({"error": "bad refresh token"}, status_code=400))
         return exchange({"grant_type": "refresh_token", "refresh_token": rt})
+
+    @api.get("/reviews")
+    def list_reviews():
+        out = {}
+        for key, marks in reviews.items():
+            if key.startswith("task:") and marks:
+                out[key[5:]] = sorted(marks.values(), key=lambda m: m["at"])
+        resp = cors(JSONResponse({"reviews": out}))
+        resp.headers["Cache-Control"] = "no-store"
+        return resp
+
+    @api.post("/reviews")
+    def mark_review(request: Request, payload: dict | None = Body(default=None)):
+        if request.headers.get("origin") != SITE_ORIGIN:
+            return Response("forbidden", status_code=403)
+        auth = request.headers.get("authorization", "")
+        if not auth.lower().startswith("bearer ") or len(auth) > 300:
+            return cors(JSONResponse({"error": "sign in first"}, status_code=401))
+        if not isinstance(payload, dict):
+            return cors(JSONResponse({"error": "bad request"}, status_code=400))
+        task = payload.get("task")
+        version = payload.get("version") or ""
+        ok = payload.get("ok", True)
+        if not isinstance(task, str) or not (3 <= len(task) <= 80) or not task.replace("-", "").isalnum() or not task.islower():
+            return cors(JSONResponse({"error": "bad task"}, status_code=400))
+        if not isinstance(version, str) or len(version) > 64 or (version and not version.replace("-", "").isalnum()):
+            return cors(JSONResponse({"error": "bad version"}, status_code=400))
+        gh_headers = {"Authorization": auth, "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28"}
+        with httpx.Client(timeout=20) as client:
+            me = client.get("https://api.github.com/user", headers=gh_headers)
+            if me.status_code != 200:
+                return cors(JSONResponse({"error": "GitHub did not accept the sign-in; sign in again"}, status_code=401))
+            # Only people who can see the private repository may review.
+            repo = client.get(f"https://api.github.com/repos/{RELAY_REPO}", headers=gh_headers)
+        if repo.status_code != 200:
+            return cors(JSONResponse({"error": f"you need access to {RELAY_REPO} to review"}, status_code=403))
+        user = me.json()
+        key = f"task:{task}"
+        marks = dict(reviews.get(key) or {})
+        if ok:
+            marks[user["login"]] = {
+                "login": user["login"],
+                "avatar_url": user.get("avatar_url", ""),
+                "at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+                "version": version,
+            }
+        else:
+            marks.pop(user["login"], None)
+        reviews[key] = marks
+        return cors(JSONResponse({"task": task, "marks": sorted(marks.values(), key=lambda m: m["at"])}))
 
     def exchange(fields: dict) -> Response:
         cid, secret = store.get("client_id"), store.get("client_secret")

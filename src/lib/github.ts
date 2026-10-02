@@ -391,3 +391,35 @@ export async function myRequests(login: string): Promise<MyRequest[]> {
     }),
   );
 }
+
+// ---- "Review OK" marks -------------------------------------------------------
+// Stored by the sign-in service; anyone can read them, only signed-in people with
+// access to the relay repository can add or withdraw their own mark.
+
+export interface ReviewMark {
+  login: string;
+  avatar_url: string;
+  at: string;
+  version: string;
+}
+
+export async function fetchReviews(): Promise<Record<string, ReviewMark[]>> {
+  if (!GH_AUTH_PROXY) return {};
+  const r = await fetch(`${GH_AUTH_PROXY}/reviews`, { cache: "no-store" });
+  if (!r.ok) throw new Error(`reviews ${r.status}`);
+  return ((await r.json()) as { reviews?: Record<string, ReviewMark[]> }).reviews ?? {};
+}
+
+/** Add (ok=true) or withdraw (ok=false) the signed-in visitor's mark on a task. */
+export async function markReview(task: string, version: string, ok: boolean): Promise<ReviewMark[]> {
+  const token = await freshToken();
+  if (!token) throw new GitHubError(401, "Not signed in.");
+  const r = await fetch(`${GH_AUTH_PROXY}/reviews`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ task, version, ok }),
+  });
+  const body = (await r.json().catch(() => ({}))) as { marks?: ReviewMark[]; error?: string };
+  if (!r.ok) throw new GitHubError(r.status, body.error || `review ${r.status}`);
+  return body.marks ?? [];
+}
