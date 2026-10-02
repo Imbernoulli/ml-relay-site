@@ -330,6 +330,7 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         n = payload["issue"]
         if payload.get("delete"):
             live_status.pop(f"issue:{n}", None)
+            live_status.pop(f"runevents:{n}", None)
             return JSONResponse({"ok": True})
         steps = []
         for st in payload.get("steps") or []:
