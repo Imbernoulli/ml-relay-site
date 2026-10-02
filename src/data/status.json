@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T21:39:18+00:00",
+ "generated": "2026-10-02T21:40:43+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -2275,12 +2275,20 @@
       "state": "done",
       "detail_public": "21 of 21 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790977161,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "29 of 29 checks passed",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:38:12Z",
+   "updated": "2026-10-02T21:39:22Z",
    "replacement": null,
    "task": null
   }
@@ -2299,7 +2307,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:38:12Z",
+   "updated": "2026-10-02T21:39:22Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -4521,6 +4529,14 @@
       "label": "Precheck done",
       "state": "done",
       "detail_public": "21 of 21 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790977161,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "29 of 29 checks passed",
       "visibility": "public"
      }
     ]
