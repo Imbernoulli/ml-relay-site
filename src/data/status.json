@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T21:29:43+00:00",
+ "generated": "2026-10-02T21:31:18+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -44,7 +44,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "open",
+   "state": "running",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -2245,12 +2245,27 @@
       "state": "running",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37066996713",
       "visibility": "internal"
+     },
+     {
+      "t": 1790976588,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37066996713",
+      "visibility": "public"
+     },
+     {
+      "t": 1790976618,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:27:59Z",
+   "updated": "2026-10-02T21:30:20Z",
    "replacement": null,
    "task": null
   }
@@ -2269,7 +2284,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:27:59Z",
+   "updated": "2026-10-02T21:30:20Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -4462,6 +4477,21 @@
       "state": "running",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37066996713",
       "visibility": "internal"
+     },
+     {
+      "t": 1790976588,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37066996713",
+      "visibility": "public"
+     },
+     {
+      "t": 1790976618,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
