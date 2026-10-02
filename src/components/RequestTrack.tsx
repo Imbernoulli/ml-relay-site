@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getToken, isSignedIn } from "@/lib/github";
 import { RELAY_REPO } from "@/lib/site";
+import { liveRecord, useLiveStatus } from "@/lib/liveStatus";
 import { NoAccessError, statusComment } from "@/lib/relayStatus";
 import { displayProgress, parseStatusTable, toMs, withCreated, type StageInput } from "@/lib/stages";
 import { approvalOf, withApproval } from "@/lib/approval";
@@ -84,9 +85,17 @@ export default function RequestTrack({
     };
   }, [issue]);
 
+  const liveAll = useLiveStatus();
+  const rec = liveRecord(liveAll, issue);
   let progress: ProgressRecord | null = input.progress ?? null;
   let fromLive = false;
-  if (c) {
+  let pushed = false;
+  // the backend's live push wins over the static build when it is newer
+  if (rec && toMs(rec.updated) > Math.max(toMs(updated), newest(progress) || 0) - 0) {
+    if (rec.steps?.length) progress = withApproval({ current: null, steps: rec.steps }, approval);
+    pushed = true;
+  }
+  if (c && !(pushed && toMs(rec!.updated) >= toMs(c.updated))) {
     const steps = parseStatusTable(c.body, c.updated);
     const liveP: ProgressRecord = { current: null, steps };
     if (steps.length && (!(newest(progress) >= newest(liveP)) || (progress?.steps.length ?? 0) < steps.length)) {
@@ -96,7 +105,11 @@ export default function RequestTrack({
   }
   progress = withCreated(progress, opened, requester);
   let stageInput: StageInput = { ...input, progress };
-  if (labels) {
+  const liveLabels = pushed && rec ? { names: rec.labels ?? [], state: rec.state === "closed" ? "closed" : "open", author: rec.requester } : null;
+  if (pushed && rec?.pr_state) stageInput = { ...stageInput, prState: rec.pr_state as StageInput["prState"] };
+  const lab = liveLabels ?? labels;
+  if (lab) {
+    const labels = lab;
     const ls = labels.names;
     const ph = ls.find((l) => l.startsWith("newtask-phase-"));
     const hasApprovalLabel = ls.some((l) => l === "awaiting-approval" || l === "approved" || l === "rejected");
@@ -110,7 +123,7 @@ export default function RequestTrack({
     };
   }
   const shown = displayProgress(progress);
-  const upd = Math.max(...[toMs(updated), newest(progress), fromLive && c ? toMs(c.updated) : NaN].filter((x) => Number.isFinite(x)));
+  const upd = Math.max(...[toMs(updated), newest(progress), fromLive && c ? toMs(c.updated) : NaN, pushed && rec ? toMs(rec.updated) : NaN].filter((x) => Number.isFinite(x)));
 
   return (
     <div>
@@ -119,7 +132,7 @@ export default function RequestTrack({
       <div className="mt-1 flex flex-wrap items-center gap-x-3 text-[11px] text-muted-foreground">
         <span>
           {fmt(upd) ? `updated ${fmt(upd)}` : null}
-          {fromLive ? " · live from the agent's status comment" : null}
+          {fromLive ? " · live from the agent's status comment" : pushed ? " · live" : null}
         </span>
         {!noLink && (
           <Link href={`/requests/${issue}/`} className="font-medium text-foreground underline">

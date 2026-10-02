@@ -4,6 +4,8 @@ import Link from "next/link";
 import RequestTrack from "./RequestTrack";
 import { useEffect, useState } from "react";
 import { getToken, isSignedIn } from "@/lib/github";
+import { useLiveStatus } from "@/lib/liveStatus";
+import { toMs } from "@/lib/stages";
 import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
 import { approvalOf, approvalStep } from "@/lib/approval";
 import type { Approval, ProgressRecord } from "@/lib/types";
@@ -96,10 +98,26 @@ export default function LiveRequests({
     };
   }, [kind, known, titles, maintainers, repo]);
 
-  if (!items.length) return null;
+  // requests the backend has pushed live (works signed out too)
+  const liveAll = useLiveStatus();
+  const have = new Set([...known, ...items.map((x) => x.number)]);
+  const pushed: Live[] = [];
+  for (const r of Object.values(liveAll ?? {})) {
+    if (!r || have.has(r.issue) || r.state === "closed") continue;
+    const ls = r.labels ?? [];
+    if (ls.some((x) => EXCLUDE.has(x))) continue;
+    const isNew = ls.includes("relay-newtask") || /new/i.test(r.type);
+    if ((kind === "proposals") !== isNew) continue;
+    const task = kind === "modifications" ? (r.task && r.task in titles ? r.task : null) : null;
+    if (kind === "modifications" && !task) continue;
+    const { a, auto } = approvalOf(ls, r.requester || null, maintainers);
+    pushed.push({ number: r.issue, title: cleanRequestTitle(r.title, titles), url: `https://github.com/${repo}/issues/${r.issue}`, opened: Number.isFinite(toMs(r.steps?.[0]?.t)) ? new Date(toMs(r.steps?.[0]?.t)).toISOString() : r.updated, requester: r.requester || null, task, approval: a, auto });
+  }
+  const all = [...items, ...pushed].sort((x, y) => y.number - x.number);
+  if (!all.length) return null;
   return (
     <div className="mt-3 space-y-3">
-      {items.map((x) => {
+      {all.map((x) => {
         const step = approvalStep(x.approval);
         if (x.auto) step.label = "Auto-approved (opened by a maintainer)";
         const progress: ProgressRecord = { current: 0, steps: [step] };
