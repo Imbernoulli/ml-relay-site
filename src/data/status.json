@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T08:35:50+00:00",
+ "generated": "2026-10-02T08:37:34+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1276,7 +1276,7 @@
       "t": 1790929854,
       "kind": "agent",
       "label": "Precheck finished",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -1290,16 +1290,31 @@
      {
       "t": 1790930099,
       "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790930232,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "running",
+      "visibility": "public"
+     },
+     {
+      "t": 1790930242,
+      "kind": "precheck",
       "label": "Precheck started",
       "state": "running",
-      "detail_public": "5 checks",
+      "detail_public": "7 checks",
       "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T08:35:01Z",
+   "updated": "2026-10-02T08:37:14Z",
    "replacement": null,
    "task": null
   }
@@ -1318,7 +1333,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T08:35:01Z",
+   "updated": "2026-10-02T08:37:14Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -2411,7 +2426,7 @@
       "t": 1790929854,
       "kind": "agent",
       "label": "Precheck finished",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -2425,9 +2440,24 @@
      {
       "t": 1790930099,
       "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790930232,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "running",
+      "visibility": "public"
+     },
+     {
+      "t": 1790930242,
+      "kind": "precheck",
       "label": "Precheck started",
       "state": "running",
-      "detail_public": "5 checks",
+      "detail_public": "7 checks",
       "visibility": "public"
      }
     ]
