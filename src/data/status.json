@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T21:43:30+00:00",
+ "generated": "2026-10-02T21:49:47+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -2283,12 +2283,28 @@
       "state": "done",
       "detail_public": "29 of 29 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790977683,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790977748,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "6 of 6 checks passed",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:40:54Z",
+   "updated": "2026-10-02T21:49:10Z",
    "replacement": null,
    "task": null
   },
@@ -2316,28 +2332,6 @@
  ],
  "issues": [
   {
-   "issue": 18,
-   "title": "[new task] vla-minivla-action-tokenization: compressing robot action chunks into VLA tokens",
-   "requester": "Imbernoulli",
-   "type": "new task",
-   "task": null,
-   "replacement": null,
-   "state": "open",
-   "stage": "Full measurement",
-   "waiting": false,
-   "phase": "C",
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-02T21:41:04Z",
-   "opened": "2026-10-02T21:41:04Z",
-   "progress": null,
-   "approval": {
-    "state": "approved",
-    "by": "Imbernoulli",
-    "note": null
-   }
-  },
-  {
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "requester": "Imbernoulli",
@@ -2350,7 +2344,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T21:40:54Z",
+   "updated": "2026-10-02T21:49:10Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -4581,12 +4575,50 @@
       "state": "done",
       "detail_public": "29 of 29 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1790977683,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1790977748,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "6 of 6 checks passed",
+      "visibility": "public"
      }
     ]
    },
    "approval": {
     "state": "approved",
     "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 18,
+   "title": "[new task] vla-minivla-action-tokenization: compressing robot action chunks into VLA tokens",
+   "requester": "Imbernoulli",
+   "type": "new task",
+   "task": null,
+   "replacement": null,
+   "state": "open",
+   "stage": "Full measurement",
+   "waiting": false,
+   "phase": "C",
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-02T21:41:04Z",
+   "opened": "2026-10-02T21:41:04Z",
+   "progress": null,
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
     "note": null
    }
   },
