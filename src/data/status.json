@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T04:39:06+00:00",
+ "generated": "2026-10-02T04:54:14+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -795,8 +795,8 @@
       "t": 1790915678,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
-      "detail_public": "run gh-9-36961774506: sandbox building_snapshot",
+      "state": "done",
+      "detail_public": "run gh-9-36961774506",
       "visibility": "public"
      },
      {
@@ -859,12 +859,28 @@
       "label": "Waiting for your answers (phase B)",
       "state": "waiting",
       "visibility": "public"
+     },
+     {
+      "t": 1790916756,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-9-36961774506: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1790916756,
+      "kind": "setting",
+      "label": "Setting aime (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-9-36961774506: 0m of 10h00m budget",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T04:37:40Z",
+   "updated": "2026-10-02T04:52:38Z",
    "replacement": null,
    "task": null
   }
@@ -883,7 +899,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T04:37:40Z",
+   "updated": "2026-10-02T04:52:38Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1626,8 +1642,8 @@
       "t": 1790915678,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
-      "detail_public": "run gh-9-36961774506: sandbox building_snapshot",
+      "state": "done",
+      "detail_public": "run gh-9-36961774506",
       "visibility": "public"
      },
      {
@@ -1689,6 +1705,22 @@
       "kind": "go",
       "label": "Waiting for your answers (phase B)",
       "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1790916756,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-9-36961774506: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1790916756,
+      "kind": "setting",
+      "label": "Setting aime (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-9-36961774506: 0m of 10h00m budget",
       "visibility": "public"
      }
     ]
