@@ -45,6 +45,7 @@ export default function RequestTrack({
   pr = null,
   noReport = false,
   noPr = false,
+  reportSlot = null,
 }: {
   input: StageInput;
   issue: number;
@@ -59,6 +60,8 @@ export default function RequestTrack({
   /** the request page shows the report and the PR itself */
   noReport?: boolean;
   noPr?: boolean;
+  /** the request page's own report, placed where the card's report goes (above the reply box) */
+  reportSlot?: React.ReactNode;
 }) {
   const [c, setC] = useState<{ body: string; url: string; updated: string } | null>(null);
   const [noAccess, setNoAccess] = useState(false);
@@ -69,6 +72,12 @@ export default function RequestTrack({
   const [labels, setLabels] = useState<{ names: string[]; state: string; author: string } | null>(null);
   const [poll, setPoll] = useState(0);
   const [note, setNote] = useState(false);
+  // a running clock for the "agent is working" timer
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNow(Date.now()), 15000);
+    return () => clearInterval(id);
+  }, []);
   // signed in: re-read the issue and its comments every ~10 s while the tab is visible
   useEffect(() => {
     if (!isSignedIn()) return;
@@ -168,7 +177,7 @@ export default function RequestTrack({
   const needed = !working && isOpen && Boolean(report?.readyForGo) && waitingReq;
   const workStep = lastRunning ?? [...steps].reverse().find((x) => x.kind !== "created" && x.kind !== "approval") ?? null;
   const workSince = toMs(workStep?.t);
-  const workEl = Number.isFinite(workSince) ? Math.max(1, Math.round((Date.now() - workSince) / 60000)) : null;
+  const workEl = Number.isFinite(workSince) ? Math.max(1, Math.floor((now - workSince) / 60000)) : null;
   const prNum = (pushed && rec?.pr) || pr?.number || null;
   const prState = (pushed && rec?.pr_state) || pr?.state || stageInput.prState || null;
   const full2 = !compact && !noDetails;
@@ -205,6 +214,7 @@ export default function RequestTrack({
           </button>
         </div>
       )}
+      {full2 && !working && reportSlot}
       {full2 && needed && report && (
         <ReplyBox
           issue={issue}

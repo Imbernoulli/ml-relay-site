@@ -216,7 +216,29 @@ export default function RequestDetail({
         </p>
       ) : (
       <div className="mt-4 rounded-xl border border-border bg-card p-4">
-        <RequestTrack input={input} issue={n} opened={opened} requester={requester} approval={approval} updated={issue?.updated_at ?? st?.updated ?? null} noLink noReport noPr pr={pr ? { number: pr.number, state: null } : null} />
+        <RequestTrack input={input} issue={n} opened={opened} requester={requester} approval={approval} updated={issue?.updated_at ?? st?.updated ?? null} noLink
+          noReport
+          noPr
+          pr={pr ? { number: pr.number, state: null } : null}
+          reportSlot={
+            report ? (
+              <section className="mt-6 rounded-xl border-2 border-emerald-600/40 bg-card p-4">
+              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                <span className="rounded-full border border-emerald-600/50 bg-emerald-600/10 px-2 py-0.5 font-semibold text-emerald-800 dark:text-emerald-200">
+                  {report.kind === "design-draft" ? "Design draft" : report.kind === "pilot-report" ? "Pilot report" : report.kind === "results" ? "Results" : report.kind === "final" ? "Final report" : "Agent update"}
+                </span>
+                <span>{fmt(report.updated)}</span>
+                <a href={report.url} target="_blank" rel="noreferrer" className="ml-auto underline">
+                  on GitHub
+                </a>
+              </div>
+              <div className="prose prose-sm mt-3 max-w-none dark:prose-invert">
+                <MarkdownContent content={report.body} />
+              </div>
+            </section>
+            ) : null
+          }
+        />
         <MaintainerActions issue={n} approval={approval} maintainers={maintainers} repo={repo} />
       </div>
       )}
@@ -255,22 +277,6 @@ export default function RequestDetail({
 
       {issue && (
         <>
-          {report && (
-            <section className="mt-6 rounded-xl border-2 border-emerald-600/40 bg-card p-4">
-              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-                <span className="rounded-full border border-emerald-600/50 bg-emerald-600/10 px-2 py-0.5 font-semibold text-emerald-800 dark:text-emerald-200">
-                  {report.kind === "design-draft" ? "Design draft" : report.kind === "pilot-report" ? "Pilot report" : report.kind === "results" ? "Results" : report.kind === "final" ? "Final report" : "Agent update"}
-                </span>
-                <span>{fmt(report.updated)}</span>
-                <a href={report.url} target="_blank" rel="noreferrer" className="ml-auto underline">
-                  on GitHub
-                </a>
-              </div>
-              <div className="prose prose-sm mt-3 max-w-none dark:prose-invert">
-                <MarkdownContent content={report.body} />
-              </div>
-            </section>
-          )}
 
           {pr && (
             <section className="mt-6 rounded-xl border border-border bg-card p-4">
