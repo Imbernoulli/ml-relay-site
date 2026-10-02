@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-02T03:14:06+00:00",
+ "generated": "2026-10-02T03:15:29+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -589,7 +589,7 @@
       "kind": "daytona",
       "label": "Environment building",
       "state": "running",
-      "detail_public": "run gh-9-36958027548",
+      "detail_public": "run gh-9-36958027548: sandbox building_snapshot",
       "visibility": "public"
      },
      {
@@ -612,7 +612,7 @@
       "kind": "daytona",
       "label": "Environment building",
       "state": "running",
-      "detail_public": "run gh-9-36958027548-2",
+      "detail_public": "run gh-9-36958027548-2: sandbox building_snapshot",
       "visibility": "public"
      },
      {
@@ -657,7 +657,7 @@
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:12:57Z",
+   "updated": "2026-10-02T03:14:40Z",
    "replacement": null,
    "task": null
   }
@@ -676,7 +676,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T03:12:57Z",
+   "updated": "2026-10-02T03:14:40Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -1173,7 +1173,7 @@
       "kind": "daytona",
       "label": "Environment building",
       "state": "running",
-      "detail_public": "run gh-9-36958027548",
+      "detail_public": "run gh-9-36958027548: sandbox building_snapshot",
       "visibility": "public"
      },
      {
@@ -1196,7 +1196,7 @@
       "kind": "daytona",
       "label": "Environment building",
       "state": "running",
-      "detail_public": "run gh-9-36958027548-2",
+      "detail_public": "run gh-9-36958027548-2: sandbox building_snapshot",
       "visibility": "public"
      },
      {
