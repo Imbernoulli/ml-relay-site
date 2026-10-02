@@ -21,8 +21,12 @@ exchange. It stores only the app's own client id and secret, nothing about visit
    ```
 2. The owner opens `https://mletask--ml-relay-auth-web.modal.run/setup?state=<SETUP_STATE>`
    and clicks **Continue to GitHub → Create GitHub App → Install (only
-   Imbernoulli/ML-Relay)**. The app is created from a manifest: read-only Issues and
-   Pull requests, no webhook. Its client id and secret go straight into the service.
+   Imbernoulli/ML-Relay)**. The app is created from a manifest (read-only Issues and
+   Pull requests, no webhook); its client id and secret go straight into the service.
+   Since 2026-10-02 the app is **public** (anyone can sign in) and the owner has granted
+   **Issues: write** (requests and comments filed from the site) and **Administration:
+   write** (approving an access request on the site adds the collaborator), plus Pull
+   requests: read and Metadata: read. A user token never exceeds the visitor's own access.
 3. The site's build variable points at the service (already set):
    `gh variable set GH_AUTH_PROXY -R Imbernoulli/ml-relay-site --body https://mletask--ml-relay-auth-web.modal.run`
 
@@ -31,7 +35,7 @@ so no rebuild is needed after step 2. A visitor sees only what the App's permiss
 its installation (ML-Relay only) and their own access all allow.
 
 Without the service the page still works: a fine-grained personal access token
-(read-only Issues + Pull requests on ML-Relay) can be pasted instead.
+(Issues + Pull requests on ML-Relay; Issues: write to file from the site) can be pasted instead.
 
 ## Redeploying
 
