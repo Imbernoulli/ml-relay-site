@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T06:12:03+00:00",
+ "generated": "2026-10-03T06:13:25+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -33,8 +33,8 @@
      ]
     },
     "pr": 4,
-    "pr_state": "draft",
-    "updated": "2026-10-02T01:11:12Z",
+    "pr_state": "open",
+    "updated": "2026-10-03T06:13:03Z",
     "replacement": "robot-agent-direct-control"
    }
   ],
@@ -421,6 +421,13 @@
        "label": "Agent working",
        "state": "running",
        "detail_public": "Actions run 37102169779",
+       "visibility": "public"
+      },
+      {
+       "t": 1791007926,
+       "kind": "agent",
+       "label": "Read the issue thread",
+       "state": "running",
        "visibility": "public"
       }
      ]
@@ -2878,6 +2885,39 @@
  ],
  "issues": [
   {
+   "issue": 3,
+   "title": "[change] agent-alfworld-planning-policy → robot-agent-direct-control",
+   "requester": "Imbernoulli",
+   "type": "maintenance",
+   "task": "agent-alfworld-planning-policy",
+   "replacement": "robot-agent-direct-control",
+   "state": "open",
+   "stage": "PR in review",
+   "waiting": false,
+   "phase": null,
+   "pr": 4,
+   "pr_state": "open",
+   "updated": "2026-10-03T06:13:03Z",
+   "opened": "2026-10-01T21:40:41Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790890841,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
+    "note": null
+   }
+  },
+  {
    "issue": 19,
    "title": "[change] dl-optim-mup-parametrization: this is too old, refer to https://arxiv.org/pdf/2505.16932 pls",
    "requester": "PeterLauLukChen",
@@ -3260,6 +3300,13 @@
       "label": "Agent working",
       "state": "running",
       "detail_public": "Actions run 37102169779",
+      "visibility": "public"
+     },
+     {
+      "t": 1791007926,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
       "visibility": "public"
      }
     ]
@@ -5977,39 +6024,6 @@
       "t": 1790906776,
       "kind": "maintainer",
       "label": "PR #12 merged: bundle re-rendered with three settings, README updated",
-      "state": "done",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
-    "by": "Imbernoulli",
-    "note": null
-   }
-  },
-  {
-   "issue": 3,
-   "title": "[change] agent-alfworld-planning-policy → robot-agent-direct-control",
-   "requester": "Imbernoulli",
-   "type": "maintenance",
-   "task": "agent-alfworld-planning-policy",
-   "replacement": "robot-agent-direct-control",
-   "state": "open",
-   "stage": "Draft PR",
-   "waiting": false,
-   "phase": null,
-   "pr": 4,
-   "pr_state": "draft",
-   "updated": "2026-10-02T01:11:12Z",
-   "opened": "2026-10-01T21:40:41Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1790890841,
-      "kind": "created",
-      "label": "Request created by @Imbernoulli",
       "state": "done",
       "visibility": "public"
      }
