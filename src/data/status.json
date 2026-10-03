@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T20:26:26+00:00",
+ "generated": "2026-10-03T21:13:29+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1798,7 +1798,7 @@
      {
       "t": 1790964409,
       "kind": "daytona",
-      "label": "Capacity wait dropped: the owner asked for a revised plan before more GPU runs",
+      "label": "GPUs available: runs submitted",
       "state": "done",
       "visibility": "public"
      },
@@ -2980,7 +2980,7 @@
       "t": 1791054206,
       "kind": "go",
       "label": "Waiting for your answers (phase B)",
-      "state": "waiting",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -2995,7 +2995,167 @@
       "t": 1791059014,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
+      "detail_public": "Actions run 37151341352",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059208,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37151341352",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059219,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37151341352",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059252,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059293,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059521,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059550,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059633,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059736,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059766,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060330,
+      "kind": "agent",
+      "label": "Task scaffold written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060722,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791060733,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061049,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791061072,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061089,
+      "kind": "daytona",
+      "label": "Daytona run gh-9-37151341352 submitted",
+      "state": "done",
+      "detail_public": "task llm-ppo-critic-objective, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061089,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "running",
+      "detail_public": "run gh-9-37151341352: sandbox building_snapshot",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061113,
+      "kind": "agent",
+      "label": "Daytona run submitted",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791061144,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061183,
+      "kind": "pr",
+      "label": "PR #13 updated",
+      "state": "done",
+      "detail_public": "PR #13",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061183,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37151341352",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061183,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
       "detail_public": "Actions run 37151341352",
       "visibility": "internal"
      }
@@ -3003,7 +3163,7 @@
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-03T20:23:05Z",
+   "updated": "2026-10-03T21:11:22Z",
    "replacement": null,
    "task": null
   },
@@ -5213,16 +5373,16 @@
       "t": 1791057759,
       "kind": "setting",
       "label": "Setting pe-0.01 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37141755380: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380: took 19m of 45m budget",
       "visibility": "public"
      },
      {
       "t": 1791057158,
       "kind": "setting",
       "label": "Setting muon-0.02 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37141755380-2: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380-2: took 19m of 45m budget",
       "visibility": "public"
      },
      {
@@ -5285,12 +5445,173 @@
       "state": "done",
       "detail_public": "Actions run 37148395915",
       "visibility": "internal"
+     },
+     {
+      "t": 1791059222,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059222,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059391,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059403,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059438,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059601,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059667,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059776,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059784,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059845,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791060029,
+      "kind": "agent",
+      "label": "Drafting the report",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060061,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791058927,
+      "kind": "setting",
+      "label": "Setting pe-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791058346,
+      "kind": "setting",
+      "label": "Setting muon-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059541,
+      "kind": "setting",
+      "label": "Setting muonh-0.009 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380-2: took 22m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060092,
+      "kind": "pr",
+      "label": "PR #21 updated",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060092,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060092,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791060100,
+      "kind": "setting",
+      "label": "Setting pe-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061283,
+      "kind": "setting",
+      "label": "Setting you-0.002 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37141755380: budget 45m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060876,
+      "kind": "setting",
+      "label": "Setting muonh-0.018 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37141755380-2: budget 45m",
+      "visibility": "public"
      }
     ]
    },
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T20:22:23Z",
+   "updated": "2026-10-03T21:11:07Z",
    "replacement": null,
    "task": null
   }
@@ -5309,7 +5630,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-03T20:23:05Z",
+   "updated": "2026-10-03T21:11:22Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -7048,7 +7369,7 @@
      {
       "t": 1790964409,
       "kind": "daytona",
-      "label": "Capacity wait dropped: the owner asked for a revised plan before more GPU runs",
+      "label": "GPUs available: runs submitted",
       "state": "done",
       "visibility": "public"
      },
@@ -8230,7 +8551,7 @@
       "t": 1791054206,
       "kind": "go",
       "label": "Waiting for your answers (phase B)",
-      "state": "waiting",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -8245,7 +8566,167 @@
       "t": 1791059014,
       "kind": "queue",
       "label": "Queued for the orchestrator",
-      "state": "waiting",
+      "state": "done",
+      "detail_public": "Actions run 37151341352",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059208,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37151341352",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059219,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37151341352",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059252,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059293,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059521,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059550,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059633,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059736,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059766,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060330,
+      "kind": "agent",
+      "label": "Task scaffold written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060722,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791060733,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061049,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791061072,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061089,
+      "kind": "daytona",
+      "label": "Daytona run gh-9-37151341352 submitted",
+      "state": "done",
+      "detail_public": "task llm-ppo-critic-objective, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061089,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "running",
+      "detail_public": "run gh-9-37151341352: sandbox building_snapshot",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061113,
+      "kind": "agent",
+      "label": "Daytona run submitted",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791061144,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061183,
+      "kind": "pr",
+      "label": "PR #13 updated",
+      "state": "done",
+      "detail_public": "PR #13",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061183,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37151341352",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061183,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
       "detail_public": "Actions run 37151341352",
       "visibility": "internal"
      }
@@ -8270,7 +8751,7 @@
    "phase": "B",
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T20:22:23Z",
+   "updated": "2026-10-03T21:11:07Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -10424,16 +10905,16 @@
       "t": 1791057759,
       "kind": "setting",
       "label": "Setting pe-0.01 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37141755380: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380: took 19m of 45m budget",
       "visibility": "public"
      },
      {
       "t": 1791057158,
       "kind": "setting",
       "label": "Setting muon-0.02 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37141755380-2: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380-2: took 19m of 45m budget",
       "visibility": "public"
      },
      {
@@ -10496,6 +10977,167 @@
       "state": "done",
       "detail_public": "Actions run 37148395915",
       "visibility": "internal"
+     },
+     {
+      "t": 1791059222,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059222,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059391,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059403,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059438,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059601,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059667,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059776,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791059784,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059845,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791060029,
+      "kind": "agent",
+      "label": "Drafting the report",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060061,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791058927,
+      "kind": "setting",
+      "label": "Setting pe-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791058346,
+      "kind": "setting",
+      "label": "Setting muon-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791059541,
+      "kind": "setting",
+      "label": "Setting muonh-0.009 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380-2: took 22m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060092,
+      "kind": "pr",
+      "label": "PR #21 updated",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060092,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060092,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37151547673",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791060100,
+      "kind": "setting",
+      "label": "Setting pe-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37141755380: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791061283,
+      "kind": "setting",
+      "label": "Setting you-0.002 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37141755380: budget 45m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791060876,
+      "kind": "setting",
+      "label": "Setting muonh-0.018 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37141755380-2: budget 45m",
+      "visibility": "public"
      }
     ]
    },
