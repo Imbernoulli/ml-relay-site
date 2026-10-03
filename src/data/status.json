@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T13:57:50+00:00",
+ "generated": "2026-10-03T17:58:03+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -10,7 +10,7 @@
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "type": "new task",
-   "state": "open",
+   "state": "running",
    "phase": "B",
    "approval": {
     "state": "approved",
@@ -2434,12 +2434,73 @@
       "state": "running",
       "detail_public": "run gh-9-37049068328: budget 10h00m",
       "visibility": "public"
+     },
+     {
+      "t": 1791049504,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37141627434",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049504,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37141627434",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049702,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37141627434",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049713,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37141627434",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049748,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049875,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791050149,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "running",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791050157,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "5 checks",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-03T13:11:23Z",
+   "updated": "2026-10-03T17:55:51Z",
    "replacement": null,
    "task": null
   },
@@ -3763,8 +3824,8 @@
       "t": 1791031477,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
-      "detail_public": "run gh-19-37120928219-2: sandbox building_snapshot",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2",
       "visibility": "public"
      },
      {
@@ -4025,8 +4086,8 @@
       "t": 1791034653,
       "kind": "setting",
       "label": "Setting nadam-1.2e-3 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37120928219: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
       "visibility": "public"
      },
      {
@@ -4127,12 +4188,273 @@
       "state": "done",
       "detail_public": "Actions run 37126428871",
       "visibility": "internal"
+     },
+     {
+      "t": 1791036351,
+      "kind": "setting",
+      "label": "Setting adamw-2.4e-3 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 13m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035504,
+      "kind": "setting",
+      "label": "Setting lion-2e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791036662,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035777,
+      "kind": "setting",
+      "label": "Setting pe-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791038435,
+      "kind": "setting",
+      "label": "Setting adamh-0.036 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791037189,
+      "kind": "setting",
+      "label": "Setting muonh-0.036 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 20m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791036917,
+      "kind": "setting",
+      "label": "Setting muon-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791038058,
+      "kind": "setting",
+      "label": "Setting you-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791039545,
+      "kind": "setting",
+      "label": "Setting nadam-2.4e-3 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791039212,
+      "kind": "setting",
+      "label": "Setting pe-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791041240,
+      "kind": "setting",
+      "label": "Setting adamw-6e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 13m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791040395,
+      "kind": "setting",
+      "label": "Setting lion-4e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791040368,
+      "kind": "setting",
+      "label": "Setting muon-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791041504,
+      "kind": "setting",
+      "label": "Setting you-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791043317,
+      "kind": "setting",
+      "label": "Setting adamh-0.009 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791042079,
+      "kind": "setting",
+      "label": "Setting muonh-0.009 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 20m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791043788,
+      "kind": "setting",
+      "label": "Setting muon-0.01 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791042640,
+      "kind": "setting",
+      "label": "Setting pe-0.01 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791045276,
+      "kind": "setting",
+      "label": "Setting lion-1e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took about 15m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791044422,
+      "kind": "setting",
+      "label": "Setting nadam-6e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791044926,
+      "kind": "setting",
+      "label": "Setting you-0.01 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791046183,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219",
+      "visibility": "public"
+     },
+     {
+      "t": 1791046071,
+      "kind": "setting",
+      "label": "Setting pe-0.005 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791047219,
+      "kind": "setting",
+      "label": "Setting muon-0.005 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791048358,
+      "kind": "setting",
+      "label": "Setting you-0.005 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took about 20m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049563,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049629,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37141755380",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049629,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37141755380",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049816,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37141755380",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049828,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37141755380",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049871,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791050042,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791050179,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T13:57:31Z",
+   "updated": "2026-10-03T17:56:21Z",
    "replacement": null,
    "task": null
   }
@@ -4151,7 +4473,7 @@
    "phase": "B",
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T13:57:31Z",
+   "updated": "2026-10-03T17:56:21Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -5419,8 +5741,8 @@
       "t": 1791031477,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
-      "detail_public": "run gh-19-37120928219-2: sandbox building_snapshot",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2",
       "visibility": "public"
      },
      {
@@ -5681,8 +6003,8 @@
       "t": 1791034653,
       "kind": "setting",
       "label": "Setting nadam-1.2e-3 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37120928219: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
       "visibility": "public"
      },
      {
@@ -5783,6 +6105,267 @@
       "state": "done",
       "detail_public": "Actions run 37126428871",
       "visibility": "internal"
+     },
+     {
+      "t": 1791036351,
+      "kind": "setting",
+      "label": "Setting adamw-2.4e-3 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 13m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035504,
+      "kind": "setting",
+      "label": "Setting lion-2e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791036662,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035777,
+      "kind": "setting",
+      "label": "Setting pe-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791038435,
+      "kind": "setting",
+      "label": "Setting adamh-0.036 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791037189,
+      "kind": "setting",
+      "label": "Setting muonh-0.036 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 20m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791036917,
+      "kind": "setting",
+      "label": "Setting muon-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791038058,
+      "kind": "setting",
+      "label": "Setting you-0.02 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791039545,
+      "kind": "setting",
+      "label": "Setting nadam-2.4e-3 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791039212,
+      "kind": "setting",
+      "label": "Setting pe-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791041240,
+      "kind": "setting",
+      "label": "Setting adamw-6e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 13m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791040395,
+      "kind": "setting",
+      "label": "Setting lion-4e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791040368,
+      "kind": "setting",
+      "label": "Setting muon-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791041504,
+      "kind": "setting",
+      "label": "Setting you-0.04 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791043317,
+      "kind": "setting",
+      "label": "Setting adamh-0.009 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791042079,
+      "kind": "setting",
+      "label": "Setting muonh-0.009 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 20m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791043788,
+      "kind": "setting",
+      "label": "Setting muon-0.01 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791042640,
+      "kind": "setting",
+      "label": "Setting pe-0.01 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791045276,
+      "kind": "setting",
+      "label": "Setting lion-1e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took about 15m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791044422,
+      "kind": "setting",
+      "label": "Setting nadam-6e-4 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 14m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791044926,
+      "kind": "setting",
+      "label": "Setting you-0.01 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791046183,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219",
+      "visibility": "public"
+     },
+     {
+      "t": 1791046071,
+      "kind": "setting",
+      "label": "Setting pe-0.005 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 19m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791047219,
+      "kind": "setting",
+      "label": "Setting muon-0.005 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791048358,
+      "kind": "setting",
+      "label": "Setting you-0.005 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2: took about 20m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049563,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049629,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37141755380",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049629,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37141755380",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049816,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37141755380",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049828,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37141755380",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049871,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791050042,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791050179,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "running",
+      "visibility": "public"
      }
     ]
    },
@@ -5805,7 +6388,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-03T13:11:23Z",
+   "updated": "2026-10-03T17:55:51Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -8220,6 +8803,67 @@
       "label": "Setting math_rl (seed 43)",
       "state": "running",
       "detail_public": "run gh-9-37049068328: budget 10h00m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049504,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37141627434",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049504,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37141627434",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049702,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37141627434",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791049713,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37141627434",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049748,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791049875,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791050149,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "running",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791050157,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "5 checks",
       "visibility": "public"
      }
     ]
