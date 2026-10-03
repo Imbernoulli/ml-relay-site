@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T08:39:41+00:00",
+ "generated": "2026-10-03T12:50:16+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1926,8 +1926,8 @@
       "t": 1790966771,
       "kind": "setting",
       "label": "Setting math_rl (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-9-37046806602: budget 10h00m",
+      "state": "done",
+      "detail_public": "run gh-9-37046806602: took 17h07m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -1996,8 +1996,8 @@
       "t": 1790967781,
       "kind": "setting",
       "label": "Setting math_rl (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-9-37049068328: budget 10h00m",
+      "state": "done",
+      "detail_public": "run gh-9-37049068328: took 17h11m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -2418,12 +2418,28 @@
       "state": "done",
       "detail_public": "Actions run 37070181301",
       "visibility": "internal"
+     },
+     {
+      "t": 1791028403,
+      "kind": "setting",
+      "label": "Setting math_rl (seed 43)",
+      "state": "running",
+      "detail_public": "run gh-9-37046806602: budget 10h00m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791029656,
+      "kind": "setting",
+      "label": "Setting math_rl (seed 43)",
+      "state": "running",
+      "detail_public": "run gh-9-37049068328: budget 10h00m",
+      "visibility": "public"
      }
     ]
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T22:05:22Z",
+   "updated": "2026-10-03T12:41:04Z",
    "replacement": null,
    "task": null
   },
@@ -2431,7 +2447,7 @@
    "issue": 18,
    "title": "[new task] vla-minivla-action-tokenization: compressing robot action chunks into VLA tokens",
    "type": "new task",
-   "state": "open",
+   "state": "closed",
    "phase": "C",
    "approval": {
     "state": "approved",
@@ -2454,7 +2470,7 @@
      {
       "t": 1791008286,
       "kind": "pr",
-      "label": "PR #20 open",
+      "label": "PR #20 merged",
       "state": "done",
       "detail_public": "PR #20",
       "visibility": "public"
@@ -2462,17 +2478,17 @@
     ]
    },
    "pr": 20,
-   "pr_state": "draft",
-   "updated": "2026-10-03T06:18:08Z",
+   "pr_state": "merged",
+   "updated": "2026-10-03T12:48:31Z",
    "replacement": null,
-   "task": null
+   "task": "vla-minivla-action-tokenization"
   },
   {
    "issue": 19,
    "title": "[new task] Optimizer design for Muon: matrix-sign / orthogonalization (Polar Express, arXiv:2505.16932)",
    "type": "new task",
    "state": "running",
-   "phase": "A",
+   "phase": "B",
    "approval": {
     "state": "approved",
     "by": null,
@@ -3336,7 +3352,7 @@
      {
       "t": 1791012577,
       "kind": "go",
-      "label": "Waiting for your go (phase A finished)",
+      "label": "Go received: phase A -> B",
       "state": "done",
       "visibility": "public"
      },
@@ -3360,17 +3376,17 @@
       "t": 1791016453,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37109981392",
       "visibility": "internal"
      },
      {
       "t": 1791016466,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37109981392",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791016516,
@@ -3390,22 +3406,434 @@
       "t": 1791016769,
       "kind": "agent",
       "label": "Precheck started",
-      "state": "running",
+      "state": "done",
       "visibility": "internal"
      },
      {
       "t": 1791016777,
       "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017558,
+      "kind": "agent",
+      "label": "Drafting the report",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017733,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017801,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791017840,
+      "kind": "agent",
+      "label": "Design draft ready",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017848,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017873,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37109981392",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017873,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37109981392",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791017966,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791017966,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791018119,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791018137,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791018163,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791018238,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791019059,
+      "kind": "agent",
+      "label": "Drafting the report",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791019823,
+      "kind": "agent",
+      "label": "Task scaffold written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791019991,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791020574,
+      "kind": "agent",
       "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791021800,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791021895,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37111497489 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021895,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021913,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37111497489-2 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021913,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489-2: sandbox building_snapshot",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021924,
+      "kind": "agent",
+      "label": "Daytona run submitted",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791021962,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021984,
+      "kind": "daytona",
+      "label": "GPUs available: runs submitted",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791022008,
+      "kind": "pr",
+      "label": "PR #21 opened",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791022008,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "public"
+     },
+     {
+      "t": 1791022008,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791026793,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791027652,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791027354,
+      "kind": "setting",
+      "label": "Setting gpt-124m (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489: took about 13m of 3h00m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791028187,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489",
+      "visibility": "public"
+     },
+     {
+      "t": 1791028248,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028248,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028369,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028380,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028425,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791028563,
+      "kind": "agent",
+      "label": "Results analysed",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791029398,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791029415,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "6 of 6 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031343,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031441,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031458,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37120928219 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031458,
+      "kind": "daytona",
+      "label": "Environment building",
       "state": "running",
-      "detail_public": "10 checks",
+      "detail_public": "run gh-19-37120928219",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031477,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37120928219-2 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031477,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "running",
+      "detail_public": "run gh-19-37120928219-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031493,
+      "kind": "agent",
+      "label": "Daytona run submitted",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031528,
+      "kind": "pr",
+      "label": "PR #21 linked",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031528,
+      "kind": "orchestrator",
+      "label": "Orchestrator reached its turn limit",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031538,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031538,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031699,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031712,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031743,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
       "visibility": "public"
      }
     ]
    },
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-03T08:39:31Z",
+   "pr": 21,
+   "pr_state": "open",
+   "updated": "2026-10-03T12:49:05Z",
    "replacement": null,
    "task": null
   }
@@ -3419,12 +3847,12 @@
    "task": null,
    "replacement": null,
    "state": "open",
-   "stage": "Design review",
+   "stage": "Building & pilot run",
    "waiting": false,
-   "phase": "A",
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-03T08:39:31Z",
+   "phase": "B",
+   "pr": 21,
+   "pr_state": "open",
+   "updated": "2026-10-03T12:49:05Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -4281,7 +4709,7 @@
      {
       "t": 1791012577,
       "kind": "go",
-      "label": "Waiting for your go (phase A finished)",
+      "label": "Go received: phase A -> B",
       "state": "done",
       "visibility": "public"
      },
@@ -4305,17 +4733,17 @@
       "t": 1791016453,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37109981392",
       "visibility": "internal"
      },
      {
       "t": 1791016466,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37109981392",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791016516,
@@ -4335,15 +4763,427 @@
       "t": 1791016769,
       "kind": "agent",
       "label": "Precheck started",
-      "state": "running",
+      "state": "done",
       "visibility": "internal"
      },
      {
       "t": 1791016777,
       "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "10 of 10 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017558,
+      "kind": "agent",
+      "label": "Drafting the report",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017733,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017801,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791017840,
+      "kind": "agent",
+      "label": "Design draft ready",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017848,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017873,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37109981392",
+      "visibility": "public"
+     },
+     {
+      "t": 1791017873,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37109981392",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791017966,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791017966,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791018119,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791018137,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791018163,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791018238,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791019059,
+      "kind": "agent",
+      "label": "Drafting the report",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791019823,
+      "kind": "agent",
+      "label": "Task scaffold written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791019991,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791020574,
+      "kind": "agent",
       "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791021800,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791021895,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37111497489 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021895,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021913,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37111497489-2 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021913,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489-2: sandbox building_snapshot",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021924,
+      "kind": "agent",
+      "label": "Daytona run submitted",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791021962,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791021984,
+      "kind": "daytona",
+      "label": "GPUs available: runs submitted",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791022008,
+      "kind": "pr",
+      "label": "PR #21 opened",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791022008,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "public"
+     },
+     {
+      "t": 1791022008,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37111497489",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791026793,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791027652,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791027354,
+      "kind": "setting",
+      "label": "Setting gpt-124m (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489: took about 13m of 3h00m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791028187,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37111497489",
+      "visibility": "public"
+     },
+     {
+      "t": 1791028248,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028248,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028369,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028380,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791028425,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791028563,
+      "kind": "agent",
+      "label": "Results analysed",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791029398,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791029415,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "6 of 6 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031343,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031441,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031458,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37120928219 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031458,
+      "kind": "daytona",
+      "label": "Environment building",
       "state": "running",
-      "detail_public": "10 checks",
+      "detail_public": "run gh-19-37120928219",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031477,
+      "kind": "daytona",
+      "label": "Daytona run gh-19-37120928219-2 submitted",
+      "state": "done",
+      "detail_public": "task llm-pretrain-optimizer-design, agent oracle, 8 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031477,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "running",
+      "detail_public": "run gh-19-37120928219-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031493,
+      "kind": "agent",
+      "label": "Daytona run submitted",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031528,
+      "kind": "pr",
+      "label": "PR #21 linked",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031528,
+      "kind": "orchestrator",
+      "label": "Orchestrator reached its turn limit",
+      "state": "done",
+      "detail_public": "Actions run 37120928219",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031538,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031538,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031699,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791031712,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031743,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "running",
       "visibility": "public"
      }
     ]
@@ -4361,13 +5201,13 @@
    "type": "new task",
    "task": null,
    "replacement": null,
-   "state": "open",
-   "stage": "Full measurement",
+   "state": "closed",
+   "stage": "Merged",
    "waiting": false,
    "phase": "C",
    "pr": 20,
-   "pr_state": "draft",
-   "updated": "2026-10-03T06:18:08Z",
+   "pr_state": "merged",
+   "updated": "2026-10-03T12:48:31Z",
    "opened": "2026-10-02T21:41:04Z",
    "progress": {
     "current": null,
@@ -4382,7 +5222,7 @@
      {
       "t": 1791008286,
       "kind": "pr",
-      "label": "PR #20 open",
+      "label": "PR #20 merged",
       "state": "done",
       "detail_public": "PR #20",
       "visibility": "public"
@@ -4408,7 +5248,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-02T22:05:22Z",
+   "updated": "2026-10-03T12:41:04Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -6316,8 +7156,8 @@
       "t": 1790966771,
       "kind": "setting",
       "label": "Setting math_rl (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-9-37046806602: budget 10h00m",
+      "state": "done",
+      "detail_public": "run gh-9-37046806602: took 17h07m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -6386,8 +7226,8 @@
       "t": 1790967781,
       "kind": "setting",
       "label": "Setting math_rl (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-9-37049068328: budget 10h00m",
+      "state": "done",
+      "detail_public": "run gh-9-37049068328: took 17h11m of 10h00m budget",
       "visibility": "public"
      },
      {
@@ -6808,6 +7648,22 @@
       "state": "done",
       "detail_public": "Actions run 37070181301",
       "visibility": "internal"
+     },
+     {
+      "t": 1791028403,
+      "kind": "setting",
+      "label": "Setting math_rl (seed 43)",
+      "state": "running",
+      "detail_public": "run gh-9-37046806602: budget 10h00m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791029656,
+      "kind": "setting",
+      "label": "Setting math_rl (seed 43)",
+      "state": "running",
+      "detail_public": "run gh-9-37049068328: budget 10h00m",
+      "visibility": "public"
      }
     ]
    },
