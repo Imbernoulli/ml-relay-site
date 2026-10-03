@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T13:27:35+00:00",
+ "generated": "2026-10-03T13:57:50+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -3810,17 +3810,17 @@
       "t": 1791031699,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37123884774",
       "visibility": "internal"
      },
      {
       "t": 1791031712,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37123884774",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791031743,
@@ -3855,7 +3855,7 @@
       "t": 1791032763,
       "kind": "agent",
       "label": "Drafting the report",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -3878,8 +3878,8 @@
       "t": 1791032306,
       "kind": "setting",
       "label": "Setting muonh-0.018 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37120928219: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 20m of 45m budget",
       "visibility": "public"
      },
      {
@@ -3893,16 +3893,246 @@
      {
       "t": 1791034041,
       "kind": "precheck",
-      "label": "Precheck started",
-      "state": "running",
-      "detail_public": "5 checks",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1791034085,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034114,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034144,
+      "kind": "pr",
+      "label": "PR #21 linked",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034144,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034144,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034261,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034261,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034409,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034422,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034461,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034563,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034769,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034778,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "14 of 14 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034809,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034837,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791033547,
+      "kind": "setting",
+      "label": "Setting adamh-0.018 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034653,
+      "kind": "setting",
+      "label": "Setting nadam-1.2e-3 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37120928219: budget 45m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034997,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035022,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "6 of 6 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035044,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035063,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035085,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791035320,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035343,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035654,
+      "kind": "agent",
+      "label": "Dry run checked",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035661,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035805,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035849,
+      "kind": "pr",
+      "label": "PR #21 updated",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035849,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035849,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
      }
     ]
    },
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T13:27:05Z",
+   "updated": "2026-10-03T13:57:31Z",
    "replacement": null,
    "task": null
   }
@@ -3921,7 +4151,7 @@
    "phase": "B",
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T13:27:05Z",
+   "updated": "2026-10-03T13:57:31Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -5236,17 +5466,17 @@
       "t": 1791031699,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37123884774",
       "visibility": "internal"
      },
      {
       "t": 1791031712,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37123884774",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791031743,
@@ -5281,7 +5511,7 @@
       "t": 1791032763,
       "kind": "agent",
       "label": "Drafting the report",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -5304,8 +5534,8 @@
       "t": 1791032306,
       "kind": "setting",
       "label": "Setting muonh-0.018 (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-19-37120928219: budget 45m",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 20m of 45m budget",
       "visibility": "public"
      },
      {
@@ -5319,10 +5549,240 @@
      {
       "t": 1791034041,
       "kind": "precheck",
-      "label": "Precheck started",
-      "state": "running",
-      "detail_public": "5 checks",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
       "visibility": "public"
+     },
+     {
+      "t": 1791034085,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034114,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034144,
+      "kind": "pr",
+      "label": "PR #21 linked",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034144,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034144,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37123884774",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034261,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034261,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034409,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034422,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034461,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034563,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034769,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791034778,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "14 of 14 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034809,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034837,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "9 of 9 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791033547,
+      "kind": "setting",
+      "label": "Setting adamh-0.018 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 18m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034653,
+      "kind": "setting",
+      "label": "Setting nadam-1.2e-3 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37120928219: budget 45m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034997,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035022,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "6 of 6 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035044,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035063,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035085,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791035320,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035343,
+      "kind": "agent",
+      "label": "Bundle rendered",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035654,
+      "kind": "agent",
+      "label": "Dry run checked",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035661,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "7 of 7 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035805,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035849,
+      "kind": "pr",
+      "label": "PR #21 updated",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035849,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "public"
+     },
+     {
+      "t": 1791035849,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37126428871",
+      "visibility": "internal"
      }
     ]
    },
