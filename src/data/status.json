@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T06:03:34+00:00",
+ "generated": "2026-10-03T06:12:03+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -43,7 +43,7 @@
     "issue": 19,
     "title": "[change] dl-optim-mup-parametrization: this is too old, refer to https://arxiv.org/pdf/2505.16932 pls",
     "type": "change",
-    "state": "open",
+    "state": "running",
     "phase": null,
     "approval": {
      "state": "approved",
@@ -253,8 +253,8 @@
       {
        "t": 1790980662,
        "kind": "retry",
-       "label": "Retrying now (attempt 1 of 3)",
-       "state": "running",
+       "label": "Resumed after the usage-limit pause",
+       "state": "done",
        "visibility": "public"
       },
       {
@@ -390,12 +390,44 @@
        "state": "failed",
        "detail_public": "Actions run 37077924669",
        "visibility": "public"
+      },
+      {
+       "t": 1791007830,
+       "kind": "gate",
+       "label": "Gate passed (write access)",
+       "state": "done",
+       "detail_public": "Actions run 37102169779",
+       "visibility": "internal"
+      },
+      {
+       "t": 1791007830,
+       "kind": "queue",
+       "label": "Queued for the orchestrator",
+       "state": "done",
+       "detail_public": "Actions run 37102169779",
+       "visibility": "internal"
+      },
+      {
+       "t": 1791007898,
+       "kind": "orchestrator",
+       "label": "Orchestrator started",
+       "state": "running",
+       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37102169779",
+       "visibility": "internal"
+      },
+      {
+       "t": 1791007905,
+       "kind": "heartbeat",
+       "label": "Agent working",
+       "state": "running",
+       "detail_public": "Actions run 37102169779",
+       "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-02T23:48:33Z",
+    "updated": "2026-10-03T06:11:44Z",
     "replacement": null
    }
   ]
@@ -2853,12 +2885,12 @@
    "task": "dl-optim-mup-parametrization",
    "replacement": null,
    "state": "open",
-   "stage": "Requested",
+   "stage": "Agent working",
    "waiting": false,
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-02T23:48:33Z",
+   "updated": "2026-10-03T06:11:44Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -3060,8 +3092,8 @@
      {
       "t": 1790980662,
       "kind": "retry",
-      "label": "Retrying now (attempt 1 of 3)",
-      "state": "running",
+      "label": "Resumed after the usage-limit pause",
+      "state": "done",
       "visibility": "public"
      },
      {
@@ -3196,6 +3228,38 @@
       "label": "Orchestrator failed",
       "state": "failed",
       "detail_public": "Actions run 37077924669",
+      "visibility": "public"
+     },
+     {
+      "t": 1791007830,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37102169779",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791007830,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37102169779",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791007898,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "running",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37102169779",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791007905,
+      "kind": "heartbeat",
+      "label": "Agent working",
+      "state": "running",
+      "detail_public": "Actions run 37102169779",
       "visibility": "public"
      }
     ]
