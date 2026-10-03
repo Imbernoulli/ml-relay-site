@@ -186,16 +186,18 @@ def _runs_in_flight() -> bool:
         for st in rec.get("steps") or []:
             if st.get("kind") in ("daytona", "setting", "precheck") and st.get("state") == "running":
                 return True
-            # a refused submit waiting for GPUs: the poller re-checks the budget gate each tick
-            if str(st.get("key") or "").startswith("capacity:") and st.get("state") == "waiting":
+            # a refused submit waiting for GPUs, or a usage-limit pause whose retry is due: the
+            # poller re-checks / re-dispatches them (it has no cron of its own any more)
+            if str(st.get("key") or "").startswith(("capacity:", "pause:")) and st.get("state") == "waiting":
                 return True
     return False
 
 
-@app.function(secrets=[status_secret, *dispatch_secrets], schedule=modal.Period(minutes=10), max_containers=1)
+@app.function(secrets=[status_secret, *dispatch_secrets], schedule=modal.Period(minutes=30), max_containers=1)
 def poller_heartbeat():
-    """Fallback for GitHub's unreliable cron: trigger the relay poller every 10 min,
-    but only while a relay run is in flight (otherwise it does nothing)."""
+    """The relay poller's only clock (relay-poller.yml has no cron): every 30 min, and only while
+    a relay run, a capacity wait or a usage-limit pause is open. The finished / failed run-event
+    ping is the primary trigger; this catches a missed ping. Idle costs no Actions minute."""
     if _runs_in_flight():
         print("runs in flight -> poller dispatch:", dispatch_poller("modal heartbeat (runs in flight)"))
     else:
@@ -410,7 +412,8 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         live_status[f"issue:{n}"] = rec
         live_status["meta:version"] = (live_status.get("meta:version") or 0) + 1
         dispatched = 0
-        if event in ("env_built", "verifying", "finished", "failed"):
+        # Only an ended run needs the poller (to collect it); the timeline already moved above.
+        if event in ("finished", "failed"):
             dispatched = dispatch_poller(f"run-event {event} {rid}")
         return JSONResponse({"ok": True, "dispatched": dispatched})
 
@@ -501,6 +504,10 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
             "state": "pending",
         }
         access_requests[key] = rec
+        try:   # the poller announces it to the maintainers (it has no cron of its own)
+            dispatch_poller(f"access request {user['login']}")
+        except Exception:  # noqa: BLE001
+            pass
         return cors(JSONResponse(_public_request(rec)))
 
     @api.get("/access-requests/me")

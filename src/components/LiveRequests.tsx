@@ -137,7 +137,7 @@ export default function LiveRequests({
                 )}
               </h2>
               <span
-                title="Filed moments ago: the published status catches up after the next sync (a few minutes)"
+                title="Shown from the live status; the published list catches up at the next snapshot (at most 2 h)"
                 className="whitespace-nowrap rounded-full border border-sky-500/50 bg-sky-500/10 px-2 py-0.5 text-[11px] font-medium text-sky-800 dark:text-sky-200"
               >
                 syncing
