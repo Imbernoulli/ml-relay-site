@@ -1,7 +1,6 @@
 // Home-page order: the most striking, frontier tasks first (owner, 2026-10-02).
 // Tasks not listed here keep their sync order after the listed ones.
 export const FEATURED_ORDER: string[] = [
-  "robot-agent-direct-control",
   "llm-rl-mismatch-correction",
   "llm-opd-token-signal",
   "robo-humanoid-sim2real-algo",
@@ -15,6 +14,7 @@ export const FEATURED_ORDER: string[] = [
   "llm-gqa-to-mla-conversion",
   "llm-looped-token-depth",
   "spec-drafter-block-head",
+  "robot-agent-direct-control",
   "cv-flowmaps-training",
   "vla-smolvla-rl-chunk-objective",
   "cv-3dgs-densification",
