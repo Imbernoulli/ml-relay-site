@@ -188,7 +188,7 @@ def _runs_in_flight() -> bool:
                 return True
             # a refused submit waiting for GPUs, or a usage-limit pause whose retry is due: the
             # poller re-checks / re-dispatches them (it has no cron of its own any more)
-            if str(st.get("key") or "").startswith(("capacity:", "pause:")) and st.get("state") == "waiting":
+            if str(st.get("key") or "").startswith(("capacity:", "pause:", "deferred:")) and st.get("state") == "waiting":
                 return True
     return False
 
