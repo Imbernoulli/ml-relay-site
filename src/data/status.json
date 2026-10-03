@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T07:04:14+00:00",
+ "generated": "2026-10-03T07:10:07+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -2471,7 +2471,7 @@
    "issue": 19,
    "title": "[new task] Optimizer design for Muon: matrix-sign / orthogonalization (Polar Express, arXiv:2505.16932)",
    "type": "new task",
-   "state": "running",
+   "state": "open",
    "phase": "A",
    "approval": {
     "state": "approved",
@@ -2965,17 +2965,17 @@
       "t": 1791008462,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37102669745",
       "visibility": "internal"
      },
      {
       "t": 1791008469,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37102669745",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791008491,
@@ -3049,9 +3049,8 @@
      {
       "t": 1791009351,
       "kind": "precheck",
-      "label": "Precheck started",
-      "state": "running",
-      "detail_public": "11 checks",
+      "label": "Precheck stopped (the agent's run ended first)",
+      "state": "failed",
       "visibility": "public"
      },
      {
@@ -3106,14 +3105,46 @@
       "t": 1791010152,
       "kind": "agent",
       "label": "Drafting the report",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
+     },
+     {
+      "t": 1791011330,
+      "kind": "retry",
+      "label": "Turn limit reached: continuing automatically",
+      "state": "waiting",
+      "detail_public": "continuation 1 of 5",
+      "visibility": "public"
+     },
+     {
+      "t": 1791011337,
+      "kind": "orchestrator",
+      "label": "Orchestrator reached its turn limit",
+      "state": "done",
+      "detail_public": "Actions run 37102669745",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791011341,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37105377406",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791011341,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "waiting",
+      "detail_public": "Actions run 37105377406",
+      "visibility": "internal"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-03T06:49:13Z",
+   "updated": "2026-10-03T07:09:02Z",
    "replacement": null,
    "task": null
   }
@@ -3132,7 +3163,7 @@
    "phase": "A",
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-03T06:49:13Z",
+   "updated": "2026-10-03T07:09:02Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -3618,17 +3649,17 @@
       "t": 1791008462,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37102669745",
       "visibility": "internal"
      },
      {
       "t": 1791008469,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37102669745",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791008491,
@@ -3702,9 +3733,8 @@
      {
       "t": 1791009351,
       "kind": "precheck",
-      "label": "Precheck started",
-      "state": "running",
-      "detail_public": "11 checks",
+      "label": "Precheck stopped (the agent's run ended first)",
+      "state": "failed",
       "visibility": "public"
      },
      {
@@ -3759,8 +3789,40 @@
       "t": 1791010152,
       "kind": "agent",
       "label": "Drafting the report",
-      "state": "running",
+      "state": "done",
       "visibility": "public"
+     },
+     {
+      "t": 1791011330,
+      "kind": "retry",
+      "label": "Turn limit reached: continuing automatically",
+      "state": "waiting",
+      "detail_public": "continuation 1 of 5",
+      "visibility": "public"
+     },
+     {
+      "t": 1791011337,
+      "kind": "orchestrator",
+      "label": "Orchestrator reached its turn limit",
+      "state": "done",
+      "detail_public": "Actions run 37102669745",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791011341,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37105377406",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791011341,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "waiting",
+      "detail_public": "Actions run 37105377406",
+      "visibility": "internal"
      }
     ]
    },
