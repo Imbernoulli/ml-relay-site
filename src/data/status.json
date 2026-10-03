@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-03T12:50:16+00:00",
+ "generated": "2026-10-03T13:27:35+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -2439,7 +2439,7 @@
    },
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-03T12:41:04Z",
+   "updated": "2026-10-03T13:11:23Z",
    "replacement": null,
    "task": null
   },
@@ -3747,7 +3747,7 @@
       "t": 1791031458,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-19-37120928219",
       "visibility": "public"
      },
@@ -3764,7 +3764,7 @@
       "kind": "daytona",
       "label": "Environment building",
       "state": "running",
-      "detail_public": "run gh-19-37120928219-2",
+      "detail_public": "run gh-19-37120928219-2: sandbox building_snapshot",
       "visibility": "public"
      },
      {
@@ -3826,14 +3826,83 @@
       "t": 1791031743,
       "kind": "agent",
       "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031886,
+      "kind": "agent",
+      "label": "Results analysed",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791032106,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791032114,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791032763,
+      "kind": "agent",
+      "label": "Drafting the report",
       "state": "running",
+      "visibility": "public"
+     },
+     {
+      "t": 1791033063,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031468,
+      "kind": "setting",
+      "label": "Setting adamw-1.2e-3 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 13m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791032306,
+      "kind": "setting",
+      "label": "Setting muonh-0.018 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37120928219: budget 45m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791033097,
+      "kind": "precheck",
+      "label": "Precheck finished with failures",
+      "state": "failed",
+      "detail_public": "4 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034041,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "5 checks",
       "visibility": "public"
      }
     ]
    },
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T12:49:05Z",
+   "updated": "2026-10-03T13:27:05Z",
    "replacement": null,
    "task": null
   }
@@ -3852,7 +3921,7 @@
    "phase": "B",
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-03T12:49:05Z",
+   "updated": "2026-10-03T13:27:05Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -5104,7 +5173,7 @@
       "t": 1791031458,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-19-37120928219",
       "visibility": "public"
      },
@@ -5121,7 +5190,7 @@
       "kind": "daytona",
       "label": "Environment building",
       "state": "running",
-      "detail_public": "run gh-19-37120928219-2",
+      "detail_public": "run gh-19-37120928219-2: sandbox building_snapshot",
       "visibility": "public"
      },
      {
@@ -5183,7 +5252,76 @@
       "t": 1791031743,
       "kind": "agent",
       "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031886,
+      "kind": "agent",
+      "label": "Results analysed",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791032106,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791032114,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791032763,
+      "kind": "agent",
+      "label": "Drafting the report",
       "state": "running",
+      "visibility": "public"
+     },
+     {
+      "t": 1791033063,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791031468,
+      "kind": "setting",
+      "label": "Setting adamw-1.2e-3 (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37120928219: took 13m of 45m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791032306,
+      "kind": "setting",
+      "label": "Setting muonh-0.018 (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-19-37120928219: budget 45m",
+      "visibility": "public"
+     },
+     {
+      "t": 1791033097,
+      "kind": "precheck",
+      "label": "Precheck finished with failures",
+      "state": "failed",
+      "detail_public": "4 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791034041,
+      "kind": "precheck",
+      "label": "Precheck started",
+      "state": "running",
+      "detail_public": "5 checks",
       "visibility": "public"
      }
     ]
@@ -5191,47 +5329,6 @@
    "approval": {
     "state": "approved",
     "by": null,
-    "note": null
-   }
-  },
-  {
-   "issue": 18,
-   "title": "[new task] vla-minivla-action-tokenization: compressing robot action chunks into VLA tokens",
-   "requester": "Imbernoulli",
-   "type": "new task",
-   "task": null,
-   "replacement": null,
-   "state": "closed",
-   "stage": "Merged",
-   "waiting": false,
-   "phase": "C",
-   "pr": 20,
-   "pr_state": "merged",
-   "updated": "2026-10-03T12:48:31Z",
-   "opened": "2026-10-02T21:41:04Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1790977264,
-      "kind": "created",
-      "label": "Request created by @Imbernoulli",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791008286,
-      "kind": "pr",
-      "label": "PR #20 merged",
-      "state": "done",
-      "detail_public": "PR #20",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
-    "by": "Imbernoulli",
     "note": null
    }
   },
@@ -5248,7 +5345,7 @@
    "phase": "B",
    "pr": 13,
    "pr_state": "open",
-   "updated": "2026-10-03T12:41:04Z",
+   "updated": "2026-10-03T13:11:23Z",
    "opened": "2026-10-02T00:54:56Z",
    "progress": {
     "current": null,
@@ -7670,6 +7767,47 @@
    "approval": {
     "state": "approved",
     "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 18,
+   "title": "[new task] vla-minivla-action-tokenization: compressing robot action chunks into VLA tokens",
+   "requester": "Imbernoulli",
+   "type": "new task",
+   "task": null,
+   "replacement": null,
+   "state": "closed",
+   "stage": "Merged",
+   "waiting": false,
+   "phase": "C",
+   "pr": 20,
+   "pr_state": "merged",
+   "updated": "2026-10-03T12:48:31Z",
+   "opened": "2026-10-02T21:41:04Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1790977264,
+      "kind": "created",
+      "label": "Request created by @Imbernoulli",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791008286,
+      "kind": "pr",
+      "label": "PR #20 merged",
+      "state": "done",
+      "detail_public": "PR #20",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": "Imbernoulli",
     "note": null
    }
   },
