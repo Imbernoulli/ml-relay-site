@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import AccountMenu from "./AccountMenu";
 import AccessNotices from "./AccessNotices";
+import MyWorkBadge from "./MyWorkBadge";
 
 const NAV = [
   { href: "/", label: "Tasks" },
@@ -14,7 +15,7 @@ const NAV = [
   { href: "/shortlist/", label: "☆ Shortlist" },
 ];
 
-export default function Navbar({ mode = "internal" }: { mode?: "public" | "internal" }) {
+export default function Navbar({ mode = "internal", maintainers = [] }: { mode?: "public" | "internal"; maintainers?: string[] }) {
   const pathname = usePathname();
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur">
@@ -39,6 +40,7 @@ export default function Navbar({ mode = "internal" }: { mode?: "public" | "inter
                 }`}
               >
                 {item.label}
+                {item.href === "/me/" && mode === "public" && <MyWorkBadge maintainers={maintainers} />}
               </Link>
             );
           })}

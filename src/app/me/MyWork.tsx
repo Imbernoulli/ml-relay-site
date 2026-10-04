@@ -24,10 +24,18 @@ import RequestAccess from "@/components/RequestAccess";
 import AccessQueue from "@/components/AccessQueue";
 import Skeleton from "@/components/Skeleton";
 import MaintainerActions, { isMaintainer } from "@/components/MaintainerActions";
-import { approvalLabel } from "@/lib/approval";
 import { getOptimistic } from "@/lib/issueForm";
 import { cleanRequestTitle, type TaskTitles } from "@/lib/requestTitle";
 import { RELAY_REPO } from "@/lib/site";
+import { useLiveStatus } from "@/lib/liveStatus";
+import { actionsFor, pendingActions } from "@/lib/actions";
+
+const REASON_STYLE: Record<string, string> = {
+  approve: "border-violet-500/50 bg-violet-500/10 text-violet-800 dark:text-violet-200",
+  reply: "border-amber-500/50 bg-amber-500/10 text-amber-800 dark:text-amber-200",
+  go: "border-emerald-500/50 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200",
+  merge: "border-sky-500/50 bg-sky-500/10 text-sky-800 dark:text-sky-200",
+};
 
 const PR_STYLE: Record<string, string> = {
   draft: "border-slate-400/50 bg-slate-500/10 text-slate-700 dark:text-slate-300",
@@ -152,6 +160,7 @@ type Load =
 
 export default function MyWork({ status, knownTasks, titles }: { status: StatusData; knownTasks: string[]; titles: TaskTitles }) {
   const [load, setLoad] = useState<Load>({ s: "loading" });
+  const live = useLiveStatus();
   // the signed-in login from the session cache, so the page's sections show before any fetch returns
   const [cached, setCached] = useState<Viewer | null>(null);
   useEffect(() => {
@@ -235,7 +244,8 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
   const me = load.s === "ok" ? load.me : cached!;
   const items = load.s === "ok" ? load.items : null;
   const maint = isMaintainer(me.login, status.maintainers);
-  const needs = maint ? (status.issues ?? []).filter((x) => x.state === "open" && (x.approval?.state === "waiting" || x.approval?.state === "feedback")) : [];
+  // everything waiting on this person, live: maintainers see every request whose next step is theirs
+  const needs = actionsFor(pendingActions(live, status.issues ?? []), me.login, maint);
   const open = (items ?? []).filter((r) => r.state === "open");
   const closed = (items ?? []).filter((r) => r.state !== "open");
   return (
@@ -258,41 +268,45 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
           <AccessQueue />
         </div>
       )}
-      {maint && (
-        <section className="mt-6">
-          <h2 className="text-lg font-semibold">Needs your approval ({needs.length})</h2>
-          <div className="mt-2 space-y-3">
-            {needs.length ? (
-              needs.map((x) => (
+      <section className="mt-6" id="needs-action">
+        <h2 className="text-lg font-semibold">Needs your action ({needs.length})</h2>
+        <div className="mt-2 space-y-3">
+          {needs.length ? (
+            needs.map((x) => {
+              const st = byIssue.get(x.issue);
+              return (
                 <Card key={x.issue}>
                   <div className="flex flex-wrap items-center gap-2">
+                    <Pill cls={REASON_STYLE[x.reason]}>{x.reason}</Pill>
                     <Pill cls="border-border bg-muted text-foreground">{x.type}</Pill>
-                    {x.approval && <Pill cls="border-violet-500/50 bg-violet-500/10 text-violet-800 dark:text-violet-200">{approvalLabel(x.approval)}</Pill>}
-                    <span className="ml-auto text-xs text-muted-foreground">opened {(x.opened ?? x.updated).slice(0, 10)}</span>
+                    <span className="text-sm text-muted-foreground">{x.note}</span>
                   </div>
                   <Link href={`/requests/${x.issue}/`} className="mt-2 block text-base font-semibold hover:underline">
-                    #{x.issue} {x.title}
+                    #{x.issue} {cleanRequestTitle(x.title, titles)}
                   </Link>
                   <div className="mt-1 text-xs text-muted-foreground">
-                    {x.task && known.has(x.task) ? (
-                      <Link href={`/tasks/${x.task}/`} className="underline">
-                        {titles[x.task] ?? x.task}
+                    {st?.task && known.has(st.task) ? (
+                      <Link href={`/tasks/${st.task}/`} className="underline">
+                        {titles[st.task] ?? st.task}
                       </Link>
-                    ) : x.type === "new task" ? (
-                      "new-task proposal"
                     ) : null}
                     {x.requester && <span> · requested by <span className="font-mono">{x.requester}</span></span>}
+                    <Link href={`/requests/${x.issue}/`} className="ml-2 underline">
+                      open the request
+                    </Link>
                   </div>
-                  {x.approval?.note && <p className="mt-2 text-sm text-muted-foreground">Last feedback: {x.approval.note}</p>}
-                  <MaintainerActions issue={x.issue} approval={x.approval} maintainers={status.maintainers} repo={RELAY_REPO} />
+                  {x.reason === "approve" && st?.approval?.note && <p className="mt-2 text-sm text-muted-foreground">Last feedback: {st.approval.note}</p>}
+                  {x.reason === "approve" && maint && (
+                    <MaintainerActions issue={x.issue} approval={st?.approval ?? { state: "waiting", by: null, note: null }} maintainers={status.maintainers} repo={RELAY_REPO} />
+                  )}
                 </Card>
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground">Nothing pending.</p>
-            )}
-          </div>
-        </section>
-      )}
+              );
+            })
+          ) : (
+            <p className="text-sm text-muted-foreground">Nothing is waiting for you.</p>
+          )}
+        </div>
+      </section>
       <section className="mt-6">
         <h2 className="text-lg font-semibold">Your requests{items ? ` (${open.length} open)` : ""}</h2>
         {items === null ? (
