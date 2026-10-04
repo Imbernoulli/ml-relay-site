@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04T20:50:30+00:00",
+ "generated": "2026-10-04T22:48:20+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1010,14 +1010,14 @@
        "kind": "setting",
        "label": "Setting train_small (seed 42)",
        "state": "running",
-       "detail_public": "run gh-24-37194538596: budget 10h00m",
+       "detail_public": "run gh-24-37194538596: budget 10h00m, OVER budget (log last written 17m ago)",
        "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-04T11:41:19Z",
+    "updated": "2026-10-04T22:40:58Z",
     "replacement": null
    }
   ],
@@ -5168,14 +5168,6 @@
       "visibility": "public"
      },
      {
-      "t": 1790980662,
-      "kind": "retry",
-      "label": "Paused: Claude usage limit, retrying at Oct 7, 21:05 UTC",
-      "state": "waiting",
-      "detail_public": "attempt 1 of 3",
-      "visibility": "public"
-     },
-     {
       "t": 1790980671,
       "kind": "orchestrator",
       "label": "Orchestrator paused (Claude usage limit)",
@@ -9277,6 +9269,14 @@
       "label": "Orchestrator paused (Claude usage limit)",
       "state": "waiting",
       "detail_public": "Actions run 37220582931",
+      "visibility": "public"
+     },
+     {
+      "t": 1791147258,
+      "kind": "retry",
+      "label": "Paused: Claude usage limit, retrying at Oct 7, 21:05 UTC",
+      "state": "waiting",
+      "detail_public": "attempt 1 of 3",
       "visibility": "public"
      }
     ]
@@ -9504,6 +9504,577 @@
  ],
  "issues": [
   {
+   "issue": 24,
+   "title": "[change] cv-flowmaps-training: extra metrics, transformer setting",
+   "requester": "lan-qing",
+   "type": "change",
+   "task": "cv-flowmaps-training",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-04T22:40:58Z",
+   "opened": "2026-10-04T00:56:37Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791075397,
+      "kind": "created",
+      "label": "Request created by @lan-qing",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791075430,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1791077481,
+      "kind": "approval",
+      "label": "Approved by the maintainer",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791077488,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37168247401",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791077488,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37168247401",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791077637,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37168247401",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791077644,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37168247401",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791077674,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791077778,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791077975,
+      "kind": "retry",
+      "label": "Resumed after the usage-limit pause",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791077983,
+      "kind": "orchestrator",
+      "label": "Orchestrator paused (Claude usage limit)",
+      "state": "done",
+      "detail_public": "Actions run 37168247401",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791090682,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37179136093",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791090682,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37179136093",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791090835,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37179136093",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791090845,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37179136093",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791090880,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791091091,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791091147,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791091169,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791091282,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "11 of 11 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791091307,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791091640,
+      "kind": "agent",
+      "label": "Plan drafted",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791091853,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "4 of 4 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791092034,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791092252,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791093128,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791093236,
+      "kind": "agent",
+      "label": "Drafting the report",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791093890,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791093929,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791094022,
+      "kind": "precheck",
+      "label": "Precheck stopped (the agent's run ended first)",
+      "state": "failed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791094627,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791095930,
+      "kind": "orchestrator",
+      "label": "Orchestrator paused (Claude usage limit)",
+      "state": "done",
+      "detail_public": "Actions run 37179136093",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791108686,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37194538596",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791108686,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37194538596",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791108805,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37194538596",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791108814,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37194538596",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791108843,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791108914,
+      "kind": "agent",
+      "label": "Reading the paper(s) and code",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109125,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109198,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109248,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109284,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109331,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109374,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109408,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109475,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109513,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109536,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109566,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109781,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791109832,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791110001,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791110202,
+      "kind": "agent",
+      "label": "Precheck finished",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791110544,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791110677,
+      "kind": "agent",
+      "label": "Change made",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791110842,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791110984,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791111840,
+      "kind": "agent",
+      "label": "Design draft ready",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791112054,
+      "kind": "precheck",
+      "label": "Precheck finished with failures",
+      "state": "failed",
+      "detail_public": "4 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791112822,
+      "kind": "agent",
+      "label": "Precheck started",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791113000,
+      "kind": "daytona",
+      "label": "Daytona run gh-24-37194538596 submitted",
+      "state": "done",
+      "detail_public": "task cv-flowmaps-training, agent oracle, 1 H100 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791113000,
+      "kind": "daytona",
+      "label": "Environment building",
+      "state": "done",
+      "detail_public": "run gh-24-37194538596",
+      "visibility": "public"
+     },
+     {
+      "t": 1791113010,
+      "kind": "agent",
+      "label": "Daytona run submitted",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791113113,
+      "kind": "precheck",
+      "label": "Precheck done",
+      "state": "done",
+      "detail_public": "5 of 5 checks passed",
+      "visibility": "public"
+     },
+     {
+      "t": 1791113182,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791113207,
+      "kind": "daytona",
+      "label": "GPUs available: runs submitted",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791113220,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37194538596",
+      "visibility": "public"
+     },
+     {
+      "t": 1791113220,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37194538596",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791113220,
+      "kind": "go",
+      "label": "Waiting for your answers",
+      "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1791114077,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-24-37194538596: 1 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791113382,
+      "kind": "setting",
+      "label": "Setting train_small (seed 42)",
+      "state": "running",
+      "detail_public": "run gh-24-37194538596: budget 10h00m, OVER budget (log last written 17m ago)",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": null,
+    "note": null
+   }
+  },
+  {
    "issue": 19,
    "title": "[new task] Optimizer design for Muon: matrix-sign / orthogonalization (Polar Express, arXiv:2505.16932)",
    "requester": "PeterLauLukChen",
@@ -9713,14 +10284,6 @@
       "label": "Precheck done",
       "state": "done",
       "detail_public": "10 of 10 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1790980662,
-      "kind": "retry",
-      "label": "Paused: Claude usage limit, retrying at Oct 7, 21:05 UTC",
-      "state": "waiting",
-      "detail_public": "attempt 1 of 3",
       "visibility": "public"
      },
      {
@@ -13825,6 +14388,14 @@
       "label": "Orchestrator paused (Claude usage limit)",
       "state": "waiting",
       "detail_public": "Actions run 37220582931",
+      "visibility": "public"
+     },
+     {
+      "t": 1791147258,
+      "kind": "retry",
+      "label": "Paused: Claude usage limit, retrying at Oct 7, 21:05 UTC",
+      "state": "waiting",
+      "detail_public": "attempt 1 of 3",
       "visibility": "public"
      }
     ]
@@ -17725,577 +18296,6 @@
    },
    "approval": {
     "state": "waiting",
-    "by": null,
-    "note": null
-   }
-  },
-  {
-   "issue": 24,
-   "title": "[change] cv-flowmaps-training: extra metrics, transformer setting",
-   "requester": "lan-qing",
-   "type": "change",
-   "task": "cv-flowmaps-training",
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-04T11:41:19Z",
-   "opened": "2026-10-04T00:56:37Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1791075397,
-      "kind": "created",
-      "label": "Request created by @lan-qing",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791075430,
-      "kind": "approval",
-      "label": "Waiting for maintainer approval",
-      "state": "waiting",
-      "visibility": "public"
-     },
-     {
-      "t": 1791077481,
-      "kind": "approval",
-      "label": "Approved by the maintainer",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791077488,
-      "kind": "gate",
-      "label": "Gate passed (write access)",
-      "state": "done",
-      "detail_public": "Actions run 37168247401",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791077488,
-      "kind": "queue",
-      "label": "Queued for the orchestrator",
-      "state": "done",
-      "detail_public": "Actions run 37168247401",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791077637,
-      "kind": "orchestrator",
-      "label": "Orchestrator started",
-      "state": "done",
-      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37168247401",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791077644,
-      "kind": "heartbeat",
-      "label": "Agent work finished",
-      "state": "done",
-      "detail_public": "Actions run 37168247401",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791077674,
-      "kind": "agent",
-      "label": "Read the issue thread",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791077778,
-      "kind": "agent",
-      "label": "Reading the paper(s) and code",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791077975,
-      "kind": "retry",
-      "label": "Resumed after the usage-limit pause",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791077983,
-      "kind": "orchestrator",
-      "label": "Orchestrator paused (Claude usage limit)",
-      "state": "done",
-      "detail_public": "Actions run 37168247401",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791090682,
-      "kind": "gate",
-      "label": "Gate passed (write access)",
-      "state": "done",
-      "detail_public": "Actions run 37179136093",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791090682,
-      "kind": "queue",
-      "label": "Queued for the orchestrator",
-      "state": "done",
-      "detail_public": "Actions run 37179136093",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791090835,
-      "kind": "orchestrator",
-      "label": "Orchestrator started",
-      "state": "done",
-      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37179136093",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791090845,
-      "kind": "heartbeat",
-      "label": "Agent work finished",
-      "state": "done",
-      "detail_public": "Actions run 37179136093",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791090880,
-      "kind": "agent",
-      "label": "Read the issue thread",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791091091,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "4 of 4 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791091147,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "4 of 4 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791091169,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "4 of 4 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791091282,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "11 of 11 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791091307,
-      "kind": "agent",
-      "label": "Precheck finished",
-      "state": "done",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791091640,
-      "kind": "agent",
-      "label": "Plan drafted",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791091853,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "4 of 4 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791092034,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791092252,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791093128,
-      "kind": "agent",
-      "label": "Precheck started",
-      "state": "done",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791093236,
-      "kind": "agent",
-      "label": "Drafting the report",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791093890,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791093929,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791094022,
-      "kind": "precheck",
-      "label": "Precheck stopped (the agent's run ended first)",
-      "state": "failed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791094627,
-      "kind": "agent",
-      "label": "Precheck finished",
-      "state": "done",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791095930,
-      "kind": "orchestrator",
-      "label": "Orchestrator paused (Claude usage limit)",
-      "state": "done",
-      "detail_public": "Actions run 37179136093",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791108686,
-      "kind": "gate",
-      "label": "Gate passed (write access)",
-      "state": "done",
-      "detail_public": "Actions run 37194538596",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791108686,
-      "kind": "queue",
-      "label": "Queued for the orchestrator",
-      "state": "done",
-      "detail_public": "Actions run 37194538596",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791108805,
-      "kind": "orchestrator",
-      "label": "Orchestrator started",
-      "state": "done",
-      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37194538596",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791108814,
-      "kind": "heartbeat",
-      "label": "Agent work finished",
-      "state": "done",
-      "detail_public": "Actions run 37194538596",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791108843,
-      "kind": "agent",
-      "label": "Read the issue thread",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791108914,
-      "kind": "agent",
-      "label": "Reading the paper(s) and code",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109125,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109198,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109248,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109284,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109331,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109374,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109408,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109475,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109513,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109536,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109566,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109781,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791109832,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791110001,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791110202,
-      "kind": "agent",
-      "label": "Precheck finished",
-      "state": "done",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791110544,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791110677,
-      "kind": "agent",
-      "label": "Change made",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791110842,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791110984,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791111840,
-      "kind": "agent",
-      "label": "Design draft ready",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791112054,
-      "kind": "precheck",
-      "label": "Precheck finished with failures",
-      "state": "failed",
-      "detail_public": "4 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791112822,
-      "kind": "agent",
-      "label": "Precheck started",
-      "state": "done",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791113000,
-      "kind": "daytona",
-      "label": "Daytona run gh-24-37194538596 submitted",
-      "state": "done",
-      "detail_public": "task cv-flowmaps-training, agent oracle, 1 H100 GPU(s)",
-      "visibility": "public"
-     },
-     {
-      "t": 1791113000,
-      "kind": "daytona",
-      "label": "Environment building",
-      "state": "done",
-      "detail_public": "run gh-24-37194538596",
-      "visibility": "public"
-     },
-     {
-      "t": 1791113010,
-      "kind": "agent",
-      "label": "Daytona run submitted",
-      "state": "done",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791113113,
-      "kind": "precheck",
-      "label": "Precheck done",
-      "state": "done",
-      "detail_public": "5 of 5 checks passed",
-      "visibility": "public"
-     },
-     {
-      "t": 1791113182,
-      "kind": "agent",
-      "label": "Report written",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791113207,
-      "kind": "daytona",
-      "label": "GPUs available: runs submitted",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791113220,
-      "kind": "report",
-      "label": "Report posted",
-      "state": "done",
-      "detail_public": "Actions run 37194538596",
-      "visibility": "public"
-     },
-     {
-      "t": 1791113220,
-      "kind": "orchestrator",
-      "label": "Orchestrator finished",
-      "state": "done",
-      "detail_public": "Actions run 37194538596",
-      "visibility": "internal"
-     },
-     {
-      "t": 1791113220,
-      "kind": "go",
-      "label": "Waiting for your answers",
-      "state": "waiting",
-      "visibility": "public"
-     },
-     {
-      "t": 1791114077,
-      "kind": "daytona",
-      "label": "Sandbox started",
-      "state": "done",
-      "detail_public": "run gh-24-37194538596: 1 GPU(s)",
-      "visibility": "public"
-     },
-     {
-      "t": 1791113382,
-      "kind": "setting",
-      "label": "Setting train_small (seed 42)",
-      "state": "running",
-      "detail_public": "run gh-24-37194538596: budget 10h00m",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
     "by": null,
     "note": null
    }

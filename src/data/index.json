@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-04T20:50:14",
+ "generated": "2026-10-04T22:48:00",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-one machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 51 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-one self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -256,12 +256,12 @@
    "title": "Long-Context Recall with Fixed Recurrent Memory",
    "area": "ML Systems & Efficient ML / Linear Attention",
    "question": "Given a fixed number of state scalars per layer, decide how a linear-attention state is organised, written and read.",
-   "version": "f7659c2ec8c8571f0dd2e9953136bfcdf9fd0dcd",
+   "version": "09fa8328ca31d32dc73b7de1ed3df2e412e51e83",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
      "name": "gpt-124m",
-     "display": "124M ClimbMix pretraining · 1k context"
+     "display": "124M FineWeb pretraining · 1k context"
     },
     {
      "name": "longctx-4k",
@@ -307,7 +307,7 @@
      "role": "baseline"
     }
    ],
-   "best_score": 0.09496344100190655
+   "best_score": 0.09451091689516104
   },
   {
    "id": "llm-hybrid-layer-composition",
@@ -315,12 +315,12 @@
    "title": "Combining Exact and Compressed Language-Model Memory",
    "area": "ML Systems & Efficient ML / Hybrid Architectures",
    "question": "With 12 layers, a fixed parameter budget and three token mixers, assign softmax attention, sliding-window attention and linear recurrence to layers.",
-   "version": "2b1be3458013fe574f8f0d59c73e09df62f1eeae",
+   "version": "d519917aa52888a38b5de4a0a988d45b555ffb7a",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
      "name": "gpt-124m",
-     "display": "124M ClimbMix pretraining · 1k context + LAMBADA"
+     "display": "124M FineWeb pretraining · 1k context + LAMBADA"
     },
     {
      "name": "longctx-4k",
@@ -361,7 +361,7 @@
      "role": "baseline"
     }
    ],
-   "best_score": 0.0663900743312968
+   "best_score": 0.08403647066825354
   },
   {
    "id": "llm-looped-token-depth",
@@ -1406,12 +1406,12 @@
    "title": "Separating Memory Lookup from Language-Model Computation",
    "area": "Language Models / Pretraining",
    "question": "Under a fixed backbone and a fixed memory-table parameter budget, design the n-gram-keyed conditional memory that keeps co-occurrence statistics out of the dense weights.",
-   "version": "2d34c6a93a1da86555b18e4942389426a8ea4e70",
+   "version": "8bd3d59a39ba6ded4b4bcec65be7d1927d29539d",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
      "name": "in_domain",
-     "display": "held-out ClimbMix validation loss (6L+12L mean)"
+     "display": "held-out FineWeb validation loss (6L+12L mean)"
     },
     {
      "name": "wikitext2",
@@ -1452,7 +1452,7 @@
      "role": "baseline"
     }
    ],
-   "best_score": 0.10000000000000002
+   "best_score": 0.10000000000000006
   },
   {
    "id": "cv-model-merge-rule",
@@ -1676,7 +1676,7 @@
    "title": "Preserving MoE Generalization under Repeated Data",
    "area": "Language Models / Pretraining (MoE)",
    "question": "When the same tokens are seen 4 to 64 times, design the regulariser that stops experts over-specialising and held-out loss from climbing.",
-   "version": "555f31427bad90180763657542351a009f48b88f",
+   "version": "cba7024a05981d00f3569170c96307eff0a41eee",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
@@ -1722,7 +1722,7 @@
      "role": "baseline"
     }
    ],
-   "best_score": 0.10000000000000002
+   "best_score": 0.09969005171461338
   },
   {
    "id": "chip-macro-placement-search",
