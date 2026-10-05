@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05T07:09:17",
+ "generated": "2026-10-05T07:14:14",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-one machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 51 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-one self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -75,7 +75,7 @@
    "title": "Preserving Language Models under One-Shot Pruning",
    "area": "ML Systems & Efficient ML / Pruning",
    "question": "With no retraining and no gradient step, decide which half of a pretrained LM's weights to remove and what values the survivors take.",
-   "version": "9120e3c632a74c91bbf650ccaec00bfee0847186",
+   "version": "4ae319c994222db16aca24cda736b267610538a1",
    "repo": "locuslab/wanda",
    "settings": [
     {
@@ -116,18 +116,23 @@
      "role": "baseline"
     },
     {
+     "slug": "alps",
+     "name": "ALPS (Meng et al., 2024)",
+     "role": "baseline"
+    },
+    {
      "slug": "default",
      "name": "Magnitude pruning",
      "role": "baseline"
     },
     {
      "slug": "random_null",
-     "name": "Random mask",
+     "name": null,
      "role": "baseline"
     },
     {
      "slug": "ri_only",
-     "name": "RIA relative importance only (Zhang et al., 2024)",
+     "name": null,
      "role": "baseline"
     }
    ],
@@ -1155,7 +1160,7 @@
    "title": "Preserving Cell Biology while Removing Batch Effects",
    "area": "AI for Science / Single-Cell",
    "question": "Given a pretrained single-cell transformer, raw counts and batch labels, choose the adaptation objective and readout so embeddings separate cell states while mixing batches.",
-   "version": "f8ee8187899b615c14c4b6d5852ad2fbf5ec4264",
+   "version": "42a89cfd9d148ff27f0872820cbdc805eb49d510",
    "repo": "huggingface.co/ctheodoris/Geneformer",
    "settings": [
     {
@@ -1229,9 +1234,19 @@
      "slug": "contrastive",
      "name": "CLEAR-style contrastive objective (Han et al., 2022)",
      "role": "baseline"
+    },
+    {
+     "slug": "concord",
+     "name": "CONCORD (Zhu et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "sysvi",
+     "name": "sysVI (Hrovatin et al., 2023)",
+     "role": "baseline"
     }
    ],
-   "best_score": 0.08975731789652736
+   "best_score": 0.08503646819365791
   },
   {
    "id": "ai4bio-cofolding-affinity-scoring",
@@ -1347,7 +1362,7 @@
    "title": "Frictional Contact under a Compute Budget",
    "area": "Robotics / Contact Simulation",
    "question": "Given the Delassus operator only through matrix–vector products, design the solver that returns physically valid contact impulses on slipping, ill-conditioned and resting problems.",
-   "version": "c0ba053fba5d4590f95ef499fe77a8997431beb8",
+   "version": "af8c6137866a03d8a2693d456ef13a6e8ec2bb31",
    "repo": "Simple-Robotics/ContactBench",
    "settings": [
     {
@@ -1396,9 +1411,14 @@
      "slug": "ccp_admm",
      "name": "CCP ADMM (Le Lidec et al., 2024)",
      "role": "baseline"
+    },
+    {
+     "slug": "ncp_admm",
+     "name": "NCP ADMM with De Saxcé correction and spectral ρ (Le Lidec, Montaut & Carpentier, 2024)",
+     "role": "baseline"
     }
    ],
-   "best_score": 0.08322107598702899
+   "best_score": 0.09205637317331121
   },
   {
    "id": "llm-conditional-memory-design",
@@ -1675,24 +1695,28 @@
    "n": 29,
    "title": "Preserving MoE Generalization under Repeated Data",
    "area": "Language Models / Pretraining (MoE)",
-   "question": "When the same tokens are seen 4 to 64 times, design the regulariser that stops experts over-specialising and held-out loss from climbing.",
-   "version": "cba7024a05981d00f3569170c96307eff0a41eee",
+   "question": "When every token is seen about eight times, design the method that stops a mixture of experts from over-specialising, so that held-out loss and transfer stay good.",
+   "version": "558830a7c283ef62d65afa1565c3769ba4c984b7",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
-     "name": "R4",
-     "display": "4x data repetition (210M unique tokens)"
+     "name": "val_loss",
+     "display": "8x repetition · FineWeb held-out loss"
     },
     {
-     "name": "R16",
-     "display": "16x data repetition (52M unique tokens)"
+     "name": "wikitext2",
+     "display": "Same model · WikiText-2 perplexity"
     },
     {
-     "name": "R64",
-     "display": "64x data repetition (13M unique tokens)"
+     "name": "lambada_ppl",
+     "display": "Same model · LAMBADA perplexity"
+    },
+    {
+     "name": "lambada_acc",
+     "display": "Same model · LAMBADA last-word accuracy"
     }
    ],
-   "gpus": 3,
+   "gpus": 1,
    "image": {
     "src": "task-images/moe-repetition-regularizer.webp",
     "caption": "Preserving MoE Generalization under Repeated Data",
@@ -1703,7 +1727,7 @@
    "baselines": [
     {
      "slug": "null",
-     "name": "No regularizer (Shazeer et al., 2017)",
+     "name": "No regularizer (Jha et al., 2026)",
      "role": "baseline"
     },
     {
@@ -1712,17 +1736,62 @@
      "role": "baseline"
     },
     {
-     "slug": "load_balance",
-     "name": "Load balancing (Fedus et al., 2022)",
+     "slug": "expert_dropout",
+     "name": "Expert dropout (Fedus et al., 2022)",
      "role": "baseline"
     },
     {
-     "slug": "masking",
-     "name": "Masking (Jha et al., 2026)",
+     "slug": "expert_output_masking",
+     "name": "Expert-output masking (Jha et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "ffn_output_masking",
+     "name": "FFN-output masking (Jha et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "router_jitter",
+     "name": "Router jitter (Fedus et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "gating_dropout",
+     "name": "Gating dropout (Liu et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "strong_weight_decay",
+     "name": "Strong weight decay (Lovelace et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "token_replacement",
+     "name": "Random token replacement (Chen et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "goldfish",
+     "name": "Goldfish loss (Hans et al., 2024)",
+     "role": "baseline"
+    },
+    {
+     "slug": "epoch_reshuffle",
+     "name": "Per-epoch reshuffling (NanoGPT-Slowrun)",
+     "role": "baseline"
+    },
+    {
+     "slug": "q0",
+     "name": "q0 hyper-epoch recipe (Mandal et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "ema_blend",
+     "name": "Weight-EMA blend (Mandal et al., 2026)",
      "role": "baseline"
     }
    ],
-   "best_score": 0.09969005171461338
+   "best_score": 0.10000000000000006
   },
   {
    "id": "chip-macro-placement-search",
