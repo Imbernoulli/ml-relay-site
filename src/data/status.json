@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05T15:28:55+00:00",
+ "generated": "2026-10-05T18:04:32+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1120,7 +1120,7 @@
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-04T23:23:20Z",
+    "updated": "2026-10-05T16:36:01Z",
     "replacement": null
    }
   ],
@@ -9839,6 +9839,53 @@
  ],
  "issues": [
   {
+   "issue": 26,
+   "title": "[change] moe-repetition-regularizer: validation split and training-integrity fixes",
+   "requester": "Racktic",
+   "type": "maintenance",
+   "task": "moe-repetition-regularizer",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-05T16:36:01Z",
+   "opened": "2026-10-04T14:08:09Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791122889,
+      "kind": "created",
+      "label": "Request created by @Racktic",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791122913,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1791156198,
+      "kind": "approval",
+      "label": "Maintainer feedback",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "feedback",
+    "by": null,
+    "note": null
+   }
+  },
+  {
    "issue": 31,
    "title": "[change] fm-probability-path: 1. Add another evaluation setting with ViT/DiT.",
    "requester": "lan-qing",
@@ -14682,53 +14729,6 @@
    },
    "approval": {
     "state": "approved",
-    "by": null,
-    "note": null
-   }
-  },
-  {
-   "issue": 26,
-   "title": "[change] moe-repetition-regularizer: validation split and training-integrity fixes",
-   "requester": "Racktic",
-   "type": "maintenance",
-   "task": "moe-repetition-regularizer",
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-04T23:23:20Z",
-   "opened": "2026-10-04T14:08:09Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1791122889,
-      "kind": "created",
-      "label": "Request created by @Racktic",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791122913,
-      "kind": "approval",
-      "label": "Waiting for maintainer approval",
-      "state": "waiting",
-      "visibility": "public"
-     },
-     {
-      "t": 1791156198,
-      "kind": "approval",
-      "label": "Maintainer feedback",
-      "state": "waiting",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "feedback",
     "by": null,
     "note": null
    }

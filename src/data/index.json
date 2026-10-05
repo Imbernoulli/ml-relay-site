@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05T15:28:35",
+ "generated": "2026-10-05T18:04:13",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-one machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 51 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-one self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -261,7 +261,7 @@
    "title": "Long-Context Recall with Fixed Recurrent Memory",
    "area": "ML Systems & Efficient ML / Linear Attention",
    "question": "Given a fixed number of state scalars per layer, decide how a linear-attention state is organised, written and read.",
-   "version": "09fa8328ca31d32dc73b7de1ed3df2e412e51e83",
+   "version": "192b13c1674b58ed66d5d9ca28d4bd9de6fa64e8",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
@@ -287,32 +287,32 @@
    },
    "baselines": [
     {
-     "slug": "hebbian",
-     "name": "Additive linear attention (Katharopoulos et al., 2020)",
-     "role": "baseline"
-    },
-    {
      "slug": "delta_net",
-     "name": "DeltaNet (Yang et al., 2024)",
+     "name": "DeltaNet mixer (Yang et al., 2024), in the task's shared block",
      "role": "baseline"
     },
     {
      "slug": "abc",
-     "name": "ABC (Peng et al., 2022)",
+     "name": "ABC mixer (Peng et al., 2022), in the task's shared block",
      "role": "baseline"
     },
     {
      "slug": "gsa",
-     "name": "Gated Slot Attention (Zhang et al., 2024)",
+     "name": "Gated Slot Attention mixer (Zhang et al., 2024), in the task's shared block",
      "role": "baseline"
     },
     {
      "slug": "mom",
-     "name": "Mixture-of-Memories (Du et al., 2025)",
+     "name": "Mixture-of-Memories mixer (Du et al., 2025), in the task's shared block",
+     "role": "baseline"
+    },
+    {
+     "slug": "gated_deltanet",
+     "name": "Gated DeltaNet mixer (Yang et al., 2025), in the task's shared block",
      "role": "baseline"
     }
    ],
-   "best_score": 0.09451091689516104
+   "best_score": 0.09827369328629477
   },
   {
    "id": "llm-hybrid-layer-composition",
@@ -2102,7 +2102,7 @@
    "title": "Recovering Hidden Structure from Sparse Measurements",
    "area": "AI for Science / Inverse Problems",
    "question": "With a frozen diffusion prior and a known forward operator, design the per-step measurement guidance that solves scattering, black-hole imaging and inpainting inverse problems.",
-   "version": "1f1e572fd62bed90dc34e0c78ef9077b3137b454",
+   "version": "adbb813215f1e88bc03c91cb23a29671b98275c8",
    "repo": "devzhk/InverseBench",
    "settings": [
     {
@@ -2110,8 +2110,8 @@
      "display": "InverseBench · scattering · 360 receivers"
     },
     {
-     "name": "blackhole",
-     "display": "EHT black-hole imaging · 100% observations"
+     "name": "blackhole-3pct",
+     "display": "EHT black-hole imaging · 3% observations"
     },
     {
      "name": "blackhole-10pct",
@@ -2141,9 +2141,19 @@
      "slug": "lgd",
      "name": "LGD (Song et al., 2023)",
      "role": "baseline"
+    },
+    {
+     "slug": "daps",
+     "name": "DAPS (Zhang et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "pnpdm",
+     "name": "PnP-DM (Wu et al., 2024)",
+     "role": "baseline"
     }
    ],
-   "best_score": 0.08753952742958591
+   "best_score": 0.07652586714626058
   },
   {
    "id": "robo-humanoid-sim2real-algo",
@@ -2517,8 +2527,8 @@
    "n": 42,
    "title": "Balancing Parallel Decoding and Token Commitment",
    "area": "Language Models / Diffusion LMs",
-   "question": "Design the demasking order and schedule for diffusion LMs — block-wise for accuracy on LLaDA, fully parallel for open-ended text on Dream.",
-   "version": "ec799dd12c94d22c70caa905d0cbf41b48476f16",
+   "question": "Design the demasking order and schedule for diffusion LMs — block-wise for accuracy on LLaDA, fully parallel for unconditional text on MDLM-OWT.",
+   "version": "8af1b7f22d34d0639fe523021f9a47e04a3ca82f",
    "repo": "ML-GSAI/LLaDA",
    "settings": [
     {
@@ -2562,9 +2572,19 @@
      "slug": "klass",
      "name": "KLASS (Kim et al., 2025)",
      "role": "baseline"
+    },
+    {
+     "slug": "fast_dllm_threshold",
+     "name": "Fast-dLLM confidence-threshold decoding (Wu et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "remdm",
+     "name": "ReMDM remasking sampler, text setting only (Wang et al., 2025)",
+     "role": "baseline"
     }
    ],
-   "best_score": 0.09273246723458893
+   "best_score": 0.048900425912739916
   },
   {
    "id": "llm-pretrain-linear-attention",
