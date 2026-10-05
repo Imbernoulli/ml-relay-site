@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05T18:09:55",
+ "generated": "2026-10-05T18:15:42",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-one machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 51 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-one self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -452,7 +452,7 @@
    "title": "Zero-Shot Hyperparameter Transfer for Neural Scaling",
    "area": "Deep Learning / Parametrization",
    "question": "Design the abc-parametrization — init scale, forward multipliers, per-layer learning rates — so the rate tuned on a narrow network is right for wider ones, with wider always better.",
-   "version": "74f1d012cf84211c1153633b9a5b0cc228d3c951",
+   "version": "84856d8b6c9c5ee1d6c083346dd98e31ad8f2150",
    "repo": "microsoft/mup",
    "settings": [
     {
@@ -1589,7 +1589,7 @@
    "title": "Driving a Robot Directly from a Frozen Vision-Language Model",
    "area": "Robotics / Agentic Control",
    "question": "With a frozen open-weight VLM, fixed simulators and a per-episode budget of model calls and steps, design the agent policy that turns camera views and feedback into the most successful robot actions.",
-   "version": "1e794e362d1a72865108fda09fc14a909218cb8f",
+   "version": "c4aca58e03c7150fa7f065c7c17d98de60791b65",
    "repo": "EmbodiedBench/EmbodiedBench",
    "settings": [
     {
@@ -2637,7 +2637,7 @@
    "title": "Climate Emulation in Unseen Physical Regimes",
    "area": "AI for Science / Climate",
    "question": "On ClimSim's own training split at a fixed 5-epoch budget, design the architecture that maps a column state to sub-grid physics tendencies and still predicts well on warm, land and polar regimes it was not trained on.",
-   "version": "7250ccfff047516dbf75d5649d395276210e6be8",
+   "version": "0d082b9e56115b0b93b235fb4a5b3c95c48611dc",
    "repo": "leap-stc/ClimSim",
    "settings": [
     {
