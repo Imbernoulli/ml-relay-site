@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05T05:35:03",
+ "generated": "2026-10-05T07:09:17",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-one machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 51 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-one self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -11,7 +11,7 @@
    "title": "Precision–Context Trade-offs in KV Caching",
    "area": "ML Systems & Efficient ML / KV Cache",
    "question": "At an equal byte budget, should a KV cache keep fewer entries at full precision or more at lower precision — design the rule that spends the bytes.",
-   "version": "967d08dac4d24f397940b93fc15902cda999bb3e",
+   "version": "b8dcc5abe2b66b42ae9ba34b2feb9f90fb4f73bc",
    "repo": "huggingface/transformers",
    "settings": [
     {
@@ -139,7 +139,7 @@
    "title": "Retrofitting Latent Attention into Pretrained Language Models",
    "area": "ML Systems & Efficient ML / Attention Conversion",
    "question": "Convert a pretrained MHA/GQA decoder to multi-head latent attention under a fixed KV-cache budget — choose which positional channels keep RoPE, how the latent is initialised from the pretrained K/V weights, and how the budget is spent across layers — so it loses the least after a short recovery fine-tune.",
-   "version": "924e67110707ad4a1893d6cd3d7ed8d74cc26f93",
+   "version": "9c20b6a20dfd6a574ffb8986bedde80b6d8a6011",
    "repo": "JT-Ushio/MHA2MLA",
    "settings": [
     {
@@ -197,7 +197,7 @@
    "title": "Allocating Decoder Depth across Tokens",
    "area": "ML Systems & Efficient ML / Early Exit",
    "question": "Under a hard budget on the mean fraction of decoder depth per token, pick the per-token signal and threshold that says a token can exit now.",
-   "version": "f78a793df9ab22e029a122306749f095302da3e4",
+   "version": "eab22abfd658789691514ffee75e23cd065b6dba",
    "repo": "facebookresearch/LayerSkip",
    "settings": [
     {
@@ -369,7 +369,7 @@
    "title": "Adaptive Token-wise Computation in Looped Language Models",
    "area": "ML Systems & Efficient ML / Adaptive Computation",
    "question": "On a released, frozen looped LM, decide which tokens run which of its four loop steps under a mean loop budget, so that what it generates stays accurate at the budget the rule was trained for, at a tighter one, and on a larger model.",
-   "version": "d9d145fa621a01aba321f8c6194ac32ca18a9906",
+   "version": "b107c3ad09e104c8d938585449ad89dc8150ef1b",
    "repo": "ByteDance/Ouro-1.4B",
    "settings": [
     {
@@ -389,7 +389,7 @@
      "display": "Frozen Ouro-2.6B · GSM8K · 2.5 loops"
     }
    ],
-   "gpus": 3,
+   "gpus": 1,
    "image": {
     "src": "task-images/llm-looped-token-depth.webp",
     "caption": "Adaptive Token-wise Computation in Looped Language Models",
@@ -434,7 +434,7 @@
      "role": "baseline"
     }
    ],
-   "best_score": 0.09498119880784961
+   "best_score": 0.09523502893810896
   },
   {
    "id": "dl-optim-mup-parametrization",
@@ -442,7 +442,7 @@
    "title": "Zero-Shot Hyperparameter Transfer for Neural Scaling",
    "area": "Deep Learning / Parametrization",
    "question": "Design the abc-parametrization — init scale, forward multipliers, per-layer learning rates — so the rate tuned on a narrow network is right for wider ones, with wider always better.",
-   "version": "355f2a8c43eed2766cfc9ea4c878546cd31b2ac5",
+   "version": "74f1d012cf84211c1153633b9a5b0cc228d3c951",
    "repo": "microsoft/mup",
    "settings": [
     {
@@ -500,7 +500,7 @@
    "title": "Accelerating the Grokking Transition",
    "area": "Deep Learning / Training Dynamics",
    "question": "Given only the gradients of a fixed loss from an over-scaled initialisation, design the optimisation or regularisation rule that brings generalisation forward.",
-   "version": "1bcf5a5dca0a577a3d0d7f724d68fd6e3b866ddd",
+   "version": "fa37ff4daeb318ad15260b27a3b2808090fd7815",
    "repo": "KindXiaoming/Omnigrok",
    "settings": [
     {
@@ -623,7 +623,7 @@
    "title": "Initializing LoRA in Useful Update Subspaces",
    "area": "Optimization & Theory / Learning Theory (PEFT)",
    "question": "The zero-product initialisation of LoRA is a convention with a predictable cost — design the initialisation of A and B that the theory says pays off.",
-   "version": "5f6f1454f4dba7c878d6d0ede15c29a6b6fef10c",
+   "version": "aae4a8698cf06541c9e653970ddcb2bcfa9e53de",
    "repo": "YuanheZ/LoRA-One",
    "settings": [
     {
@@ -726,7 +726,7 @@
    "title": "Diffusion Sampling with Few Model Evaluations",
    "area": "Vision & Generation / Diffusion Solvers",
    "question": "At a handful of network evaluations, design the ODE update rule that buys accuracy from Runge–Kutta stages, multistep history, or both.",
-   "version": "59297105ebbcf242904c21b747ce500206acf795",
+   "version": "b37e3f3cce7275375d60913363b0e4d34ed03a33",
    "repo": "zju-pi/diff-sampler",
    "settings": [
     {
@@ -775,7 +775,7 @@
    "title": "Probability Paths for Few-Step Generation",
    "area": "Vision & Generation / Flow Matching",
    "question": "At a fixed training budget, design the probability path whose flow-matching model samples best at low NFE.",
-   "version": "eb16f95bdcaa90d945b6f2db2d1dc7586d6db1f7",
+   "version": "6868f23e92a734cdcab08bd20838e0c1d1cbb3bc",
    "repo": "facebookresearch/flow_matching",
    "settings": [
     {
@@ -899,7 +899,7 @@
    "title": "Learning Classifiers without Labeled Negatives",
    "area": "Classical & Adaptive Learning / Weak Supervision (PU)",
    "question": "From labelled positive images, the unlabelled training set and the class prior, design the training objective (and decision threshold) of a fixed network whose held-out zero-one error is low.",
-   "version": "fcae03101774a4e7e73be9de69bc0d218321d348",
+   "version": "96a105281149cc8aa34b1577a190e6c3e723eb7e",
    "repo": "kiryor/nnPUlearning; Ray-rui/Dist-PU",
    "settings": [
     {
@@ -948,7 +948,7 @@
    "title": "Transferring RL Gains from a Weaker Teacher",
    "area": "Language Models / Distillation",
    "question": "Supervising a student's own rollouts token by token, choose what to transfer from the teacher — its distribution, or the change reasoning tuning made to it.",
-   "version": "a267a653f3bcb4ce41b9f719acca2855a8093504",
+   "version": "83d03062f34a464890f5ca9903679d3d87fc265b",
    "repo": "naver-ai/opd2",
    "settings": [
     {
@@ -1071,7 +1071,7 @@
    "title": "Designing On-Policy Distillation for Reasoning",
    "area": "Language Models / Distillation",
    "question": "Given a stronger white-box teacher, jointly choose the per-token divergence and the policy deciding whether each step trains on reference, teacher-generated or student-generated text.",
-   "version": "4cbd9eba80c2b3f3d9121c9dffe18032f268356a",
+   "version": "2427a403147e1d3aa9710fc396bd78a82e19bfa9",
    "repo": "microsoft/LMOps",
    "settings": [
     {
@@ -1239,7 +1239,7 @@
    "title": "Predicting Binding Affinity from Co-Folded Complexes",
    "area": "AI for Science / Binding Affinity",
    "question": "Given a fixed co-folded protein-ligand complex and its docking, structural and head-derived signals, design the function that predicts binding affinity — ranking analogues in a congeneric series and separating actives from AVE-unbiased decoys.",
-   "version": "8271b2aec516ccd30a409e884f5a90783dac9057",
+   "version": "cbaa3801d6a4905a5fa382873aa1908e8a8037e0",
    "repo": "jwohlwend/boltz",
    "settings": [
     {
@@ -1298,7 +1298,7 @@
    "title": "Identifying Contact Dynamics from Real Motion",
    "area": "Robotics / System Identification",
    "question": "From observed contact-rich transitions, design the per-transition loss that recovers geometry, friction and inertia of a structured rigid-body model most accurately and data-efficiently.",
-   "version": "ac97b8063e6c0a0b6911b5e49183a9f1d10f8762",
+   "version": "e94341f001aaae8b014e6e34ea623cbb9e6a9856",
    "repo": "ebianchi/dair_pll",
    "settings": [
     {
@@ -1524,7 +1524,7 @@
    "title": "Driving a Robot Directly from a Frozen Vision-Language Model",
    "area": "Robotics / Agentic Control",
    "question": "With a frozen open-weight VLM, fixed simulators and a per-episode budget of model calls and steps, design the agent policy that turns camera views and feedback into the most successful robot actions.",
-   "version": "cbff52f51beeb000d1ff29d1274f56e0bc1e586c",
+   "version": "1e794e362d1a72865108fda09fc14a909218cb8f",
    "repo": "EmbodiedBench/EmbodiedBench",
    "settings": [
     {
@@ -1617,7 +1617,7 @@
    "title": "Learning Genomic Signal Shape and Magnitude",
    "area": "AI for Science / Genomics",
    "question": "Design the training objective of a sequence-to-coverage head — how shape and magnitude are decomposed — so it predicts held-out experimental coverage best.",
-   "version": "2620ba0482c8d7d1de09c9c9d9f761312bb24b4e",
+   "version": "f5cc64092772d221ab1eaa59949d4c13b936fbf1",
    "repo": "google-deepmind/alphagenome_research",
    "settings": [
     {
@@ -1730,7 +1730,7 @@
    "title": "Reducing Chip Wirelength with Budgeted Search",
    "area": "Optimization & Theory / Black-Box Search",
    "question": "With a fixed wire-mask decoder and a fixed budget of its evaluations, design the black-box search policy that reaches the lowest wirelength — on chips it was not tuned for.",
-   "version": "0829f733e53527d6d6847fa750669268b96e7e52",
+   "version": "8b479062523a953cfe26ec3228d601ea6985a70b",
    "repo": "lamda-bbo/WireMask-BBO",
    "settings": [
     {
@@ -1796,7 +1796,7 @@
    "title": "Guiding Layout Diffusion with Physical Objectives",
    "area": "Optimization & Theory / Guided Diffusion Optimization",
    "question": "Given a fixed pretrained diffusion placement model, design how per-step guidance is computed, composed from placement objectives and scheduled so it transfers across circuits.",
-   "version": "11843a83c1df3994d1e21a449b5ae7c75cd9fbc2",
+   "version": "e32fd8872d586c127d46e944c9d594439f576c1a",
    "repo": "vint-1/chipdiffusion",
    "settings": [
     {
@@ -1875,7 +1875,7 @@
    "title": "Learning Efficient Draft Blocks for Speculative Decoding",
    "area": "ML Systems & Efficient ML / Speculative Decoding",
    "question": "Design the head that reads L future positions from a single drafter forward so accepted tokens per target forward go up.",
-   "version": "1af910cad79f3b560f89962ca940d5577c165751",
+   "version": "86260828c6dcc4caabf5637b9023ea616eee7069",
    "repo": "jaymody/speculative-sampling",
    "settings": [
     {
@@ -1934,7 +1934,7 @@
    "title": "Recovering Robot Programs through Execution Feedback",
    "area": "Robotics / Code as Policies",
    "question": "With a frozen coder, a fixed robot API and a per-trial model-call budget, design the per-turn policy — what to prompt, whether to inspect the scene, when to regenerate.",
-   "version": "b80c317cee262a96d1bb3b4e5d4011146357086f",
+   "version": "22fb5512e5c7cd8b091b29708ab0b93dea2cfd49",
    "repo": "capgym/cap-x",
    "settings": [
     {
@@ -1976,7 +1976,7 @@
     },
     {
      "slug": "ensemble_synthesis",
-     "name": "Ensemble + skill synthesis (Fu et al., 2026)",
+     "name": "Parallel candidates + synthesis (Fu et al., 2026)",
      "role": "baseline"
     }
    ],
@@ -2037,7 +2037,7 @@
    "title": "From Privileged Physics to Proprioceptive Control",
    "area": "Robotics / Sim-to-Real Locomotion",
    "question": "With Humanoid-Gym's environment, rewards, command distribution and Isaac Gym → MuJoCo evaluation fixed, design how the policy uses privileged simulator state and proprioceptive history during training so that the gait transfers and survives pushes, an added payload and high-speed commands.",
-   "version": "8fea8cb7cb0334ceb25641f2d00a3c506926ab38",
+   "version": "35fe374374d57cb224f8d407e968992b122fa184",
    "repo": "roboterax/humanoid-gym",
    "settings": [
     {
@@ -2194,7 +2194,7 @@
    "title": "Improving Dexterous Policies from Offline Experience",
    "area": "Reinforcement Learning / Offline RL",
    "question": "On Adroit datasets with narrow support, design the offline algorithm that extracts a strong policy without querying out-of-distribution actions.",
-   "version": "06635de4a31f57e3a6b58bbff70c1b98e12a470e",
+   "version": "b4ecf4255af9d9a893e82d38a5d3a768bb60f224",
    "repo": "corl-team/CORL",
    "settings": [
     {
@@ -2248,7 +2248,7 @@
    "title": "Allocating 3D Gaussians to Recover Fine Detail",
    "area": "Vision & Generation / 3D Vision",
    "question": "Under a fixed training and rendering pipeline, design the densification strategy that improves novel-view quality on real scenes.",
-   "version": "a4effbd2e8a09cb7fa1061b922c5b4c50f71c683",
+   "version": "50bc6f466c7c3e823ae427f8347d33040cdd86a6",
    "repo": "nerfstudio-project/gsplat",
    "settings": [
     {
@@ -2301,7 +2301,7 @@
    "title": "Neural Operators for Predicting Aerodynamic Fields",
    "area": "AI for Science / Neural Operators",
    "question": "Design the architecture that maps an irregular mesh or point cloud to steady-state flow fields on car bodies and airfoils, including angles of attack outside the training range.",
-   "version": "5a35f040845f1ebcb612b59713834501dfde3829",
+   "version": "8342584e3f123bee975dea14fed01ce95eb8d117",
    "repo": "thuml/Neural-Solver-Library",
    "settings": [
     {
@@ -2350,7 +2350,7 @@
    "title": "Goal-Directed Planning through Latent World Models",
    "area": "Robotics / World Models",
    "question": "With the JEPA world models fixed, design the planner that chooses action sequences in latent space, under the same model-call budget as the published planners, across navigation and manipulation.",
-   "version": "7946595e1214513ce59c60f946fbdf13dd85bbc0",
+   "version": "873cd5d9268b9ca10cb033bc35c441593bf4c5ab",
    "repo": "facebookresearch/jepa-wms + facebookresearch/eb_jepa",
    "settings": [
     {
@@ -2557,7 +2557,7 @@
    "title": "Retrieving Rare Binders from Molecular Libraries",
    "area": "AI for Science / Drug Discovery",
    "question": "Design the projection heads, embedding geometry and contrastive loss that align molecule and protein encoders for virtual-screening ranking.",
-   "version": "34a8ab20983454b4f82040a0fa0e3a54be55b971",
+   "version": "b51ac4be07cbaf188c43c9e2d3af5109a0196a8b",
    "repo": "jianhuiwemi/HypSeek",
    "settings": [
     {
@@ -2606,7 +2606,7 @@
    "title": "Forgetting Training Examples while Preserving Generalization",
    "area": "Trustworthy Learning / Machine Unlearning",
    "question": "Given the trained model, its retain and forget sets and SalUn's training budget (an update of the trained model, at most ten passes over the retained data), design the unlearning update whose result is closest to retraining from scratch without the forget set.",
-   "version": "4e50b3e12b404a5abca2f850182c594510f558b2",
+   "version": "af84ceab5f5813952483a6c3b09b6be7bd28e9e8",
    "repo": "OPTML-Group/Unlearn-Saliency",
    "settings": [
     {
@@ -2670,7 +2670,7 @@
    "title": "Learning Hidden Parity through Input Curricula",
    "area": "Optimization & Theory / Feature Learning",
    "question": "With the two-layer MLP, its initialisation, AdamW and the step budget all fixed, design the rule that decides which inputs a network trains on, in what order and with what repetition, so the parity's long plateau ends soonest.",
-   "version": "6b3222869adc1db86c5de9086b04a9120b5206ea",
+   "version": "a5f972dc6f87a512e9c6758774ac94e408d1572f",
    "repo": "pytorch/examples",
    "settings": [
     {
@@ -2744,7 +2744,7 @@
    "title": "Maintaining Robot Control under Inference Delay",
    "area": "Robotics / VLA Action Chunking",
    "question": "A flow-based VLA plans an action chunk from an observation that is already d steps stale when the chunk arrives; with the policy and the delay fixed, design the rule at the chunk boundary — what to freeze, what to inpaint, how to blend — so execution stays smooth and success survives the delay.",
-   "version": "1b0d6e3eb36d10b17cebf133c85acbe8182ba24c",
+   "version": "356378176273c4eae03dd811f33a9e8accb84131",
    "repo": "huggingface/lerobot",
    "settings": [
     {
@@ -2812,7 +2812,7 @@
    "title": "Improving Action-Chunk Policies with Sparse Rewards",
    "area": "Reinforcement Learning / Online RL (VLA)",
    "question": "With the imitation-trained SmolVLA, the online rollout budget in the simulator and a binary success reward fixed, design the policy-gradient objective over action chunks — how the advantage is estimated and assigned at chunk or trajectory level, and what likelihood surrogate the flow-matching expert gets — so that task success rises most reliably above the imitation policy.",
-   "version": "3019989a5e06c5a1cef422bba86ea9fdb92e3843",
+   "version": "91b4e51cefd34ad7e3c16c9ee3e27dd868bf6699",
    "repo": "huggingface/lerobot",
    "settings": [
     {
@@ -2859,7 +2859,7 @@
     },
     {
      "slug": "ppo_flow_noise",
-     "name": "Flow-Noise + PPO (Chen et al., 2025; ReinFlow, Zhang et al., 2025)",
+     "name": null,
      "role": "baseline"
     }
    ],
@@ -2871,7 +2871,7 @@
    "title": "Stabilizing RL under Training–Inference Mismatch",
    "area": "Language Models / Reasoning RL",
    "question": "With the model, data, reward, RL loop and an imposed sampler–trainer mismatch fixed, design the per-token correction to the policy-gradient objective — from the trainer's and the sampler's log-probs, the sampler's top-K log-probs and the advantage — so that training stays stable and reward keeps rising as the mismatch grows.",
-   "version": "c6f557e9144896eac3edeed3a9b689dce29b650f",
+   "version": "d2eda5ba6960b3123abfb2b54d5f4c73899721a5",
    "repo": "martin-marek/score-centering",
    "settings": [
     {
@@ -2959,7 +2959,7 @@
    "title": "Tokenizing Robot Action Chunks for an Autoregressive VLA",
    "area": "Robotics / VLA Action Tokenization",
    "question": "With an autoregressive VLA, its training recipe and a budget of seven codes from a 256-word vocabulary per chunk fixed, design how a continuous chunk of future actions is encoded into codes and decoded back so that the policy trained on those codes controls the robot best.",
-   "version": "6e81d3463a6c24b51e345fed1babc114369d048f",
+   "version": "ac8837101540c0a362c4adb304b2c68066638223",
    "repo": "Stanford-ILIAD/openvla-mini",
    "settings": [
     {
