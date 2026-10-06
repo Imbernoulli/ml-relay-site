@@ -2,6 +2,17 @@
  "tasks": [
   {
    "kind": "proposal",
+   "issue": 19,
+   "title": "[new task] Optimizer design for Muon: matrix-sign / orthogonalization (Polar Express, arXiv:2505.16932)",
+   "phase": "C",
+   "stage": "measurement",
+   "requester": "PeterLauLukChen",
+   "since": "2026-10-02",
+   "updated": "2026-10-06T18:24:40Z",
+   "page": "llm-pretrain-optimizer-design"
+  },
+  {
+   "kind": "proposal",
    "issue": 9,
    "title": "[new task] critic model for llm rl",
    "phase": "B",
@@ -9,16 +20,6 @@
    "requester": "Imbernoulli",
    "since": "2026-10-02",
    "updated": "2026-10-05T00:38:19Z"
-  },
-  {
-   "kind": "proposal",
-   "issue": 19,
-   "title": "[new task] Optimizer design for Muon: matrix-sign / orthogonalization (Polar Express, arXiv:2505.16932)",
-   "phase": "B",
-   "stage": "pilot",
-   "requester": "PeterLauLukChen",
-   "since": "2026-10-02",
-   "updated": "2026-10-06T17:35:14Z"
   },
   {
    "kind": "internal",
