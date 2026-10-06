@@ -15,7 +15,7 @@ export function gpuLabel(v: unknown): string | null {
 const ISSUES = "https://github.com/Imbernoulli/ML-Relay/issues/new";
 
 export const REQUEST_MODEL =
-  "Every request is a GitHub issue; an agent works on it and opens exactly one PR for that issue, which a maintainer reviews and merges.";
+  "Discussion is free; the agent starts when a maintainer or the task's developer approves, and returns one PR for review.";
 
 /** The change-task issue form, with the task id prefilled (form field id `task`) and in the title. */
 export function changeUrl(task: string): string {

@@ -493,7 +493,10 @@ pull requests. On the next screens: click <b>Create GitHub App</b>, then install
         note = str((payload or {}).get("note") or "")[:500] if isinstance(payload, dict) else ""
         key = f"user:{user['login'].lower()}"
         prev = access_requests.get(key) or {}
-        if prev.get("state") == "pending":
+        # Idempotent: the site files this automatically at every sign-in. A pending request, or an
+        # approved one whose GitHub invitation is not accepted yet (the repo still answers 404), is
+        # returned as is; only "none" (or a declined request asked again by hand) creates a new one.
+        if prev.get("state") in ("pending", "approved"):
             return cors(JSONResponse(_public_request(prev)))
         rec = {
             "login": user["login"],

@@ -41,6 +41,7 @@ const TOC = [
   ["scoring", "6 Scoring"],
   ["results", "7 Results"],
   ["appendix", "Appendix"],
+  ["discussion", "Discussion"],
 ];
 
 function DescBlocks({ secs, kinds, empty }: { secs: DescSection[]; kinds: string[]; empty?: string }) {

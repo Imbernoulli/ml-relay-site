@@ -2,7 +2,7 @@ import Link from "next/link";
 import { loadForms, taskTitles } from "@/lib/data";
 import IssueFormView from "@/components/IssueFormView";
 import ProposalGuide from "@/components/ProposalGuide";
-import { NEW_TASK_FORM, REQUEST_MODEL } from "@/lib/site";
+import { NEW_TASK_FORM } from "@/lib/site";
 
 export const metadata = { title: "ML-Relay · Propose a new task" };
 
@@ -19,10 +19,13 @@ export default function ProposeNewPage() {
       </nav>
       <h1 className="text-3xl font-bold tracking-tight">Propose a new task</h1>
       <p className="mt-3 text-base leading-relaxed">
-        At minimum, give the research question and the source paper(s). The other fields are optional: fill in whatever you already know, and
-        the agent will propose anything you leave blank for you to confirm.
+        One paragraph is enough: describe the research question in your own words (and the paper, if you know it), or paste a note you already
+        have. Everything else is optional; the agent finds the paper and proposes anything you leave blank, for you to confirm.
       </p>
-      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{REQUEST_MODEL}</p>
+      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+        A proposal is a GitHub issue; after a maintainer approves it, an agent designs, builds and measures the task in phases and opens one PR, which
+        a maintainer reviews and merges.
+      </p>
       <div className="mt-4">
         <ProposalGuide />
       </div>

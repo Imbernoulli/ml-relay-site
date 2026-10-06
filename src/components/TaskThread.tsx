@@ -20,11 +20,13 @@ export default function TaskThread({
   thread: knownThread,
   maintainers = [],
   developers = {},
+  defaultKind = "comment",
 }: {
   task: string;
   thread: number | null;
   maintainers?: string[];
   developers?: Record<string, string[]>;
+  defaultKind?: "comment" | "request" | "method-idea";
 }) {
   const login = useLogin();
   const [thread, setThread] = useState<number | null>(knownThread);
@@ -118,7 +120,7 @@ export default function TaskThread({
       {state !== "noaccess" && state !== "error" && (
         <div className="mt-3">
           {state === "idle" && !thread && login && <p className="mb-2 text-sm text-muted-foreground">No discussion yet. Your first post opens the task&apos;s thread.</p>}
-          <ThreadComposer task={task} thread={thread} approved={approved} mayApprove={mayApprove} onPosted={(n) => setTimeout(() => void load(n), 1200)} />
+          <ThreadComposer task={task} thread={thread} approved={approved} mayApprove={mayApprove} defaultKind={defaultKind} onPosted={(n) => setTimeout(() => void load(n), 1200)} />
         </div>
       )}
     </section>

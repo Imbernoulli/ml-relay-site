@@ -2,18 +2,26 @@
 
 import { useEffect, useState } from "react";
 import { INVITATIONS_URL, myAccessRequest, requestAccess, type AccessRequest } from "@/lib/access";
+import { AUTO_NOTE } from "@/lib/autoAccess";
 import Spinner from "./Spinner";
 
-/** For signed-in visitors without access to the private repo: an in-site access request the maintainer approves. */
+/** For signed-in visitors without access to the private repo: the access request is filed automatically
+ *  (no click); this shows where it stands. Only after a maintainer declined is a button offered to ask again. */
 export default function RequestAccess({ compact = false }: { compact?: boolean }) {
   const [me, setMe] = useState<AccessRequest | null>(null);
   const [open, setOpen] = useState(false);
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [auto, setAuto] = useState(false);
   useEffect(() => {
     myAccessRequest()
-      .then(setMe)
+      .then(async (r) => {
+        if (r.state !== "none") return setMe(r);
+        // never asked: ask now, automatically
+        setAuto(true);
+        setMe(await requestAccess(AUTO_NOTE).catch(() => r));
+      })
       .catch(() => setMe({ login: "", state: "none" }));
   }, []);
   const send = async () => {
@@ -32,7 +40,11 @@ export default function RequestAccess({ compact = false }: { compact?: boolean }
   if (!me) return <Spinner />;
   if (me.state === "has-access") return <span className={`${sz} text-emerald-700 dark:text-emerald-300`}>You have access; reload the page.</span>;
   if (me.state === "pending")
-    return <span className={`${sz} rounded-md border border-sky-500/50 bg-sky-500/10 px-2 py-0.5 font-medium text-sky-800 dark:text-sky-200`}>Access requested · waiting for approval</span>;
+    return (
+      <span className={`${sz} rounded-md border border-sky-500/50 bg-sky-500/10 px-2 py-0.5 font-medium text-sky-800 dark:text-sky-200`}>
+        {auto || me.note === AUTO_NOTE ? "Access requested automatically · the maintainer has been notified" : "Access requested · waiting for approval"}
+      </span>
+    );
   if (me.state === "approved")
     return (
       <span className={sz}>

@@ -139,28 +139,9 @@ export default function IssueFormView({
   }
 
   const inputCls = "w-full rounded-md border border-border bg-background px-3 py-2 text-sm";
-  return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        void submit();
-      }}
-      className="space-y-5"
-    >
-      <div>
-        <label htmlFor="f-title" className="text-sm font-semibold">
-          Title
-        </label>
-        <input
-          id="f-title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={kind === "new task" ? "A short name for the task (optional)" : "A short summary of the change (optional)"}
-          className={`${inputCls} mt-1`}
-        />
-        {!title.trim() && <p className="mt-1 text-xs text-muted-foreground">Left blank, the title is taken from your first answer.</p>}
-      </div>
-      {fields.map((f, i) => {
+  const optional = fields.filter((f) => f.type !== "markdown" && f.id && !f.required && !(f.id in locked));
+  const optionalFilled = optional.some((f) => (values[f.id!] ?? "").trim()) || Boolean(title.trim());
+  const renderField = (f: (typeof fields)[number], i: number) => {
         if (f.type === "markdown")
           return (
             <div key={i} className="rounded-lg border border-border bg-muted/30 px-4 py-3 text-sm">
@@ -221,7 +202,42 @@ export default function IssueFormView({
               ))}
           </div>
         );
-      })}
+      };
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        void submit();
+      }}
+      className="space-y-5"
+    >
+      {fields.filter((f) => f.type === "markdown" || f.required || (f.id && f.id in locked)).map(renderField)}
+      {
+        <details open={optionalFilled} className="rounded-lg border border-border px-4 py-3">
+          <summary className="cursor-pointer text-sm font-semibold">
+            Add details (optional){" "}
+            <span className="font-normal text-muted-foreground">
+              {kind === "new task" ? "· the agent proposes anything you leave blank" : "· the agent works these out from your description"}
+            </span>
+          </summary>
+          <div className="mt-4 space-y-5">
+            <div>
+              <label htmlFor="f-title" className="text-sm font-semibold">
+                Title
+              </label>
+              <input
+                id="f-title"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder={kind === "new task" ? "A short name for the task (optional)" : "A short summary of the change (optional)"}
+                className={`${inputCls} mt-1`}
+              />
+              {!title.trim() && <p className="mt-1 text-xs text-muted-foreground">Left blank, the title is taken from your first answer.</p>}
+            </div>
+            {optional.map(renderField)}
+          </div>
+        </details>
+      }
 
       {sub.s === "error" && (
         <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 px-4 py-3 text-sm">

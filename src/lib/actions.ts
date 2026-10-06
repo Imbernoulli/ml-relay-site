@@ -17,6 +17,9 @@ export interface PendingAction {
   note: string;
   /** whose move: the maintainers always, the requester for replies and go */
   forRequester: boolean;
+  /** the task (change requests) and whether the issue is the task's discussion thread */
+  task?: string | null;
+  thread?: boolean;
 }
 
 const NOTE: Record<ActionReason, string> = {
@@ -60,6 +63,8 @@ export function pendingActions(live: Record<string, LiveRecord> | null, staticIs
       reason,
       note: NOTE[reason],
       forRequester: reason === "reply" || reason === "go",
+      task: r.task || null,
+      thread: labels.includes("task-thread"),
     });
   }
   for (const s of staticIssues) {
@@ -69,14 +74,25 @@ export function pendingActions(live: Record<string, LiveRecord> | null, staticIs
     else if (s.waiting) reason = "go";
     else if (s.progress?.steps) reason = fromSteps(s.progress.steps, []);
     if (!reason) continue;
-    out.push({ issue: s.issue, title: s.title, requester: s.requester, type: s.type, reason, note: NOTE[reason], forRequester: reason === "reply" || reason === "go" });
+    out.push({ issue: s.issue, title: s.title, requester: s.requester, type: s.type, reason, note: NOTE[reason], forRequester: reason === "reply" || reason === "go", task: s.task, thread: Boolean(s.thread) });
   }
   return out.sort((a, b) => b.issue - a.issue);
 }
 
-/** The actions for this viewer: all of them for a maintainer, else replies / go on their own requests. */
-export function actionsFor(all: PendingAction[], login: string | null | undefined, maintainer: boolean): PendingAction[] {
+/** The actions for this viewer: all of them for a maintainer; else replies / go on their own requests, plus
+ *  approving rounds on the discussion threads of the tasks they developed. */
+export function actionsFor(
+  all: PendingAction[],
+  login: string | null | undefined,
+  maintainer: boolean,
+  developers: Record<string, string[]> = {},
+): PendingAction[] {
   if (maintainer) return all;
   const me = (login ?? "").toLowerCase();
-  return all.filter((a) => a.forRequester && (a.requester ?? "").toLowerCase() === me && me !== "");
+  if (!me) return [];
+  return all.filter(
+    (a) =>
+      (a.forRequester && (a.requester ?? "").toLowerCase() === me) ||
+      (a.reason === "approve" && a.thread && a.task && (developers[a.task] ?? []).some((d) => d.toLowerCase() === me)),
+  );
 }

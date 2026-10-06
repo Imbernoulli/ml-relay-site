@@ -158,7 +158,17 @@ type Load =
   | { s: "error"; msg: string; noAccess?: boolean }
   | { s: "ok"; me: Viewer; items: MyRequest[] };
 
-export default function MyWork({ status, knownTasks, titles }: { status: StatusData; knownTasks: string[]; titles: TaskTitles }) {
+export default function MyWork({
+  status,
+  knownTasks,
+  titles,
+  developers = {},
+}: {
+  status: StatusData;
+  knownTasks: string[];
+  titles: TaskTitles;
+  developers?: Record<string, string[]>;
+}) {
   const [load, setLoad] = useState<Load>({ s: "loading" });
   const live = useLiveStatus();
   // the signed-in login from the session cache, so the page's sections show before any fetch returns
@@ -245,7 +255,7 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
   const items = load.s === "ok" ? load.items : null;
   const maint = isMaintainer(me.login, status.maintainers);
   // everything waiting on this person, live: maintainers see every request whose next step is theirs
-  const needs = actionsFor(pendingActions(live, status.issues ?? []), me.login, maint);
+  const needs = actionsFor(pendingActions(live, status.issues ?? []), me.login, maint, developers);
   const open = (items ?? []).filter((r) => r.state === "open");
   const closed = (items ?? []).filter((r) => r.state !== "open");
   return (
@@ -296,8 +306,13 @@ export default function MyWork({ status, knownTasks, titles }: { status: StatusD
                     </Link>
                   </div>
                   {x.reason === "approve" && st?.approval?.note && <p className="mt-2 text-sm text-muted-foreground">Last feedback: {st.approval.note}</p>}
-                  {x.reason === "approve" && maint && (
-                    <MaintainerActions issue={x.issue} approval={st?.approval ?? { state: "waiting", by: null, note: null }} maintainers={status.maintainers} repo={RELAY_REPO} />
+                  {x.reason === "approve" && (maint || (x.thread && x.task)) && (
+                    <MaintainerActions
+                      issue={x.issue}
+                      approval={st?.approval ?? { state: "waiting", by: null, note: null }}
+                      maintainers={[...(status.maintainers ?? []), ...(x.thread && x.task ? developers[x.task] ?? [] : [])]}
+                      repo={RELAY_REPO}
+                    />
                   )}
                 </Card>
               );

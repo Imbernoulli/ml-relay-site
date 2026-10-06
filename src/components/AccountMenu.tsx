@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AUTH_EVENT, cachedViewer, clearToken, isSignedIn, oauthConfigured, viewer, warmUpSignIn, type Viewer } from "@/lib/github";
 import SignInButton from "./SignInButton";
+import { ensureAccessRequest } from "@/lib/autoAccess";
 
 /** Navbar account area. Rendered empty on the server; the session is read in the browser only. */
 export default function AccountMenu() {
@@ -25,6 +26,7 @@ export default function AccountMenu() {
       viewer()
         .then(setMe)
         .catch(() => undefined);
+      void ensureAccessRequest(); // once per session: files the access request of a signed-in non-collaborator
     };
     sync();
     window.addEventListener(AUTH_EVENT, sync);

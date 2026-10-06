@@ -485,23 +485,6 @@
     }
    ]
   },
-  "optimization-parity": {
-   "developers": [
-    {
-     "login": "zhqwqwq",
-     "avatar_url": "https://avatars.githubusercontent.com/u/113563900?v=4",
-     "html_url": "https://github.com/zhqwqwq",
-     "role": "original"
-    },
-    {
-     "login": "Imbernoulli",
-     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
-     "html_url": "https://github.com/Imbernoulli",
-     "role": "rebuilt"
-    }
-   ],
-   "contributors": []
-  },
   "pde-design-solver": {
    "developers": [
     {
