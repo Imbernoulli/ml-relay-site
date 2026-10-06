@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06T17:16:10",
+ "generated": "2026-10-06T17:20:59",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 50 tasks are newly constructed for ML-Relay. The other 13 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -2660,7 +2660,7 @@
    "title": "Climate Emulation in Unseen Physical Regimes",
    "area": "AI for Science / Climate",
    "question": "On ClimSim's own training split at a fixed 5-epoch budget, design the architecture that maps a column state to sub-grid physics tendencies and still predicts well on warm, land and polar regimes it was not trained on.",
-   "version": "0d082b9e56115b0b93b235fb4a5b3c95c48611dc",
+   "version": "b4909b1583a70e72d74b6671eb78c7884d3c163f",
    "repo": "leap-stc/ClimSim",
    "settings": [
     {
@@ -2778,7 +2778,7 @@
    "title": "Forgetting Training Examples while Preserving Generalization",
    "area": "Trustworthy Learning / Machine Unlearning",
    "question": "Given the trained model, its retain and forget sets and SalUn's training budget (an update of the trained model, at most ten passes over the retained data), design the unlearning update whose result is closest to retraining from scratch without the forget set.",
-   "version": "af84ceab5f5813952483a6c3b09b6be7bd28e9e8",
+   "version": "7afb53f6667a3e7eda40cf93469ad381b5da6c42",
    "repo": "OPTML-Group/Unlearn-Saliency",
    "settings": [
     {
