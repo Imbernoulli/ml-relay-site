@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { isSignedIn } from "@/lib/github";
 import { hasRepoAccess, INVITATIONS_URL, listAccessRequests, myAccessRequest } from "@/lib/access";
+import { AUTO_ACCESS_EVENT } from "@/lib/autoAccess";
 
 const CACHE = "mlrelay-access-notices";
 
@@ -11,6 +12,21 @@ const CACHE = "mlrelay-access-notices";
 export default function AccessNotices() {
   const [pending, setPending] = useState(0);
   const [invite, setInvite] = useState(false);
+  const [autoSent, setAutoSent] = useState(false);
+  // the sign-in just filed an access request automatically: say so (it disappears after a while)
+  useEffect(() => {
+    let t: ReturnType<typeof setTimeout> | null = null;
+    const on = () => {
+      setAutoSent(true);
+      if (t) clearTimeout(t);
+      t = setTimeout(() => setAutoSent(false), 15000);
+    };
+    window.addEventListener(AUTO_ACCESS_EVENT, on);
+    return () => {
+      window.removeEventListener(AUTO_ACCESS_EVENT, on);
+      if (t) clearTimeout(t);
+    };
+  }, []);
   useEffect(() => {
     if (!isSignedIn()) return;
     try {
@@ -48,6 +64,17 @@ export default function AccessNotices() {
           </Link>
         )}
       </span>
+      {autoSent && (
+        <div
+          role="status"
+          className="fixed bottom-4 right-4 z-50 max-w-xs rounded-lg border border-sky-500/60 bg-sky-50 px-3 py-2 text-xs font-medium text-sky-900 shadow-lg dark:bg-sky-950 dark:text-sky-200"
+        >
+          Access requested automatically. The maintainer has been notified; GitHub emails you an invitation once it is approved.
+          <button type="button" onClick={() => setAutoSent(false)} className="ml-2 underline">
+            OK
+          </button>
+        </div>
+      )}
       {invite && (
         <a
           href={INVITATIONS_URL}

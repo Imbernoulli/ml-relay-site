@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
-import { loadStatus, siteMode } from "@/lib/data";
+import { loadStatus, siteMode, taskDevelopers } from "@/lib/data";
 
 const MODE = siteMode();
 
@@ -21,7 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT }} />
       </head>
       <body className="min-h-screen flex flex-col">
-        <Navbar mode={MODE} maintainers={MODE === "public" ? loadStatus().maintainers ?? [] : []} />
+        <Navbar mode={MODE} maintainers={MODE === "public" ? loadStatus().maintainers ?? [] : []} developers={MODE === "public" ? taskDevelopers() : {}} />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-border py-6 text-center text-xs text-muted-foreground px-4">
           {MODE === "public"

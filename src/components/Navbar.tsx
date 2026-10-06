@@ -15,7 +15,15 @@ const NAV = [
   { href: "/shortlist/", label: "☆ Shortlist" },
 ];
 
-export default function Navbar({ mode = "internal", maintainers = [] }: { mode?: "public" | "internal"; maintainers?: string[] }) {
+export default function Navbar({
+  mode = "internal",
+  maintainers = [],
+  developers = {},
+}: {
+  mode?: "public" | "internal";
+  maintainers?: string[];
+  developers?: Record<string, string[]>;
+}) {
   const pathname = usePathname();
   return (
     <nav className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur">
@@ -40,7 +48,7 @@ export default function Navbar({ mode = "internal", maintainers = [] }: { mode?:
                 }`}
               >
                 {item.label}
-                {item.href === "/me/" && mode === "public" && <MyWorkBadge maintainers={maintainers} />}
+                {item.href === "/me/" && mode === "public" && <MyWorkBadge maintainers={maintainers} developers={developers} />}
               </Link>
             );
           })}

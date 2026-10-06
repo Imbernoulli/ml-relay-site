@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { loadForms, loadIndex, taskTitles } from "@/lib/data";
-import IssueFormView from "@/components/IssueFormView";
-import { REQUEST_MODEL } from "@/lib/site";
+import { loadIndex, loadStatus, taskDevelopers } from "@/lib/data";
+import TaskThread from "@/components/TaskThread";
 
 export function generateStaticParams() {
   return loadIndex().tasks.map((t) => ({ task: t.id }));
@@ -12,10 +11,11 @@ export async function generateMetadata({ params }: { params: Promise<{ task: str
   return { title: `ML-Relay · Request a change · ${task}` };
 }
 
+/** Requesting a change = posting into the task's one discussion thread (one paragraph is enough). */
 export default async function ChangePage({ params }: { params: Promise<{ task: string }> }) {
   const { task } = await params;
   const t = loadIndex().tasks.find((x) => x.id === task);
-  const form = loadForms()["change-task"];
+  const st = loadStatus();
   const gh = `https://github.com/Imbernoulli/ML-Relay/issues/new?${new URLSearchParams({ template: "change-task.yml", task, title: `[change] ${task}: ` })}`;
   return (
     <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:px-8">
@@ -28,32 +28,21 @@ export default async function ChangePage({ params }: { params: Promise<{ task: s
       </nav>
       <h1 className="text-3xl font-bold tracking-tight">Request a change</h1>
       <p className="mt-2 text-base text-muted-foreground">{t?.title ?? task}</p>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{REQUEST_MODEL}</p>
+      <p className="mt-3 text-sm leading-relaxed">
+        Describe the change in one paragraph, or paste a note you already have. It goes into this task&apos;s discussion thread, where the task&apos;s
+        developers and the maintainers are notified and anyone can discuss it. The agent starts when a maintainer or one of the task&apos;s developers
+        approves; its changes come back as one pull request.
+      </p>
       <div className="mt-6">
-        {form ? (
-          <IssueFormView
-            form={form}
-            titles={taskTitles()}
-            kind="change"
-            draftKey={`mlrelay-draft-change-${task}`}
-            locked={{ task }}
-            next={
-              <>
-                The agent works on this task only. It reports back on the issue (you get an email via a GitHub @mention) and proposes its changes as
-                one pull request, which a maintainer reviews and merges. Reply on the issue, or from My work, to steer it.
-              </>
-            }
-          />
-        ) : (
-          <p className="text-sm">
-            The form is not available on the site yet.{" "}
-            <a href={gh} target="_blank" rel="noreferrer" className="underline">
-              Open it on GitHub
-            </a>
-            .
-          </p>
-        )}
+        <TaskThread task={task} thread={st.threads?.[task] ?? null} maintainers={st.maintainers ?? []} developers={taskDevelopers()} defaultKind="request" />
       </div>
+      <p className="mt-4 text-xs text-muted-foreground">
+        Prefer GitHub?{" "}
+        <a href={gh} target="_blank" rel="noreferrer" className="underline">
+          Open the form there
+        </a>{" "}
+        (a request for a task that already has a thread is moved into it).
+      </p>
     </div>
   );
 }

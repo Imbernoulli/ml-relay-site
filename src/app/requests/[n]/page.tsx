@@ -1,4 +1,4 @@
-import { loadStatus, taskTitles } from "@/lib/data";
+import { deletedIds, loadStatus, taskDevelopers, taskTitles } from "@/lib/data";
 import RequestDetail from "@/components/RequestDetail";
 
 // One page per request the published status knows; newer ones are served by the
@@ -19,5 +19,5 @@ export default async function RequestPage({ params }: { params: Promise<{ n: str
   const st = loadStatus();
   const num = Number(n);
   const issue = (st.issues ?? []).find((i) => i.issue === num) ?? null;
-  return <RequestDetail n={num} st={issue} titles={taskTitles()} maintainers={st.maintainers} repo={st.repo} />;
+  return <RequestDetail n={num} st={issue} titles={taskTitles()} maintainers={st.maintainers} repo={st.repo} developers={taskDevelopers()} deleted={deletedIds()} />;
 }

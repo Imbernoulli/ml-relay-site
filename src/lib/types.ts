@@ -85,7 +85,11 @@ export interface TaskData {
   scoring: Scoring | null; score_spec_source: string; leaderboard: Leaderboard;
   image?: TaskImageInfo | null;
   mode?: "internal"; version?: string | null; viewer?: ViewerSummary | null;
+  status?: "deleted"; deleted?: DeletedInfo;
 }
+
+/** A task removed from ML-Relay: its page stays, frozen at its last shipped version (ML-Relay tools/site_gen/deleted_tasks.json). */
+export interface DeletedInfo { date: string; reason: string; replaced_by?: string; pr?: number }
 
 export interface IndexEntry {
   id: string; n: number; title: string | null; area: string | null; question: string | null; repo: string | null;
@@ -95,6 +99,7 @@ export interface IndexEntry {
   oracle?: string | null; oracle_name?: string | null; oracle_score?: number | null; best_score?: number | null;
   gpus?: number | null;
   version?: string | null;
+  status?: "deleted"; deleted?: DeletedInfo;
 }
 
 export interface ViewerSummary {
@@ -104,7 +109,11 @@ export interface ViewerSummary {
 
 export interface TaskImageInfo { src: string; caption: string | null; width: number | null; height: number | null; bytes?: number }
 
-export interface IndexData { generated: string; source: string; mode?: "public" | "internal"; relay_ref_score: number; intro_md: string; tasks: IndexEntry[] }
+export interface IndexData {
+  generated: string; source: string; mode?: "public" | "internal"; relay_ref_score: number; intro_md: string; tasks: IndexEntry[];
+  /** removed tasks, newest first: never part of `tasks` (counts, featured order, request actions) */
+  deleted_tasks?: IndexEntry[];
+}
 
 export interface PublicFile { filename: string; editable: boolean; edit_ranges: Range[]; language: string; lines: number; content: string | null; omitted: string | null }
 export interface PublicBaseline {
@@ -122,6 +131,7 @@ export interface PublicTaskData {
   files: PublicFile[]; baselines: PublicBaseline[]; controls: Control[];
   settings: Setting[]; scoring: Scoring | null; leaderboard: Leaderboard;
   version?: string | null; viewer?: ViewerSummary | null;
+  status?: "deleted"; deleted?: DeletedInfo;
 }
 
 export interface Gap { task: string; field: string; detail: string }
@@ -133,7 +143,7 @@ export interface StatusEntry {
   issue: number; title: string; type: "change" | "replacement" | "new task"; state: string; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; replacement: string | null;
   requester?: string | null; opened?: string | null; done?: boolean; task?: string | null;
-  progress?: ProgressRecord | null; approval?: Approval | null;
+  progress?: ProgressRecord | null; approval?: Approval | null; thread?: boolean;
 }
 export interface ProgressStep { visibility?: string; superseded?: boolean; t?: string | number; kind?: string; label?: string; state: string; detail_public?: string; key?: string | null }
 export interface ProgressRecord { current: number | string | null; steps: ProgressStep[] }
@@ -142,6 +152,16 @@ export interface StatusIssue {
   issue: number; title: string; requester: string | null; type: "change" | "new task" | "maintenance"; task: string | null;
   replacement: string | null; state: "open" | "closed"; stage: string; waiting: boolean; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; opened: string | null;
-  progress?: ProgressRecord | null; approval?: Approval | null;
+  progress?: ProgressRecord | null; approval?: Approval | null; thread?: boolean;
 }
-export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[]; maintainers?: string[] }
+export interface StatusData {
+  generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[]; maintainers?: string[];
+  /** task id -> its open discussion thread (one GitHub issue per task, label task-thread) */
+  threads?: Record<string, number>;
+}
+
+/** People card of a task (people.json, written by ML-Relay's contributors.py --people-out). */
+export interface Person { login: string; avatar_url: string; html_url: string }
+export interface Developer extends Person { role: "original" | "rebuilt" | "developer" | "proposed" }
+export interface Contributor extends Person { roles: string[] }
+export interface TaskPeopleData { developers: Developer[]; contributors: Contributor[]; note?: string }

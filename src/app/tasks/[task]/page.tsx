@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { loadIndex, loadStatus, loadTask } from "@/lib/data";
+import { deletedIds, loadIndex, loadPeople, loadStatus, loadTask, taskDevelopers, taskTitles } from "@/lib/data";
+import DeletedBanner, { DeletedBadge } from "@/components/DeletedBanner";
 import type { Baseline, DescSection, TaskData, Term } from "@/lib/types";
 import { arrow, fmt, fmtScore, firstParagraph, gb, hours } from "@/lib/format";
 import MarkdownContent from "@/components/MarkdownContent";
@@ -18,10 +19,13 @@ import RequestStatus from "@/components/RequestStatus";
 import { gpuLabel } from "@/lib/site";
 import type { PublicTaskData } from "@/lib/types";
 import ResultsSection from "@/components/ResultsSection";
+import TaskPeople from "@/components/TaskPeople";
+import TaskThread from "@/components/TaskThread";
 import { Badge, Card, Fold, KV, Missing, Section } from "@/components/ui";
 
 export function generateStaticParams() {
-  return loadIndex().tasks.map((t) => ({ task: t.id }));
+  // live tasks, plus the deleted ones (their pages stay, frozen and marked Deleted)
+  return [...loadIndex().tasks.map((t) => t.id), ...deletedIds()].map((task) => ({ task }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ task: string }> }) {
@@ -39,6 +43,7 @@ const TOC = [
   ["scoring", "6 Scoring"],
   ["results", "7 Results"],
   ["appendix", "Appendix"],
+  ["discussion", "Discussion"],
 ];
 
 function DescBlocks({ secs, kinds, empty }: { secs: DescSection[]; kinds: string[]; empty?: string }) {
@@ -198,7 +203,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
       </nav>
 
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        <span className="font-mono">#{t.n}</span>
+        {t.status === "deleted" ? <DeletedBadge /> : <span className="font-mono">#{t.n}</span>}
         <Badge>{splitArea(t.area).area}</Badge>
         {splitArea(t.area).topic && <span>{splitArea(t.area).topic}</span>}
         {t.repo_url && (
@@ -208,6 +213,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
         )}
         {gpuLabel(t.exec?.gpus) && <Badge>Trial: {gpuLabel(t.exec?.gpus)}</Badge>}
       </div>
+      {t.status === "deleted" && t.deleted && <DeletedBanner info={t.deleted} titles={taskTitles()} />}
       <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
@@ -219,9 +225,16 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
           </div>
           <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
           <div className="mt-4">
-            <IssueButtons task={t.id} />
+            {t.status !== "deleted" && (
+              <>
+                <IssueButtons task={t.id} />
+                <div className="mt-4 max-w-xl">
+                  <ApproveBox task={t.id} version={t.version} />
+                </div>
+              </>
+            )}
             <div className="mt-4 max-w-xl">
-              <ApproveBox task={t.id} version={t.version} />
+              <TaskPeople people={loadPeople()[t.id]} />
             </div>
           </div>
         </div>
@@ -669,6 +682,16 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
           task.toml, tests/meta) and the delivered <code>ml-relay-v2/README.md</code>.
         </p>
       </Section>
+
+      <div className="mt-10">
+        <TaskThread
+          task={t.id}
+          thread={status.threads?.[t.id] ?? null}
+          maintainers={status.maintainers ?? []}
+          developers={taskDevelopers()}
+          readOnly={t.status === "deleted"}
+        />
+      </div>
     </div>
   );
 }

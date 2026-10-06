@@ -256,6 +256,47 @@ export async function commentOnIssue(issue: number, body: string): Promise<{ htm
   return gh(`/repos/${RELAY_REPO}/issues/${issue}/comments`, { method: "POST", body: { body } });
 }
 
+/** Open task threads (label task-thread) the visitor can see: [{number, title}]. */
+export async function openThreads(): Promise<{ number: number; title: string; labels: string[] }[]> {
+  const raw = await gh<RawIssue[]>(`/repos/${RELAY_REPO}/issues?state=open&labels=task-thread&per_page=100`);
+  return raw.filter((i) => !i.pull_request).map((i) => ({ number: i.number, title: i.title, labels: i.labels.map((l) => l.name) }));
+}
+
+export interface ThreadUser {
+  login: string;
+  avatar_url: string;
+  type?: string;
+}
+export interface ThreadComment {
+  id: number;
+  body: string | null;
+  user: ThreadUser;
+  created_at: string;
+  html_url: string;
+}
+export interface ThreadIssue {
+  number: number;
+  title: string;
+  body: string | null;
+  user: ThreadUser;
+  labels: { name: string }[];
+  state: string;
+  created_at: string;
+  html_url: string;
+}
+
+/** An issue and all its comments, oldest first (the visitor's own access). */
+export async function issueThread(n: number): Promise<{ issue: ThreadIssue; comments: ThreadComment[] }> {
+  const issue = await gh<ThreadIssue>(`/repos/${RELAY_REPO}/issues/${n}`);
+  const comments: ThreadComment[] = [];
+  for (let page = 1; page <= 5; page++) {
+    const batch = await gh<ThreadComment[]>(`/repos/${RELAY_REPO}/issues/${n}/comments?per_page=100&page=${page}`);
+    comments.push(...batch);
+    if (batch.length < 100) break;
+  }
+  return { issue, comments };
+}
+
 export interface Viewer {
   login: string;
   avatar_url: string;

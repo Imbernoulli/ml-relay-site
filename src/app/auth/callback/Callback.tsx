@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { finishOAuth } from "@/lib/github";
+import { ensureAccessRequest } from "@/lib/autoAccess";
 import Spinner from "@/components/Spinner";
 import { RETURN_KEY } from "@/lib/issueForm";
 
@@ -27,6 +28,8 @@ export default function Callback() {
     }
     finishOAuth(code, state)
       .then(() => {
+        // not a collaborator yet? the access request is filed now, with no second click
+        void ensureAccessRequest(true);
         // Back to the page that started the sign-in (e.g. a half-filled form), else My work.
         let to = "/me/";
         try {

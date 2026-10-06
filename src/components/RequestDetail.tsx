@@ -16,6 +16,9 @@ import MaintainerActions, { isMaintainer, useLogin } from "./MaintainerActions";
 import SignInButton from "./SignInButton";
 import RequestAccess from "./RequestAccess";
 import Spinner from "./Spinner";
+import ThreadComposer from "./ThreadComposer";
+import ThreadPost from "./ThreadPost";
+import { canApprove, THREAD_LABEL, titleTask } from "@/lib/threads";
 
 interface GhUser {
   login: string;
@@ -68,9 +71,6 @@ async function gh<T>(path: string): Promise<T> {
   return (await r.json()) as T;
 }
 
-/** Visible text of a comment: HTML comments (markers) removed; raw HTML is never rendered. */
-const clean = (b: string | null) => (b ?? "").replace(/<!--[\s\S]*?-->/g, "").trim();
-const isBot = (u: GhUser) => u.type === "Bot" || /\[bot\]$/.test(u.login);
 const fmt = (iso: string) => iso.slice(0, 16).replace("T", " ") + " UTC";
 
 function kindOf(type: string | undefined, labels: string[]): StatusIssue["type"] {
@@ -85,12 +85,17 @@ export default function RequestDetail({
   titles,
   maintainers = [],
   repo,
+  developers = {},
+  deleted = [],
 }: {
   n: number;
   st: StatusIssue | null;
   titles: TaskTitles;
   maintainers?: string[];
   repo: string;
+  developers?: Record<string, string[]>;
+  /** deleted tasks: their threads stay readable but take no new posts */
+  deleted?: string[];
 }) {
   const login = useLogin();
   const rec = liveRecord(useLiveStatus(), n);
@@ -166,11 +171,15 @@ export default function RequestDetail({
   if (!st && issue) input.approval = approval;
 
   const statusC = comments.find((c) => (c.body ?? "").includes(STATUS_MARKER));
-  const thread = comments.filter((c) => c !== statusC);
+  const thread = comments.filter((c) => c !== statusC && !(c.body ?? "").includes("<!-- relay-thread-cc -->"));
   const inDesign = type === "new task" && !input.phase && !input.done;
   const report = pickReport(thread, inDesign);
   const maint = isMaintainer(login, maintainers);
-  const task = st?.task ?? null;
+  const task = st?.task ?? titleTask(issue?.title) ?? null;
+  const isThread = Boolean(st?.thread) || labels.includes(THREAD_LABEL);
+  // on a task thread, the task's developers may approve rounds too
+  const approvers =
+    task && deleted.includes(task) ? [] : isThread && task ? [...maintainers, ...(developers[task] ?? [])] : maintainers;
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
@@ -239,7 +248,7 @@ export default function RequestDetail({
             ) : null
           }
         />
-        <MaintainerActions issue={n} approval={approval} maintainers={maintainers} repo={repo} />
+        <MaintainerActions issue={n} approval={approval} maintainers={approvers} repo={repo} />
       </div>
       )}
 
@@ -304,13 +313,32 @@ export default function RequestDetail({
           )}
 
           <section className="mt-6">
-            <h2 className="text-lg font-semibold">Conversation</h2>
+            <h2 className="text-lg font-semibold">{isThread ? "Discussion" : "Conversation"}</h2>
+            {isThread && (
+              <p className="mt-1 text-xs text-muted-foreground">
+                The one discussion thread of this task: discussion is free; a maintainer or one of the task&apos;s developers starts the agent.
+              </p>
+            )}
             <ol className="mt-3 space-y-3">
-              <Item user={issue.user} at={issue.created_at} url={issue.html_url} body={clean(issue.body)} first />
+              <ThreadPost user={issue.user} at={issue.created_at} url={issue.html_url} body={issue.body} first />
               {thread.map((c) => (
-                <Item key={c.id} user={c.user} at={c.created_at} url={c.html_url} body={clean(c.body)} />
+                <ThreadPost key={c.id} user={c.user} at={c.created_at} url={c.html_url} body={c.body} />
               ))}
             </ol>
+            {isThread && task && deleted.includes(task) && (
+              <p className="mt-4 text-sm text-muted-foreground">This task was removed from ML-Relay: the discussion is kept for reference and is closed to new posts.</p>
+            )}
+            {isThread && task && issue.state === "open" && !deleted.includes(task) && (
+              <div className="mt-4">
+                <ThreadComposer
+                  task={task}
+                  thread={n}
+                  approved={labels.includes("approved")}
+                  mayApprove={canApprove(login, task, maintainers, developers)}
+                  onPosted={() => setTimeout(() => void load(), 1200)}
+                />
+              </div>
+            )}
           </section>
         </>
       )}
@@ -318,20 +346,3 @@ export default function RequestDetail({
   );
 }
 
-function Item({ user, at, url, body, first = false }: { user: GhUser; at: string; url: string; body: string; first?: boolean }) {
-  return (
-    <li className="rounded-xl border border-border bg-card">
-      <div className="flex items-center gap-2 border-b border-border px-3 py-2 text-xs">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={`${user.avatar_url}${user.avatar_url.includes("?") ? "&" : "?"}s=48`} alt="" width={20} height={20} className="h-5 w-5 rounded-full" />
-        <span className="font-mono font-medium">{user.login}</span>
-        {isBot(user) && <span className="rounded bg-muted px-1 text-[10px] text-muted-foreground">agent</span>}
-        <span className="text-muted-foreground">{first ? "opened the request" : "commented"} · {fmt(at)}</span>
-        <a href={url} target="_blank" rel="noreferrer" className="ml-auto text-muted-foreground underline">
-          GitHub
-        </a>
-      </div>
-      <div className="prose prose-sm max-w-none px-3 py-2 dark:prose-invert">{body ? <MarkdownContent content={body} /> : <p className="text-muted-foreground">(empty)</p>}</div>
-    </li>
-  );
-}

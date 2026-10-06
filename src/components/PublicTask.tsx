@@ -14,7 +14,10 @@ import AgentViewer from "./AgentViewer";
 import { splitArea } from "@/lib/areas";
 import IssueButtons from "./IssueButtons";
 import RequestStatus from "./RequestStatus";
-import { loadStatus } from "@/lib/data";
+import { loadPeople, loadStatus, taskDevelopers, taskTitles } from "@/lib/data";
+import DeletedBanner, { DeletedBadge } from "./DeletedBanner";
+import TaskPeople from "./TaskPeople";
+import TaskThread from "./TaskThread";
 import { gpuLabel } from "@/lib/site";
 
 const TOC = [
@@ -25,6 +28,7 @@ const TOC = [
   ["settings", "5 Settings"],
   ["scoring", "6 Scoring"],
   ["results", "7 Results"],
+  ["discussion", "Discussion"],
 ];
 
 function Blocks({ secs, kinds }: { secs: DescSection[]; kinds?: string[] }) {
@@ -122,6 +126,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
   const sdisp = (n: string) => t.settings.find((x) => x.name === n)?.display ?? n;
   const titleSec = t.desc_sections.find((s) => s.kind === "title");
   const filesEdit = t.instruction_harness["Files You May Edit"];
+  const deleted = t.status === "deleted" ? t.deleted ?? { date: "", reason: "" } : null;
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <nav className="mb-4 text-sm text-muted-foreground">
@@ -132,7 +137,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         <span className="break-anywhere font-mono text-foreground">{t.id}</span>
       </nav>
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        <span className="font-mono">#{t.n}</span>
+        {deleted ? <DeletedBadge /> : <span className="font-mono">#{t.n}</span>}
         <Badge>{splitArea(t.area).area}</Badge>
         {splitArea(t.area).topic && <span>{splitArea(t.area).topic}</span>}
         {t.repo_url && (
@@ -142,6 +147,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         )}
         {gpuLabel(t.gpus) && <Badge>Trial: {gpuLabel(t.gpus)}</Badge>}
       </div>
+      {deleted && <DeletedBanner info={deleted} titles={taskTitles()} />}
       <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
@@ -152,11 +158,18 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
             </div>
           </div>
           <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
-          <div className="mt-4">
-            <IssueButtons task={t.id} />
-          </div>
+          {!deleted && (
+            <>
+              <div className="mt-4">
+                <IssueButtons task={t.id} />
+              </div>
+              <div className="mt-4 max-w-xl">
+                <ApproveBox task={t.id} version={t.version} />
+              </div>
+            </>
+          )}
           <div className="mt-4 max-w-xl">
-            <ApproveBox task={t.id} version={t.version} />
+            <TaskPeople people={loadPeople()[t.id]} />
           </div>
         </div>
         <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} />
@@ -317,6 +330,16 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
       <Section id="results" n={7} title="Results">
         <ResultsSection t={t as unknown as TaskData} publicMode />
       </Section>
+
+      <div className="mt-10">
+        <TaskThread
+          task={t.id}
+          thread={status.threads?.[t.id] ?? null}
+          maintainers={status.maintainers ?? []}
+          developers={taskDevelopers()}
+          readOnly={Boolean(deleted)}
+        />
+      </div>
     </div>
   );
 }
