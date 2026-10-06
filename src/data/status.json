@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06T18:27:48+00:00",
+ "generated": "2026-10-06T19:02:06+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -5469,7 +5469,7 @@
    "issue": 19,
    "title": "[new task] Optimizer design for Muon: matrix-sign / orthogonalization (Polar Express, arXiv:2505.16932)",
    "type": "new task",
-   "state": "running",
+   "state": "awaiting reply",
    "phase": "C",
    "approval": {
     "state": "approved",
@@ -10015,7 +10015,7 @@
       "t": 1791310697,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-19-37508936832",
       "visibility": "public"
      },
@@ -10038,7 +10038,7 @@
       "t": 1791310772,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-19-37508936832-2",
       "visibility": "public"
      },
@@ -10084,17 +10084,17 @@
       "t": 1791311072,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37510089766",
       "visibility": "internal"
      },
      {
       "t": 1791311085,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37510089766",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791311119,
@@ -10114,14 +10114,154 @@
       "t": 1791311239,
       "kind": "agent",
       "label": "Report written",
-      "state": "running",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311280,
+      "kind": "pr",
+      "label": "PR #21 updated",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311280,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37510089766",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311280,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37510089766",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791311979,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311989,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832-2: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311798,
+      "kind": "setting",
+      "label": "Setting gpt-124m (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832-2: took about 16m of 30m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791312761,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791312805,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791312805,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791312999,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791313011,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791313041,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313151,
+      "kind": "agent",
+      "label": "Results analysed",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313190,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313219,
+      "kind": "pr",
+      "label": "PR #21 linked",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313219,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313219,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791313219,
+      "kind": "go",
+      "label": "Waiting for your go (phase C finished)",
+      "state": "waiting",
       "visibility": "public"
      }
     ]
    },
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-06T18:26:55Z",
+   "updated": "2026-10-06T19:00:37Z",
    "replacement": null,
    "task": null
   },
@@ -10438,12 +10578,12 @@
    "task": null,
    "replacement": null,
    "state": "open",
-   "stage": "Full measurement",
-   "waiting": false,
+   "stage": "Waiting for requester",
+   "waiting": true,
    "phase": "C",
    "pr": 21,
    "pr_state": "open",
-   "updated": "2026-10-06T18:26:55Z",
+   "updated": "2026-10-06T19:00:37Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -14980,7 +15120,7 @@
       "t": 1791310697,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-19-37508936832",
       "visibility": "public"
      },
@@ -15003,7 +15143,7 @@
       "t": 1791310772,
       "kind": "daytona",
       "label": "Environment building",
-      "state": "running",
+      "state": "done",
       "detail_public": "run gh-19-37508936832-2",
       "visibility": "public"
      },
@@ -15049,17 +15189,17 @@
       "t": 1791311072,
       "kind": "orchestrator",
       "label": "Orchestrator started",
-      "state": "running",
+      "state": "done",
       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37510089766",
       "visibility": "internal"
      },
      {
       "t": 1791311085,
       "kind": "heartbeat",
-      "label": "Agent working",
-      "state": "running",
+      "label": "Agent work finished",
+      "state": "done",
       "detail_public": "Actions run 37510089766",
-      "visibility": "public"
+      "visibility": "internal"
      },
      {
       "t": 1791311119,
@@ -15079,7 +15219,147 @@
       "t": 1791311239,
       "kind": "agent",
       "label": "Report written",
-      "state": "running",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311280,
+      "kind": "pr",
+      "label": "PR #21 updated",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311280,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37510089766",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311280,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37510089766",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791311979,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311989,
+      "kind": "daytona",
+      "label": "Sandbox started",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832-2: 8 GPU(s)",
+      "visibility": "public"
+     },
+     {
+      "t": 1791311798,
+      "kind": "setting",
+      "label": "Setting gpt-124m (seed 42)",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832-2: took about 16m of 30m budget",
+      "visibility": "public"
+     },
+     {
+      "t": 1791312761,
+      "kind": "daytona",
+      "label": "Results collected",
+      "state": "done",
+      "detail_public": "run gh-19-37508936832-2",
+      "visibility": "public"
+     },
+     {
+      "t": 1791312805,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791312805,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791312999,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791313011,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791313041,
+      "kind": "agent",
+      "label": "Read the issue thread",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313151,
+      "kind": "agent",
+      "label": "Results analysed",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313190,
+      "kind": "agent",
+      "label": "Report written",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313219,
+      "kind": "pr",
+      "label": "PR #21 linked",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313219,
+      "kind": "report",
+      "label": "Report posted",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "public"
+     },
+     {
+      "t": 1791313219,
+      "kind": "orchestrator",
+      "label": "Orchestrator finished",
+      "state": "done",
+      "detail_public": "Actions run 37514721665",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791313219,
+      "kind": "go",
+      "label": "Waiting for your go (phase C finished)",
+      "state": "waiting",
       "visibility": "public"
      }
     ]
