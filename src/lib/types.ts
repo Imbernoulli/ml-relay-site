@@ -133,7 +133,7 @@ export interface StatusEntry {
   issue: number; title: string; type: "change" | "replacement" | "new task"; state: string; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; replacement: string | null;
   requester?: string | null; opened?: string | null; done?: boolean; task?: string | null;
-  progress?: ProgressRecord | null; approval?: Approval | null;
+  progress?: ProgressRecord | null; approval?: Approval | null; thread?: boolean;
 }
 export interface ProgressStep { visibility?: string; superseded?: boolean; t?: string | number; kind?: string; label?: string; state: string; detail_public?: string; key?: string | null }
 export interface ProgressRecord { current: number | string | null; steps: ProgressStep[] }
@@ -142,6 +142,16 @@ export interface StatusIssue {
   issue: number; title: string; requester: string | null; type: "change" | "new task" | "maintenance"; task: string | null;
   replacement: string | null; state: "open" | "closed"; stage: string; waiting: boolean; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; opened: string | null;
-  progress?: ProgressRecord | null; approval?: Approval | null;
+  progress?: ProgressRecord | null; approval?: Approval | null; thread?: boolean;
 }
-export interface StatusData { generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[]; maintainers?: string[] }
+export interface StatusData {
+  generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[]; maintainers?: string[];
+  /** task id -> its open discussion thread (one GitHub issue per task, label task-thread) */
+  threads?: Record<string, number>;
+}
+
+/** People card of a task (people.json, written by ML-Relay's contributors.py --people-out). */
+export interface Person { login: string; avatar_url: string; html_url: string }
+export interface Developer extends Person { role: "original" | "rebuilt" | "developer" | "proposed" }
+export interface Contributor extends Person { roles: string[] }
+export interface TaskPeopleData { developers: Developer[]; contributors: Contributor[]; note?: string }

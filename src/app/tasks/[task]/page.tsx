@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { loadIndex, loadStatus, loadTask } from "@/lib/data";
+import { loadIndex, loadPeople, loadStatus, loadTask, taskDevelopers } from "@/lib/data";
 import type { Baseline, DescSection, TaskData, Term } from "@/lib/types";
 import { arrow, fmt, fmtScore, firstParagraph, gb, hours } from "@/lib/format";
 import MarkdownContent from "@/components/MarkdownContent";
@@ -18,6 +18,8 @@ import RequestStatus from "@/components/RequestStatus";
 import { gpuLabel } from "@/lib/site";
 import type { PublicTaskData } from "@/lib/types";
 import ResultsSection from "@/components/ResultsSection";
+import TaskPeople from "@/components/TaskPeople";
+import TaskThread from "@/components/TaskThread";
 import { Badge, Card, Fold, KV, Missing, Section } from "@/components/ui";
 
 export function generateStaticParams() {
@@ -222,6 +224,9 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
             <IssueButtons task={t.id} />
             <div className="mt-4 max-w-xl">
               <ApproveBox task={t.id} version={t.version} />
+            </div>
+            <div className="mt-4 max-w-xl">
+              <TaskPeople people={loadPeople()[t.id]} />
             </div>
           </div>
         </div>
@@ -669,6 +674,10 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
           task.toml, tests/meta) and the delivered <code>ml-relay-v2/README.md</code>.
         </p>
       </Section>
+
+      <div className="mt-10">
+        <TaskThread task={t.id} thread={status.threads?.[t.id] ?? null} maintainers={status.maintainers ?? []} developers={taskDevelopers()} />
+      </div>
     </div>
   );
 }

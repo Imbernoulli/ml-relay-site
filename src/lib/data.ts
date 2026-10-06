@@ -71,6 +71,22 @@ export function loadForms(): import("./issueForm").FormsData {
   return JSON.parse(fs.readFileSync(p, "utf-8"));
 }
 
+/** Per-task People card data (developers + contributors), written by the sync job; empty locally until it runs. */
+export function loadPeople(): Record<string, import("./types").TaskPeopleData> {
+  const p = path.join(DATA, "people.json");
+  if (!fs.existsSync(p)) return {};
+  try {
+    return (JSON.parse(fs.readFileSync(p, "utf-8")).tasks ?? {}) as Record<string, import("./types").TaskPeopleData>;
+  } catch {
+    return {};
+  }
+}
+
+/** task id -> logins of its listed developers (they may approve rounds on their task's thread). */
+export function taskDevelopers(): Record<string, string[]> {
+  return Object.fromEntries(Object.entries(loadPeople()).map(([t, p]) => [t, (p.developers ?? []).map((d) => d.login)]));
+}
+
 export interface Contributor { login: string; avatar_url: string; html_url: string }
 /** Public contributors list written by the sync job (collaborators, requesters, approvers). */
 export function loadContributors(): Contributor[] {

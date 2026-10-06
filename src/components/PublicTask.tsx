@@ -14,7 +14,9 @@ import AgentViewer from "./AgentViewer";
 import { splitArea } from "@/lib/areas";
 import IssueButtons from "./IssueButtons";
 import RequestStatus from "./RequestStatus";
-import { loadStatus } from "@/lib/data";
+import { loadPeople, loadStatus, taskDevelopers } from "@/lib/data";
+import TaskPeople from "./TaskPeople";
+import TaskThread from "./TaskThread";
 import { gpuLabel } from "@/lib/site";
 
 const TOC = [
@@ -25,6 +27,7 @@ const TOC = [
   ["settings", "5 Settings"],
   ["scoring", "6 Scoring"],
   ["results", "7 Results"],
+  ["discussion", "Discussion"],
 ];
 
 function Blocks({ secs, kinds }: { secs: DescSection[]; kinds?: string[] }) {
@@ -157,6 +160,9 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
           </div>
           <div className="mt-4 max-w-xl">
             <ApproveBox task={t.id} version={t.version} />
+          </div>
+          <div className="mt-4 max-w-xl">
+            <TaskPeople people={loadPeople()[t.id]} />
           </div>
         </div>
         <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} />
@@ -317,6 +323,10 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
       <Section id="results" n={7} title="Results">
         <ResultsSection t={t as unknown as TaskData} publicMode />
       </Section>
+
+      <div className="mt-10">
+        <TaskThread task={t.id} thread={status.threads?.[t.id] ?? null} maintainers={status.maintainers ?? []} developers={taskDevelopers()} />
+      </div>
     </div>
   );
 }

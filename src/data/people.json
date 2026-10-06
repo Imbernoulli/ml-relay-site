@@ -1,0 +1,683 @@
+{
+ "tasks": {
+  "ai4bio-cell-representation-objective": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "ai4bio-cofolding-affinity-scoring": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "ai4bio-genome-coverage-objective": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "ai4bio-msa-conformational-ensemble": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "ai4bio-protein-inverse-folding": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "ai4sci-climate-emulation": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "ai4sci-inverse-diffusion-algo": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "ai4sci-vs-contrastive-scoring": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "chip-diffusion-placement": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "chip-macro-placement-search": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "cv-3dgs-densification": {
+   "developers": [
+    {
+     "login": "yyc1215lll-creator",
+     "avatar_url": "https://avatars.githubusercontent.com/u/244568403?v=4",
+     "html_url": "https://github.com/yyc1215lll-creator",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
+  },
+  "cv-diffsolver-multistep-update": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "cv-flowmaps-training": {
+   "developers": [
+    {
+     "login": "Keely-Ai",
+     "avatar_url": "https://avatars.githubusercontent.com/u/190194440?v=4",
+     "html_url": "https://github.com/Keely-Ai",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "lan-qing",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24777447?v=4",
+     "html_url": "https://github.com/lan-qing",
+     "roles": [
+      "requested #24"
+     ]
+    }
+   ]
+  },
+  "cv-model-merge-rule": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "dl-dynamics-grokking-transition": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "dl-optim-mup-parametrization": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "fm-probability-path": {
+   "developers": [
+    {
+     "login": "yyc1215lll-creator",
+     "avatar_url": "https://avatars.githubusercontent.com/u/244568403?v=4",
+     "html_url": "https://github.com/yyc1215lll-creator",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "lan-qing",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24777447?v=4",
+     "html_url": "https://github.com/lan-qing",
+     "roles": [
+      "requested #31"
+     ]
+    }
+   ]
+  },
+  "jepa-planning": {
+   "developers": [
+    {
+     "login": "knightnemo",
+     "avatar_url": "https://avatars.githubusercontent.com/u/141439667?v=4",
+     "html_url": "https://github.com/knightnemo",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-activation-readout-lens": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "htlou",
+     "avatar_url": "https://avatars.githubusercontent.com/u/109744614?v=4",
+     "html_url": "https://github.com/htlou",
+     "roles": [
+      "requested #22"
+     ]
+    }
+   ]
+  },
+  "llm-conditional-memory-design": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-distill-sgo-objective": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "Racktic",
+     "avatar_url": "https://avatars.githubusercontent.com/u/151591248?v=4",
+     "html_url": "https://github.com/Racktic",
+     "roles": [
+      "requested #27"
+     ]
+    }
+   ]
+  },
+  "llm-dllm-demask-strategy": {
+   "developers": [
+    {
+     "login": "lan-qing",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24777447?v=4",
+     "html_url": "https://github.com/lan-qing",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-early-exit-criterion": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-gqa-to-mla-conversion": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-hybrid-layer-composition": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-kv-precision-vs-count": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-linattn-state-size-structure": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-looped-token-depth": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-opd-token-signal": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "Racktic",
+     "avatar_url": "https://avatars.githubusercontent.com/u/151591248?v=4",
+     "html_url": "https://github.com/Racktic",
+     "roles": [
+      "requested #28"
+     ]
+    }
+   ]
+  },
+  "llm-pretrain-linear-attention": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-prune-oneshot-criterion": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "llm-rl-mismatch-correction": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "Racktic",
+     "avatar_url": "https://avatars.githubusercontent.com/u/151591248?v=4",
+     "html_url": "https://github.com/Racktic",
+     "roles": [
+      "requested #29"
+     ]
+    }
+   ]
+  },
+  "marl-ctde-policy-learning": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": [],
+   "note": "Redesign of realgourmet's marl-centralized-critic."
+  },
+  "ml-pu-learning-risk": {
+   "developers": [
+    {
+     "login": "lan-qing",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24777447?v=4",
+     "html_url": "https://github.com/lan-qing",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
+  },
+  "moe-repetition-regularizer": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "Racktic",
+     "avatar_url": "https://avatars.githubusercontent.com/u/151591248?v=4",
+     "html_url": "https://github.com/Racktic",
+     "roles": [
+      "requested #26"
+     ]
+    }
+   ]
+  },
+  "optimization-parity": {
+   "developers": [
+    {
+     "login": "zhqwqwq",
+     "avatar_url": "https://avatars.githubusercontent.com/u/113563900?v=4",
+     "html_url": "https://github.com/zhqwqwq",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
+  },
+  "pde-design-solver": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "phys-contact-solver": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "phys-contact-sysid-loss": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "rl-offline-adroit": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "robo-humanoid-sim2real-algo": {
+   "developers": [
+    {
+     "login": "hrh6666",
+     "avatar_url": "https://avatars.githubusercontent.com/u/114380857?v=4",
+     "html_url": "https://github.com/hrh6666",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
+  },
+  "robot-agent-direct-control": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "robot-codegen-replan-policy": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "security-availability-poisoning": {
+   "developers": [
+    {
+     "login": "lan-qing",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24777447?v=4",
+     "html_url": "https://github.com/lan-qing",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
+  },
+  "security-machine-unlearning": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "spec-drafter-block-head": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "theory-lora-gradient-init": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "theory-semiautomata": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "vla-minivla-action-tokenization": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "vla-smolvla-realtime-chunking": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "vla-smolvla-rl-chunk-objective": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  }
+ }
+}
