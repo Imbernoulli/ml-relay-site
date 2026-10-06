@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { deletedIds, loadIndex, loadPeople, loadStatus, loadTask, taskDevelopers, taskTitles } from "@/lib/data";
+import { deletedIds, devPageIds, loadIndex, loadPeople, loadStatus, loadTask, taskDevelopers, taskTitles } from "@/lib/data";
 import DeletedBanner, { DeletedBadge } from "@/components/DeletedBanner";
+import DevBanner, { DevBadge } from "@/components/DevBanner";
 import type { Baseline, DescSection, TaskData, Term } from "@/lib/types";
 import { arrow, fmt, fmtScore, firstParagraph, gb, hours } from "@/lib/format";
 import MarkdownContent from "@/components/MarkdownContent";
@@ -25,7 +26,8 @@ import { Badge, Card, Fold, KV, Missing, Section } from "@/components/ui";
 
 export function generateStaticParams() {
   // live tasks, plus the deleted ones (their pages stay, frozen and marked Deleted)
-  return [...loadIndex().tasks.map((t) => t.id), ...deletedIds()].map((task) => ({ task }));
+  // live tasks, the deleted ones (frozen, marked Deleted) and the in-development ones that have a page
+  return [...new Set([...loadIndex().tasks.map((t) => t.id), ...deletedIds(), ...devPageIds()])].map((task) => ({ task }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ task: string }> }) {
@@ -203,7 +205,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
       </nav>
 
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        {t.status === "deleted" ? <DeletedBadge /> : <span className="font-mono">#{t.n}</span>}
+        {t.status === "deleted" ? <DeletedBadge /> : t.status === "in_development" ? <DevBadge /> : <span className="font-mono">#{t.n}</span>}
         <Badge>{splitArea(t.area).area}</Badge>
         {splitArea(t.area).topic && <span>{splitArea(t.area).topic}</span>}
         {t.repo_url && (
@@ -214,6 +216,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
         {gpuLabel(t.exec?.gpus) && <Badge>Trial: {gpuLabel(t.exec?.gpus)}</Badge>}
       </div>
       {t.status === "deleted" && t.deleted && <DeletedBanner info={t.deleted} titles={taskTitles()} />}
+      {t.status === "in_development" && t.dev && <DevBanner dev={t.dev} />}
       <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
@@ -225,7 +228,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
           </div>
           <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
           <div className="mt-4">
-            {t.status !== "deleted" && (
+            {!t.status && (
               <>
                 <IssueButtons task={t.id} />
                 <div className="mt-4 max-w-xl">
@@ -689,7 +692,7 @@ export default async function TaskPage({ params }: { params: Promise<{ task: str
           thread={status.threads?.[t.id] ?? null}
           maintainers={status.maintainers ?? []}
           developers={taskDevelopers()}
-          readOnly={t.status === "deleted"}
+          readOnly={Boolean(t.status)}
         />
       </div>
     </div>

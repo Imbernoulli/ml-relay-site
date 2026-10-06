@@ -18,6 +18,22 @@ export function loadIndex(): IndexData {
   return { ...idx, tasks };
 }
 
+/** Tasks in development (approved proposals in flight + tasks built without an issue); empty until the sync writes them. */
+export function loadInDevelopment(): import("./types").DevTask[] {
+  const p = path.join(DATA, "in_development.json");
+  if (!fs.existsSync(p)) return [];
+  try {
+    return (JSON.parse(fs.readFileSync(p, "utf-8")).tasks ?? []) as import("./types").DevTask[];
+  } catch {
+    return [];
+  }
+}
+
+/** Ids of the in-development tasks that have a page. */
+export function devPageIds(): string[] {
+  return loadInDevelopment().flatMap((t) => (t.page ? [t.page] : []));
+}
+
 /** Tasks removed from ML-Relay (frozen pages, newest first); empty until the sync writes them. */
 export function loadDeleted(): IndexEntry[] {
   try {

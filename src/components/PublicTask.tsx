@@ -16,6 +16,7 @@ import IssueButtons from "./IssueButtons";
 import RequestStatus from "./RequestStatus";
 import { loadPeople, loadStatus, taskDevelopers, taskTitles } from "@/lib/data";
 import DeletedBanner, { DeletedBadge } from "./DeletedBanner";
+import DevBanner, { DevBadge, devPeople } from "./DevBanner";
 import TaskPeople from "./TaskPeople";
 import TaskThread from "./TaskThread";
 import { gpuLabel } from "@/lib/site";
@@ -127,6 +128,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
   const titleSec = t.desc_sections.find((s) => s.kind === "title");
   const filesEdit = t.instruction_harness["Files You May Edit"];
   const deleted = t.status === "deleted" ? t.deleted ?? { date: "", reason: "" } : null;
+  const dev = t.status === "in_development" ? t.dev ?? { stage: "pilot" } : null;
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <nav className="mb-4 text-sm text-muted-foreground">
@@ -137,7 +139,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         <span className="break-anywhere font-mono text-foreground">{t.id}</span>
       </nav>
       <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        {deleted ? <DeletedBadge /> : <span className="font-mono">#{t.n}</span>}
+        {deleted ? <DeletedBadge /> : dev ? <DevBadge /> : <span className="font-mono">#{t.n}</span>}
         <Badge>{splitArea(t.area).area}</Badge>
         {splitArea(t.area).topic && <span>{splitArea(t.area).topic}</span>}
         {t.repo_url && (
@@ -148,6 +150,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         {gpuLabel(t.gpus) && <Badge>Trial: {gpuLabel(t.gpus)}</Badge>}
       </div>
       {deleted && <DeletedBanner info={deleted} titles={taskTitles()} />}
+      {dev && <DevBanner dev={dev} />}
       <RequestStatus task={t.id} status={status} />
       <div className="mt-2 grid items-start gap-6 md:grid-cols-[1fr_minmax(16rem,26rem)]">
         <div>
@@ -158,7 +161,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
             </div>
           </div>
           <p className="mt-2 max-w-3xl text-base text-muted-foreground">{t.question ?? "—"}</p>
-          {!deleted && (
+          {!deleted && !dev && (
             <>
               <div className="mt-4">
                 <IssueButtons task={t.id} />
@@ -169,7 +172,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
             </>
           )}
           <div className="mt-4 max-w-xl">
-            <TaskPeople people={loadPeople()[t.id]} />
+            <TaskPeople people={dev ? devPeople(dev) : loadPeople()[t.id]} />
           </div>
         </div>
         <TaskImage image={t.image} title={t.title ?? t.id} area={t.area} />
@@ -331,6 +334,24 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
         <ResultsSection t={t as unknown as TaskData} publicMode />
       </Section>
 
+      {dev ? (
+        <section id="discussion" className="mt-10 rounded-xl border border-border bg-card p-4">
+          <h2 className="text-base font-semibold">Discussion</h2>
+          <p className="mt-1 text-sm">
+            {dev.issue ? (
+              <>
+                This task is being built in{" "}
+                <Link href={`/requests/${dev.issue}/`} className="underline">
+                  proposal #{dev.issue}
+                </Link>
+                ; follow and discuss it there. It gets its own discussion thread once it ships.
+              </>
+            ) : (
+              <>This task is being built in-house; it gets its own discussion thread once it ships.</>
+            )}
+          </p>
+        </section>
+      ) : (
       <div className="mt-10">
         <TaskThread
           task={t.id}
@@ -340,6 +361,7 @@ export default function PublicTask({ t }: { t: PublicTaskData }) {
           readOnly={Boolean(deleted)}
         />
       </div>
+      )}
     </div>
   );
 }
