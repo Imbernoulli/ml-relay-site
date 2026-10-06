@@ -1,4 +1,5 @@
-import { loadDeleted, loadIndex, loadStatus, siteMode, taskTitles } from "@/lib/data";
+import { loadDeleted, loadInDevelopment, loadIndex, loadStatus, siteMode, taskTitles } from "@/lib/data";
+import InDevelopment from "@/components/InDevelopment";
 import TaskCatalogue from "@/components/TaskCatalogue";
 import DeletedTasks from "@/components/DeletedTasks";
 import Link from "next/link";
@@ -39,6 +40,7 @@ export default function Home() {
       <div className="mt-8">
         <TaskCatalogue tasks={idx.tasks} status={status} />
       </div>
+      <InDevelopment tasks={loadInDevelopment()} />
       <DeletedTasks tasks={loadDeleted()} titles={taskTitles()} />
       <details className="group mt-10 rounded-xl border border-border bg-card">
         <summary className="flex items-center gap-2 px-4 py-3 text-sm font-semibold">

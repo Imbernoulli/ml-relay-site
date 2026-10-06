@@ -85,7 +85,23 @@ export interface TaskData {
   scoring: Scoring | null; score_spec_source: string; leaderboard: Leaderboard;
   image?: TaskImageInfo | null;
   mode?: "internal"; version?: string | null; viewer?: ViewerSummary | null;
-  status?: "deleted"; deleted?: DeletedInfo;
+  status?: "deleted" | "in_development"; deleted?: DeletedInfo; dev?: DevInfo;
+}
+
+/** A task still being built (status "in_development"): its page is rendered from its development ref, numbers are preliminary. */
+export interface DevInfo { stage: string; phase?: string; issue?: number; requester?: string; since?: string }
+
+/** A task being built (in_development.json, written by ML-Relay's tools/site_gen/dev_tasks.py): an approved
+ *  new-task proposal in flight, or a task built without an issue. Never part of the live list. */
+export interface DevTask {
+  kind: "proposal" | "internal";
+  stage: "idea" | "design" | "pilot" | "measurement" | "gate3";
+  title: string;
+  issue?: number; phase?: string; requester?: string | null; updated?: string | null;
+  id?: string; area?: string; blurb?: string;
+  since?: string | null;
+  /** the id of its page (/tasks/<page>/), once a rendered bundle exists on its development ref */
+  page?: string;
 }
 
 /** A task removed from ML-Relay: its page stays, frozen at its last shipped version (ML-Relay tools/site_gen/deleted_tasks.json). */
@@ -131,7 +147,7 @@ export interface PublicTaskData {
   files: PublicFile[]; baselines: PublicBaseline[]; controls: Control[];
   settings: Setting[]; scoring: Scoring | null; leaderboard: Leaderboard;
   version?: string | null; viewer?: ViewerSummary | null;
-  status?: "deleted"; deleted?: DeletedInfo;
+  status?: "deleted" | "in_development"; deleted?: DeletedInfo; dev?: DevInfo;
 }
 
 export interface Gap { task: string; field: string; detail: string }
