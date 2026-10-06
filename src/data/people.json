@@ -452,6 +452,26 @@
     }
    ]
   },
+  "llm-pretrain-optimizer-design": {
+   "developers": [
+    {
+     "login": "PeterLauLukChen",
+     "avatar_url": "https://avatars.githubusercontent.com/u/182589194?v=4",
+     "html_url": "https://github.com/PeterLauLukChen",
+     "role": "original"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "roles": [
+      "PR #60"
+     ]
+    }
+   ]
+  },
   "llm-prune-oneshot-criterion": {
    "developers": [
     {
