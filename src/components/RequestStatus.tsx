@@ -1,7 +1,9 @@
 import Link from "next/link";
 import RequestTrack from "./RequestTrack";
 import { fromEntry } from "@/lib/stages";
-import type { StatusData, StatusEntry } from "@/lib/types";
+import type { StatusData, StatusEntry, StatusIssue } from "@/lib/types";
+import RequestCard from "./RequestCard";
+import { requestState, STATE_ORDER } from "@/lib/requestState";
 import MaintainerActions from "./MaintainerActions";
 
 const PRIVATE_TIP = "Opens the private Imbernoulli/ML-Relay repository: GitHub shows 404 unless you are a collaborator.";
@@ -59,12 +61,50 @@ export function statusBadge(entries: StatusEntry[] | undefined): string | null {
   return "change in progress";
 }
 
-/** Top-of-page status: a banner for a replacement, a compact list for other requests. */
+/** Every request on one task, as cards with what the requester asked for: the open ones (awaiting
+ *  approval, approved, in progress) shown, the finished ones (done, declined, closed) folded below. */
+export function TaskRequests({ task, status }: { task: string; status: StatusData }) {
+  const all = (status.issues ?? []).filter((r) => r.task === task && !(r.replacement && r.state === "open"));
+  if (!all.length) return null;
+  const order = (r: StatusIssue) => STATE_ORDER.indexOf(requestState(r));
+  const open = all.filter((r) => ["awaiting approval", "approved", "in progress"].includes(requestState(r))).sort((a, b) => order(a) - order(b));
+  const past = all.filter((r) => !open.includes(r));
+  return (
+    <section id="requests" className="rounded-xl border border-border bg-card px-4 py-3">
+      <div className="flex flex-wrap items-baseline gap-2">
+        <h2 className="text-sm font-semibold">Requests on this task</h2>
+        <span className="text-xs text-muted-foreground">
+          {open.length} open{past.length ? ` · ${past.length} earlier` : ""}
+        </span>
+      </div>
+      {open.length > 0 && (
+        <ul className="mt-2 space-y-2">
+          {open.map((r) => (
+            <RequestCard key={r.issue} r={r} maintainers={status.maintainers} repo={status.repo} />
+          ))}
+        </ul>
+      )}
+      {past.length > 0 && (
+        <details className="mt-2">
+          <summary className="cursor-pointer text-xs font-medium text-muted-foreground">
+            {past.length} earlier request{past.length === 1 ? "" : "s"} (done, declined or closed)
+          </summary>
+          <ul className="mt-2 space-y-2">
+            {past.map((r) => (
+              <RequestCard key={r.issue} r={r} maintainers={status.maintainers} repo={status.repo} />
+            ))}
+          </ul>
+        </details>
+      )}
+    </section>
+  );
+}
+
+/** Top-of-page status: a banner for a replacement, then every request on the task as a card. */
 export default function RequestStatus({ task, status }: { task: string; status: StatusData }) {
   const entries = status.tasks[task] ?? [];
-  if (!entries.length) return null;
   const repl = entries.filter((e) => e.type === "replacement");
-  const other = entries.filter((e) => e.type !== "replacement");
+  if (!repl.length && !(status.issues ?? []).some((r) => r.task === task)) return null;
   return (
     <div className="mt-4 space-y-3">
       {repl.map((e) => (
@@ -78,22 +118,7 @@ export default function RequestStatus({ task, status }: { task: string; status: 
           <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} pr={{ number: e.pr, state: e.pr_state }} />
         </div>
       ))}
-      {other.length > 0 && (
-        <div className="rounded-xl border border-border bg-card px-4 py-3">
-          <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Status: open requests</div>
-          <ul className="mt-2 space-y-2">
-            {other.map((e) => (
-              <li key={e.issue} className="text-sm">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium">{e.title}</span>
-                </div>
-                <MaintainerActions issue={e.issue} approval={e.approval} maintainers={status.maintainers} repo={status.repo} />
-                <RequestTrack input={fromEntry(e)} issue={e.issue} opened={e.opened} requester={e.requester} approval={e.approval} updated={e.updated} pr={{ number: e.pr, state: e.pr_state }} />
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <TaskRequests task={task} status={status} />
     </div>
   );
 }

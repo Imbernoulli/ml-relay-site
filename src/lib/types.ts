@@ -169,6 +169,16 @@ export interface StatusIssue {
   replacement: string | null; state: "open" | "closed"; stage: string; waiting: boolean; phase: string | null;
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; opened: string | null;
   progress?: ProgressRecord | null; approval?: Approval | null; thread?: boolean;
+  /** what the request says (ML-Relay request_status.py + request_text.py; cleaned and redacted) */
+  details?: RequestDetails;
+}
+export interface RequestPost { author: string; at: string | null; kind: "comment" | "request" | "method-idea" | "agent" | "approve" | "reject"; text: string }
+export interface RequestDetails {
+  text?: { body?: string; fields?: { label: string; text: string }[] };
+  posts?: RequestPost[];
+  summary?: string | null;
+  filtered?: string[];
+  withheld?: boolean;
 }
 export interface StatusData {
   generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[]; maintainers?: string[];

@@ -19,6 +19,8 @@ import Spinner from "./Spinner";
 import ThreadComposer from "./ThreadComposer";
 import ThreadPost from "./ThreadPost";
 import { canApprove, THREAD_LABEL, titleTask } from "@/lib/threads";
+import { RequestText } from "./RequestCard";
+import StaticPosts from "./StaticPosts";
 
 interface GhUser {
   login: string;
@@ -252,9 +254,29 @@ export default function RequestDetail({
       </div>
       )}
 
+      {!issue && st?.details && (
+        <>
+          <section className="mt-6 rounded-xl border border-border bg-card p-4">
+            <h2 className="text-base font-semibold">The request</h2>
+            {st.requester && (
+              <p className="mt-0.5 text-xs text-muted-foreground">
+                as written by <span className="font-mono">{st.requester}</span>
+                {st.opened ? ` on ${st.opened.slice(0, 10)}` : ""}
+              </p>
+            )}
+            <RequestText r={st} clamp={false} />
+            {st.details.summary && (
+              <p className="mt-3 rounded-md border border-border bg-muted/40 px-2.5 py-1.5 text-sm">
+                <span className="font-medium">Agent&apos;s latest report:</span> {st.details.summary}
+              </p>
+            )}
+          </section>
+          {(st.details.posts?.length ?? 0) > 0 && <StaticPosts posts={st.details.posts ?? []} />}
+        </>
+      )}
       {signedIn === false && (
         <div className="mt-6 rounded-xl border border-border bg-card p-4 text-sm">
-          <p>Sign in with GitHub to read the agent&apos;s reports and the discussion, and to reply.</p>
+          <p>Sign in with GitHub to read the agent&apos;s full reports, and to reply.</p>
           {oauthConfigured && (
             <span
               className="mt-3 inline-block"
