@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-05T22:59:01",
+ "generated": "2026-10-06T05:49:05",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty-one machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 51 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-one self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -2274,53 +2274,66 @@
    "best_score": 0.10000000000000002
   },
   {
-   "id": "marl-centralized-critic",
+   "id": "marl-ctde-policy-learning",
    "n": 37,
-   "title": "Centralized Critics for Decentralized Cooperation",
+   "title": "Centralised Training for Decentralised Multi-Agent Policies",
    "area": "Reinforcement Learning / Multi-Agent RL",
-   "question": "With the actor, learner and environment fixed on SMAC maps, design the centralised critic — its architecture and inputs — that trains cooperative policies best.",
-   "version": "a50cca5c69c1d558fab3d42ed15bad9dcbd8327d",
-   "repo": "uoe-agents/epymarl",
+   "question": "With the environments, the 20M-step budget, the deployable decentralised actor family and the evaluation fixed, design the centralised training algorithm (behaviour policy, critics or guiders, credit assignment, update rule) that produces the best decentralised team.",
+   "version": "42ca866740cea74f9d93977c4dda6b5c471121fc",
+   "repo": "instadeepai/Mava",
    "settings": [
     {
-     "name": "3s5z_vs_3s6z",
-     "display": "SMAC 3s5z_vs_3s6z · super-hard"
+     "name": "smacv2_10_units",
+     "display": "SMAX smacv2_10_units · SMACv2-style 10v10"
     },
     {
-     "name": "corridor",
-     "display": "SMAC corridor · super-hard"
+     "name": "con-10x10x10a",
+     "display": "Connector con-10x10x10a · 10-agent routing"
     },
     {
-     "name": "3s_vs_5z",
-     "display": "SMAC 3s_vs_5z · hard"
+     "name": "medium-4ag-hard",
+     "display": "RWARE medium-4ag-hard · sparse warehouse"
+    },
+    {
+     "name": "tiny-4ag-hard",
+     "display": "RWARE tiny-4ag-hard · sparse warehouse"
     }
    ],
-   "gpus": 5,
-   "image": {
-    "src": "task-images/marl-centralized-critic.webp",
-    "caption": "Centralized Critics for Decentralized Cooperation",
-    "width": 1536,
-    "height": 1024,
-    "bytes": 54848
-   },
+   "gpus": 4,
+   "image": null,
    "baselines": [
     {
      "slug": "default",
-     "name": "CentralV critic without last actions",
+     "name": "MAPPO (Yu et al., 2022)",
      "role": "baseline"
     },
     {
-     "slug": "ippo_critic",
-     "name": "Local IPPO critic (Yu et al., 2022)",
+     "slug": "ippo",
+     "name": "IPPO (de Witt et al., 2020)",
      "role": "baseline"
     },
     {
-     "slug": "mappo_critic",
-     "name": "Centralized MAPPO critic (Yu et al., 2022)",
+     "slug": "happo",
+     "name": "HAPPO (Kuba et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "maca",
+     "name": "MACA (Zhao & Xie, 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "ctds",
+     "name": "CTDS: Sable teacher distilled into decentralised students (Li et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "magpo",
+     "name": "MAGPO (Li, Xie & Lu, 2026)",
      "role": "baseline"
     }
    ],
-   "best_score": 0.046415888336127795
+   "best_score": 0.09243784672916804
   },
   {
    "id": "rl-offline-adroit",
