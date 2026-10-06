@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06T20:41:25+00:00",
+ "generated": "2026-10-06T20:44:23+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -5469,7 +5469,7 @@
    "issue": 19,
    "title": "[new task] Optimizer design for Muon: matrix-sign / orthogonalization (Polar Express, arXiv:2505.16932)",
    "type": "new task",
-   "state": "awaiting reply",
+   "state": "closed",
    "phase": "C",
    "approval": {
     "state": "approved",
@@ -10256,14 +10256,22 @@
       "label": "Waiting for your go (phase C finished)",
       "state": "waiting",
       "visibility": "public"
+     },
+     {
+      "t": 1791319337,
+      "kind": "pr",
+      "label": "PR #21 merged",
+      "state": "done",
+      "detail_public": "PR #21",
+      "visibility": "public"
      }
     ]
    },
-   "pr": 60,
-   "pr_state": "open",
-   "updated": "2026-10-06T20:41:08Z",
+   "pr": 21,
+   "pr_state": "merged",
+   "updated": "2026-10-06T20:42:19Z",
    "replacement": null,
-   "task": null
+   "task": "llm-pretrain-optimizer-design"
   },
   {
    "issue": 25,
@@ -10577,13 +10585,13 @@
    "type": "new task",
    "task": null,
    "replacement": null,
-   "state": "open",
-   "stage": "Waiting for requester",
+   "state": "closed",
+   "stage": "Merged",
    "waiting": true,
    "phase": "C",
-   "pr": 60,
-   "pr_state": "open",
-   "updated": "2026-10-06T20:41:08Z",
+   "pr": 21,
+   "pr_state": "merged",
+   "updated": "2026-10-06T20:42:19Z",
    "opened": "2026-10-02T21:54:13Z",
    "progress": {
     "current": null,
@@ -15360,6 +15368,14 @@
       "kind": "go",
       "label": "Waiting for your go (phase C finished)",
       "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1791319337,
+      "kind": "pr",
+      "label": "PR #21 merged",
+      "state": "done",
+      "detail_public": "PR #21",
       "visibility": "public"
      }
     ]
