@@ -170,6 +170,13 @@ export interface StatusIssue {
   pr: number | null; pr_state: "draft" | "open" | "merged" | "closed" | null; updated: string; opened: string | null;
   progress?: ProgressRecord | null; approval?: Approval | null; thread?: boolean;
 }
+export interface RequestPost { author: string; at: string | null; kind: "comment" | "request" | "method-idea" | "agent" | "approve" | "reject"; text: string }
+/** What a request says: read live with a collaborator's token (lib/requestText.ts), never in the public data. */
+export interface RequestDetails {
+  text?: { body?: string; fields?: { label: string; text: string }[] };
+  posts?: RequestPost[];
+  summary?: string | null;
+}
 export interface StatusData {
   generated: string | null; repo: string; tasks: Record<string, StatusEntry[]>; new_tasks: StatusEntry[]; issues?: StatusIssue[]; maintainers?: string[];
   /** task id -> its open discussion thread (one GitHub issue per task, label task-thread) */
