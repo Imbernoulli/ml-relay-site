@@ -254,7 +254,7 @@ export default function RequestDetail({
 
       {signedIn === false && (
         <div className="mt-6 rounded-xl border border-border bg-card p-4 text-sm">
-          <p>Sign in with GitHub to read the agent&apos;s reports and the discussion, and to reply.</p>
+          <p>Sign in with GitHub to read the request, the discussion and the agent&apos;s reports, and to reply (collaborators of the private ML-Relay repository).</p>
           {oauthConfigured && (
             <span
               className="mt-3 inline-block"
