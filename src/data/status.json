@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06T13:21:24+00:00",
+ "generated": "2026-10-06T17:16:38+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1281,6 +1281,206 @@
     "pr": null,
     "pr_state": null,
     "updated": "2026-10-05T05:13:35Z",
+    "replacement": null
+   }
+  ],
+  "llm-kv-precision-vs-count": [
+   {
+    "issue": 47,
+    "title": "[change] llm-kv-precision-vs-count: score more than one budget; add a real mixed-precision arm",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "requester": "andylizf",
+    "opened": "2026-10-06T17:00:55Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791306055,
+       "kind": "created",
+       "label": "Request created by @andylizf",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791306080,
+       "kind": "approval",
+       "label": "Waiting for maintainer approval",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-06T17:01:22Z",
+    "replacement": null
+   }
+  ],
+  "spec-drafter-block-head": [
+   {
+    "issue": 48,
+    "title": "[change] spec-drafter-block-head: close the evaluation-state leak; cap head compute",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "requester": "andylizf",
+    "opened": "2026-10-06T17:00:57Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791306057,
+       "kind": "created",
+       "label": "Request created by @andylizf",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791306082,
+       "kind": "approval",
+       "label": "Waiting for maintainer approval",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-06T17:01:24Z",
+    "replacement": null
+   }
+  ],
+  "llm-gqa-to-mla-conversion": [
+   {
+    "issue": 49,
+    "title": "[change] llm-gqa-to-mla-conversion: meter conversion-time training; add an unconverted control",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "requester": "andylizf",
+    "opened": "2026-10-06T17:00:59Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791306059,
+       "kind": "created",
+       "label": "Request created by @andylizf",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791306081,
+       "kind": "approval",
+       "label": "Waiting for maintainer approval",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-06T17:01:23Z",
+    "replacement": null
+   }
+  ],
+  "llm-hybrid-layer-composition": [
+   {
+    "issue": 50,
+    "title": "[change] llm-hybrid-layer-composition: measure memory; test recall beyond the training length",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "requester": "andylizf",
+    "opened": "2026-10-06T17:01:00Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791306060,
+       "kind": "created",
+       "label": "Request created by @andylizf",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791306087,
+       "kind": "approval",
+       "label": "Waiting for maintainer approval",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-06T17:01:29Z",
+    "replacement": null
+   }
+  ],
+  "llm-pretrain-linear-attention": [
+   {
+    "issue": 51,
+    "title": "[change] llm-pretrain-linear-attention: enforce sub-quadratic mixing; align baselines",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "requester": "andylizf",
+    "opened": "2026-10-06T17:01:01Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791306061,
+       "kind": "created",
+       "label": "Request created by @andylizf",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791306088,
+       "kind": "approval",
+       "label": "Waiting for maintainer approval",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-06T17:01:30Z",
     "replacement": null
    }
   ]
@@ -9835,9 +10035,288 @@
    "updated": "2026-10-05T00:28:31Z",
    "replacement": null,
    "task": null
+  },
+  {
+   "issue": 52,
+   "title": "[new task] Expert prefetching for offloaded MoE decoding",
+   "type": "new task",
+   "state": "open",
+   "phase": null,
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   },
+   "requester": "andylizf",
+   "opened": "2026-10-06T17:01:03Z",
+   "done": false,
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306063,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306096,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-06T17:01:38Z",
+   "replacement": null,
+   "task": null
   }
  ],
  "issues": [
+  {
+   "issue": 52,
+   "title": "[new task] Expert prefetching for offloaded MoE decoding",
+   "requester": "andylizf",
+   "type": "new task",
+   "task": null,
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-06T17:01:38Z",
+   "opened": "2026-10-06T17:01:03Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306063,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306096,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 51,
+   "title": "[change] llm-pretrain-linear-attention: enforce sub-quadratic mixing; align baselines",
+   "requester": "andylizf",
+   "type": "change",
+   "task": "llm-pretrain-linear-attention",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-06T17:01:30Z",
+   "opened": "2026-10-06T17:01:01Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306061,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306088,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 50,
+   "title": "[change] llm-hybrid-layer-composition: measure memory; test recall beyond the training length",
+   "requester": "andylizf",
+   "type": "change",
+   "task": "llm-hybrid-layer-composition",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-06T17:01:29Z",
+   "opened": "2026-10-06T17:01:00Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306060,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306087,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 48,
+   "title": "[change] spec-drafter-block-head: close the evaluation-state leak; cap head compute",
+   "requester": "andylizf",
+   "type": "change",
+   "task": "spec-drafter-block-head",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-06T17:01:24Z",
+   "opened": "2026-10-06T17:00:57Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306057,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306082,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 49,
+   "title": "[change] llm-gqa-to-mla-conversion: meter conversion-time training; add an unconverted control",
+   "requester": "andylizf",
+   "type": "change",
+   "task": "llm-gqa-to-mla-conversion",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-06T17:01:23Z",
+   "opened": "2026-10-06T17:00:59Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306059,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306081,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   }
+  },
+  {
+   "issue": 47,
+   "title": "[change] llm-kv-precision-vs-count: score more than one budget; add a real mixed-precision arm",
+   "requester": "andylizf",
+   "type": "change",
+   "task": "llm-kv-precision-vs-count",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-06T17:01:22Z",
+   "opened": "2026-10-06T17:00:55Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306055,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306080,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   }
+  },
   {
    "issue": 26,
    "title": "[change] moe-repetition-regularizer: validation split and training-integrity fixes",
