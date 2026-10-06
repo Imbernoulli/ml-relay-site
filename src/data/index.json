@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-06T06:17:08",
+ "generated": "2026-10-06T06:51:25",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
- "intro_md": "Fifty-one machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 51 tasks are newly constructed for ML-Relay. The other 14 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty-one self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
+ "intro_md": "Fifty machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 50 tasks are newly constructed for ML-Relay. The other 13 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
  "mode": "public",
  "tasks": [
   {
@@ -2837,82 +2837,8 @@
    "best_score": 0.09886050386201858
   },
   {
-   "id": "optimization-parity",
-   "n": 47,
-   "title": "Learning Hidden Parity through Input Curricula",
-   "area": "Optimization & Theory / Feature Learning",
-   "question": "With the two-layer MLP, its initialisation, AdamW and the step budget all fixed, design the rule that decides which inputs a network trains on, in what order and with what repetition, so the parity's long plateau ends soonest.",
-   "version": "a5f972dc6f87a512e9c6758774ac94e408d1572f",
-   "repo": "pytorch/examples",
-   "settings": [
-    {
-     "name": "n32-k8",
-     "display": "32-bit inputs, 8-sparse parity"
-    },
-    {
-     "name": "n50-k8",
-     "display": "50-bit inputs, 8-sparse parity"
-    },
-    {
-     "name": "n64-k8",
-     "display": "64-bit inputs, 8-sparse parity"
-    }
-   ],
-   "gpus": 1,
-   "image": {
-    "src": "task-images/optimization-parity.webp",
-    "caption": "Learning Hidden Parity through Input Curricula",
-    "width": 1536,
-    "height": 757,
-    "bytes": 64856
-   },
-   "baselines": [
-    {
-     "slug": "uniform_onepass",
-     "name": "Fresh uniform samples (Barak et al., 2022)",
-     "role": "baseline"
-    },
-    {
-     "slug": "uniform_repeat",
-     "name": "Finite-sample repetition (Edelman et al., 2023)",
-     "role": "baseline"
-    },
-    {
-     "slug": "batch_reuse",
-     "name": "Minibatch reuse (repetition line, 2024–2025)",
-     "role": "baseline"
-    },
-    {
-     "slug": "mixed_inputs",
-     "name": "Unordered mixed inputs (Abbe, Cornacchia & Lotfi, 2023)",
-     "role": "baseline"
-    },
-    {
-     "slug": "sparse_first_curriculum",
-     "name": "Sparse-first curriculum (Abbe, Cornacchia & Lotfi, 2023)",
-     "role": "baseline"
-    },
-    {
-     "slug": "two_step_curriculum",
-     "name": "Two-step curriculum (Cornacchia & Mossel, 2023)",
-     "role": "baseline"
-    },
-    {
-     "slug": "continuous_curriculum",
-     "name": "Continuous curriculum (Cornacchia & Mossel, 2023)",
-     "role": "baseline"
-    },
-    {
-     "slug": "degree_curriculum",
-     "name": "Degree curriculum (Cornacchia & Mossel, 2023)",
-     "role": "baseline"
-    }
-   ],
-   "best_score": 0.10000000000000006
-  },
-  {
    "id": "vla-smolvla-realtime-chunking",
-   "n": 48,
+   "n": 47,
    "title": "Maintaining Robot Control under Inference Delay",
    "area": "Robotics / VLA Action Chunking",
    "question": "A flow-based VLA plans an action chunk from an observation that is already d steps stale when the chunk arrives; with the policy and the delay fixed, design the rule at the chunk boundary — what to freeze, what to inpaint, how to blend — so execution stays smooth and success survives the delay.",
@@ -2980,7 +2906,7 @@
   },
   {
    "id": "vla-smolvla-rl-chunk-objective",
-   "n": 49,
+   "n": 48,
    "title": "Improving Action-Chunk Policies with Sparse Rewards",
    "area": "Reinforcement Learning / Online RL (VLA)",
    "question": "With the imitation-trained SmolVLA, the online rollout budget in the simulator and a binary success reward fixed, design the policy-gradient objective over action chunks — how the advantage is estimated and assigned at chunk or trajectory level, and what likelihood surrogate the flow-matching expert gets — so that task success rises most reliably above the imitation policy.",
@@ -3039,7 +2965,7 @@
   },
   {
    "id": "llm-rl-mismatch-correction",
-   "n": 50,
+   "n": 49,
    "title": "Stabilizing RL under Training–Inference Mismatch",
    "area": "Language Models / Reasoning RL",
    "question": "With the model, data, reward, RL loop and an imposed sampler–trainer mismatch fixed, design the per-token correction to the policy-gradient objective — from the trainer's and the sampler's log-probs, the sampler's top-K log-probs and the advantage — so that training stays stable and reward keeps rising as the mismatch grows.",
@@ -3127,7 +3053,7 @@
   },
   {
    "id": "vla-minivla-action-tokenization",
-   "n": 51,
+   "n": 50,
    "title": "Tokenizing Robot Action Chunks for an Autoregressive VLA",
    "area": "Robotics / VLA Action Tokenization",
    "question": "With an autoregressive VLA, its training recipe and a budget of seven codes from a 256-word vocabulary per chunk fixed, design how a continuous chunk of future actions is encoded into codes and decoded back so that the policy trained on those codes controls the robot best.",
