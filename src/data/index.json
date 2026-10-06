@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-06T17:32:50",
+ "generated": "2026-10-06T17:39:04",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Forty-nine machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 49 tasks are newly constructed for ML-Relay. The other 12 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Forty-nine self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -144,7 +144,7 @@
    "title": "Retrofitting Latent Attention into Pretrained Language Models",
    "area": "ML Systems & Efficient ML / Attention Conversion",
    "question": "Convert a pretrained MHA/GQA decoder to multi-head latent attention under a fixed KV-cache budget — choose which positional channels keep RoPE, how the latent is initialised from the pretrained K/V weights, and how the budget is spent across layers — so it loses the least after a short recovery fine-tune.",
-   "version": "51c71547827a4e0f0d4ff4713d761c87d88086f0",
+   "version": "c7c6f7538bbb1a4c8452cc65b60b1697a301f40d",
    "repo": "JT-Ushio/MHA2MLA",
    "settings": [
     {
@@ -510,7 +510,7 @@
    "title": "Accelerating the Grokking Transition",
    "area": "Deep Learning / Training Dynamics",
    "question": "Given only the gradients of a fixed loss from an over-scaled initialisation, design the optimisation or regularisation rule that brings generalisation forward.",
-   "version": "983f2ab73e9386bc6dd512449332ebc7fa5f41eb",
+   "version": "d94cdb4595a0c784f4d084fbe8c254cd08438fa3",
    "repo": "KindXiaoming/Omnigrok",
    "settings": [
     {
@@ -1461,7 +1461,7 @@
    "title": "Separating Memory Lookup from Language-Model Computation",
    "area": "Language Models / Pretraining",
    "question": "Under a fixed backbone and a fixed memory-table parameter budget, design the n-gram-keyed conditional memory that keeps co-occurrence statistics out of the dense weights.",
-   "version": "c417c8b19601c9e31045bd39de75d7c27b140818",
+   "version": "c68911626753cc9916a3c603e53434587314865f",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
@@ -1751,7 +1751,7 @@
    "title": "Preserving MoE Generalization under Repeated Data",
    "area": "Language Models / Pretraining (MoE)",
    "question": "When every token is seen about eight times, design the method that stops a mixture of experts from over-specialising, so that held-out loss and transfer stay good.",
-   "version": "8bdae2935a8980675ffe237c0c6be4a1a2a8bddc",
+   "version": "dba473018838dfa3331528b42bf00c2a06af87d5",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
@@ -2660,7 +2660,7 @@
    "title": "Climate Emulation in Unseen Physical Regimes",
    "area": "AI for Science / Climate",
    "question": "On ClimSim's own training split at a fixed 5-epoch budget, design the architecture that maps a column state to sub-grid physics tendencies and still predicts well on warm, land and polar regimes it was not trained on.",
-   "version": "b4909b1583a70e72d74b6671eb78c7884d3c163f",
+   "version": "033e750b2f02faf793e920b4f0839ab6898bb34c",
    "repo": "leap-stc/ClimSim",
    "settings": [
     {
