@@ -10,21 +10,21 @@
   "fields": [
    {
     "type": "markdown",
-    "value": "**How this works.** Opening this issue starts the relay agent (collaborators with write access only).\n- **Phase A, design review (no GPU):** it reads your paper and code, checks that the repo installs and the data downloads, and replies with a design doc or with targeted questions.\n- **Phase B, build + pilot:** after you reply `go`, it builds the task and pilots two baselines at reduced scale, then opens a PR.\n- **Phase C, full measurement:** after another `go`, it measures every baseline on every setting and runs the final checks.\n\nYou get an @mention (an email by default) whenever it needs you. Reply in the issue to answer or to give `go`. This issue maps to exactly one pull request (opened in Phase B, updated in Phase C, `Closes #<this issue>`).\n\n**Only the research question and the source paper(s) are required.** Leave any other field blank and the agent proposes it from the paper(s) and the authors' code in its design review; you confirm or edit it before anything is built.\n\n**The rules a task must meet:** one atomic research question that is a paper's own; at least 3 settings from the papers' own protocol (real checkpoints, data and benchmarks, no toy scales; the settings must genuinely differ); published baselines with code; an editable surface that is one algorithmic component; everything downloadable at build time, because compute is offline.\n"
+    "value": "**One paragraph is enough.** Describe the research question in your own words (and the paper, if you know it), or paste an existing note. Every other field is optional: the agent proposes anything you leave blank (the paper, codebase, settings, baselines, editable scope, compute) in its design review, and you confirm or edit it before anything is built.\n\n**How it works.** Opening this issue starts the relay agent (collaborators with write access only), after a maintainer approves.\n- **Phase A, design review (no GPU):** it finds and reads the paper and code, checks that the repo installs and the data downloads, and replies with a design doc.\n- **Phase B, build + pilot:** after you reply `go`, it builds the task and pilots two baselines at reduced scale, then opens a PR.\n- **Phase C, full measurement:** after another `go`, it measures every baseline on every setting and runs the final checks.\n\nYou get an @mention (an email by default) whenever it needs you. **The rules a task must meet:** one atomic research question that is a paper's own; at least 3 settings from the papers' own protocol (real checkpoints, data and benchmarks); published baselines with code; an editable surface that is one algorithmic component; everything downloadable at build time.\n"
    },
    {
     "type": "textarea",
     "id": "question",
-    "label": "Research question",
-    "description": "The one atomic ML-science question, and why it matters.\nExample: \"Which per-token advantage should on-policy distillation use when the teacher is weaker than the student? Matters because OPD is now standard for reasoning models and the usual reverse-KL signal collapses in that regime.\"\n",
+    "label": "Your proposal",
+    "description": "The question, why it matters, and the paper if you know it, in your own words. Paste anything.\nExample: \"Which per-token advantage should on-policy distillation use when the teacher is weaker than the student? The usual reverse-KL signal collapses there (GKD, arXiv:2306.13649).\"\n",
     "required": true
    },
    {
     "type": "textarea",
     "id": "papers",
     "label": "Source paper(s)",
-    "description": "arXiv / DOI links. The question must be the paper's own research question.\nExample: \"https://arxiv.org/abs/2306.13649 (GKD, Agarwal et al. 2024), Sec. 4 'on-policy distillation'\"\n",
-    "required": true
+    "description": "Optional. arXiv / DOI links. Leave blank and the agent finds the paper(s) from your proposal.\n",
+    "required": false
    },
    {
     "type": "textarea",
@@ -94,7 +94,7 @@
  "change-task": {
   "file": "change-task.yml",
   "name": "Change an existing task",
-  "description": "Ask the relay agent to change one existing ML-Relay task (fix, rerun, improve a baseline, tighten a setting). One issue = one task = one PR.",
+  "description": "Ask for a change to one existing ML-Relay task (a fix, a rerun, a better baseline, a tighter setting). One paragraph is enough.",
   "title": "[change] ",
   "labels": [
    "relay-request"
@@ -102,42 +102,42 @@
   "fields": [
    {
     "type": "markdown",
-    "value": "Opening this issue starts the relay agent (collaborators with write access only). It works on **this task only**, reports back here with an @mention (an email by default), and proposes its changes as **one pull request** linked to this issue (`Closes #<this issue>`). To iterate, reply in the issue; the same PR is updated. `/status` and `/stop` also work. A change that touches another task, or shared files (README, site), needs its own issue.\n"
+    "value": "**One paragraph is enough.** Name the task and describe the change in your own words, or paste an existing note. The other fields are optional: the agent works out why and how to check the change from your description, and states it at the top of its report for you to confirm.\n\nEvery task has **one discussion thread**. If the task already has one, your request is moved into it (with your handle) so everyone working on the task sees it. The task's developers and the maintainers are notified, and anyone can discuss freely. The agent starts only when a maintainer or one of the task's developers comments `/approve`; within that round, `/run <text>` asks the agent. Each round's changes come back as one pull request.\n"
    },
    {
     "type": "input",
     "id": "task",
     "label": "Task",
-    "description": "The one task to change: its id as listed in dataset.toml (the backend validates it).\nExample: \"ml-pu-learning-risk\"\n",
+    "description": "The task's id as listed in dataset.toml, e.g. \"ml-pu-learning-risk\".\n",
     "placeholder": "ml-pu-learning-risk",
     "required": true
    },
    {
     "type": "textarea",
     "id": "change",
-    "label": "What should change",
-    "description": "Concretely, what should be different in the task.\nExample: \"Rerun the `nnpu` baseline at 5 seeds instead of 3 and update its leaderboard rows.\"\n",
+    "label": "Describe the change",
+    "description": "What should be different, in your own words. Paste anything: a paragraph, a review note, a list.\nExample: \"Rerun nnpu at 5 seeds: the seed noise on cifar10-vehicle is larger than the gap to dist_pu.\"\n",
     "required": true
    },
    {
     "type": "textarea",
     "id": "why",
     "label": "Why",
-    "description": "The reason: a bug, a mismatch with the paper, a weak setting, a new result.\nExample: \"Seed variance on cifar10-vehicle is larger than the gap between nnpu and dist_pu, so the ordering is not resolved.\"\n",
-    "required": true
+    "description": "Optional. The reason, if it is not already in your description.",
+    "required": false
    },
    {
     "type": "textarea",
     "id": "acceptance",
     "label": "Acceptance criteria",
-    "description": "How we will know the change is right.\nExample: \"5 seeds per setting; the reported std of nnpu on cifar10-vehicle drops below 0.01; the bundle's oracle still scores.\"\n",
-    "required": true
+    "description": "Optional. How we will know the change is right. The agent proposes them if you leave this blank.",
+    "required": false
    },
    {
     "type": "textarea",
     "id": "pointers",
     "label": "Pointers",
-    "description": "Optional. Files, lines, papers, earlier issues or runs.\nExample: \"tests/meta/config.json `seeds`; issue #1.\"\n",
+    "description": "Optional. Files, lines, papers, earlier issues or runs.",
     "required": false
    }
   ]
