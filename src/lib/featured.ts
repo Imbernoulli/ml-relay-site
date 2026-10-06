@@ -48,7 +48,6 @@ export const FEATURED_ORDER: string[] = [
   "marl-ctde-policy-learning",
   "theory-semiautomata",
   "theory-lora-gradient-init",
-  "optimization-parity",
   "security-machine-unlearning",
   "security-availability-poisoning",
   "ml-pu-learning-risk",
