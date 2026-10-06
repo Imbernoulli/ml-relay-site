@@ -3030,5 +3030,419 @@
    ],
    "best_score": 0.10000000000000002
   }
+ ],
+ "deleted_tasks": [
+  {
+   "id": "security-machine-unlearning",
+   "n": 46,
+   "title": "Forgetting Training Examples while Preserving Generalization",
+   "area": "Trustworthy Learning / Machine Unlearning",
+   "question": "Given the trained model, its retain and forget sets and SalUn's training budget (an update of the trained model, at most ten passes over the retained data), design the unlearning update whose result is closest to retraining from scratch without the forget set.",
+   "version": "7afb53f6667a3e7eda40cf93469ad381b5da6c42",
+   "repo": "OPTML-Group/Unlearn-Saliency",
+   "settings": [
+    {
+     "name": "resnet18-cifar10-random10",
+     "display": "ResNet-18 CIFAR-10 · forget random 10%"
+    },
+    {
+     "name": "resnet18-cifar100-random10",
+     "display": "ResNet-18 CIFAR-100 · forget random 10%"
+    },
+    {
+     "name": "resnet18-cifar10-random50",
+     "display": "ResNet-18 CIFAR-10 · forget random 50%"
+    }
+   ],
+   "gpus": 8,
+   "image": {
+    "src": "task-images/security-machine-unlearning.webp",
+    "caption": "Forgetting Training Examples while Preserving Generalization",
+    "width": 1600,
+    "height": 800,
+    "bytes": 152904
+   },
+   "baselines": [
+    {
+     "slug": "original",
+     "name": "Original model",
+     "role": "baseline"
+    },
+    {
+     "slug": "ft",
+     "name": "Retain-set fine-tuning (Warnecke et al., 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "ga",
+     "name": "Forget-set gradient ascent (Thudi et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "rl",
+     "name": "Random labeling (Golatkar et al., 2020)",
+     "role": "baseline"
+    },
+    {
+     "slug": "l1_sparse",
+     "name": "L1-sparse fine-tuning (Jia et al., 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "salun",
+     "name": "SalUn (Fan et al., 2024)",
+     "role": "baseline"
+    }
+   ],
+   "best_score": 0.09886050386201858,
+   "status": "deleted",
+   "deleted": {
+    "date": "2026-10-06",
+    "reason": "Dropped from ML-Relay by owner decision; it is not being fixed.",
+    "pr": 55
+   }
+  },
+  {
+   "id": "optimization-parity",
+   "n": 47,
+   "title": "Learning Hidden Parity through Input Curricula",
+   "area": "Optimization & Theory / Feature Learning",
+   "question": "With the two-layer MLP, its initialisation, AdamW and the step budget all fixed, design the rule that decides which inputs a network trains on, in what order and with what repetition, so the parity's long plateau ends soonest.",
+   "version": "a5f972dc6f87a512e9c6758774ac94e408d1572f",
+   "repo": "pytorch/examples",
+   "settings": [
+    {
+     "name": "n32-k8",
+     "display": "32-bit inputs, 8-sparse parity"
+    },
+    {
+     "name": "n50-k8",
+     "display": "50-bit inputs, 8-sparse parity"
+    },
+    {
+     "name": "n64-k8",
+     "display": "64-bit inputs, 8-sparse parity"
+    }
+   ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/optimization-parity.webp",
+    "caption": "Learning Hidden Parity through Input Curricula",
+    "width": 1536,
+    "height": 757,
+    "bytes": 64856
+   },
+   "baselines": [
+    {
+     "slug": "uniform_onepass",
+     "name": "Fresh uniform samples (Barak et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "uniform_repeat",
+     "name": "Finite-sample repetition (Edelman et al., 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "batch_reuse",
+     "name": "Minibatch reuse (repetition line, 2024–2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "mixed_inputs",
+     "name": "Unordered mixed inputs (Abbe, Cornacchia & Lotfi, 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "sparse_first_curriculum",
+     "name": "Sparse-first curriculum (Abbe, Cornacchia & Lotfi, 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "two_step_curriculum",
+     "name": "Two-step curriculum (Cornacchia & Mossel, 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "continuous_curriculum",
+     "name": "Continuous curriculum (Cornacchia & Mossel, 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "degree_curriculum",
+     "name": "Degree curriculum (Cornacchia & Mossel, 2023)",
+     "role": "baseline"
+    }
+   ],
+   "best_score": 0.10000000000000006,
+   "status": "deleted",
+   "deleted": {
+    "date": "2026-10-05",
+    "reason": "Its research question is solved: known curricula already learn sparse parities near-optimally, and several baselines reach perfect accuracy on every setting.",
+    "pr": 45
+   }
+  },
+  {
+   "id": "marl-centralized-critic",
+   "n": 37,
+   "title": "Centralized Critics for Decentralized Cooperation",
+   "area": "Reinforcement Learning / Multi-Agent RL",
+   "question": "With the actor, learner and environment fixed on SMAC maps, design the centralised critic — its architecture and inputs — that trains cooperative policies best.",
+   "version": "a50cca5c69c1d558fab3d42ed15bad9dcbd8327d",
+   "repo": "uoe-agents/epymarl",
+   "settings": [
+    {
+     "name": "3s5z_vs_3s6z",
+     "display": "SMAC 3s5z_vs_3s6z · super-hard"
+    },
+    {
+     "name": "corridor",
+     "display": "SMAC corridor · super-hard"
+    },
+    {
+     "name": "3s_vs_5z",
+     "display": "SMAC 3s_vs_5z · hard"
+    }
+   ],
+   "gpus": 5,
+   "image": {
+    "src": "task-images/marl-centralized-critic.webp",
+    "caption": "Centralized Critics for Decentralized Cooperation",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 54848
+   },
+   "baselines": [
+    {
+     "slug": "default",
+     "name": "CentralV critic without last actions",
+     "role": "baseline"
+    },
+    {
+     "slug": "ippo_critic",
+     "name": "Local IPPO critic (Yu et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "mappo_critic",
+     "name": "Centralized MAPPO critic (Yu et al., 2022)",
+     "role": "baseline"
+    }
+   ],
+   "best_score": 0.046415888336127795,
+   "status": "deleted",
+   "deleted": {
+    "date": "2026-10-05",
+    "reason": "Redesigned as a new multi-agent task.",
+    "replaced_by": "marl-ctde-policy-learning",
+    "pr": 44
+   }
+  },
+  {
+   "id": "agent-alfworld-planning-policy",
+   "n": 26,
+   "title": "Household Planning through Language and Feedback",
+   "area": "Language Models / Agents",
+   "question": "With a frozen open-weight LM and fixed tools, design the planning, tool-selection and replanning policy that solves the most long-horizon tasks under a per-game budget.",
+   "version": "dda0f14ac1929b559e21d3aa992d2b35dae2c896",
+   "repo": "alfworld/alfworld",
+   "settings": [
+    {
+     "name": "seen-a",
+     "display": "ALFWorld seen · Llama-3.2-3B-Instruct"
+    },
+    {
+     "name": "unseen-a",
+     "display": "ALFWorld unseen · Llama-3.2-3B-Instruct"
+    },
+    {
+     "name": "seen-b",
+     "display": "ALFWorld seen · Qwen2.5-3B-Instruct"
+    }
+   ],
+   "gpus": 3,
+   "image": {
+    "src": "task-images/agent-alfworld-planning-policy.webp",
+    "caption": "Household Planning through Language and Feedback",
+    "width": 1536,
+    "height": 1024,
+    "bytes": 109192
+   },
+   "baselines": [
+    {
+     "slug": "zeroshot_react",
+     "name": "Zero-shot ReAct (Fei et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "act_only",
+     "name": "Act-only (Yao et al., 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "react",
+     "name": "ReAct (Yao et al., 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "reflexion",
+     "name": "Reflexion (Shinn et al., 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "adaplanner",
+     "name": "AdaPlanner (Sun et al., 2023)",
+     "role": "baseline"
+    },
+    {
+     "slug": "automanual",
+     "name": "AutoManual test-time policy (Chen et al., 2024)",
+     "role": "baseline"
+    }
+   ],
+   "best_score": 0.07367353624350934,
+   "status": "deleted",
+   "deleted": {
+    "date": "2026-10-02",
+    "reason": "ALFWorld is a text game with no physics or robot; an embodied task took its place.",
+    "replaced_by": "robot-agent-direct-control"
+   }
+  },
+  {
+   "id": "llm-scaling-law-discovery",
+   "n": 41,
+   "title": "Discovering the Scaling Law From the Table",
+   "area": "Scaling Laws",
+   "question": "From a measured table of runs, discover the functional form — vocabulary, learning-rate/batch, data-constrained — that extrapolates to held-out configurations.",
+   "version": "2935a52b50cc7a87354dddb39a846322e3f49c9b",
+   "repo": "—",
+   "settings": [
+    {
+     "name": "sld-vocab",
+     "display": "SLDBench vocabulary scaling law"
+    },
+    {
+     "name": "sld-lrbsz",
+     "display": "SLDBench learning-rate/batch-size scaling law"
+    },
+    {
+     "name": "sld-dataconstrained",
+     "display": "SLDBench data-constrained scaling law"
+    }
+   ],
+   "gpus": 0,
+   "image": null,
+   "baselines": [
+    {
+     "slug": "human_exact",
+     "name": "the published human laws, exact forms refit: Tao et al. 2024 (vocab) / SLDBench Expert B (lr&bsz) / Muennighoff et al. 2023 (data-constrained)",
+     "role": "baseline"
+    },
+    {
+     "slug": "chinchilla",
+     "name": "Chinchilla law L = E + A/N^a + B/D^b (Hoffmann et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "loglinear_ridge",
+     "name": "SLDAgent's discovered lr&bsz law, log-linear ridge with quadratic + interaction terms (Lin et al., 2025, App. B.3.1); the same recipe on the other families",
+     "role": "baseline"
+    },
+    {
+     "slug": "kernel_ridge",
+     "name": "kernel ridge regression (black-box)",
+     "role": "baseline"
+    },
+    {
+     "slug": "symbolic_handcrafted",
+     "name": "hand-written symbolic forms, formerly 'sldagent_style'",
+     "role": "baseline"
+    },
+    {
+     "slug": "xgboost",
+     "name": "XGBoost gradient-boosted trees (black-box)",
+     "role": "baseline"
+    }
+   ],
+   "best_score": 0.04395204143308337,
+   "status": "deleted",
+   "deleted": {
+    "date": "2026-09-30",
+    "reason": "Removed in the v2.3 review: judged low quality overall."
+   }
+  },
+  {
+   "id": "th-mia-label-only",
+   "n": 15,
+   "title": "Membership Inference From Labels Alone",
+   "area": "Security / Privacy",
+   "question": "Seeing only the arg-max labels a classifier returns on perturbed copies of a point, design the score that tells training members from non-members.",
+   "version": "8fb4c831efd5f3c6e2437c00a83c1c66348d7205",
+   "repo": "cchoquette/membership-inference",
+   "settings": [
+    {
+     "name": "set_a",
+     "display": "CIFAR-10, 4-conv CNN (1.2M) on 2,500 points, no augmentation (Choquette-Choo et al. protocol)"
+    },
+    {
+     "name": "set_b",
+     "display": "CIFAR-10, WRN-28-2 on 2,500 points trained with flips/shifts/cutout"
+    },
+    {
+     "name": "set_c",
+     "display": "CIFAR-10, WRN-28-2 on random 25k halves, 16 shadows (LiRA protocol)"
+    }
+   ],
+   "gpus": 1,
+   "image": null,
+   "baselines": [
+    {
+     "slug": "gap_attack",
+     "name": "Gap attack (Yeom et al., 2018)",
+     "role": "baseline"
+    },
+    {
+     "slug": "translation_attack",
+     "name": "Data-augmentation attack (Choquette-Choo et al., 2021)",
+     "role": "baseline"
+    },
+    {
+     "slug": "noise_robustness",
+     "name": "Noise-robustness attack (Choquette-Choo et al., 2021)",
+     "role": "baseline"
+    },
+    {
+     "slug": "hsj_boundary",
+     "name": "HopSkipJump boundary-distance attack (Choquette-Choo et al., 2021)",
+     "role": "baseline"
+    },
+    {
+     "slug": "oslo",
+     "name": "OSLO (Peng et al., 2024)",
+     "role": "baseline"
+    },
+    {
+     "slug": "lira_offline",
+     "name": "LiRA offline, label-only (Carlini et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "lira_online",
+     "name": "LiRA online, label-only (Carlini et al., 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "random_score",
+     "name": "Random scores (null)",
+     "role": "baseline"
+    }
+   ],
+   "best_score": 0.09580817435728844,
+   "status": "deleted",
+   "deleted": {
+    "date": "2026-09-30",
+    "reason": "Removed in the v2.3 review: judged low quality overall."
+   }
+  }
  ]
 }

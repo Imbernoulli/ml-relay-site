@@ -85,7 +85,11 @@ export interface TaskData {
   scoring: Scoring | null; score_spec_source: string; leaderboard: Leaderboard;
   image?: TaskImageInfo | null;
   mode?: "internal"; version?: string | null; viewer?: ViewerSummary | null;
+  status?: "deleted"; deleted?: DeletedInfo;
 }
+
+/** A task removed from ML-Relay: its page stays, frozen at its last shipped version (ML-Relay tools/site_gen/deleted_tasks.json). */
+export interface DeletedInfo { date: string; reason: string; replaced_by?: string; pr?: number }
 
 export interface IndexEntry {
   id: string; n: number; title: string | null; area: string | null; question: string | null; repo: string | null;
@@ -95,6 +99,7 @@ export interface IndexEntry {
   oracle?: string | null; oracle_name?: string | null; oracle_score?: number | null; best_score?: number | null;
   gpus?: number | null;
   version?: string | null;
+  status?: "deleted"; deleted?: DeletedInfo;
 }
 
 export interface ViewerSummary {
@@ -104,7 +109,11 @@ export interface ViewerSummary {
 
 export interface TaskImageInfo { src: string; caption: string | null; width: number | null; height: number | null; bytes?: number }
 
-export interface IndexData { generated: string; source: string; mode?: "public" | "internal"; relay_ref_score: number; intro_md: string; tasks: IndexEntry[] }
+export interface IndexData {
+  generated: string; source: string; mode?: "public" | "internal"; relay_ref_score: number; intro_md: string; tasks: IndexEntry[];
+  /** removed tasks, newest first: never part of `tasks` (counts, featured order, request actions) */
+  deleted_tasks?: IndexEntry[];
+}
 
 export interface PublicFile { filename: string; editable: boolean; edit_ranges: Range[]; language: string; lines: number; content: string | null; omitted: string | null }
 export interface PublicBaseline {
@@ -122,6 +131,7 @@ export interface PublicTaskData {
   files: PublicFile[]; baselines: PublicBaseline[]; controls: Control[];
   settings: Setting[]; scoring: Scoring | null; leaderboard: Leaderboard;
   version?: string | null; viewer?: ViewerSummary | null;
+  status?: "deleted"; deleted?: DeletedInfo;
 }
 
 export interface Gap { task: string; field: string; detail: string }

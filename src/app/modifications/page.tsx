@@ -1,7 +1,7 @@
 import Link from "next/link";
 import RequestTrack from "@/components/RequestTrack";
 import { fromIssue } from "@/lib/stages";
-import { loadIndex, loadStatus, taskTitles } from "@/lib/data";
+import { loadDeleted, loadIndex, loadStatus, taskTitles } from "@/lib/data";
 import LiveRequests from "@/components/LiveRequests";
 import type { StatusIssue } from "@/lib/types";
 import MaintainerActions from "@/components/MaintainerActions";
@@ -49,7 +49,7 @@ function Entry({ r, repo, titles, maintainers }: { r: StatusIssue; repo: string;
 
 export default function ModificationsPage() {
   const status = loadStatus();
-  const titles = new Map(loadIndex().tasks.map((t) => [t.id, t.title ?? t.id]));
+  const titles = new Map([...loadDeleted(), ...loadIndex().tasks].map((t) => [t.id, t.title ?? t.id]));
   const mods = (status.issues ?? []).filter((r) => r.type === "change" || r.type === "maintenance");
   const active = mods.filter((r) => r.state === "open");
   const merged = mods.filter((r) => r.state === "closed" && r.pr_state === "merged").slice(0, 20);

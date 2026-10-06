@@ -21,12 +21,15 @@ export default function TaskThread({
   maintainers = [],
   developers = {},
   defaultKind = "comment",
+  readOnly = false,
 }: {
   task: string;
   thread: number | null;
   maintainers?: string[];
   developers?: Record<string, string[]>;
   defaultKind?: "comment" | "request" | "method-idea";
+  /** a deleted task: its thread stays readable, but nothing new can be posted or started */
+  readOnly?: boolean;
 }) {
   const login = useLogin();
   const [thread, setThread] = useState<number | null>(knownThread);
@@ -78,7 +81,7 @@ export default function TaskThread({
         )}
         {data && (
           <span className={`rounded-full border px-2 py-0.5 text-[11px] font-medium ${approved ? "border-amber-500/50 bg-amber-500/10" : "border-border bg-muted"}`}>
-            {approved ? "agent round in progress" : "open for discussion"}
+            {readOnly ? "closed: task deleted" : approved ? "agent round in progress" : "open for discussion"}
           </span>
         )}
       </div>
@@ -117,7 +120,10 @@ export default function TaskThread({
           ))}
         </ol>
       )}
-      {state !== "noaccess" && state !== "error" && (
+      {readOnly && (
+        <p className="mt-3 text-sm text-muted-foreground">This task was removed from ML-Relay: its discussion is kept for reference and is closed to new posts.</p>
+      )}
+      {!readOnly && state !== "noaccess" && state !== "error" && (
         <div className="mt-3">
           {state === "idle" && !thread && login && <p className="mb-2 text-sm text-muted-foreground">No discussion yet. Your first post opens the task&apos;s thread.</p>}
           <ThreadComposer task={task} thread={thread} approved={approved} mayApprove={mayApprove} defaultKind={defaultKind} onPosted={(n) => setTimeout(() => void load(n), 1200)} />

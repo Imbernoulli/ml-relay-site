@@ -86,6 +86,7 @@ export default function RequestDetail({
   maintainers = [],
   repo,
   developers = {},
+  deleted = [],
 }: {
   n: number;
   st: StatusIssue | null;
@@ -93,6 +94,8 @@ export default function RequestDetail({
   maintainers?: string[];
   repo: string;
   developers?: Record<string, string[]>;
+  /** deleted tasks: their threads stay readable but take no new posts */
+  deleted?: string[];
 }) {
   const login = useLogin();
   const rec = liveRecord(useLiveStatus(), n);
@@ -175,7 +178,8 @@ export default function RequestDetail({
   const task = st?.task ?? titleTask(issue?.title) ?? null;
   const isThread = Boolean(st?.thread) || labels.includes(THREAD_LABEL);
   // on a task thread, the task's developers may approve rounds too
-  const approvers = isThread && task ? [...maintainers, ...(developers[task] ?? [])] : maintainers;
+  const approvers =
+    task && deleted.includes(task) ? [] : isThread && task ? [...maintainers, ...(developers[task] ?? [])] : maintainers;
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
@@ -321,7 +325,10 @@ export default function RequestDetail({
                 <ThreadPost key={c.id} user={c.user} at={c.created_at} url={c.html_url} body={c.body} />
               ))}
             </ol>
-            {isThread && task && issue.state === "open" && (
+            {isThread && task && deleted.includes(task) && (
+              <p className="mt-4 text-sm text-muted-foreground">This task was removed from ML-Relay: the discussion is kept for reference and is closed to new posts.</p>
+            )}
+            {isThread && task && issue.state === "open" && !deleted.includes(task) && (
               <div className="mt-4">
                 <ThreadComposer
                   task={task}

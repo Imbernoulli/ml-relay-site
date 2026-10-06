@@ -1,5 +1,16 @@
 {
  "tasks": {
+  "agent-alfworld-planning-policy": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
   "ai4bio-cell-representation-objective": {
    "developers": [
     {
@@ -328,7 +339,16 @@
      "role": "developer"
     }
    ],
-   "contributors": []
+   "contributors": [
+    {
+     "login": "andylizf",
+     "avatar_url": "https://avatars.githubusercontent.com/u/28052536?v=4",
+     "html_url": "https://github.com/andylizf",
+     "roles": [
+      "requested #49"
+     ]
+    }
+   ]
   },
   "llm-hybrid-layer-composition": {
    "developers": [
@@ -339,7 +359,16 @@
      "role": "developer"
     }
    ],
-   "contributors": []
+   "contributors": [
+    {
+     "login": "andylizf",
+     "avatar_url": "https://avatars.githubusercontent.com/u/28052536?v=4",
+     "html_url": "https://github.com/andylizf",
+     "roles": [
+      "requested #50"
+     ]
+    }
+   ]
   },
   "llm-kv-precision-vs-count": {
    "developers": [
@@ -350,7 +379,16 @@
      "role": "developer"
     }
    ],
-   "contributors": []
+   "contributors": [
+    {
+     "login": "andylizf",
+     "avatar_url": "https://avatars.githubusercontent.com/u/28052536?v=4",
+     "html_url": "https://github.com/andylizf",
+     "roles": [
+      "requested #47"
+     ]
+    }
+   ]
   },
   "llm-linattn-state-size-structure": {
    "developers": [
@@ -403,7 +441,16 @@
      "role": "developer"
     }
    ],
-   "contributors": []
+   "contributors": [
+    {
+     "login": "andylizf",
+     "avatar_url": "https://avatars.githubusercontent.com/u/28052536?v=4",
+     "html_url": "https://github.com/andylizf",
+     "roles": [
+      "requested #51"
+     ]
+    }
+   ]
   },
   "llm-prune-oneshot-criterion": {
    "developers": [
@@ -435,6 +482,28 @@
      ]
     }
    ]
+  },
+  "llm-scaling-law-discovery": {
+   "developers": [
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "developer"
+    }
+   ],
+   "contributors": []
+  },
+  "marl-centralized-critic": {
+   "developers": [
+    {
+     "login": "realgourmet",
+     "avatar_url": "https://avatars.githubusercontent.com/u/48912070?v=4",
+     "html_url": "https://github.com/realgourmet",
+     "role": "original"
+    }
+   ],
+   "contributors": []
   },
   "marl-ctde-policy-learning": {
    "developers": [
@@ -484,6 +553,23 @@
      ]
     }
    ]
+  },
+  "optimization-parity": {
+   "developers": [
+    {
+     "login": "zhqwqwq",
+     "avatar_url": "https://avatars.githubusercontent.com/u/113563900?v=4",
+     "html_url": "https://github.com/zhqwqwq",
+     "role": "original"
+    },
+    {
+     "login": "Imbernoulli",
+     "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
+     "html_url": "https://github.com/Imbernoulli",
+     "role": "rebuilt"
+    }
+   ],
+   "contributors": []
   },
   "pde-design-solver": {
    "developers": [
@@ -603,6 +689,26 @@
      "avatar_url": "https://avatars.githubusercontent.com/u/139110039?v=4",
      "html_url": "https://github.com/Imbernoulli",
      "role": "developer"
+    }
+   ],
+   "contributors": [
+    {
+     "login": "andylizf",
+     "avatar_url": "https://avatars.githubusercontent.com/u/28052536?v=4",
+     "html_url": "https://github.com/andylizf",
+     "roles": [
+      "requested #48"
+     ]
+    }
+   ]
+  },
+  "th-mia-label-only": {
+   "developers": [
+    {
+     "login": "lan-qing",
+     "avatar_url": "https://avatars.githubusercontent.com/u/24777447?v=4",
+     "html_url": "https://github.com/lan-qing",
+     "role": "original"
     }
    ],
    "contributors": []
