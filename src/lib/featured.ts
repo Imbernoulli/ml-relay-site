@@ -45,7 +45,7 @@ export const FEATURED_ORDER: string[] = [
   "ai4sci-inverse-diffusion-algo",
   "chip-macro-placement-search",
   "rl-offline-adroit",
-  "marl-centralized-critic",
+  "marl-ctde-policy-learning",
   "theory-semiautomata",
   "theory-lora-gradient-init",
   "optimization-parity",
