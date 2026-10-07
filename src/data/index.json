@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-07T02:40:25",
+ "generated": "2026-10-07T04:32:16",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Fifty machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 38 of the 50 tasks are newly constructed for ML-Relay. The other 12 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -2615,15 +2615,19 @@
    "title": "Language Modeling with Linear-Time Attention",
    "area": "ML Systems & Efficient ML / Linear Attention",
    "question": "Design the linear-attention token mixer — retention, gating, delta rule or new — that pretrains a 345M model to the best language quality.",
-   "version": "83ed77b858a2710fd67d49e3ccb4732f420e211b",
+   "version": "f2930b324a8e80aebab25db85ce4f33997ce9916",
    "repo": "karpathy/nanoGPT",
    "settings": [
     {
-     "name": "gpt-345m",
-     "display": "345M pretraining · loss / perplexity"
+     "name": "in-domain",
+     "display": "345M FineWeb pretraining · held-out validation loss"
     },
     {
-     "name": "lm-eval-345m",
+     "name": "held-out-text",
+     "display": "345M · WikiText-2 / LAMBADA perplexity"
+    },
+    {
+     "name": "zero-shot",
      "display": "345M zero-shot · LAMBADA / PIQA / HellaSwag / ARC-e"
     }
    ],
@@ -2637,8 +2641,13 @@
    },
    "baselines": [
     {
-     "slug": "retnet",
-     "name": "RetNet (Sun et al., 2023)",
+     "slug": "linear_transformer",
+     "name": "Linear Transformer (Katharopoulos et al., 2020)",
+     "role": "baseline"
+    },
+    {
+     "slug": "gla",
+     "name": "GLA (Yang et al., 2023)",
      "role": "baseline"
     },
     {
@@ -2647,12 +2656,42 @@
      "role": "baseline"
     },
     {
-     "slug": "gla",
-     "name": "GLA (Yang et al., 2023)",
+     "slug": "rwkv6",
+     "name": "RWKV-6 (Peng et al., 2024)",
+     "role": "baseline"
+    },
+    {
+     "slug": "mamba2",
+     "name": "Mamba-2 (Dao & Gu, 2024)",
+     "role": "baseline"
+    },
+    {
+     "slug": "gated_deltanet",
+     "name": "Gated DeltaNet (Yang et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "comba",
+     "name": "Comba (Hu et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "rwkv7",
+     "name": "RWKV-7 (Peng et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "kda",
+     "name": "Kimi Delta Attention (Kimi Team, 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "gated_deltanet2",
+     "name": "Gated DeltaNet-2 (Hatamizadeh et al., 2026)",
      "role": "baseline"
     }
    ],
-   "best_score": 0.09221021117052347
+   "best_score": 0.09547428784253331
   },
   {
    "id": "ai4sci-climate-emulation",
