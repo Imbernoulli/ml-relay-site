@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-07T13:19:21+00:00",
+ "generated": "2026-10-07T20:00:07+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1143,25 +1143,7 @@
     "requester": "Racktic",
     "opened": "2026-10-04T14:08:10Z",
     "done": false,
-    "progress": {
-     "current": null,
-     "steps": [
-      {
-       "t": 1791122890,
-       "kind": "created",
-       "label": "Request created by @Racktic",
-       "state": "done",
-       "visibility": "public"
-      },
-      {
-       "t": 1791122914,
-       "kind": "approval",
-       "label": "Waiting for maintainer approval",
-       "state": "waiting",
-       "visibility": "public"
-      }
-     ]
-    },
+    "progress": null,
     "pr": null,
     "pr_state": null,
     "updated": "2026-10-06T17:53:23Z",
@@ -19826,25 +19808,7 @@
    "pr_state": null,
    "updated": "2026-10-06T17:53:23Z",
    "opened": "2026-10-04T14:08:10Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1791122890,
-      "kind": "created",
-      "label": "Request created by @Racktic",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791122914,
-      "kind": "approval",
-      "label": "Waiting for maintainer approval",
-      "state": "waiting",
-      "visibility": "public"
-     }
-    ]
-   },
+   "progress": null,
    "approval": {
     "state": "waiting",
     "by": null,
