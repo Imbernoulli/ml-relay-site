@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-08T19:57:54+00:00",
+ "generated": "2026-10-08T23:10:48+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1122,7 +1122,7 @@
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-07T21:15:25Z",
+    "updated": "2026-10-08T22:24:19Z",
     "replacement": null
    }
   ],
@@ -1542,6 +1542,129 @@
     "updated": "2026-10-06T17:01:30Z",
     "replacement": null
    }
+  ],
+  "vla-smolvla-realtime-chunking": [
+   {
+    "issue": 71,
+    "title": "[change] vla-smolvla-realtime-chunking: Please add a latency-aware simulation evaluation alongside the existing fixed…",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "thread": true,
+    "requester": "zichenwang01",
+    "opened": "2026-10-08T22:16:06Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791497766,
+       "kind": "created",
+       "label": "Request created by @zichenwang01",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791497790,
+       "kind": "approval",
+       "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-08T22:16:37Z",
+    "replacement": null
+   }
+  ],
+  "jepa-planning": [
+   {
+    "issue": 72,
+    "title": "[change] jepa-planning: Please add longer-distance, longer-horizon evaluation settings to the existin…",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "thread": true,
+    "requester": "zichenwang01",
+    "opened": "2026-10-08T22:20:34Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791498034,
+       "kind": "created",
+       "label": "Request created by @zichenwang01",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791498056,
+       "kind": "approval",
+       "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-08T22:21:03Z",
+    "replacement": null
+   }
+  ],
+  "cv-3dgs-densification": [
+   {
+    "issue": 73,
+    "title": "[change] cv-3dgs-densification: Please add held-out scenes that are not available during the agent's strategy…",
+    "type": "change",
+    "state": "open",
+    "phase": null,
+    "approval": {
+     "state": "waiting",
+     "by": null,
+     "note": null
+    },
+    "thread": true,
+    "requester": "zichenwang01",
+    "opened": "2026-10-08T22:21:47Z",
+    "done": false,
+    "progress": {
+     "current": null,
+     "steps": [
+      {
+       "t": 1791498107,
+       "kind": "created",
+       "label": "Request created by @zichenwang01",
+       "state": "done",
+       "visibility": "public"
+      },
+      {
+       "t": 1791498133,
+       "kind": "approval",
+       "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+       "state": "waiting",
+       "visibility": "public"
+      }
+     ]
+    },
+    "pr": null,
+    "pr_state": null,
+    "updated": "2026-10-08T22:22:20Z",
+    "replacement": null
+   }
   ]
  },
  "threads": {
@@ -1550,7 +1673,10 @@
   "llm-distill-sgo-objective": 27,
   "llm-opd-token-signal": 28,
   "llm-rl-mismatch-correction": 29,
-  "fm-probability-path": 31
+  "fm-probability-path": 31,
+  "vla-smolvla-realtime-chunking": 71,
+  "jepa-planning": 72,
+  "cv-3dgs-densification": 73
  },
  "new_tasks": [
   {
@@ -10932,7 +11058,7 @@
    "phase": null,
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-07T21:15:25Z",
+   "updated": "2026-10-08T22:24:19Z",
    "opened": "2026-10-04T00:56:37Z",
    "progress": {
     "current": null,
@@ -11589,6 +11715,129 @@
    },
    "approval": {
     "state": "approved",
+    "by": null,
+    "note": null
+   },
+   "thread": true
+  },
+  {
+   "issue": 73,
+   "title": "[change] cv-3dgs-densification: Please add held-out scenes that are not available during the agent's strategy…",
+   "requester": "zichenwang01",
+   "type": "change",
+   "task": "cv-3dgs-densification",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-08T22:22:20Z",
+   "opened": "2026-10-08T22:21:47Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791498107,
+      "kind": "created",
+      "label": "Request created by @zichenwang01",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791498133,
+      "kind": "approval",
+      "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   },
+   "thread": true
+  },
+  {
+   "issue": 72,
+   "title": "[change] jepa-planning: Please add longer-distance, longer-horizon evaluation settings to the existin…",
+   "requester": "zichenwang01",
+   "type": "change",
+   "task": "jepa-planning",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-08T22:21:03Z",
+   "opened": "2026-10-08T22:20:34Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791498034,
+      "kind": "created",
+      "label": "Request created by @zichenwang01",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791498056,
+      "kind": "approval",
+      "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   },
+   "thread": true
+  },
+  {
+   "issue": 71,
+   "title": "[change] vla-smolvla-realtime-chunking: Please add a latency-aware simulation evaluation alongside the existing fixed…",
+   "requester": "zichenwang01",
+   "type": "change",
+   "task": "vla-smolvla-realtime-chunking",
+   "replacement": null,
+   "state": "open",
+   "stage": "Waiting for maintainer approval",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-08T22:16:37Z",
+   "opened": "2026-10-08T22:16:06Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791497766,
+      "kind": "created",
+      "label": "Request created by @zichenwang01",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791497790,
+      "kind": "approval",
+      "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+      "state": "waiting",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
     "by": null,
     "note": null
    },

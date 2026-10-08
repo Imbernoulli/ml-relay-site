@@ -136,7 +136,16 @@
      "role": "rebuilt"
     }
    ],
-   "contributors": []
+   "contributors": [
+    {
+     "login": "zichenwang01",
+     "avatar_url": "https://avatars.githubusercontent.com/u/134733163?v=4",
+     "html_url": "https://github.com/zichenwang01",
+     "roles": [
+      "requested #73"
+     ]
+    }
+   ]
   },
   "cv-diffsolver-multistep-update": {
    "developers": [
@@ -249,7 +258,16 @@
      "role": "rebuilt"
     }
    ],
-   "contributors": []
+   "contributors": [
+    {
+     "login": "zichenwang01",
+     "avatar_url": "https://avatars.githubusercontent.com/u/134733163?v=4",
+     "html_url": "https://github.com/zichenwang01",
+     "roles": [
+      "requested #72"
+     ]
+    }
+   ]
   },
   "llm-activation-readout-lens": {
    "developers": [
@@ -775,7 +793,16 @@
      "role": "developer"
     }
    ],
-   "contributors": []
+   "contributors": [
+    {
+     "login": "zichenwang01",
+     "avatar_url": "https://avatars.githubusercontent.com/u/134733163?v=4",
+     "html_url": "https://github.com/zichenwang01",
+     "roles": [
+      "requested #71"
+     ]
+    }
+   ]
   },
   "vla-smolvla-rl-chunk-objective": {
    "developers": [
