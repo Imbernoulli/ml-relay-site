@@ -1,6 +1,6 @@
 # ML-Relay site
 
-Task pages for the 52 ML-Relay research tasks: the research question, the task
+Task pages for the ML-Relay research tasks: the research question, the task
 as the agent receives it, a viewer over each task's source code, the published
 baselines with their code, the evaluation settings, the scoring and the results.
 
