@@ -1,8 +1,8 @@
 {
- "generated": "2026-10-08T06:48:19",
+ "generated": "2026-10-08T10:05:07",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
- "intro_md": "Fifty machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 38 of the 50 tasks are newly constructed for ML-Relay. The other 12 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Fifty self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
+ "intro_md": "Forty-nine machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 49 tasks are newly constructed for ML-Relay. The other 12 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Forty-nine self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
  "mode": "public",
  "tasks": [
   {
@@ -452,66 +452,8 @@
    "best_score": 0.09523502893810896
   },
   {
-   "id": "dl-optim-mup-parametrization",
-   "n": 8,
-   "title": "Zero-Shot Hyperparameter Transfer for Neural Scaling",
-   "area": "Deep Learning / Parametrization",
-   "question": "Design the abc-parametrization — init scale, forward multipliers, per-layer learning rates — so the rate tuned on a narrow network is right for wider ones, with wider always better.",
-   "version": "9457dad2fca845981418449b6fb3fcd763807700",
-   "repo": "microsoft/mup",
-   "settings": [
-    {
-     "name": "width-256",
-     "display": "CIFAR-10 MLP, width 256"
-    },
-    {
-     "name": "width-1024",
-     "display": "CIFAR-10 MLP, width 1024"
-    },
-    {
-     "name": "width-4096",
-     "display": "CIFAR-10 MLP, width 4096"
-    },
-    {
-     "name": "transformer-8192",
-     "display": "WikiText-2 Transformer, width 8192"
-    }
-   ],
-   "gpus": 1,
-   "image": {
-    "src": "task-images/dl-optim-mup-parametrization.webp",
-    "caption": "Zero-Shot Hyperparameter Transfer for Neural Scaling",
-    "width": 1600,
-    "height": 800,
-    "bytes": 123842
-   },
-   "baselines": [
-    {
-     "slug": "sp",
-     "name": "Standard parametrization (Yang & Hu, 2022)",
-     "role": "baseline"
-    },
-    {
-     "slug": "mup",
-     "name": "Maximal-update parametrization (Yang & Hu, 2022)",
-     "role": "baseline"
-    },
-    {
-     "slug": "ntk",
-     "name": "NTK parametrization (Jacot et al., 2018)",
-     "role": "baseline"
-    },
-    {
-     "slug": "sp_lr_over_width",
-     "name": "Standard + inverse-width LR",
-     "role": "baseline"
-    }
-   ],
-   "best_score": 0.10000000000000002
-  },
-  {
    "id": "dl-dynamics-grokking-transition",
-   "n": 9,
+   "n": 8,
    "title": "Accelerating the Grokking Transition",
    "area": "Deep Learning / Training Dynamics",
    "question": "Given only the gradients of a fixed loss from an over-scaled initialisation, design the optimisation or regularisation rule that brings generalisation forward.",
@@ -575,7 +517,7 @@
   },
   {
    "id": "theory-semiautomata",
-   "n": 10,
+   "n": 9,
    "title": "Learning Sequential Computations with Parallel Networks",
    "area": "Optimization & Theory / Learning Theory",
    "question": "Within a fixed online-training budget, which parallel-time architecture and AdamW recipe learns to simulate non-solvable permutation-group word problems (S5, A5) from state supervision on short words, and keeps simulating them on much longer words?",
@@ -654,7 +596,7 @@
   },
   {
    "id": "theory-lora-gradient-init",
-   "n": 11,
+   "n": 10,
    "title": "Initializing LoRA in Useful Update Subspaces",
    "area": "Optimization & Theory / Learning Theory (PEFT)",
    "question": "The zero-product initialisation of LoRA is a convention with a predictable cost — design the initialisation of A and B that the theory says pays off.",
@@ -708,7 +650,7 @@
   },
   {
    "id": "cv-flowmaps-training",
-   "n": 12,
+   "n": 11,
    "title": "Learning Few-Step Generators without Pretrained Teachers",
    "area": "Vision & Generation / Few-Step Generation",
    "question": "Under a fixed CIFAR-10 training budget, redesign the flow-map self-distillation objective so FID drops below the published variants.",
@@ -757,7 +699,7 @@
   },
   {
    "id": "cv-diffsolver-multistep-update",
-   "n": 13,
+   "n": 12,
    "title": "Diffusion Sampling with Few Model Evaluations",
    "area": "Vision & Generation / Diffusion Solvers",
    "question": "At a handful of network evaluations, design the ODE update rule that buys accuracy from Runge–Kutta stages, multistep history, or both.",
@@ -806,7 +748,7 @@
   },
   {
    "id": "fm-probability-path",
-   "n": 14,
+   "n": 13,
    "title": "Probability Paths for Few-Step Generation",
    "area": "Vision & Generation / Flow Matching",
    "question": "At a fixed training budget, design the probability path whose flow-matching model samples best at low NFE.",
@@ -861,7 +803,7 @@
   },
   {
    "id": "security-availability-poisoning",
-   "n": 15,
+   "n": 14,
    "title": "Disrupting Learning through Training-Data Perturbations",
    "area": "Trustworthy Learning / Data Poisoning",
    "question": "Given the whole labelled training set and an L-infinity budget, design the per-image perturbation that leaves a model trained from scratch on it useless.",
@@ -940,7 +882,7 @@
   },
   {
    "id": "ml-pu-learning-risk",
-   "n": 16,
+   "n": 15,
    "title": "Learning Classifiers without Labeled Negatives",
    "area": "Classical & Adaptive Learning / Weak Supervision (PU)",
    "question": "From labelled positive images, the unlabelled training set and the class prior, design the training objective (and decision threshold) of a fixed network whose held-out zero-one error is low.",
@@ -989,7 +931,7 @@
   },
   {
    "id": "llm-opd-token-signal",
-   "n": 17,
+   "n": 16,
    "title": "Transferring RL Gains from a Weaker Teacher",
    "area": "Language Models / Distillation",
    "question": "Supervising a student's own rollouts token by token, choose what to transfer from the teacher — its distribution, or the change reasoning tuning made to it.",
@@ -1048,7 +990,7 @@
   },
   {
    "id": "ai4bio-msa-conformational-ensemble",
-   "n": 18,
+   "n": 17,
    "title": "Recovering Multiple Protein Conformations",
    "area": "AI for Science / Protein Structure",
    "question": "Design how the MSA is presented to AlphaFold2 so proteins with two states — fold switchers, transporters, binding proteins — return both, not just the coevolution-favoured one.",
@@ -1112,7 +1054,7 @@
   },
   {
    "id": "llm-distill-sgo-objective",
-   "n": 19,
+   "n": 18,
    "title": "Designing On-Policy Distillation for Reasoning",
    "area": "Language Models / Distillation",
    "question": "Given a stronger white-box teacher, jointly choose the per-token divergence and the policy deciding whether each step trains on reference, teacher-generated or student-generated text.",
@@ -1196,7 +1138,7 @@
   },
   {
    "id": "ai4bio-cell-representation-objective",
-   "n": 20,
+   "n": 19,
    "title": "Preserving Cell Biology while Removing Batch Effects",
    "area": "AI for Science / Single-Cell",
    "question": "Given a pretrained single-cell transformer, raw counts and batch labels, choose the adaptation objective and readout so embeddings separate cell states while mixing batches.",
@@ -1290,7 +1232,7 @@
   },
   {
    "id": "ai4bio-cofolding-affinity-scoring",
-   "n": 21,
+   "n": 20,
    "title": "Predicting Binding Affinity from Co-Folded Complexes",
    "area": "AI for Science / Binding Affinity",
    "question": "Given a fixed co-folded protein-ligand complex and its docking, structural and head-derived signals, design the function that predicts binding affinity — ranking analogues in a congeneric series and separating actives from AVE-unbiased decoys.",
@@ -1349,7 +1291,7 @@
   },
   {
    "id": "phys-contact-sysid-loss",
-   "n": 22,
+   "n": 21,
    "title": "Identifying Contact Dynamics from Real Motion",
    "area": "Robotics / System Identification",
    "question": "From observed contact-rich transitions, design the per-transition loss that recovers geometry, friction and inertia of a structured rigid-body model most accurately and data-efficiently.",
@@ -1398,7 +1340,7 @@
   },
   {
    "id": "phys-contact-solver",
-   "n": 23,
+   "n": 22,
    "title": "Frictional Contact under a Compute Budget",
    "area": "Robotics / Contact Simulation",
    "question": "Given the Delassus operator only through matrix–vector products, design the solver that returns physically valid contact impulses on slipping, ill-conditioned and resting problems.",
@@ -1462,7 +1404,7 @@
   },
   {
    "id": "llm-conditional-memory-design",
-   "n": 24,
+   "n": 23,
    "title": "Separating Memory Lookup from Language-Model Computation",
    "area": "Language Models / Pretraining",
    "question": "Under a fixed backbone and a fixed memory-table parameter budget, design the n-gram-keyed conditional memory that keeps co-occurrence statistics out of the dense weights.",
@@ -1516,7 +1458,7 @@
   },
   {
    "id": "cv-model-merge-rule",
-   "n": 25,
+   "n": 24,
    "title": "Preserving Specialist Skills through Model Merging",
    "area": "Deep Learning / Model Merging",
    "question": "Given one pretrained CLIP encoder and N independently fine-tuned copies, design the training-free, label-free weight-space rule that yields one encoder strong on all N tasks.",
@@ -1600,7 +1542,7 @@
   },
   {
    "id": "robot-agent-direct-control",
-   "n": 26,
+   "n": 25,
    "title": "Driving a Robot Directly from a Frozen Vision-Language Model",
    "area": "Robotics / Agentic Control",
    "question": "With a frozen open-weight VLM, fixed simulators and a per-episode budget of model calls and steps, design the agent policy that turns camera views and feedback into the most successful robot actions.",
@@ -1643,7 +1585,7 @@
   },
   {
    "id": "llm-activation-readout-lens",
-   "n": 27,
+   "n": 26,
    "title": "Interpreting Unspoken Concepts in Language Models",
    "area": "Language Models / Interpretability",
    "question": "Design the map that transports a mid-layer residual into the final-layer basis so the model's own unembedding reads out its disposition faithfully.",
@@ -1693,7 +1635,7 @@
   },
   {
    "id": "ai4bio-genome-coverage-objective",
-   "n": 28,
+   "n": 27,
    "title": "Learning Genomic Signal Shape and Magnitude",
    "area": "AI for Science / Genomics",
    "question": "Design the training objective of a sequence-to-coverage head — how shape and magnitude are decomposed — so it predicts held-out experimental coverage best.",
@@ -1752,7 +1694,7 @@
   },
   {
    "id": "moe-repetition-regularizer",
-   "n": 29,
+   "n": 28,
    "title": "Preserving MoE Generalization under Repeated Data",
    "area": "Language Models / Pretraining (MoE)",
    "question": "When every token is seen about eight times, design the method that stops a mixture of experts from over-specialising, so that held-out loss and transfer stay good.",
@@ -1855,7 +1797,7 @@
   },
   {
    "id": "chip-macro-placement-search",
-   "n": 30,
+   "n": 29,
    "title": "Reducing Chip Wirelength with Budgeted Search",
    "area": "Optimization & Theory / Black-Box Search",
    "question": "With a fixed wire-mask decoder and a fixed budget of its evaluations, design the black-box search policy that reaches the lowest wirelength — on chips it was not tuned for.",
@@ -1921,7 +1863,7 @@
   },
   {
    "id": "chip-diffusion-placement",
-   "n": 31,
+   "n": 30,
    "title": "Guiding Layout Diffusion with Physical Objectives",
    "area": "Optimization & Theory / Guided Diffusion Optimization",
    "question": "Given a fixed pretrained diffusion placement model, design how per-step guidance is computed, composed from placement objectives and scheduled so it transfers across circuits.",
@@ -2000,7 +1942,7 @@
   },
   {
    "id": "spec-drafter-block-head",
-   "n": 32,
+   "n": 31,
    "title": "Learning Efficient Draft Blocks for Speculative Decoding",
    "area": "ML Systems & Efficient ML / Speculative Decoding",
    "question": "Design the head that reads L future positions from a single drafter forward so accepted tokens per target forward go up.",
@@ -2059,7 +2001,7 @@
   },
   {
    "id": "robot-codegen-replan-policy",
-   "n": 33,
+   "n": 32,
    "title": "Recovering Robot Programs through Execution Feedback",
    "area": "Robotics / Code as Policies",
    "question": "With a frozen coder, a fixed robot API and a per-trial model-call budget, design the per-turn policy — what to prompt, whether to inspect the scene, when to regenerate.",
@@ -2113,7 +2055,7 @@
   },
   {
    "id": "ai4sci-inverse-diffusion-algo",
-   "n": 34,
+   "n": 33,
    "title": "Recovering Hidden Structure from Sparse Measurements",
    "area": "AI for Science / Inverse Problems",
    "question": "With a frozen diffusion prior and a known forward operator, design the per-step measurement guidance that solves scattering, black-hole imaging and inpainting inverse problems.",
@@ -2172,7 +2114,7 @@
   },
   {
    "id": "robo-humanoid-sim2real-algo",
-   "n": 35,
+   "n": 34,
    "title": "From Privileged Physics to Proprioceptive Control",
    "area": "Robotics / Sim-to-Real Locomotion",
    "question": "With Humanoid-Gym's environment, rewards, command distribution and Isaac Gym → MuJoCo evaluation fixed, design how the policy uses privileged simulator state and proprioceptive history during training so that the gait transfers and survives pushes, an added payload and high-speed commands.",
@@ -2231,7 +2173,7 @@
   },
   {
    "id": "ai4bio-protein-inverse-folding",
-   "n": 36,
+   "n": 35,
    "title": "Protein Sequence Design from Backbone Geometry",
    "area": "AI for Science / Protein Design",
    "question": "Design the structure encoder that turns a 3D backbone graph into per-residue embeddings rich enough to recover the sequence.",
@@ -2290,7 +2232,7 @@
   },
   {
    "id": "marl-ctde-policy-learning",
-   "n": 37,
+   "n": 36,
    "title": "Centralised Training for Decentralised Multi-Agent Policies",
    "area": "Reinforcement Learning / Multi-Agent RL",
    "question": "With the environments, the 20M-step budget, the deployable decentralised actor family and the evaluation fixed, design the centralised training algorithm (behaviour policy, critics or guiders, credit assignment, update rule) that produces the best decentralised team.",
@@ -2352,7 +2294,7 @@
   },
   {
    "id": "rl-offline-adroit",
-   "n": 38,
+   "n": 37,
    "title": "Improving Dexterous Policies from Offline Experience",
    "area": "Reinforcement Learning / Offline RL",
    "question": "On Adroit datasets with narrow support, design the offline algorithm that extracts a strong policy without querying out-of-distribution actions.",
@@ -2406,7 +2348,7 @@
   },
   {
    "id": "cv-3dgs-densification",
-   "n": 39,
+   "n": 38,
    "title": "Allocating 3D Gaussians to Recover Fine Detail",
    "area": "Vision & Generation / 3D Vision",
    "question": "Under a fixed training and rendering pipeline, design the densification strategy that improves novel-view quality on real scenes.",
@@ -2459,7 +2401,7 @@
   },
   {
    "id": "pde-design-solver",
-   "n": 40,
+   "n": 39,
    "title": "Neural Operators for Predicting Aerodynamic Fields",
    "area": "AI for Science / Neural Operators",
    "question": "Design the architecture that maps an irregular mesh or point cloud to steady-state flow fields on car bodies and airfoils, including angles of attack outside the training range.",
@@ -2508,7 +2450,7 @@
   },
   {
    "id": "jepa-planning",
-   "n": 41,
+   "n": 40,
    "title": "Goal-Directed Planning through Latent World Models",
    "area": "Robotics / World Models",
    "question": "With the JEPA world models fixed, design the planner that chooses action sequences in latent space, under the same model-call budget as the published planners, across navigation and manipulation.",
@@ -2562,7 +2504,7 @@
   },
   {
    "id": "llm-dllm-demask-strategy",
-   "n": 42,
+   "n": 41,
    "title": "Balancing Parallel Decoding and Token Commitment",
    "area": "Language Models / Diffusion LMs",
    "question": "Design the demasking order and schedule for diffusion LMs — block-wise for accuracy on LLaDA, fully parallel for unconditional text on MDLM-OWT.",
@@ -2626,7 +2568,7 @@
   },
   {
    "id": "llm-pretrain-linear-attention",
-   "n": 43,
+   "n": 42,
    "title": "Language Modeling with Linear-Time Attention",
    "area": "ML Systems & Efficient ML / Linear Attention",
    "question": "Design the linear-attention token mixer — retention, gating, delta rule or new — that pretrains a 345M model to the best language quality.",
@@ -2710,7 +2652,7 @@
   },
   {
    "id": "ai4sci-climate-emulation",
-   "n": 44,
+   "n": 43,
    "title": "Climate Emulation in Unseen Physical Regimes",
    "area": "AI for Science / Climate",
    "question": "On ClimSim's own training split at a fixed 5-epoch budget, design the architecture that maps a column state to sub-grid physics tendencies and still predicts well on warm, land and polar regimes it was not trained on.",
@@ -2779,7 +2721,7 @@
   },
   {
    "id": "ai4sci-vs-contrastive-scoring",
-   "n": 45,
+   "n": 44,
    "title": "Retrieving Rare Binders from Molecular Libraries",
    "area": "AI for Science / Drug Discovery",
    "question": "Design the projection heads, embedding geometry and contrastive loss that align molecule and protein encoders for virtual-screening ranking.",
@@ -2828,7 +2770,7 @@
   },
   {
    "id": "vla-smolvla-realtime-chunking",
-   "n": 46,
+   "n": 45,
    "title": "Maintaining Robot Control under Inference Delay",
    "area": "Robotics / VLA Action Chunking",
    "question": "A flow-based VLA plans an action chunk from an observation that is already d steps stale when the chunk arrives; with the policy and the delay fixed, design the rule at the chunk boundary — what to freeze, what to inpaint, how to blend — so execution stays smooth and success survives the delay.",
@@ -2896,7 +2838,7 @@
   },
   {
    "id": "vla-smolvla-rl-chunk-objective",
-   "n": 47,
+   "n": 46,
    "title": "Improving Action-Chunk Policies with Sparse Rewards",
    "area": "Reinforcement Learning / Online RL (VLA)",
    "question": "With the imitation-trained SmolVLA, the online rollout budget in the simulator and a binary success reward fixed, design the policy-gradient objective over action chunks — how the advantage is estimated and assigned at chunk or trajectory level, and what likelihood surrogate the flow-matching expert gets — so that task success rises most reliably above the imitation policy.",
@@ -2955,7 +2897,7 @@
   },
   {
    "id": "llm-rl-mismatch-correction",
-   "n": 48,
+   "n": 47,
    "title": "Stabilizing RL under Training–Inference Mismatch",
    "area": "Language Models / Reasoning RL",
    "question": "With the model, data, reward, RL loop and an imposed sampler–trainer mismatch fixed, design the per-token correction to the policy-gradient objective — from the trainer's and the sampler's log-probs, the sampler's top-K log-probs and the advantage — so that training stays stable and reward keeps rising as the mismatch grows.",
@@ -3043,7 +2985,7 @@
   },
   {
    "id": "vla-minivla-action-tokenization",
-   "n": 49,
+   "n": 48,
    "title": "Tokenizing Robot Action Chunks for an Autoregressive VLA",
    "area": "Robotics / VLA Action Tokenization",
    "question": "With an autoregressive VLA, its training recipe and a budget of seven codes from a 256-word vocabulary per chunk fixed, design how a continuous chunk of future actions is encoded into codes and decoded back so that the policy trained on those codes controls the robot best.",
@@ -3086,7 +3028,7 @@
   },
   {
    "id": "llm-pretrain-optimizer-design",
-   "n": 50,
+   "n": 49,
    "title": "Optimizer Design for Language-Model Pretraining",
    "area": "Language Models / Pretraining",
    "question": "With GPT-2 small, its data stream, batch, step budget and learning-rate schedule fixed, design the optimizer — update rule, orthogonalisation of matrix updates, norm control and parameter grouping — that pretrains it to the lowest held-out loss and perplexity.",
@@ -3164,6 +3106,70 @@
   }
  ],
  "deleted_tasks": [
+  {
+   "id": "dl-optim-mup-parametrization",
+   "n": 8,
+   "title": "Zero-Shot Hyperparameter Transfer for Neural Scaling",
+   "area": "Deep Learning / Parametrization",
+   "question": "Design the abc-parametrization — init scale, forward multipliers, per-layer learning rates — so the rate tuned on a narrow network is right for wider ones, with wider always better.",
+   "version": "9457dad2fca845981418449b6fb3fcd763807700",
+   "repo": "microsoft/mup",
+   "settings": [
+    {
+     "name": "width-256",
+     "display": "CIFAR-10 MLP, width 256"
+    },
+    {
+     "name": "width-1024",
+     "display": "CIFAR-10 MLP, width 1024"
+    },
+    {
+     "name": "width-4096",
+     "display": "CIFAR-10 MLP, width 4096"
+    },
+    {
+     "name": "transformer-8192",
+     "display": "WikiText-2 Transformer, width 8192"
+    }
+   ],
+   "gpus": 1,
+   "image": {
+    "src": "task-images/dl-optim-mup-parametrization.webp",
+    "caption": "Zero-Shot Hyperparameter Transfer for Neural Scaling",
+    "width": 1600,
+    "height": 800,
+    "bytes": 123842
+   },
+   "baselines": [
+    {
+     "slug": "sp",
+     "name": "Standard parametrization (Yang & Hu, 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "mup",
+     "name": "Maximal-update parametrization (Yang & Hu, 2022)",
+     "role": "baseline"
+    },
+    {
+     "slug": "ntk",
+     "name": "NTK parametrization (Jacot et al., 2018)",
+     "role": "baseline"
+    },
+    {
+     "slug": "sp_lr_over_width",
+     "name": "Standard + inverse-width LR",
+     "role": "baseline"
+    }
+   ],
+   "best_score": 0.10000000000000002,
+   "status": "deleted",
+   "deleted": {
+    "date": "2026-10-08",
+    "reason": "Its research question does not hold: within its own regime μP's exponents are provably the stable, maximal-update choice. Redesigned around hyperparameter transfer where μP does not apply.",
+    "pr": 69
+   }
+  },
   {
    "id": "security-machine-unlearning",
    "n": 46,

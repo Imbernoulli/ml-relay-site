@@ -20,6 +20,15 @@
    "since": "2026-10-06"
   },
   {
+   "kind": "internal",
+   "id": "llm-hp-transfer-beyond-mup",
+   "title": "Hyperparameter Transfer Beyond μP",
+   "area": "Deep Learning / Parametrization",
+   "blurb": "Design the rule that carries hyperparameters tuned on a small proxy model to a larger or differently trained model, in regimes where width-only maximal-update scaling stops working.",
+   "stage": "pilot",
+   "since": "2026-10-08"
+  },
+  {
    "kind": "proposal",
    "issue": 25,
    "title": "[new task] Serializing Video Diffusion Generation for Long Physics Collision Chains",
