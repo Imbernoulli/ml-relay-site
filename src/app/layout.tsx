@@ -7,8 +7,8 @@ const MODE = siteMode();
 
 export const metadata: Metadata =
   MODE === "public"
-    ? { title: "ML-Relay", description: "ML-Relay: fifty-two machine-learning research questions with published baselines and results." }
-    : { title: "ML-Relay (internal)", description: "Internal browser for the 52 ML-Relay research tasks. Not public.", robots: { index: false, follow: false } };
+    ? { title: "ML-Relay", description: "ML-Relay: machine-learning research questions with published baselines and results." }
+    : { title: "ML-Relay (internal)", description: "Internal browser for the ML-Relay research tasks. Not public.", robots: { index: false, follow: false } };
 
 // Runs before paint: pick the saved theme, else the OS preference.
 const THEME_BOOT = `(function(){try{var t=localStorage.getItem('mlrelay-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
