@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09T09:00:46",
+ "generated": "2026-10-09T10:43:14",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Forty-nine machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 49 tasks are newly constructed for ML-Relay. The other 12 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Forty-nine self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -204,23 +204,27 @@
   {
    "id": "llm-early-exit-criterion",
    "n": 4,
-   "title": "Allocating Decoder Depth across Tokens",
-   "area": "ML Systems & Efficient ML / Early Exit",
-   "question": "Under a hard budget on the mean fraction of decoder depth per token, pick the per-token signal and threshold that says a token can exit now.",
-   "version": "f3eca7397fa098623dd2acf5a09336879831b124",
+   "title": "Self-Speculative Drafting for an Early-Exit Decoder",
+   "area": "ML Systems & Efficient ML / Speculative Decoding",
+   "question": "Round by round, choose which of the model's own layers draft, how many tokens to draft and when to stop, so that lossless self-speculative decoding generates the most tokens per unit of decoder compute.",
+   "version": "d403bd45f71c933a8ef3744de45cd55ea3c9348a",
    "repo": "facebookresearch/LayerSkip",
    "settings": [
     {
      "name": "set_a",
-     "display": "LayerSkip Llama-3.2-1B · CNN/DailyMail · depth 0.50"
+     "display": "LayerSkip Llama-3.2-1B · CNN/DailyMail 1-shot"
     },
     {
      "name": "set_b",
-     "display": "LayerSkip Llama-3.2-1B · XSUM · depth 0.40"
+     "display": "LayerSkip Llama-3.2-1B · XSUM 0-shot"
     },
     {
      "name": "set_c",
-     "display": "LayerSkip Llama-3-8B · CNN/DailyMail · depth 0.30"
+     "display": "LayerSkip Llama-3-8B · CNN/DailyMail 1-shot"
+    },
+    {
+     "name": "set_d",
+     "display": "LayerSkip Llama-3-8B · XSUM 0-shot"
     }
    ],
    "gpus": 1,
@@ -234,31 +238,41 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "Maximum-softmax threshold",
+     "name": "LayerSkip self-speculation, fixed exit (Elhoushi et al., 2024)",
      "role": "baseline"
     },
     {
-     "slug": "calm_softmax",
-     "name": "CALM softmax margin (Schuster et al., 2022)",
+     "slug": "fs",
+     "name": "Finite-state draft length (Liu et al., 2025)",
      "role": "baseline"
     },
     {
-     "slug": "calm_saturation",
-     "name": "CALM state saturation (Schuster et al., 2022)",
+     "slug": "dv",
+     "name": "Draft & Verify (Zhang et al., 2024)",
      "role": "baseline"
     },
     {
-     "slug": "layerskip_fixed",
-     "name": "LayerSkip fixed depth (Elhoushi et al., 2024)",
+     "slug": "del",
+     "name": "DEL dynamic exit layer (Entezari Zarch et al., 2025)",
      "role": "baseline"
     },
     {
-     "slug": "random_depth",
-     "name": "Random depth",
+     "slug": "swift",
+     "name": "SWIFT on-the-fly layer skipping (Xia et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "knapspec",
+     "name": "KnapSpec knapsack layer selection (Cha et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "random_exit",
+     "name": "Random exit layer",
      "role": "baseline"
     }
    ],
-   "best_score": 0.10000000000000002
+   "best_score": 0.10000000000000006
   },
   {
    "id": "llm-linattn-state-size-structure",
