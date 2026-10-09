@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09T00:23:08+00:00",
+ "generated": "2026-10-09T09:01:55+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -1924,14 +1924,62 @@
        "t": 1791504531,
        "kind": "queue",
        "label": "Queued: waiting for a free orchestrator slot",
-       "state": "waiting",
+       "state": "done",
        "visibility": "internal"
+      },
+      {
+       "t": 1791506486,
+       "kind": "gate",
+       "label": "Gate passed (write access)",
+       "state": "done",
+       "detail_public": "Actions run 37866016272",
+       "visibility": "internal"
+      },
+      {
+       "t": 1791506486,
+       "kind": "queue",
+       "label": "Queued for the orchestrator",
+       "state": "done",
+       "detail_public": "Actions run 37866016272",
+       "visibility": "internal"
+      },
+      {
+       "t": 1791506655,
+       "kind": "orchestrator",
+       "label": "Orchestrator started",
+       "state": "done",
+       "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37866016272",
+       "visibility": "internal"
+      },
+      {
+       "t": 1791506665,
+       "kind": "heartbeat",
+       "label": "Agent work finished",
+       "state": "done",
+       "detail_public": "Actions run 37866016272",
+       "visibility": "internal"
+      },
+      {
+       "t": 1791506700,
+       "kind": "retry",
+       "label": "Paused: Claude usage limit, retrying at Oct 13, 04:05 UTC",
+       "state": "waiting",
+       "detail_public": "attempt 1 of 3",
+       "visibility": "public"
+      },
+      {
+       "t": 1791506710,
+       "kind": "orchestrator",
+       "label": "Orchestrator paused (Claude usage limit)",
+       "state": "waiting",
+       "detail_public": "Actions run 37866016272",
+       "visibility": "public"
       }
      ]
     },
     "pr": null,
     "pr_state": null,
-    "updated": "2026-10-09T00:09:00Z",
+    "updated": "2026-10-09T00:45:26Z",
     "replacement": null
    }
   ],
@@ -11359,7 +11407,7 @@
    "title": "[new task] Expert prefetching for offloaded MoE decoding",
    "type": "new task",
    "state": "open",
-   "phase": null,
+   "phase": "A",
    "approval": {
     "state": "approved",
     "by": null,
@@ -11397,19 +11445,273 @@
       "t": 1791504533,
       "kind": "queue",
       "label": "Queued: waiting for a free orchestrator slot",
-      "state": "waiting",
+      "state": "done",
       "visibility": "internal"
+     },
+     {
+      "t": 1791506493,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506493,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506657,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506669,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506696,
+      "kind": "retry",
+      "label": "Paused: Claude usage limit, retrying at Oct 13, 04:05 UTC",
+      "state": "waiting",
+      "detail_public": "attempt 1 of 3",
+      "visibility": "public"
+     },
+     {
+      "t": 1791506708,
+      "kind": "orchestrator",
+      "label": "Orchestrator paused (Claude usage limit)",
+      "state": "waiting",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "public"
      }
     ]
    },
    "pr": null,
    "pr_state": null,
-   "updated": "2026-10-09T00:09:01Z",
+   "updated": "2026-10-09T00:45:25Z",
    "replacement": null,
    "task": null
   }
  ],
  "issues": [
+  {
+   "issue": 71,
+   "title": "[change] vla-smolvla-realtime-chunking: Please add a latency-aware simulation evaluation alongside the existing fixed…",
+   "requester": "zichenwang01",
+   "type": "change",
+   "task": "vla-smolvla-realtime-chunking",
+   "replacement": null,
+   "state": "open",
+   "stage": "Requested",
+   "waiting": false,
+   "phase": null,
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-09T00:45:26Z",
+   "opened": "2026-10-08T22:16:06Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791497766,
+      "kind": "created",
+      "label": "Request created by @zichenwang01",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791497790,
+      "kind": "approval",
+      "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+      "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1791504531,
+      "kind": "approval",
+      "label": "Approved by the maintainer: agent round started",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791504531,
+      "kind": "queue",
+      "label": "Queued: waiting for a free orchestrator slot",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506486,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37866016272",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506486,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37866016272",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506655,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37866016272",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506665,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37866016272",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506700,
+      "kind": "retry",
+      "label": "Paused: Claude usage limit, retrying at Oct 13, 04:05 UTC",
+      "state": "waiting",
+      "detail_public": "attempt 1 of 3",
+      "visibility": "public"
+     },
+     {
+      "t": 1791506710,
+      "kind": "orchestrator",
+      "label": "Orchestrator paused (Claude usage limit)",
+      "state": "waiting",
+      "detail_public": "Actions run 37866016272",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": null,
+    "note": null
+   },
+   "thread": true
+  },
+  {
+   "issue": 52,
+   "title": "[new task] Expert prefetching for offloaded MoE decoding",
+   "requester": "andylizf",
+   "type": "new task",
+   "task": null,
+   "replacement": null,
+   "state": "open",
+   "stage": "Design review",
+   "waiting": false,
+   "phase": "A",
+   "pr": null,
+   "pr_state": null,
+   "updated": "2026-10-09T00:45:25Z",
+   "opened": "2026-10-06T17:01:03Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791306063,
+      "kind": "created",
+      "label": "Request created by @andylizf",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791306096,
+      "kind": "approval",
+      "label": "Waiting for maintainer approval",
+      "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1791504533,
+      "kind": "approval",
+      "label": "Approved by the maintainer",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791504533,
+      "kind": "queue",
+      "label": "Queued: waiting for a free orchestrator slot",
+      "state": "done",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506493,
+      "kind": "gate",
+      "label": "Gate passed (write access)",
+      "state": "done",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506493,
+      "kind": "queue",
+      "label": "Queued for the orchestrator",
+      "state": "done",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506657,
+      "kind": "orchestrator",
+      "label": "Orchestrator started",
+      "state": "done",
+      "detail_public": "model claude-opus-5-5 at xhigh effort, Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506669,
+      "kind": "heartbeat",
+      "label": "Agent work finished",
+      "state": "done",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "internal"
+     },
+     {
+      "t": 1791506696,
+      "kind": "retry",
+      "label": "Paused: Claude usage limit, retrying at Oct 13, 04:05 UTC",
+      "state": "waiting",
+      "detail_public": "attempt 1 of 3",
+      "visibility": "public"
+     },
+     {
+      "t": 1791506708,
+      "kind": "orchestrator",
+      "label": "Orchestrator paused (Claude usage limit)",
+      "state": "waiting",
+      "detail_public": "Actions run 37866021747",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "approved",
+    "by": null,
+    "note": null
+   },
+   "thread": false
+  },
   {
    "issue": 51,
    "title": "[change] llm-pretrain-linear-attention: enforce sub-quadratic mixing; align baselines",
@@ -11976,116 +12278,6 @@
       "state": "waiting",
       "detail_public": "Actions run 37863122279",
       "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
-    "by": null,
-    "note": null
-   },
-   "thread": true
-  },
-  {
-   "issue": 52,
-   "title": "[new task] Expert prefetching for offloaded MoE decoding",
-   "requester": "andylizf",
-   "type": "new task",
-   "task": null,
-   "replacement": null,
-   "state": "open",
-   "stage": "Design review",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-09T00:09:01Z",
-   "opened": "2026-10-06T17:01:03Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1791306063,
-      "kind": "created",
-      "label": "Request created by @andylizf",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791306096,
-      "kind": "approval",
-      "label": "Waiting for maintainer approval",
-      "state": "waiting",
-      "visibility": "public"
-     },
-     {
-      "t": 1791504533,
-      "kind": "approval",
-      "label": "Approved by the maintainer",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791504533,
-      "kind": "queue",
-      "label": "Queued: waiting for a free orchestrator slot",
-      "state": "waiting",
-      "visibility": "internal"
-     }
-    ]
-   },
-   "approval": {
-    "state": "approved",
-    "by": null,
-    "note": null
-   },
-   "thread": false
-  },
-  {
-   "issue": 71,
-   "title": "[change] vla-smolvla-realtime-chunking: Please add a latency-aware simulation evaluation alongside the existing fixed…",
-   "requester": "zichenwang01",
-   "type": "change",
-   "task": "vla-smolvla-realtime-chunking",
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-09T00:09:00Z",
-   "opened": "2026-10-08T22:16:06Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1791497766,
-      "kind": "created",
-      "label": "Request created by @zichenwang01",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791497790,
-      "kind": "approval",
-      "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
-      "state": "waiting",
-      "visibility": "public"
-     },
-     {
-      "t": 1791504531,
-      "kind": "approval",
-      "label": "Approved by the maintainer: agent round started",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791504531,
-      "kind": "queue",
-      "label": "Queued: waiting for a free orchestrator slot",
-      "state": "waiting",
-      "visibility": "internal"
      }
     ]
    },
