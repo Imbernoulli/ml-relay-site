@@ -37,6 +37,16 @@
    "requester": "KunWang0129",
    "since": "2026-10-04",
    "updated": "2026-10-07T21:15:25Z"
+  },
+  {
+   "kind": "proposal",
+   "issue": 52,
+   "title": "[new task] Expert prefetching for offloaded MoE decoding",
+   "phase": "A",
+   "stage": "design",
+   "requester": "andylizf",
+   "since": "2026-10-06",
+   "updated": "2026-10-09T00:09:01Z"
   }
  ]
 }
