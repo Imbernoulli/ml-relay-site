@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10T18:58:18+00:00",
+ "generated": "2026-10-10T19:01:51+00:00",
  "repo": "Imbernoulli/ML-Relay",
  "maintainers": [
   "Imbernoulli"
@@ -2023,47 +2023,6 @@
     "updated": "2026-10-09T00:07:03Z",
     "replacement": null
    }
-  ],
-  "cv-3dgs-densification": [
-   {
-    "issue": 73,
-    "title": "[change] cv-3dgs-densification: Please add held-out scenes that are not available during the agent's strategy…",
-    "type": "change",
-    "state": "open",
-    "phase": null,
-    "approval": {
-     "state": "waiting",
-     "by": null,
-     "note": null
-    },
-    "thread": true,
-    "requester": "zichenwang01",
-    "opened": "2026-10-08T22:21:47Z",
-    "done": false,
-    "progress": {
-     "current": null,
-     "steps": [
-      {
-       "t": 1791498107,
-       "kind": "created",
-       "label": "Request created by @zichenwang01",
-       "state": "done",
-       "visibility": "public"
-      },
-      {
-       "t": 1791498133,
-       "kind": "approval",
-       "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
-       "state": "waiting",
-       "visibility": "public"
-      }
-     ]
-    },
-    "pr": null,
-    "pr_state": null,
-    "updated": "2026-10-09T00:07:00Z",
-    "replacement": null
-   }
   ]
  },
  "threads": {
@@ -2074,8 +2033,7 @@
   "llm-rl-mismatch-correction": 29,
   "fm-probability-path": 31,
   "vla-smolvla-realtime-chunking": 71,
-  "jepa-planning": 72,
-  "cv-3dgs-densification": 73
+  "jepa-planning": 72
  },
  "new_tasks": [
   {
@@ -11507,6 +11465,55 @@
  ],
  "issues": [
   {
+   "issue": 73,
+   "title": "[change] cv-3dgs-densification: Please add held-out scenes that are not available during the agent's strategy…",
+   "requester": "zichenwang01",
+   "type": "change",
+   "task": "cv-3dgs-densification",
+   "replacement": null,
+   "state": "closed",
+   "stage": "Merged",
+   "waiting": false,
+   "phase": null,
+   "pr": 79,
+   "pr_state": "merged",
+   "updated": "2026-10-10T19:01:02Z",
+   "opened": "2026-10-08T22:21:47Z",
+   "progress": {
+    "current": null,
+    "steps": [
+     {
+      "t": 1791498107,
+      "kind": "created",
+      "label": "Request created by @zichenwang01",
+      "state": "done",
+      "visibility": "public"
+     },
+     {
+      "t": 1791498133,
+      "kind": "approval",
+      "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
+      "state": "waiting",
+      "visibility": "public"
+     },
+     {
+      "t": 1791658815,
+      "kind": "pr",
+      "label": "PR #79 merged",
+      "state": "done",
+      "detail_public": "PR #79",
+      "visibility": "public"
+     }
+    ]
+   },
+   "approval": {
+    "state": "waiting",
+    "by": null,
+    "note": null
+   },
+   "thread": true
+  },
+  {
    "issue": 71,
    "title": "[change] vla-smolvla-realtime-chunking: Please add a latency-aware simulation evaluation alongside the existing fixed…",
    "requester": "zichenwang01",
@@ -12445,47 +12452,6 @@
      },
      {
       "t": 1791498056,
-      "kind": "approval",
-      "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
-      "state": "waiting",
-      "visibility": "public"
-     }
-    ]
-   },
-   "approval": {
-    "state": "waiting",
-    "by": null,
-    "note": null
-   },
-   "thread": true
-  },
-  {
-   "issue": 73,
-   "title": "[change] cv-3dgs-densification: Please add held-out scenes that are not available during the agent's strategy…",
-   "requester": "zichenwang01",
-   "type": "maintenance",
-   "task": "cv-3dgs-densification",
-   "replacement": null,
-   "state": "open",
-   "stage": "Requested",
-   "waiting": false,
-   "phase": null,
-   "pr": null,
-   "pr_state": null,
-   "updated": "2026-10-09T00:07:00Z",
-   "opened": "2026-10-08T22:21:47Z",
-   "progress": {
-    "current": null,
-    "steps": [
-     {
-      "t": 1791498107,
-      "kind": "created",
-      "label": "Request created by @zichenwang01",
-      "state": "done",
-      "visibility": "public"
-     },
-     {
-      "t": 1791498133,
       "kind": "approval",
       "label": "Open for discussion: a maintainer or the task's developer starts the agent with /approve",
       "state": "waiting",
