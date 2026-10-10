@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-09T17:00:21",
+ "generated": "2026-10-10T18:57:22",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Forty-nine machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 49 tasks are newly constructed for ML-Relay. The other 12 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Forty-nine self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -470,21 +470,33 @@
    "n": 8,
    "title": "Accelerating the Grokking Transition",
    "area": "Deep Learning / Training Dynamics",
-   "question": "Given only the gradients of a fixed loss from an over-scaled initialisation, design the optimisation or regularisation rule that brings generalisation forward.",
-   "version": "d94cdb4595a0c784f4d084fbe8c254cd08438fa3",
+   "question": "Design the training rule -- update, training loss and metered use of the training data -- that brings generalisation forward on grokking problems whose delay has different causes.",
+   "version": "05cd05a44fb4c0ff271fb2cf60a93ada02876892",
    "repo": "KindXiaoming/Omnigrok",
    "settings": [
     {
      "name": "mnist-a8-n1000",
-     "display": "MNIST, init scale 8, 1000 train points"
+     "display": "MNIST MLP, init scale 8, 1000 train points"
     },
     {
      "name": "mnist-a8-n200",
-     "display": "MNIST, init scale 8, 200 train points"
+     "display": "MNIST MLP, init scale 8, 200 train points"
     },
     {
      "name": "mnist-a12-n1000",
-     "display": "MNIST, init scale 12, 1000 train points"
+     "display": "MNIST MLP, init scale 12, 1000 train points"
+    },
+    {
+     "name": "modadd-transformer",
+     "display": "Modular addition · 1-layer transformer (Nanda et al.)"
+    },
+    {
+     "name": "modadd-mlp",
+     "display": "Modular addition · two-hidden-layer MLP (Prieto et al.)"
+    },
+    {
+     "name": "modarith-decoder",
+     "display": "Modular arithmetic · 2-layer decoder (Power et al. / Grokfast)"
     }
    ],
    "gpus": 1,
@@ -525,9 +537,34 @@
      "slug": "goldilocks_project",
      "name": "Goldilocks-norm projection (Liu et al., 2023)",
      "role": "baseline"
+    },
+    {
+     "slug": "ortho_adamw",
+     "name": "⊥AdamW (Prieto et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "egd",
+     "name": "Egalitarian Gradient Descent (Pasand & Dohmatob, 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "muon",
+     "name": "Muon (Tveit et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "neuralgrok",
+     "name": "NeuralGrok (Zhou et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "stablemax",
+     "name": "StableMax loss (Prieto et al., 2025)",
+     "role": "baseline"
     }
    ],
-   "best_score": 0.10000000000000002
+   "best_score": 0.046415888336127795
   },
   {
    "id": "theory-semiautomata",
@@ -1655,26 +1692,26 @@
   {
    "id": "ai4bio-genome-coverage-objective",
    "n": 27,
-   "title": "Learning Genomic Signal Shape and Magnitude",
+   "title": "Training Base-Resolution Genomic Profile Models",
    "area": "AI for Science / Genomics",
-   "question": "Design the training objective of a sequence-to-coverage head — how shape and magnitude are decomposed — so it predicts held-out experimental coverage best.",
-   "version": "f5cc64092772d221ab1eaa59949d4c13b936fbf1",
-   "repo": "google-deepmind/alphagenome_research",
+   "question": "Design how a base-resolution sequence-to-profile model is trained — objective, profile/count weighting, bias handling and recipe — so it predicts held-out read profiles and counts best.",
+   "version": "fd0993827ed221de6cda7926883a7df14a082283",
+   "repo": "jmschrei/bpnet-lite",
    "settings": [
     {
-     "name": "rnaseq",
-     "display": "Stranded RNA-seq · held-out genomic intervals"
-    },
-    {
      "name": "dnase",
-     "display": "DNase-seq · six cell types · held-out intervals"
+     "display": "K562 DNase-seq · held-out chromosomes"
     },
     {
-     "name": "histone",
-     "display": "K562 histone ChIP · four marks · held-out intervals"
+     "name": "atac",
+     "display": "K562 ATAC-seq · held-out chromosomes"
+    },
+    {
+     "name": "chipnexus",
+     "display": "mESC ChIP-nexus · four TFs · held-out chromosomes"
     }
    ],
-   "gpus": 3,
+   "gpus": 1,
    "image": {
     "src": "task-images/ai4bio-genome-coverage-objective.webp",
     "caption": "Learning Genomic Signal Shape and Magnitude",
@@ -1685,31 +1722,41 @@
    "baselines": [
     {
      "slug": "default",
-     "name": "AlphaGenome-style objective (Google DeepMind, 2026)",
+     "name": "BPNet (Avsec et al., 2021)",
      "role": "baseline"
     },
     {
-     "slug": "poisson_binned",
-     "name": "Poisson NLL (Avsec et al., 2021)",
+     "slug": "chrombpnet",
+     "name": "ChromBPNet bias-factorised (Pampari et al., 2024)",
      "role": "baseline"
     },
     {
-     "slug": "profile_count",
-     "name": "Profile + log-count (Avsec et al., 2021)",
+     "slug": "bpaitac_pnll",
+     "name": "bpAI-TAC per-base Poisson (Chandra et al., 2026)",
      "role": "baseline"
     },
     {
-     "slug": "poisson_multinomial",
-     "name": "Borzoi-style Poisson–multinomial (Linder et al., 2025)",
+     "slug": "bpaitac_ce_mse",
+     "name": "bpAI-TAC cross-entropy + log-count MSE (Chandra et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "borzoi_pm",
+     "name": "Borzoi Poisson–multinomial (Linder et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "alphagenome_mp",
+     "name": "AlphaGenome multinomial + Poisson (Avsec et al., 2026)",
      "role": "baseline"
     },
     {
      "slug": "mse_null",
-     "name": "MSE",
+     "name": "Per-base MSE",
      "role": "baseline"
     }
    ],
-   "best_score": 0.09431321859239354
+   "best_score": 0.09315926287737243
   },
   {
    "id": "moe-repetition-regularizer",
