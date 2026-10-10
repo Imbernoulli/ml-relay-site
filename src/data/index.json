@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-10T19:01:04",
+ "generated": "2026-10-10T19:04:27",
  "source": "ML-Relay (bundles + README.md)",
  "relay_ref_score": 0.1,
  "intro_md": "Forty-nine machine-learning research questions, each asking a model to propose a better scientific method than the published ones.\n\nML-Relay follows the design of MLS-Bench. Where ML engineering combines many techniques to push a metric on one dataset, ML science makes one atomic, generalisable contribution — a better loss, criterion, schedule, solver, search policy or architectural block — that transfers across models, data and tasks. Each task here isolates such a component inside a fixed, already-built research pipeline: the model edits one file within one line range, and everything else — data, training loop, evaluation — runs as it is. The published reference methods for the question are ported to the same pipeline and measured on it; they are anchors, not the assignment. A submission is scored by where it lands relative to the reference methods, per evaluation setting: the weakest reference anchors 0 and the **strongest reference anchors 10%** of the scale, so 90% of the range is headroom above the state of the field. The task score is the geometric mean across several genuinely different settings, so a component has to generalise to score well. Running every baseline inside the pipeline and checking that their order matches the literature is how each task earned its place: it proves the editable component is the one that matters and that a better method, once written, will be measured.\n\n**Composition.** 37 of the 49 tasks are newly constructed for ML-Relay. The other 12 are drawn from MLS-Bench, selected for quality. MLS-Bench Lite, by contrast, consisted mainly of evaluation scaffolding; every task here poses a research question with measured anchors.\n\n**What ships.** Forty-nine self-contained Harbor tasks under `tasks/`. Each holds `instruction.md` (the question, the editable file and range, the interface, the reference methods with citations, the metrics), `environment/` (a Dockerfile that builds the pipeline and fetches the task's data from public origins, plus the agent-start workspace), `tests/` (the evaluation, mounted only at verification) and `solution/` (an oracle that replays one reference method). Run a task with `harbor run -p tasks/<task>`.",
@@ -2438,24 +2438,24 @@
    "title": "Allocating 3D Gaussians to Recover Fine Detail",
    "area": "Vision & Generation / 3D Vision",
    "question": "Under a fixed training and rendering pipeline, design the densification strategy that improves novel-view quality on real scenes.",
-   "version": "150b79c4d1b6c413ae5d7b043101613a5e94d906",
+   "version": "4fe440d183a259ee3165124263205e7cc097f598",
    "repo": "nerfstudio-project/gsplat",
    "settings": [
     {
-     "name": "garden",
-     "display": "Mip-NeRF 360 garden · PSNR after 30k steps"
-    },
-    {
      "name": "bicycle",
-     "display": "Mip-NeRF 360 bicycle · PSNR after 30k steps"
+     "display": "Mip-NeRF 360 bicycle (held out) · PSNR after 30k steps"
     },
     {
      "name": "stump",
-     "display": "Mip-NeRF 360 stump · PSNR after 30k steps"
+     "display": "Mip-NeRF 360 stump (held out) · PSNR after 30k steps"
     },
     {
-     "name": "bonsai",
-     "display": "Mip-NeRF 360 bonsai · PSNR after 30k steps"
+     "name": "train",
+     "display": "Tanks&Temples train (held out) · PSNR after 30k steps"
+    },
+    {
+     "name": "drjohnson",
+     "display": "Deep Blending drjohnson (held out) · PSNR after 30k steps"
     }
    ],
    "gpus": 3,
@@ -2481,9 +2481,24 @@
      "slug": "mcmc",
      "name": "3DGS-MCMC (Kheradmand et al., 2024)",
      "role": "baseline"
+    },
+    {
+     "slug": "steepgs",
+     "name": "SteepGS (Wang et al., 2025)",
+     "role": "baseline"
+    },
+    {
+     "slug": "improvedgs",
+     "name": "ImprovedGS (Deng et al., 2026)",
+     "role": "baseline"
+    },
+    {
+     "slug": "dc4gs",
+     "name": "DC4GS (Jeong et al., 2025)",
+     "role": "baseline"
     }
    ],
-   "best_score": 0.10000000000000006
+   "best_score": 0.08853172854434592
   },
   {
    "id": "pde-design-solver",
